@@ -1,0 +1,176 @@
+[scanner] Start loop at 2025-09-30 00:23:39.965639
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x1662024'}
+[fetch_block_transactions][V2] block=23470116, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662024&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470116, txs_count=252
+[fetch_block_transactions][V2] block=23470115, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662023&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470115, txs_count=187
+[fetch_block_transactions][V2] block=23470114, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662022&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470114, txs_count=498
+[fetch_block_transactions][V2] block=23470113, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662021&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470113, txs_count=373
+[fetch_block_transactions][V2] block=23470112, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662020&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470112, txs_count=266
+[scanner] Done block 23470116 at 2025-09-30 00:23:56.056168, whale_txs=100
+[scanner] Start loop at 2025-09-30 00:25:21.386911
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166202c'}
+[fetch_block_transactions][V2] block=23470124, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166202c&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470124, txs_count=271
+[fetch_block_transactions][V2] block=23470123, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166202b&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470123, txs_count=259
+[fetch_block_transactions][V2] block=23470122, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166202a&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470122, txs_count=298
+[fetch_block_transactions][V2] block=23470121, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662029&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470121, txs_count=453
+[fetch_block_transactions][V2] block=23470120, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662028&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470120, txs_count=259
+[scanner] Done block 23470124 at 2025-09-30 00:25:46.052404, whale_txs=100
+[scanner] Start loop at 2025-09-30 00:28:36.734868
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166203d'}
+[fetch_block_transactions][V2] block=23470141, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166203d&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470141, txs_count=422
+[fetch_block_transactions][V2] block=23470140, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166203c&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470140, txs_count=86
+[fetch_block_transactions][V2] block=23470139, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166203b&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470139, txs_count=395
+[fetch_block_transactions][V2] block=23470138, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166203a&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470138, txs_count=85
+[fetch_block_transactions][V2] block=23470137, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662039&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470137, txs_count=322
+[scanner] Done block 23470141 at 2025-09-30 00:28:52.941378, whale_txs=100
+[scanner] Start loop at 2025-09-30 00:32:53.073985
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x1662052'}
+[fetch_block_transactions][V2] block=23470162, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662052&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470162, txs_count=169
+[fetch_block_transactions][V2] block=23470161, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662051&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470161, txs_count=350
+[fetch_block_transactions][V2] block=23470160, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662050&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470160, txs_count=189
+[fetch_block_transactions][V2] block=23470159, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166204f&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470159, txs_count=350
+[fetch_block_transactions][V2] block=23470158, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166204e&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470158, txs_count=174
+[scanner] Done block 23470162 at 2025-09-30 00:33:11.175159, whale_txs=100
+[scanner] Start loop at 2025-09-30 00:37:37.375581
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166206a'}
+[fetch_block_transactions][V2] block=23470186, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166206a&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470186, txs_count=238
+[fetch_block_transactions][V2] block=23470185, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662069&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470185, txs_count=293
+[fetch_block_transactions][V2] block=23470184, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662068&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470184, txs_count=296
+[fetch_block_transactions][V2] block=23470183, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662067&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470183, txs_count=197
+[fetch_block_transactions][V2] block=23470182, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662066&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470182, txs_count=284
+[scanner] Done block 23470186 at 2025-09-30 00:37:53.916052, whale_txs=102
+[scanner] Start loop at 2025-09-30 00:38:11.176913
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166206c'}
+[fetch_block_transactions][V2] block=23470188, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166206c&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470188, txs_count=259
+[fetch_block_transactions][V2] block=23470187, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166206b&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470187, txs_count=314
+[scanner] Done block 23470188 at 2025-09-30 00:38:19.645023, whale_txs=100
+[scanner] Start loop at 2025-09-30 00:39:31.807684
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x1662073'}
+[fetch_block_transactions][V2] block=23470195, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662073&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470195, txs_count=351
+[fetch_block_transactions][V2] block=23470194, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662072&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470194, txs_count=198
+[fetch_block_transactions][V2] block=23470193, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662071&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470193, txs_count=214
+[fetch_block_transactions][V2] block=23470192, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662070&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470192, txs_count=254
+[fetch_block_transactions][V2] block=23470191, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166206f&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470191, txs_count=243
+[scanner] Done block 23470195 at 2025-09-30 00:39:48.345958, whale_txs=102
+[scanner] Start loop at 2025-09-30 00:45:05.726724
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166208f'}
+[fetch_block_transactions][V2] block=23470223, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166208f&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470223, txs_count=274
+[fetch_block_transactions][V2] block=23470222, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166208e&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470222, txs_count=218
+[fetch_block_transactions][V2] block=23470221, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166208d&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470221, txs_count=254
+[fetch_block_transactions][V2] block=23470220, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166208c&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470220, txs_count=278
+[fetch_block_transactions][V2] block=23470219, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166208b&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470219, txs_count=201
+[scanner] Done block 23470223 at 2025-09-30 00:45:22.411195, whale_txs=106
+[scanner] Start loop at 2025-09-30 00:50:22.413123
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x16620a9'}
+[fetch_block_transactions][V2] block=23470249, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620a9&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470249, txs_count=222
+[fetch_block_transactions][V2] block=23470248, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620a8&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470248, txs_count=249
+[fetch_block_transactions][V2] block=23470247, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620a7&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470247, txs_count=348
+[fetch_block_transactions][V2] block=23470246, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620a6&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470246, txs_count=249
+[fetch_block_transactions][V2] block=23470245, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620a5&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470245, txs_count=230
+[scanner] Done block 23470249 at 2025-09-30 00:50:34.654398, whale_txs=107
+[scanner] Start loop at 2025-09-30 00:55:34.655226
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x16620c2'}
+[fetch_block_transactions][V2] block=23470274, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620c2&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470274, txs_count=218
+[fetch_block_transactions][V2] block=23470273, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620c1&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470273, txs_count=210
+[fetch_block_transactions][V2] block=23470272, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620c0&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470272, txs_count=181
+[fetch_block_transactions][V2] block=23470271, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620bf&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470271, txs_count=445
+[fetch_block_transactions][V2] block=23470270, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620be&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470270, txs_count=79
+[scanner] Done block 23470274 at 2025-09-30 00:55:46.469849, whale_txs=108
+[scanner] Start loop at 2025-09-30 01:00:46.470577
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x16620dc'}
+[fetch_block_transactions][V2] block=23470300, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620dc&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470300, txs_count=242
+[fetch_block_transactions][V2] block=23470299, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620db&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470299, txs_count=549
+[fetch_block_transactions][V2] block=23470298, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620da&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470298, txs_count=419
+[fetch_block_transactions][V2] block=23470297, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620d9&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470297, txs_count=315
+[fetch_block_transactions][V2] block=23470296, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620d8&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470296, txs_count=81
+[scanner] Done block 23470300 at 2025-09-30 01:01:00.267525, whale_txs=108
+[scanner] Start loop at 2025-09-30 01:06:00.268106
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x16620f7'}
+[fetch_block_transactions][V2] block=23470327, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620f7&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470327, txs_count=271
+[fetch_block_transactions][V2][ERROR] block=23470326, HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[scanner] block=23470326, txs_count=0
+[fetch_block_transactions][V2] block=23470325, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620f5&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470325, txs_count=309
+[fetch_block_transactions][V2] block=23470324, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620f4&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470324, txs_count=203
+[fetch_block_transactions][V2] block=23470323, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x16620f3&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470323, txs_count=401
+[scanner] Done block 23470327 at 2025-09-30 01:06:33.531823, whale_txs=111
+[scanner] Start loop at 2025-09-30 01:11:33.532941
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x1662112'}
+[fetch_block_transactions][V2] block=23470354, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662112&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470354, txs_count=252
+[fetch_block_transactions][V2][ERROR] block=23470353, HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[scanner] block=23470353, txs_count=0
+[fetch_block_transactions][V2] block=23470352, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662110&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470352, txs_count=198
+[fetch_block_transactions][V2] block=23470351, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166210f&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470351, txs_count=235
+[fetch_block_transactions][V2] block=23470350, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166210e&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470350, txs_count=229
+[scanner] Done block 23470354 at 2025-09-30 01:11:57.416381, whale_txs=111
+[scanner] Start loop at 2025-09-30 01:16:57.417383
+[fetch_latest_block_number][V2] status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data={'jsonrpc': '2.0', 'id': 83, 'result': '0x166212d'}
+[fetch_block_transactions][V2] block=23470381, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166212d&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470381, txs_count=249
+[fetch_block_transactions][V2] block=23470380, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166212c&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470380, txs_count=266
+[fetch_block_transactions][V2] block=23470379, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166212b&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470379, txs_count=333
+[fetch_block_transactions][V2] block=23470378, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x166212a&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470378, txs_count=244
+[fetch_block_transactions][V2] block=23470377, status=200, url=https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_getBlockByNumber&tag=0x1662129&boolean=true&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG, data_keys=['jsonrpc', 'id', 'result']
+[scanner] block=23470377, txs_count=199
+[scanner] Done block 23470381 at 2025-09-30 01:17:09.341314, whale_txs=111

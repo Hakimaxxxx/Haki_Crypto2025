@@ -1,0 +1,990 @@
+[block 370089234] 2025-09-29 17:45:11.252220 | num_txs: 1354 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 155.60
+[block 370089233] 2025-09-29 17:45:12.814187 | num_txs: 1215 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 190.31
+[block 370089232] 2025-09-29 17:45:14.430294 | num_txs: 1261 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 268.87
+[block 370089231] 2025-09-29 17:45:16.321861 | num_txs: 1352 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 272.91
+[block 370089230] 2025-09-29 17:45:18.245601 | num_txs: 1289 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 231.68
+[fetch_block_transactions] 2025-09-29 17:45:19.642794 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089229] 2025-09-29 17:45:27.024537 | num_txs: 1312 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 146.70
+[block 370089228] 2025-09-29 17:45:29.204287 | num_txs: 1635 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 382.66
+[block 370089227] 2025-09-29 17:45:31.184057 | num_txs: 1231 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 171.04
+[block 370089226] 2025-09-29 17:45:32.973481 | num_txs: 1255 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.30
+[block 370089225] 2025-09-29 17:45:34.833409 | num_txs: 1271 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 200.34
+[block 370089224] 2025-09-29 17:45:36.751112 | num_txs: 1388 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 147.31
+[block 370089223] 2025-09-29 17:45:38.569194 | num_txs: 1290 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 426.04
+[fetch_block_transactions] 2025-09-29 17:45:40.111991 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089222] 2025-09-29 17:45:46.556863 | num_txs: 1223 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 203.91
+[block 370089221] 2025-09-29 17:45:48.202914 | num_txs: 1222 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 167.64
+[block 370089220] 2025-09-29 17:45:50.144792 | num_txs: 1356 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 375.45
+[block 370089219] 2025-09-29 17:45:51.885786 | num_txs: 1288 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 151.07
+[block 370089218] 2025-09-29 17:45:53.728773 | num_txs: 1306 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 207.88
+[block 370089217] 2025-09-29 17:45:55.723752 | num_txs: 1409 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 390.53
+[block 370089216] 2025-09-29 17:45:57.546698 | num_txs: 1400 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 253.54
+[block 370089215] 2025-09-29 17:45:59.458593 | num_txs: 1240 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 271.13
+[block 370089214] 2025-09-29 17:46:01.143871 | num_txs: 1232 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 476.24
+[fetch_block_transactions] 2025-09-29 17:46:02.417595 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089213] 2025-09-29 17:46:08.926615 | num_txs: 1173 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 862.56
+[block 370089212] 2025-09-29 17:46:10.926462 | num_txs: 1291 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 428.15
+[block 370089211] 2025-09-29 17:46:12.807315 | num_txs: 1224 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 161.37
+[block 370089210] 2025-09-29 17:46:14.476350 | num_txs: 1234 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.59
+[block 370089209] 2025-09-29 17:46:16.387596 | num_txs: 1266 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 154.57
+[block 370089208] 2025-09-29 17:46:18.168569 | num_txs: 1464 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 220.46
+[block 370089207] 2025-09-29 17:46:20.224380 | num_txs: 1267 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.69
+[block 370089206] 2025-09-29 17:46:22.092302 | num_txs: 1194 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.14
+[block 370089205] 2025-09-29 17:46:23.783323 | num_txs: 1227 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.39
+[block 370089204] 2025-09-29 17:46:25.735258 | num_txs: 1429 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 321.03
+[block 370089203] 2025-09-29 17:46:27.657415 | num_txs: 1227 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 156.89
+[block 370089202] 2025-09-29 17:46:29.369643 | num_txs: 1345 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 344.95
+[block 370089201] 2025-09-29 17:46:31.579372 | num_txs: 1377 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 421.37
+[block 370089200] 2025-09-29 17:46:33.495778 | num_txs: 1326 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 864.04
+[block 370089199] 2025-09-29 17:46:35.123873 | num_txs: 1331 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 678.28
+[fetch_block_transactions] 2025-09-29 17:46:36.068964 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089198] 2025-09-29 17:46:42.563858 | num_txs: 1326 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1428.92
+[block 370089197] 2025-09-29 17:46:44.317622 | num_txs: 1291 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 427.40
+[block 370089196] 2025-09-29 17:46:45.877473 | num_txs: 1292 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 187.20
+[block 370089195] 2025-09-29 17:46:47.758352 | num_txs: 1347 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 310.69
+[block 370089194] 2025-09-29 17:46:49.265065 | num_txs: 1225 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 397.68
+[fetch_block_transactions] 2025-09-29 17:46:50.307466 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089193] 2025-09-29 17:46:56.713417 | num_txs: 1390 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 443.08
+[block 370089192] 2025-09-29 17:46:58.413503 | num_txs: 1437 | Tổng SOL lớn phát hiện: 9290.96 | Tổng SOL phát hiện: 19125.75
+[block 370089191] 2025-09-29 17:47:00.094970 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 118.81
+[block 370089190] 2025-09-29 17:47:01.716096 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 186.24
+[block 370089189] 2025-09-29 17:47:03.297187 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 156.84
+[block 370089188] 2025-09-29 17:47:04.703004 | num_txs: 1247 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 25.06
+[block 370089187] 2025-09-29 17:47:06.202333 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 55.67
+[block 370089186] 2025-09-29 17:47:08.025489 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.74
+[fetch_block_transactions] 2025-09-29 17:47:09.165366 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089185] 2025-09-29 17:47:15.588686 | num_txs: 1337 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 315.47
+[block 370089184] 2025-09-29 17:47:18.432044 | num_txs: 1452 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.34
+[block 370089183] 2025-09-29 17:47:20.915152 | num_txs: 1386 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 244.63
+[block 370089182] 2025-09-29 17:47:22.998950 | num_txs: 1376 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 176.53
+[block 370089181] 2025-09-29 17:47:25.267133 | num_txs: 1442 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 790.85
+[block 370089180] 2025-09-29 17:47:27.725676 | num_txs: 1568 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 319.07
+[block 370089179] 2025-09-29 17:47:29.793018 | num_txs: 1311 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 228.99
+[block 370089178] 2025-09-29 17:47:31.854199 | num_txs: 1336 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 152.14
+[block 370089177] 2025-09-29 17:47:33.869035 | num_txs: 1582 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 283.85
+[block 370089176] 2025-09-29 17:47:35.713969 | num_txs: 1391 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 704.14
+[block 370089175] 2025-09-29 17:47:37.426980 | num_txs: 1151 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 51.51
+[block 370089174] 2025-09-29 17:47:39.089021 | num_txs: 1228 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 156.88
+[fetch_block_transactions] 2025-09-29 17:47:40.367283 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089173] 2025-09-29 17:47:47.135374 | num_txs: 1240 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 87.55
+[block 370089172] 2025-09-29 17:47:48.736449 | num_txs: 1188 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 134.21
+[block 370089171] 2025-09-29 17:47:50.531412 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 258.57
+[block 370089170] 2025-09-29 17:47:52.299394 | num_txs: 1320 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 275.06
+[block 370089169] 2025-09-29 17:47:54.238198 | num_txs: 1328 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 318.86
+[block 370089168] 2025-09-29 17:47:55.630336 | num_txs: 1272 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 105.45
+[block 370089167] 2025-09-29 17:47:57.204575 | num_txs: 1251 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 161.14
+[block 370089166] 2025-09-29 17:47:58.705846 | num_txs: 1287 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 957.34
+[fetch_block_transactions] 2025-09-29 17:47:59.732593 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089165] 2025-09-29 17:48:06.409686 | num_txs: 1435 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.48
+[block 370089164] 2025-09-29 17:48:08.508473 | num_txs: 1453 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2997.02
+[block 370089163] 2025-09-29 17:48:10.286448 | num_txs: 1369 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 168.77
+[block 370089162] 2025-09-29 17:48:12.614102 | num_txs: 1273 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 267.69
+[block 370089161] 2025-09-29 17:48:14.371951 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1687.70
+[block 370089160] 2025-09-29 17:48:16.299840 | num_txs: 1315 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 230.87
+[block 370089159] 2025-09-29 17:48:18.430608 | num_txs: 1269 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 319.03
+[block 370089158] 2025-09-29 17:48:20.042598 | num_txs: 1328 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 713.94
+[block 370089157] 2025-09-29 17:48:21.898066 | num_txs: 1286 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 715.95
+[block 370089156] 2025-09-29 17:48:23.593717 | num_txs: 1702 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 516.50
+[fetch_block_transactions] 2025-09-29 17:48:24.601136 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089155] 2025-09-29 17:48:30.778292 | num_txs: 1344 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 246.22
+[block 370089154] 2025-09-29 17:48:32.649636 | num_txs: 1440 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 324.20
+[block 370089153] 2025-09-29 17:48:34.016405 | num_txs: 1325 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 530.67
+[block 370089152] 2025-09-29 17:48:35.447179 | num_txs: 1394 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1032.36
+[block 370089151] 2025-09-29 17:48:36.733272 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 878.64
+[fetch_block_transactions] 2025-09-29 17:48:37.563853 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089150] 2025-09-29 17:48:43.579404 | num_txs: 1195 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 512.20
+[block 370089149] 2025-09-29 17:48:44.991975 | num_txs: 1238 | Tổng SOL lớn phát hiện: 22236.32 | Tổng SOL phát hiện: 44730.80
+[block 370089148] 2025-09-29 17:48:46.328282 | num_txs: 1224 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 135.74
+[block 370089147] 2025-09-29 17:48:47.905422 | num_txs: 1374 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 214.48
+[block 370089146] 2025-09-29 17:48:49.289077 | num_txs: 1330 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 271.52
+[fetch_block_transactions] 2025-09-29 17:48:50.242482 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089145] 2025-09-29 17:48:56.292134 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 402.29
+[block 370089144] 2025-09-29 17:48:57.547243 | num_txs: 1319 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 228.53
+[block 370089143] 2025-09-29 17:48:59.010949 | num_txs: 1340 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 252.21
+[block 370089142] 2025-09-29 17:49:00.309920 | num_txs: 1291 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 256.81
+[block 370089141] 2025-09-29 17:49:01.684143 | num_txs: 1319 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 286.10
+[block 370089140] 2025-09-29 17:49:02.995170 | num_txs: 1339 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 135.40
+[block 370089139] 2025-09-29 17:49:04.264097 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 161.54
+[fetch_block_transactions] 2025-09-29 17:49:05.109508 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089138] 2025-09-29 17:49:11.131692 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 188.97
+[block 370089137] 2025-09-29 17:49:12.514110 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 352.92
+[block 370089136] 2025-09-29 17:49:13.944591 | num_txs: 1353 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 311.75
+[fetch_block_transactions] 2025-09-29 17:49:14.797090 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089135] 2025-09-29 17:49:20.960772 | num_txs: 1378 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1180.29
+[block 370089134] 2025-09-29 17:49:22.356125 | num_txs: 1319 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 263.17
+[block 370089133] 2025-09-29 17:49:23.779592 | num_txs: 1379 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 378.50
+[block 370089132] 2025-09-29 17:49:25.328575 | num_txs: 1790 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 770.86
+[fetch_block_transactions] 2025-09-29 17:49:26.163516 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089131] 2025-09-29 17:49:32.390166 | num_txs: 1281 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 199.87
+[block 370089130] 2025-09-29 17:49:33.772195 | num_txs: 1300 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 196.47
+[block 370089129] 2025-09-29 17:49:35.047108 | num_txs: 1273 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 318.31
+[block 370089128] 2025-09-29 17:49:36.572880 | num_txs: 1479 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 250.15
+[fetch_block_transactions] 2025-09-29 17:49:37.552062 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089127] 2025-09-29 17:49:43.545566 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 220.47
+[block 370089126] 2025-09-29 17:49:44.817781 | num_txs: 1184 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 143.75
+[block 370089125] 2025-09-29 17:49:46.135198 | num_txs: 1136 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 267.82
+[block 370089124] 2025-09-29 17:49:47.441007 | num_txs: 1242 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 158.16
+[fetch_block_transactions] 2025-09-29 17:49:48.272704 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089123] 2025-09-29 17:49:54.358537 | num_txs: 1313 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 220.21
+[block 370089122] 2025-09-29 17:49:55.793334 | num_txs: 1296 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 264.29
+[block 370089121] 2025-09-29 17:49:57.206392 | num_txs: 1362 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 191.97
+[block 370089120] 2025-09-29 17:49:58.744937 | num_txs: 1441 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 257.70
+[block 370089119] 2025-09-29 17:50:00.055778 | num_txs: 1346 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.88
+[block 370089118] 2025-09-29 17:50:01.407693 | num_txs: 1287 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1267.82
+[fetch_block_transactions] 2025-09-29 17:50:02.238797 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089117] 2025-09-29 17:50:08.208004 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 351.05
+[block 370089116] 2025-09-29 17:50:09.556992 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1235.27
+[block 370089115] 2025-09-29 17:50:11.124028 | num_txs: 1213 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 206.28
+[block 370089114] 2025-09-29 17:50:12.567390 | num_txs: 1201 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 223.01
+[block 370089113] 2025-09-29 17:50:14.003221 | num_txs: 1195 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 236.61
+[block 370089112] 2025-09-29 17:50:15.360635 | num_txs: 1327 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1287.54
+[fetch_block_transactions] 2025-09-29 17:50:16.515371 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089111] 2025-09-29 17:50:22.643914 | num_txs: 1360 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 474.52
+[block 370089110] 2025-09-29 17:50:24.056553 | num_txs: 1255 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 194.75
+[block 370089109] 2025-09-29 17:50:25.794878 | num_txs: 1397 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1333.56
+[block 370089108] 2025-09-29 17:50:27.505096 | num_txs: 1512 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 518.23
+[block 370089107] 2025-09-29 17:50:29.101784 | num_txs: 1307 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 325.71
+[fetch_block_transactions] 2025-09-29 17:50:29.976935 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089106] 2025-09-29 17:50:36.034541 | num_txs: 1235 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 373.43
+[block 370089105] 2025-09-29 17:50:37.309664 | num_txs: 1215 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 150.52
+[block 370089104] 2025-09-29 17:50:38.756372 | num_txs: 1426 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.09
+[block 370089103] 2025-09-29 17:50:40.093258 | num_txs: 1177 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 167.77
+[block 370089102] 2025-09-29 17:50:41.342862 | num_txs: 1190 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 478.08
+[block 370089101] 2025-09-29 17:50:42.571649 | num_txs: 1202 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.61
+[block 370089100] 2025-09-29 17:50:44.004590 | num_txs: 1333 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 88.86
+[fetch_block_transactions] 2025-09-29 17:50:44.847686 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089099] 2025-09-29 17:50:50.997165 | num_txs: 1401 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 323.06
+[block 370089098] 2025-09-29 17:50:52.295602 | num_txs: 1211 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 243.87
+[block 370089097] 2025-09-29 17:50:53.579889 | num_txs: 1195 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 222.31
+[fetch_block_transactions] 2025-09-29 17:50:54.412824 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089096] 2025-09-29 17:51:00.644079 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 264.07
+[block 370089095] 2025-09-29 17:51:01.941849 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 193.51
+[block 370089094] 2025-09-29 17:51:03.192017 | num_txs: 1207 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 205.50
+[block 370089093] 2025-09-29 17:51:04.553095 | num_txs: 1248 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 234.52
+[fetch_block_transactions] 2025-09-29 17:51:05.390116 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089092] 2025-09-29 17:51:11.605635 | num_txs: 1425 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 354.15
+[block 370089091] 2025-09-29 17:51:12.909682 | num_txs: 1221 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 285.34
+[block 370089090] 2025-09-29 17:51:14.234641 | num_txs: 1218 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 155.05
+[fetch_block_transactions] 2025-09-29 17:51:15.122197 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089089] 2025-09-29 17:51:21.070184 | num_txs: 1178 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 249.56
+[block 370089088] 2025-09-29 17:51:22.400451 | num_txs: 1155 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 174.07
+[block 370089087] 2025-09-29 17:51:23.708579 | num_txs: 1294 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 186.00
+[fetch_block_transactions] 2025-09-29 17:51:24.547331 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089086] 2025-09-29 17:51:30.670991 | num_txs: 1247 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 256.07
+[block 370089085] 2025-09-29 17:51:32.462519 | num_txs: 1224 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.54
+[block 370089084] 2025-09-29 17:51:33.876925 | num_txs: 1302 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 264.25
+[block 370089083] 2025-09-29 17:51:35.215167 | num_txs: 1238 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 252.25
+[fetch_block_transactions] 2025-09-29 17:51:36.073107 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089082] 2025-09-29 17:51:42.062215 | num_txs: 1224 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 227.89
+[block 370089081] 2025-09-29 17:51:43.410579 | num_txs: 1253 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 192.13
+[block 370089080] 2025-09-29 17:51:44.773688 | num_txs: 1289 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 276.33
+[block 370089079] 2025-09-29 17:51:46.189635 | num_txs: 1340 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 178.41
+[fetch_block_transactions] 2025-09-29 17:51:47.038818 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089078] 2025-09-29 17:51:53.273184 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 257.50
+[block 370089077] 2025-09-29 17:51:54.690064 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 237.08
+[block 370089076] 2025-09-29 17:51:56.170195 | num_txs: 1506 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.07
+[block 370089075] 2025-09-29 17:51:57.520118 | num_txs: 1324 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 255.85
+[fetch_block_transactions] 2025-09-29 17:51:58.384999 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089074] 2025-09-29 17:52:04.594153 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 139.37
+[block 370089073] 2025-09-29 17:52:05.956561 | num_txs: 1308 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 287.76
+[block 370089072] 2025-09-29 17:52:07.444184 | num_txs: 1588 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.28
+[block 370089071] 2025-09-29 17:52:08.766450 | num_txs: 1317 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 366.66
+[block 370089070] 2025-09-29 17:52:10.106670 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 310.11
+[block 370089069] 2025-09-29 17:52:11.708689 | num_txs: 1337 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 381.88
+[fetch_block_transactions] 2025-09-29 17:52:12.542364 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089068] 2025-09-29 17:52:19.897688 | num_txs: 1546 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 261.84
+[block 370089067] 2025-09-29 17:52:21.266169 | num_txs: 1364 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 262.10
+[block 370089066] 2025-09-29 17:52:22.756581 | num_txs: 1278 | Tổng SOL lớn phát hiện: 3116.84 | Tổng SOL phát hiện: 6420.15
+[block 370089065] 2025-09-29 17:52:24.215966 | num_txs: 1265 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 304.43
+[block 370089064] 2025-09-29 17:52:25.691206 | num_txs: 1476 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 274.69
+[fetch_block_transactions] 2025-09-29 17:52:26.539065 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089063] 2025-09-29 17:52:32.705520 | num_txs: 1478 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 176.38
+[block 370089062] 2025-09-29 17:52:33.961297 | num_txs: 1239 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 256.91
+[block 370089061] 2025-09-29 17:52:35.577687 | num_txs: 1335 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 171.04
+[fetch_block_transactions] 2025-09-29 17:52:36.418145 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089060] 2025-09-29 17:52:42.545861 | num_txs: 1309 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 280.52
+[block 370089059] 2025-09-29 17:52:44.019136 | num_txs: 1364 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 235.96
+[block 370089058] 2025-09-29 17:52:45.272153 | num_txs: 1302 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 569.14
+[block 370089057] 2025-09-29 17:52:46.638739 | num_txs: 1227 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 193.09
+[fetch_block_transactions] 2025-09-29 17:52:47.468394 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089056] 2025-09-29 17:52:53.604677 | num_txs: 1453 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.82
+[block 370089055] 2025-09-29 17:52:55.107607 | num_txs: 1494 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 338.95
+[block 370089054] 2025-09-29 17:52:56.728698 | num_txs: 1433 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 239.07
+[block 370089053] 2025-09-29 17:52:58.267587 | num_txs: 1494 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 210.26
+[block 370089052] 2025-09-29 17:52:59.751885 | num_txs: 1399 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1157.15
+[fetch_block_transactions] 2025-09-29 17:53:00.589925 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089051] 2025-09-29 17:53:06.639283 | num_txs: 1226 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1196.01
+[block 370089050] 2025-09-29 17:53:07.889220 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 468.31
+[block 370089049] 2025-09-29 17:53:09.436912 | num_txs: 1268 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 69.60
+[block 370089048] 2025-09-29 17:53:10.936537 | num_txs: 2013 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 385.45
+[block 370089047] 2025-09-29 17:53:12.142569 | num_txs: 518 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 306.22
+[block 370089046] 2025-09-29 17:53:13.452659 | num_txs: 1196 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 427.28
+[block 370089045] 2025-09-29 17:53:14.742163 | num_txs: 1160 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 269.54
+[fetch_block_transactions] 2025-09-29 17:53:15.575706 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089044] 2025-09-29 17:53:21.547221 | num_txs: 1244 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 3161.37
+[block 370089043] 2025-09-29 17:53:23.128721 | num_txs: 1340 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 162.39
+[block 370089042] 2025-09-29 17:53:24.460084 | num_txs: 1319 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 274.49
+[fetch_block_transactions] 2025-09-29 17:53:25.307103 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089041] 2025-09-29 17:53:31.604626 | num_txs: 1430 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 285.54
+[block 370089040] 2025-09-29 17:53:33.372443 | num_txs: 2026 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 492.69
+[block 370089039] 2025-09-29 17:53:34.801592 | num_txs: 1276 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 172.75
+[block 370089038] 2025-09-29 17:53:37.310170 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 379.97
+[block 370089037] 2025-09-29 17:53:38.984661 | num_txs: 1312 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 594.74
+[fetch_block_transactions] 2025-09-29 17:53:39.821530 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089036] 2025-09-29 17:53:46.092347 | num_txs: 1666 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 577.76
+[block 370089035] 2025-09-29 17:53:47.349957 | num_txs: 1108 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 64.25
+[block 370089034] 2025-09-29 17:53:48.573130 | num_txs: 1092 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 22.47
+[block 370089033] 2025-09-29 17:53:49.817112 | num_txs: 1166 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 34.02
+[block 370089032] 2025-09-29 17:53:51.143342 | num_txs: 1190 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 37.13
+[block 370089031] 2025-09-29 17:53:52.441430 | num_txs: 1225 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 131.42
+[block 370089030] 2025-09-29 17:53:53.762181 | num_txs: 1152 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 76.40
+[fetch_block_transactions] 2025-09-29 17:53:54.605512 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089029] 2025-09-29 17:54:00.600097 | num_txs: 1158 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 85.53
+[block 370089028] 2025-09-29 17:54:02.073688 | num_txs: 1185 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.25
+[block 370089027] 2025-09-29 17:54:03.553822 | num_txs: 1221 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 165.72
+[fetch_block_transactions] 2025-09-29 17:54:04.529834 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089026] 2025-09-29 17:54:10.878627 | num_txs: 1302 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 238.45
+[block 370089025] 2025-09-29 17:54:12.161040 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 240.72
+[block 370089024] 2025-09-29 17:54:13.688215 | num_txs: 1562 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 436.10
+[block 370089023] 2025-09-29 17:54:14.998195 | num_txs: 1258 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 136.19
+[block 370089022] 2025-09-29 17:54:16.398388 | num_txs: 1279 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 290.63
+[fetch_block_transactions] 2025-09-29 17:54:17.261467 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089021] 2025-09-29 17:54:23.223563 | num_txs: 1214 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 93.75
+[block 370089020] 2025-09-29 17:54:24.809541 | num_txs: 1462 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 91.98
+[block 370089019] 2025-09-29 17:54:26.267560 | num_txs: 1404 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 706.01
+[block 370089018] 2025-09-29 17:54:27.674843 | num_txs: 1307 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 121.55
+[fetch_block_transactions] 2025-09-29 17:54:28.511831 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089017] 2025-09-29 17:54:34.636489 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 226.41
+[block 370089016] 2025-09-29 17:54:36.336364 | num_txs: 1577 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 334.12
+[block 370089015] 2025-09-29 17:54:37.842259 | num_txs: 1313 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.64
+[block 370089014] 2025-09-29 17:54:39.208530 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 224.15
+[block 370089013] 2025-09-29 17:54:40.530680 | num_txs: 1184 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 227.63
+[block 370089012] 2025-09-29 17:54:42.031151 | num_txs: 1315 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 251.63
+[block 370089011] 2025-09-29 17:54:43.393637 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 209.61
+[fetch_block_transactions] 2025-09-29 17:54:44.228049 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089010] 2025-09-29 17:54:50.233319 | num_txs: 1276 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 402.54
+[block 370089009] 2025-09-29 17:54:51.616663 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 391.56
+[block 370089008] 2025-09-29 17:54:53.193926 | num_txs: 1514 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 589.97
+[block 370089007] 2025-09-29 17:54:54.555242 | num_txs: 1270 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.17
+[fetch_block_transactions] 2025-09-29 17:54:55.415426 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089006] 2025-09-29 17:55:01.675898 | num_txs: 1393 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 724.43
+[block 370089005] 2025-09-29 17:55:03.086132 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 237.85
+[block 370089004] 2025-09-29 17:55:04.727236 | num_txs: 2134 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 460.07
+[fetch_block_transactions] 2025-09-29 17:55:05.586563 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089003] 2025-09-29 17:55:11.661231 | num_txs: 1136 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 212.05
+[block 370089002] 2025-09-29 17:55:12.840865 | num_txs: 1095 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 36.98
+[block 370089001] 2025-09-29 17:55:14.049237 | num_txs: 1128 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 33.36
+[fetch_block_transactions] 2025-09-29 17:55:14.885168 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370089000] 2025-09-29 17:55:20.876373 | num_txs: 1068 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 21.79
+[block 370088999] 2025-09-29 17:55:22.400363 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 283.87
+[block 370088998] 2025-09-29 17:55:23.748746 | num_txs: 1172 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1664.40
+[fetch_block_transactions] 2025-09-29 17:55:24.583204 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088997] 2025-09-29 17:55:31.081796 | num_txs: 1200 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 251.88
+[block 370088996] 2025-09-29 17:55:33.015679 | num_txs: 1220 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 261.50
+[block 370088995] 2025-09-29 17:55:34.342838 | num_txs: 1230 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 286.97
+[block 370088994] 2025-09-29 17:55:35.804852 | num_txs: 1256 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 394.81
+[fetch_block_transactions] 2025-09-29 17:55:36.665213 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088993] 2025-09-29 17:55:42.754688 | num_txs: 1257 | Tổng SOL lớn phát hiện: 3116.84 | Tổng SOL phát hiện: 6444.94
+[block 370088992] 2025-09-29 17:55:44.242545 | num_txs: 1309 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 230.28
+[block 370088991] 2025-09-29 17:55:45.765292 | num_txs: 1406 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 258.70
+[fetch_block_transactions] 2025-09-29 17:55:46.606345 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088990] 2025-09-29 17:55:52.581534 | num_txs: 1310 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 148.25
+[block 370088989] 2025-09-29 17:55:54.200420 | num_txs: 1258 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 472.09
+[block 370088988] 2025-09-29 17:55:55.561210 | num_txs: 1357 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 561.62
+[block 370088987] 2025-09-29 17:55:56.899497 | num_txs: 1288 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 177.98
+[fetch_block_transactions] 2025-09-29 17:55:57.737243 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088986] 2025-09-29 17:56:03.736363 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 205.44
+[block 370088985] 2025-09-29 17:56:05.183899 | num_txs: 1314 | Tổng SOL lớn phát hiện: 2188.99 | Tổng SOL phát hiện: 4570.15
+[block 370088984] 2025-09-29 17:56:06.628362 | num_txs: 1581 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.44
+[block 370088983] 2025-09-29 17:56:07.974629 | num_txs: 1256 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 182.85
+[block 370088982] 2025-09-29 17:56:09.286712 | num_txs: 1247 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 241.24
+[fetch_block_transactions] 2025-09-29 17:56:10.285983 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088981] 2025-09-29 17:56:17.317737 | num_txs: 1252 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 630.19
+[block 370088980] 2025-09-29 17:56:19.269612 | num_txs: 1310 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 195.61
+[block 370088979] 2025-09-29 17:56:21.208491 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.01
+[block 370088978] 2025-09-29 17:56:23.068415 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 219.63
+[block 370088977] 2025-09-29 17:56:24.780427 | num_txs: 1248 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.97
+[block 370088976] 2025-09-29 17:56:26.780312 | num_txs: 1282 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 292.87
+[block 370088975] 2025-09-29 17:56:28.511308 | num_txs: 1294 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1726.77
+[fetch_block_transactions] 2025-09-29 17:56:29.397641 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088974] 2025-09-29 17:56:35.806786 | num_txs: 1316 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 635.46
+[block 370088973] 2025-09-29 17:56:37.289708 | num_txs: 1277 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 768.95
+[block 370088972] 2025-09-29 17:56:39.072937 | num_txs: 1706 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1219.22
+[block 370088971] 2025-09-29 17:56:40.434194 | num_txs: 1274 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 297.08
+[block 370088970] 2025-09-29 17:56:42.002025 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 237.59
+[block 370088969] 2025-09-29 17:56:43.357548 | num_txs: 1304 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 674.10
+[block 370088968] 2025-09-29 17:56:45.042440 | num_txs: 1413 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 162.83
+[block 370088967] 2025-09-29 17:56:46.568565 | num_txs: 1266 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 192.51
+[fetch_block_transactions] 2025-09-29 17:56:47.604340 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088966] 2025-09-29 17:56:54.121973 | num_txs: 1201 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 160.40
+[block 370088965] 2025-09-29 17:56:55.670406 | num_txs: 1200 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 197.01
+[block 370088964] 2025-09-29 17:56:57.237238 | num_txs: 1268 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 276.36
+[block 370088963] 2025-09-29 17:56:58.722918 | num_txs: 1241 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 220.66
+[block 370088962] 2025-09-29 17:57:00.205060 | num_txs: 1239 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 164.14
+[block 370088961] 2025-09-29 17:57:01.796522 | num_txs: 1193 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 341.39
+[block 370088960] 2025-09-29 17:57:03.372315 | num_txs: 1415 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 747.79
+[fetch_block_transactions] 2025-09-29 17:57:04.273159 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088959] 2025-09-29 17:57:10.372602 | num_txs: 1416 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 250.88
+[block 370088958] 2025-09-29 17:57:11.782352 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 374.45
+[block 370088957] 2025-09-29 17:57:13.358069 | num_txs: 1459 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 163.92
+[block 370088956] 2025-09-29 17:57:14.726175 | num_txs: 1286 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 320.97
+[fetch_block_transactions] 2025-09-29 17:57:15.563594 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088955] 2025-09-29 17:57:21.664025 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 303.21
+[block 370088954] 2025-09-29 17:57:23.019763 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.60
+[block 370088953] 2025-09-29 17:57:24.284170 | num_txs: 1178 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 209.46
+[fetch_block_transactions] 2025-09-29 17:57:25.134085 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088952] 2025-09-29 17:57:31.546971 | num_txs: 1488 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 221.38
+[block 370088951] 2025-09-29 17:57:33.249945 | num_txs: 1394 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1673.46
+[block 370088950] 2025-09-29 17:57:34.773619 | num_txs: 1346 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 244.48
+[block 370088949] 2025-09-29 17:57:36.446378 | num_txs: 1448 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 188.37
+[fetch_block_transactions] 2025-09-29 17:57:37.518891 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088948] 2025-09-29 17:57:43.628899 | num_txs: 1329 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 258.30
+[block 370088947] 2025-09-29 17:57:45.046091 | num_txs: 1309 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 228.27
+[block 370088946] 2025-09-29 17:57:46.566003 | num_txs: 1405 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.78
+[block 370088945] 2025-09-29 17:57:48.010201 | num_txs: 1336 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 209.25
+[block 370088944] 2025-09-29 17:57:49.524908 | num_txs: 1443 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1280.92
+[fetch_block_transactions] 2025-09-29 17:57:50.370774 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088943] 2025-09-29 17:57:56.416328 | num_txs: 1311 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.42
+[block 370088942] 2025-09-29 17:57:57.787663 | num_txs: 1276 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 237.60
+[block 370088941] 2025-09-29 17:57:59.148131 | num_txs: 1311 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 245.47
+[block 370088940] 2025-09-29 17:58:00.870536 | num_txs: 1527 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 463.62
+[block 370088939] 2025-09-29 17:58:02.280481 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 283.29
+[block 370088938] 2025-09-29 17:58:03.702062 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 252.13
+[block 370088937] 2025-09-29 17:58:04.971329 | num_txs: 1218 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 174.16
+[block 370088936] 2025-09-29 17:58:06.514579 | num_txs: 1563 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 416.94
+[fetch_block_transactions] 2025-09-29 17:58:07.373237 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088935] 2025-09-29 17:58:13.434258 | num_txs: 1253 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 252.52
+[block 370088934] 2025-09-29 17:58:14.786055 | num_txs: 1281 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 345.85
+[block 370088933] 2025-09-29 17:58:16.254698 | num_txs: 1329 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 247.60
+[block 370088932] 2025-09-29 17:58:17.763146 | num_txs: 1530 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1389.35
+[block 370088931] 2025-09-29 17:58:19.266700 | num_txs: 1444 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 461.06
+[fetch_block_transactions] 2025-09-29 17:58:20.105872 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088930] 2025-09-29 17:58:27.341917 | num_txs: 1666 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 292.23
+[block 370088929] 2025-09-29 17:58:28.989221 | num_txs: 1675 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 105.94
+[block 370088928] 2025-09-29 17:58:30.947350 | num_txs: 1948 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 546.19
+[block 370088923] 2025-09-29 17:58:32.219306 | num_txs: 1252 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 716.98
+[block 370088922] 2025-09-29 17:58:33.761844 | num_txs: 1248 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 126.97
+[block 370088921] 2025-09-29 17:58:35.102393 | num_txs: 1234 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 685.43
+[block 370088920] 2025-09-29 17:58:36.576829 | num_txs: 1293 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 433.79
+[block 370088919] 2025-09-29 17:58:38.068307 | num_txs: 1440 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 368.46
+[fetch_block_transactions] 2025-09-29 17:58:38.919220 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088918] 2025-09-29 17:58:44.960367 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 321.66
+[block 370088917] 2025-09-29 17:58:46.333567 | num_txs: 1269 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.33
+[block 370088916] 2025-09-29 17:58:47.611996 | num_txs: 1260 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 188.66
+[block 370088915] 2025-09-29 17:58:49.012826 | num_txs: 1289 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 158.74
+[block 370088914] 2025-09-29 17:58:50.385940 | num_txs: 1406 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 287.12
+[block 370088913] 2025-09-29 17:58:51.676555 | num_txs: 1226 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 266.62
+[fetch_block_transactions] 2025-09-29 17:58:52.540481 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088912] 2025-09-29 17:58:58.690963 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 210.15
+[block 370088911] 2025-09-29 17:59:00.273839 | num_txs: 1301 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 438.83
+[block 370088910] 2025-09-29 17:59:01.644196 | num_txs: 1238 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 221.31
+[block 370088909] 2025-09-29 17:59:02.960322 | num_txs: 1260 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 169.14
+[block 370088908] 2025-09-29 17:59:04.459736 | num_txs: 1379 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1260.96
+[fetch_block_transactions] 2025-09-29 17:59:05.488918 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088907] 2025-09-29 17:59:11.479894 | num_txs: 1253 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 251.48
+[block 370088906] 2025-09-29 17:59:12.749602 | num_txs: 1188 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 193.52
+[block 370088905] 2025-09-29 17:59:14.121464 | num_txs: 1230 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 289.14
+[fetch_block_transactions] 2025-09-29 17:59:14.971634 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088904] 2025-09-29 17:59:20.951678 | num_txs: 1275 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1598.98
+[block 370088903] 2025-09-29 17:59:22.367390 | num_txs: 1313 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 230.92
+[block 370088902] 2025-09-29 17:59:23.636729 | num_txs: 1258 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 256.38
+[block 370088901] 2025-09-29 17:59:25.600038 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 297.04
+[block 370088900] 2025-09-29 17:59:27.475340 | num_txs: 1396 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 322.31
+[block 370088899] 2025-09-29 17:59:29.249305 | num_txs: 1222 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 150.71
+[block 370088898] 2025-09-29 17:59:31.104773 | num_txs: 1266 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 226.04
+[block 370088897] 2025-09-29 17:59:32.868302 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 276.95
+[fetch_block_transactions] 2025-09-29 17:59:33.910263 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088896] 2025-09-29 17:59:40.884901 | num_txs: 1296 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 38.37
+[block 370088895] 2025-09-29 17:59:42.903900 | num_txs: 1319 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 278.10
+[block 370088894] 2025-09-29 17:59:44.735146 | num_txs: 1323 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 334.64
+[block 370088893] 2025-09-29 17:59:46.623235 | num_txs: 1359 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 394.60
+[block 370088892] 2025-09-29 17:59:48.488059 | num_txs: 1539 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.32
+[block 370088891] 2025-09-29 17:59:50.661844 | num_txs: 1228 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 240.22
+[block 370088890] 2025-09-29 17:59:52.580565 | num_txs: 1262 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 205.99
+[block 370088889] 2025-09-29 17:59:54.562745 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 332.76
+[block 370088888] 2025-09-29 17:59:55.977290 | num_txs: 1219 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 124.30
+[block 370088887] 2025-09-29 17:59:57.380564 | num_txs: 1216 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 286.77
+[block 370088886] 2025-09-29 17:59:58.833658 | num_txs: 1258 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 168.09
+[block 370088885] 2025-09-29 18:00:00.339334 | num_txs: 1270 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 166.96
+[block 370088884] 2025-09-29 18:00:02.042552 | num_txs: 1438 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.91
+[fetch_block_transactions] 2025-09-29 18:00:03.064287 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088883] 2025-09-29 18:00:09.654597 | num_txs: 1402 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 162.15
+[block 370088882] 2025-09-29 18:00:11.550294 | num_txs: 1443 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 289.50
+[block 370088881] 2025-09-29 18:00:14.062843 | num_txs: 1546 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 240.47
+[block 370088880] 2025-09-29 18:00:16.503563 | num_txs: 1688 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 448.62
+[block 370088879] 2025-09-29 18:00:18.084461 | num_txs: 1351 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 609.65
+[block 370088878] 2025-09-29 18:00:19.756486 | num_txs: 1240 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 122.94
+[block 370088877] 2025-09-29 18:00:21.403845 | num_txs: 1308 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 245.02
+[block 370088876] 2025-09-29 18:00:23.366712 | num_txs: 1489 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 562.39
+[block 370088875] 2025-09-29 18:00:25.671032 | num_txs: 1269 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 371.23
+[block 370088874] 2025-09-29 18:00:27.779426 | num_txs: 1709 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 222.89
+[block 370088873] 2025-09-29 18:00:29.653216 | num_txs: 685 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 179.91
+[block 370088872] 2025-09-29 18:00:31.699183 | num_txs: 1367 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2170.47
+[block 370088871] 2025-09-29 18:00:34.047219 | num_txs: 1351 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 347.36
+[block 370088870] 2025-09-29 18:00:35.937671 | num_txs: 1300 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 239.54
+[block 370088869] 2025-09-29 18:00:37.864664 | num_txs: 1224 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2053.10
+[block 370088868] 2025-09-29 18:00:40.044564 | num_txs: 1433 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 558.60
+[block 370088867] 2025-09-29 18:00:42.123556 | num_txs: 1371 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2087.52
+[block 370088866] 2025-09-29 18:00:44.140245 | num_txs: 1387 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 341.44
+[block 370088865] 2025-09-29 18:00:46.132096 | num_txs: 1311 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2107.28
+[block 370088864] 2025-09-29 18:00:48.626484 | num_txs: 1595 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 360.38
+[block 370088863] 2025-09-29 18:00:50.755297 | num_txs: 1475 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 222.08
+[block 370088862] 2025-09-29 18:00:53.195474 | num_txs: 1029 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 243.48
+[block 370088861] 2025-09-29 18:00:55.234000 | num_txs: 1143 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 205.52
+[block 370088860] 2025-09-29 18:00:57.193754 | num_txs: 1484 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 211.58
+[block 370088859] 2025-09-29 18:00:58.618472 | num_txs: 1331 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 215.67
+[block 370088858] 2025-09-29 18:01:00.251374 | num_txs: 1355 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 316.57
+[block 370088857] 2025-09-29 18:01:01.712702 | num_txs: 1414 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.33
+[block 370088856] 2025-09-29 18:01:03.201159 | num_txs: 1443 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 294.08
+[block 370088855] 2025-09-29 18:01:04.531704 | num_txs: 1225 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 210.93
+[fetch_block_transactions] 2025-09-29 18:01:05.378484 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088854] 2025-09-29 18:01:11.371304 | num_txs: 1182 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 187.15
+[block 370088853] 2025-09-29 18:01:12.786021 | num_txs: 1234 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 630.49
+[block 370088852] 2025-09-29 18:01:14.207116 | num_txs: 1347 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 236.97
+[block 370088851] 2025-09-29 18:01:15.694330 | num_txs: 1486 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 347.09
+[block 370088850] 2025-09-29 18:01:17.403962 | num_txs: 1332 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 175.08
+[block 370088849] 2025-09-29 18:01:19.318857 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 287.91
+[block 370088848] 2025-09-29 18:01:20.803939 | num_txs: 1451 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 96.63
+[fetch_block_transactions] 2025-09-29 18:01:21.758872 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088847] 2025-09-29 18:01:27.892580 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.27
+[block 370088846] 2025-09-29 18:01:29.253514 | num_txs: 1346 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 234.16
+[block 370088845] 2025-09-29 18:01:30.661841 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.15
+[block 370088844] 2025-09-29 18:01:32.114055 | num_txs: 1432 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 347.92
+[fetch_block_transactions] 2025-09-29 18:01:32.980348 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088843] 2025-09-29 18:01:39.008705 | num_txs: 1327 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 168.99
+[block 370088842] 2025-09-29 18:01:40.552077 | num_txs: 1386 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 268.67
+[block 370088841] 2025-09-29 18:01:41.884249 | num_txs: 1244 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 194.75
+[fetch_block_transactions] 2025-09-29 18:01:42.732440 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088840] 2025-09-29 18:01:48.934536 | num_txs: 1348 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 919.87
+[block 370088839] 2025-09-29 18:01:50.539413 | num_txs: 1375 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.03
+[block 370088838] 2025-09-29 18:01:52.169231 | num_txs: 1272 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 162.92
+[fetch_block_transactions] 2025-09-29 18:01:53.037603 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088837] 2025-09-29 18:01:59.211326 | num_txs: 1354 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 654.92
+[block 370088836] 2025-09-29 18:02:00.747930 | num_txs: 1467 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 408.68
+[block 370088835] 2025-09-29 18:02:01.977682 | num_txs: 1187 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 47.59
+[fetch_block_transactions] 2025-09-29 18:02:02.825510 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088834] 2025-09-29 18:02:08.715765 | num_txs: 1109 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 85.66
+[block 370088833] 2025-09-29 18:02:10.045740 | num_txs: 1165 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 64.73
+[block 370088832] 2025-09-29 18:02:11.309757 | num_txs: 1215 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 38.84
+[fetch_block_transactions] 2025-09-29 18:02:12.152580 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088831] 2025-09-29 18:02:18.491522 | num_txs: 1335 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 199.73
+[block 370088830] 2025-09-29 18:02:19.833769 | num_txs: 1303 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 458.45
+[block 370088829] 2025-09-29 18:02:21.150179 | num_txs: 1353 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 377.86
+[fetch_block_transactions] 2025-09-29 18:02:21.998777 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088828] 2025-09-29 18:02:28.201865 | num_txs: 1381 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 666.03
+[block 370088827] 2025-09-29 18:02:29.821927 | num_txs: 1326 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2799.74
+[block 370088826] 2025-09-29 18:02:31.207018 | num_txs: 1239 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 216.15
+[block 370088825] 2025-09-29 18:02:32.526751 | num_txs: 1223 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.67
+[block 370088824] 2025-09-29 18:02:34.066043 | num_txs: 1426 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2571.33
+[fetch_block_transactions] 2025-09-29 18:02:34.894906 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088823] 2025-09-29 18:02:41.055195 | num_txs: 1537 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 113.82
+[block 370088822] 2025-09-29 18:02:42.588518 | num_txs: 1287 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2670.16
+[block 370088821] 2025-09-29 18:02:44.018948 | num_txs: 1366 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 300.77
+[block 370088820] 2025-09-29 18:02:45.499010 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 324.38
+[block 370088819] 2025-09-29 18:02:46.825773 | num_txs: 1298 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2640.53
+[fetch_block_transactions] 2025-09-29 18:02:47.677552 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088818] 2025-09-29 18:02:53.729326 | num_txs: 1259 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 241.03
+[block 370088817] 2025-09-29 18:02:54.988149 | num_txs: 1307 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 218.85
+[block 370088816] 2025-09-29 18:02:56.422163 | num_txs: 1376 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 667.30
+[block 370088815] 2025-09-29 18:02:58.041172 | num_txs: 1337 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 226.65
+[block 370088814] 2025-09-29 18:02:59.502745 | num_txs: 1331 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 157.33
+[block 370088813] 2025-09-29 18:03:01.027645 | num_txs: 1342 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 477.21
+[block 370088812] 2025-09-29 18:03:02.547978 | num_txs: 1516 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 210.82
+[block 370088811] 2025-09-29 18:03:03.858200 | num_txs: 1170 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 4424.02
+[fetch_block_transactions] 2025-09-29 18:03:04.701703 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088810] 2025-09-29 18:03:10.674531 | num_txs: 1304 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 180.69
+[block 370088809] 2025-09-29 18:03:12.157933 | num_txs: 1418 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 216.63
+[block 370088808] 2025-09-29 18:03:13.610835 | num_txs: 1574 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1167.05
+[block 370088807] 2025-09-29 18:03:15.001344 | num_txs: 1351 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 363.34
+[fetch_block_transactions] 2025-09-29 18:03:15.865931 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088806] 2025-09-29 18:03:21.870104 | num_txs: 1324 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 298.99
+[block 370088805] 2025-09-29 18:03:23.188760 | num_txs: 1271 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 269.56
+[block 370088804] 2025-09-29 18:03:24.648949 | num_txs: 1424 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 91.97
+[block 370088803] 2025-09-29 18:03:25.942547 | num_txs: 1230 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 265.21
+[block 370088802] 2025-09-29 18:03:27.297477 | num_txs: 1277 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 238.67
+[block 370088801] 2025-09-29 18:03:28.575653 | num_txs: 1228 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2057.71
+[fetch_block_transactions] 2025-09-29 18:03:29.570456 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088800] 2025-09-29 18:03:35.708704 | num_txs: 1315 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 191.85
+[block 370088799] 2025-09-29 18:03:37.012811 | num_txs: 1307 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1268.18
+[block 370088798] 2025-09-29 18:03:38.413424 | num_txs: 1364 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 286.61
+[block 370088797] 2025-09-29 18:03:39.800967 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1299.55
+[block 370088796] 2025-09-29 18:03:41.207350 | num_txs: 1381 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 264.79
+[fetch_block_transactions] 2025-09-29 18:03:42.051987 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088795] 2025-09-29 18:03:48.367088 | num_txs: 1373 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.70
+[block 370088794] 2025-09-29 18:03:50.167093 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1242.03
+[block 370088793] 2025-09-29 18:03:51.737524 | num_txs: 1234 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 235.62
+[block 370088792] 2025-09-29 18:03:53.467615 | num_txs: 1439 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 570.14
+[block 370088791] 2025-09-29 18:03:55.776279 | num_txs: 1391 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 258.11
+[block 370088790] 2025-09-29 18:03:57.756551 | num_txs: 1375 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1800.86
+[block 370088789] 2025-09-29 18:03:59.998717 | num_txs: 1377 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 307.27
+[block 370088788] 2025-09-29 18:04:02.893045 | num_txs: 1559 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 324.97
+[block 370088787] 2025-09-29 18:04:04.545091 | num_txs: 1294 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 190.21
+[block 370088786] 2025-09-29 18:04:06.253106 | num_txs: 1235 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 285.95
+[block 370088785] 2025-09-29 18:04:08.391290 | num_txs: 1437 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 353.22
+[block 370088784] 2025-09-29 18:04:09.974028 | num_txs: 1244 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 328.77
+[block 370088783] 2025-09-29 18:04:11.522444 | num_txs: 1252 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.90
+[block 370088782] 2025-09-29 18:04:13.052894 | num_txs: 1305 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 310.24
+[block 370088781] 2025-09-29 18:04:14.620052 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1211.92
+[fetch_block_transactions] 2025-09-29 18:04:15.559755 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088780] 2025-09-29 18:04:22.010256 | num_txs: 1387 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 317.68
+[block 370088779] 2025-09-29 18:04:23.675675 | num_txs: 1251 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 228.39
+[block 370088778] 2025-09-29 18:04:25.038695 | num_txs: 1337 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 424.30
+[block 370088777] 2025-09-29 18:04:26.733366 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.15
+[block 370088776] 2025-09-29 18:04:28.429354 | num_txs: 1429 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 8592.92
+[block 370088775] 2025-09-29 18:04:30.212589 | num_txs: 1447 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.83
+[block 370088774] 2025-09-29 18:04:31.999176 | num_txs: 1342 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 606.71
+[block 370088773] 2025-09-29 18:04:33.820451 | num_txs: 1333 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 291.70
+[block 370088772] 2025-09-29 18:04:35.716060 | num_txs: 1512 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 590.11
+[block 370088771] 2025-09-29 18:04:37.306202 | num_txs: 1287 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1064.72
+[block 370088770] 2025-09-29 18:04:39.198125 | num_txs: 1361 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 634.68
+[block 370088769] 2025-09-29 18:04:40.762222 | num_txs: 1317 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 323.53
+[block 370088768] 2025-09-29 18:04:42.735902 | num_txs: 1323 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 666.28
+[fetch_block_transactions] 2025-09-29 18:04:43.873035 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088767] 2025-09-29 18:04:50.248641 | num_txs: 1417 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 282.40
+[block 370088766] 2025-09-29 18:04:51.725523 | num_txs: 1421 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 304.01
+[block 370088765] 2025-09-29 18:04:53.089215 | num_txs: 1272 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 171.91
+[block 370088764] 2025-09-29 18:04:54.540269 | num_txs: 1483 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 331.69
+[fetch_block_transactions] 2025-09-29 18:04:55.394589 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088763] 2025-09-29 18:05:01.607787 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.11
+[block 370088762] 2025-09-29 18:05:03.188977 | num_txs: 1254 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 722.23
+[block 370088761] 2025-09-29 18:05:04.664505 | num_txs: 1217 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 166.34
+[block 370088760] 2025-09-29 18:05:06.222206 | num_txs: 1550 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 288.78
+[block 370088759] 2025-09-29 18:05:08.590244 | num_txs: 1283 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 247.95
+[block 370088758] 2025-09-29 18:05:11.144770 | num_txs: 1257 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 118.23
+[block 370088757] 2025-09-29 18:05:13.159605 | num_txs: 1179 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 781.72
+[block 370088756] 2025-09-29 18:05:14.902892 | num_txs: 1308 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 253.82
+[block 370088755] 2025-09-29 18:05:16.393811 | num_txs: 1375 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 682.65
+[block 370088754] 2025-09-29 18:05:17.753459 | num_txs: 1332 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 480.36
+[block 370088753] 2025-09-29 18:05:19.142382 | num_txs: 1272 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 279.43
+[block 370088752] 2025-09-29 18:05:20.940231 | num_txs: 1531 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 112.28
+[fetch_block_transactions] 2025-09-29 18:05:21.877687 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088751] 2025-09-29 18:05:28.439001 | num_txs: 1334 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 212.56
+[block 370088750] 2025-09-29 18:05:29.794654 | num_txs: 1250 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 199.35
+[block 370088749] 2025-09-29 18:05:31.179952 | num_txs: 1180 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 240.50
+[block 370088748] 2025-09-29 18:05:32.718456 | num_txs: 1192 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 4445.75
+[block 370088747] 2025-09-29 18:05:34.597370 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 252.27
+[fetch_block_transactions] 2025-09-29 18:05:35.511371 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088746] 2025-09-29 18:05:41.728331 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 177.28
+[block 370088745] 2025-09-29 18:05:43.933351 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 245.07
+[block 370088744] 2025-09-29 18:05:45.854887 | num_txs: 1444 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 297.38
+[block 370088743] 2025-09-29 18:05:47.943604 | num_txs: 1479 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 230.40
+[block 370088742] 2025-09-29 18:05:49.510724 | num_txs: 1289 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 376.15
+[block 370088741] 2025-09-29 18:05:50.938037 | num_txs: 1475 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 722.10
+[block 370088740] 2025-09-29 18:05:52.482616 | num_txs: 1438 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 106.63
+[block 370088739] 2025-09-29 18:05:54.400125 | num_txs: 1277 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 180.20
+[fetch_block_transactions] 2025-09-29 18:05:55.275094 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088738] 2025-09-29 18:06:01.519665 | num_txs: 1356 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 263.06
+[block 370088737] 2025-09-29 18:06:03.137809 | num_txs: 1245 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 254.66
+[block 370088736] 2025-09-29 18:06:04.977090 | num_txs: 1665 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 474.64
+[block 370088735] 2025-09-29 18:06:06.707480 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 284.45
+[block 370088734] 2025-09-29 18:06:08.342284 | num_txs: 1332 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.44
+[block 370088733] 2025-09-29 18:06:10.017245 | num_txs: 1233 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 109.36
+[block 370088732] 2025-09-29 18:06:11.749244 | num_txs: 1591 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 5603.82
+[block 370088731] 2025-09-29 18:06:13.218158 | num_txs: 1204 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 60.53
+[block 370088730] 2025-09-29 18:06:14.717036 | num_txs: 1263 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 34.90
+[fetch_block_transactions] 2025-09-29 18:06:15.674090 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088729] 2025-09-29 18:06:21.843547 | num_txs: 1237 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 43.85
+[block 370088728] 2025-09-29 18:06:23.588079 | num_txs: 1288 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 223.04
+[block 370088727] 2025-09-29 18:06:25.234584 | num_txs: 1305 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 265.28
+[block 370088726] 2025-09-29 18:06:26.968311 | num_txs: 1241 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 290.86
+[block 370088725] 2025-09-29 18:06:28.788561 | num_txs: 1361 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.25
+[block 370088724] 2025-09-29 18:06:31.980719 | num_txs: 1598 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 297.36
+[block 370088723] 2025-09-29 18:06:33.969778 | num_txs: 1232 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 216.02
+[block 370088722] 2025-09-29 18:06:35.473480 | num_txs: 1356 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.09
+[block 370088721] 2025-09-29 18:06:36.825125 | num_txs: 1158 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 205.92
+[block 370088720] 2025-09-29 18:06:38.285903 | num_txs: 1249 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 186.41
+[block 370088719] 2025-09-29 18:06:40.349637 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 223.38
+[block 370088718] 2025-09-29 18:06:41.653365 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 358.12
+[block 370088717] 2025-09-29 18:06:43.017098 | num_txs: 1227 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 308.25
+[fetch_block_transactions] 2025-09-29 18:06:43.873308 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088716] 2025-09-29 18:06:49.999571 | num_txs: 1317 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.15
+[block 370088715] 2025-09-29 18:06:51.380350 | num_txs: 1217 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 233.86
+[block 370088714] 2025-09-29 18:06:52.652855 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 157.75
+[block 370088713] 2025-09-29 18:06:54.113724 | num_txs: 1304 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 770.39
+[fetch_block_transactions] 2025-09-29 18:06:54.984810 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088712] 2025-09-29 18:07:01.129899 | num_txs: 1289 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 316.39
+[block 370088711] 2025-09-29 18:07:03.009813 | num_txs: 1330 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1589.67
+[block 370088710] 2025-09-29 18:07:05.071860 | num_txs: 1389 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 292.61
+[block 370088709] 2025-09-29 18:07:06.724420 | num_txs: 1342 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 484.66
+[block 370088708] 2025-09-29 18:07:08.319962 | num_txs: 1449 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 273.65
+[block 370088707] 2025-09-29 18:07:09.938389 | num_txs: 1360 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 315.67
+[block 370088706] 2025-09-29 18:07:11.410199 | num_txs: 1368 | Tổng SOL lớn phát hiện: 9290.96 | Tổng SOL phát hiện: 19097.95
+[block 370088705] 2025-09-29 18:07:12.943801 | num_txs: 1475 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 207.83
+[fetch_block_transactions] 2025-09-29 18:07:13.826157 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088704] 2025-09-29 18:07:20.069871 | num_txs: 1444 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 503.82
+[block 370088703] 2025-09-29 18:07:21.425808 | num_txs: 1313 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.87
+[block 370088702] 2025-09-29 18:07:22.827719 | num_txs: 1430 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 207.82
+[block 370088701] 2025-09-29 18:07:24.178928 | num_txs: 1141 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 291.06
+[fetch_block_transactions] 2025-09-29 18:07:25.066471 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088700] 2025-09-29 18:07:31.467972 | num_txs: 1631 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1232.29
+[block 370088699] 2025-09-29 18:07:33.073304 | num_txs: 1347 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 176.80
+[block 370088698] 2025-09-29 18:07:34.388191 | num_txs: 1264 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 591.37
+[block 370088697] 2025-09-29 18:07:35.841172 | num_txs: 1277 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 180.70
+[block 370088696] 2025-09-29 18:07:37.191399 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 393.20
+[fetch_block_transactions] 2025-09-29 18:07:38.016975 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088695] 2025-09-29 18:07:44.147963 | num_txs: 1310 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 238.58
+[block 370088694] 2025-09-29 18:07:45.585859 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 271.07
+[block 370088693] 2025-09-29 18:07:47.146250 | num_txs: 1433 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.80
+[block 370088692] 2025-09-29 18:07:48.779641 | num_txs: 1506 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 257.08
+[block 370088691] 2025-09-29 18:07:50.479068 | num_txs: 1751 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 218.57
+[block 370088690] 2025-09-29 18:07:52.133277 | num_txs: 1606 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 806.81
+[block 370088689] 2025-09-29 18:07:53.748939 | num_txs: 1489 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 422.75
+[block 370088688] 2025-09-29 18:07:55.456261 | num_txs: 1777 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.90
+[block 370088687] 2025-09-29 18:07:57.236441 | num_txs: 1081 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 184.10
+[block 370088686] 2025-09-29 18:07:59.388664 | num_txs: 1562 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 279.34
+[block 370088685] 2025-09-29 18:08:00.677114 | num_txs: 941 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 195.80
+[fetch_block_transactions] 2025-09-29 18:08:01.508868 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088684] 2025-09-29 18:08:07.633370 | num_txs: 1370 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.15
+[block 370088683] 2025-09-29 18:08:09.137766 | num_txs: 1275 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 280.38
+[block 370088682] 2025-09-29 18:08:10.651573 | num_txs: 1423 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 229.32
+[block 370088681] 2025-09-29 18:08:12.089888 | num_txs: 1255 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 250.65
+[fetch_block_transactions] 2025-09-29 18:08:12.965243 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088680] 2025-09-29 18:08:19.194457 | num_txs: 1389 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 456.00
+[block 370088679] 2025-09-29 18:08:20.789665 | num_txs: 1410 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 475.91
+[block 370088678] 2025-09-29 18:08:22.253153 | num_txs: 1453 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 461.12
+[block 370088677] 2025-09-29 18:08:24.028847 | num_txs: 1536 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 756.02
+[fetch_block_transactions] 2025-09-29 18:08:25.431037 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088676] 2025-09-29 18:08:31.614850 | num_txs: 1512 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 486.48
+[block 370088675] 2025-09-29 18:08:33.223290 | num_txs: 1322 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 713.87
+[block 370088674] 2025-09-29 18:08:34.658757 | num_txs: 1402 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 692.28
+[block 370088673] 2025-09-29 18:08:36.233256 | num_txs: 1439 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 366.06
+[block 370088672] 2025-09-29 18:08:37.870107 | num_txs: 1719 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 752.09
+[block 370088671] 2025-09-29 18:08:39.142616 | num_txs: 1217 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 41.86
+[fetch_block_transactions] 2025-09-29 18:08:40.022461 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088670] 2025-09-29 18:08:45.916351 | num_txs: 1206 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 56.15
+[block 370088669] 2025-09-29 18:08:47.224856 | num_txs: 1181 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 42.10
+[block 370088668] 2025-09-29 18:08:48.626867 | num_txs: 1288 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 32.73
+[block 370088667] 2025-09-29 18:08:49.914995 | num_txs: 1284 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 790.74
+[block 370088666] 2025-09-29 18:08:51.382578 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 185.63
+[fetch_block_transactions] 2025-09-29 18:08:52.240144 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088665] 2025-09-29 18:08:58.190052 | num_txs: 1194 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 871.12
+[block 370088664] 2025-09-29 18:08:59.739350 | num_txs: 1491 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1098.84
+[block 370088663] 2025-09-29 18:09:01.229750 | num_txs: 1384 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 250.44
+[block 370088662] 2025-09-29 18:09:02.767179 | num_txs: 1516 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 532.38
+[fetch_block_transactions] 2025-09-29 18:09:03.609360 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088661] 2025-09-29 18:09:09.734344 | num_txs: 1490 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 381.64
+[block 370088660] 2025-09-29 18:09:11.268828 | num_txs: 1451 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 882.31
+[block 370088659] 2025-09-29 18:09:12.844990 | num_txs: 1518 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 152.07
+[block 370088658] 2025-09-29 18:09:14.247490 | num_txs: 1301 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 179.35
+[fetch_block_transactions] 2025-09-29 18:09:15.205638 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088657] 2025-09-29 18:09:21.405722 | num_txs: 1365 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 346.16
+[block 370088656] 2025-09-29 18:09:23.203332 | num_txs: 1517 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 244.39
+[block 370088655] 2025-09-29 18:09:24.646212 | num_txs: 1269 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 271.09
+[block 370088654] 2025-09-29 18:09:26.257743 | num_txs: 1491 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 259.37
+[block 370088653] 2025-09-29 18:09:27.714264 | num_txs: 1416 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 171.86
+[block 370088652] 2025-09-29 18:09:29.269378 | num_txs: 1457 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 339.88
+[block 370088651] 2025-09-29 18:09:30.674803 | num_txs: 1354 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 262.04
+[block 370088650] 2025-09-29 18:09:32.990468 | num_txs: 1477 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 292.78
+[block 370088649] 2025-09-29 18:09:35.004068 | num_txs: 1290 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 293.09
+[fetch_block_transactions] 2025-09-29 18:09:35.889756 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088648] 2025-09-29 18:09:41.948741 | num_txs: 1336 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 92.84
+[block 370088647] 2025-09-29 18:09:43.343930 | num_txs: 1270 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 276.55
+[block 370088646] 2025-09-29 18:09:44.628926 | num_txs: 1315 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 284.85
+[block 370088645] 2025-09-29 18:09:46.101565 | num_txs: 1409 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 378.71
+[block 370088644] 2025-09-29 18:09:47.666684 | num_txs: 1519 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 289.88
+[block 370088643] 2025-09-29 18:09:49.131672 | num_txs: 1382 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.09
+[block 370088642] 2025-09-29 18:09:50.492671 | num_txs: 1223 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 181.57
+[fetch_block_transactions] 2025-09-29 18:09:51.608765 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088641] 2025-09-29 18:09:57.600057 | num_txs: 1212 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.04
+[block 370088640] 2025-09-29 18:09:59.181304 | num_txs: 1460 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 596.27
+[block 370088639] 2025-09-29 18:10:00.502305 | num_txs: 1310 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 185.44
+[block 370088638] 2025-09-29 18:10:01.899967 | num_txs: 1222 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 209.28
+[fetch_block_transactions] 2025-09-29 18:10:02.741553 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088637] 2025-09-29 18:10:08.761169 | num_txs: 1228 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 228.80
+[block 370088636] 2025-09-29 18:10:10.363952 | num_txs: 1369 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 328.04
+[block 370088635] 2025-09-29 18:10:11.890058 | num_txs: 1403 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 282.76
+[fetch_block_transactions] 2025-09-29 18:10:12.819908 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088634] 2025-09-29 18:10:19.203173 | num_txs: 1365 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 198.47
+[block 370088633] 2025-09-29 18:10:20.646901 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 213.63
+[block 370088632] 2025-09-29 18:10:22.110845 | num_txs: 1456 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 254.35
+[fetch_block_transactions] 2025-09-29 18:10:22.981596 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088631] 2025-09-29 18:10:29.041182 | num_txs: 1284 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 231.35
+[block 370088630] 2025-09-29 18:10:30.397131 | num_txs: 1210 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1175.36
+[block 370088629] 2025-09-29 18:10:31.873878 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 262.72
+[fetch_block_transactions] 2025-09-29 18:10:32.767808 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088628] 2025-09-29 18:10:38.780369 | num_txs: 1285 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.89
+[block 370088627] 2025-09-29 18:10:40.218609 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 291.65
+[block 370088626] 2025-09-29 18:10:41.697781 | num_txs: 1370 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 166.89
+[fetch_block_transactions] 2025-09-29 18:10:42.565622 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088625] 2025-09-29 18:10:48.616821 | num_txs: 1251 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 294.02
+[block 370088624] 2025-09-29 18:10:50.119989 | num_txs: 1477 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 354.93
+[block 370088623] 2025-09-29 18:10:51.448624 | num_txs: 1232 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 232.16
+[fetch_block_transactions] 2025-09-29 18:10:52.374753 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088622] 2025-09-29 18:10:58.479768 | num_txs: 1234 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 334.79
+[block 370088621] 2025-09-29 18:10:59.858740 | num_txs: 1325 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 139.64
+[block 370088620] 2025-09-29 18:11:01.638600 | num_txs: 1277 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 151.13
+[block 370088619] 2025-09-29 18:11:03.096227 | num_txs: 1361 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 279.69
+[fetch_block_transactions] 2025-09-29 18:11:03.979466 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088618] 2025-09-29 18:11:10.213806 | num_txs: 1312 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 306.60
+[block 370088617] 2025-09-29 18:11:11.727314 | num_txs: 1325 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 262.22
+[block 370088616] 2025-09-29 18:11:13.745493 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 244.53
+[block 370088615] 2025-09-29 18:11:15.274490 | num_txs: 1518 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 230.21
+[block 370088614] 2025-09-29 18:11:16.842401 | num_txs: 1487 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 319.84
+[fetch_block_transactions] 2025-09-29 18:11:17.778640 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088613] 2025-09-29 18:11:23.880208 | num_txs: 1334 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1341.16
+[block 370088612] 2025-09-29 18:11:25.431138 | num_txs: 1570 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 984.91
+[block 370088611] 2025-09-29 18:11:26.924527 | num_txs: 1447 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1443.17
+[block 370088610] 2025-09-29 18:11:28.306736 | num_txs: 1254 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 241.84
+[block 370088609] 2025-09-29 18:11:29.590834 | num_txs: 1257 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 342.57
+[block 370088608] 2025-09-29 18:11:31.002654 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1324.96
+[block 370088607] 2025-09-29 18:11:32.459402 | num_txs: 1381 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1099.87
+[block 370088606] 2025-09-29 18:11:33.877509 | num_txs: 1341 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 360.57
+[fetch_block_transactions] 2025-09-29 18:11:34.893241 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088605] 2025-09-29 18:11:40.940305 | num_txs: 1329 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1566.40
+[block 370088604] 2025-09-29 18:11:42.287557 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 164.06
+[block 370088603] 2025-09-29 18:11:43.704473 | num_txs: 1341 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2626.75
+[block 370088602] 2025-09-29 18:11:45.051429 | num_txs: 1320 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1523.49
+[fetch_block_transactions] 2025-09-29 18:11:45.960867 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088601] 2025-09-29 18:11:52.486899 | num_txs: 1280 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 693.06
+[block 370088600] 2025-09-29 18:11:54.365233 | num_txs: 1379 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 296.61
+[block 370088599] 2025-09-29 18:11:55.955829 | num_txs: 1369 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 415.60
+[block 370088598] 2025-09-29 18:11:57.606627 | num_txs: 1448 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 426.11
+[block 370088597] 2025-09-29 18:11:59.198129 | num_txs: 1327 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 276.84
+[block 370088596] 2025-09-29 18:12:01.187981 | num_txs: 1685 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 964.62
+[block 370088595] 2025-09-29 18:12:02.907561 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 207.67
+[block 370088594] 2025-09-29 18:12:04.866239 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 979.71
+[block 370088593] 2025-09-29 18:12:06.745538 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 422.11
+[fetch_block_transactions] 2025-09-29 18:12:07.674935 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088592] 2025-09-29 18:12:13.879470 | num_txs: 1173 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 99.78
+[block 370088591] 2025-09-29 18:12:15.358444 | num_txs: 1267 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 200.71
+[block 370088590] 2025-09-29 18:12:17.095442 | num_txs: 1231 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 165.94
+[block 370088589] 2025-09-29 18:12:18.936379 | num_txs: 1226 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 729.27
+[block 370088588] 2025-09-29 18:12:20.537455 | num_txs: 1293 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 296.74
+[block 370088587] 2025-09-29 18:12:22.077147 | num_txs: 1333 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 375.94
+[block 370088586] 2025-09-29 18:12:23.711941 | num_txs: 1359 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 329.43
+[fetch_block_transactions] 2025-09-29 18:12:24.657839 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088585] 2025-09-29 18:12:30.904552 | num_txs: 1415 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 315.35
+[block 370088584] 2025-09-29 18:12:32.291387 | num_txs: 1510 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 699.50
+[block 370088583] 2025-09-29 18:12:33.677513 | num_txs: 1211 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 306.80
+[block 370088582] 2025-09-29 18:12:34.965194 | num_txs: 1233 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 250.86
+[fetch_block_transactions] 2025-09-29 18:12:35.879835 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088581] 2025-09-29 18:12:42.110960 | num_txs: 1200 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 325.85
+[block 370088580] 2025-09-29 18:12:43.700001 | num_txs: 1253 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 442.89
+[block 370088579] 2025-09-29 18:12:45.277188 | num_txs: 1335 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 339.04
+[block 370088578] 2025-09-29 18:12:47.118451 | num_txs: 1366 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 316.30
+[block 370088577] 2025-09-29 18:12:48.847713 | num_txs: 1466 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 197.67
+[block 370088576] 2025-09-29 18:12:50.720909 | num_txs: 1399 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 225.31
+[block 370088575] 2025-09-29 18:12:52.497446 | num_txs: 1372 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 186.74
+[block 370088574] 2025-09-29 18:12:54.731156 | num_txs: 1389 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 241.90
+[block 370088573] 2025-09-29 18:12:56.787747 | num_txs: 1466 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 260.57
+[block 370088572] 2025-09-29 18:12:59.122347 | num_txs: 1822 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 272.18
+[block 370088571] 2025-09-29 18:13:00.938298 | num_txs: 1208 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 211.27
+[block 370088570] 2025-09-29 18:13:02.795797 | num_txs: 1270 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 234.63
+[fetch_block_transactions] 2025-09-29 18:13:03.842391 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088569] 2025-09-29 18:13:10.136708 | num_txs: 1298 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 267.42
+[block 370088568] 2025-09-29 18:13:12.029566 | num_txs: 1377 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 202.45
+[block 370088567] 2025-09-29 18:13:13.807739 | num_txs: 1248 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 277.35
+[block 370088566] 2025-09-29 18:13:15.719470 | num_txs: 1204 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 188.42
+[block 370088565] 2025-09-29 18:13:17.666652 | num_txs: 1292 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 204.04
+[block 370088564] 2025-09-29 18:13:19.465523 | num_txs: 1443 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 227.56
+[block 370088563] 2025-09-29 18:13:21.564968 | num_txs: 1329 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 246.98
+[block 370088562] 2025-09-29 18:13:23.681684 | num_txs: 1387 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1017.89
+[block 370088561] 2025-09-29 18:13:25.993349 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 315.80
+[block 370088560] 2025-09-29 18:13:28.145106 | num_txs: 1521 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 375.72
+[block 370088559] 2025-09-29 18:13:30.497747 | num_txs: 1302 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 185.19
+[block 370088558] 2025-09-29 18:13:32.668494 | num_txs: 1344 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.14
+[block 370088557] 2025-09-29 18:13:34.735300 | num_txs: 1309 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 403.29
+[block 370088556] 2025-09-29 18:13:36.681427 | num_txs: 1560 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 186.81
+[block 370088555] 2025-09-29 18:13:39.062422 | num_txs: 1310 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 269.83
+[block 370088554] 2025-09-29 18:13:40.634342 | num_txs: 1349 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 360.02
+[block 370088553] 2025-09-29 18:13:42.318755 | num_txs: 1248 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 208.75
+[block 370088552] 2025-09-29 18:13:44.422541 | num_txs: 1279 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 174.44
+[block 370088551] 2025-09-29 18:13:46.391569 | num_txs: 1544 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 475.59
+[fetch_block_transactions] 2025-09-29 18:13:47.234876 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088550] 2025-09-29 18:13:53.350096 | num_txs: 1331 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 307.27
+[block 370088549] 2025-09-29 18:13:54.819323 | num_txs: 1410 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 268.70
+[block 370088548] 2025-09-29 18:13:56.448167 | num_txs: 1389 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 363.00
+[block 370088547] 2025-09-29 18:13:57.869936 | num_txs: 1410 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 261.82
+[block 370088546] 2025-09-29 18:13:59.438256 | num_txs: 1397 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 286.08
+[block 370088545] 2025-09-29 18:14:00.941491 | num_txs: 1576 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 289.47
+[block 370088544] 2025-09-29 18:14:02.831442 | num_txs: 1573 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 587.03
+[block 370088543] 2025-09-29 18:14:04.409607 | num_txs: 1304 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 980.83
+[fetch_block_transactions] 2025-09-29 18:14:05.245920 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088542] 2025-09-29 18:14:11.336063 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 576.28
+[block 370088541] 2025-09-29 18:14:12.625373 | num_txs: 1230 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 874.04
+[block 370088540] 2025-09-29 18:14:14.239890 | num_txs: 1398 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 608.40
+[block 370088539] 2025-09-29 18:14:15.646782 | num_txs: 1354 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 301.31
+[block 370088538] 2025-09-29 18:14:16.944116 | num_txs: 1273 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 148.66
+[fetch_block_transactions] 2025-09-29 18:14:17.815131 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088537] 2025-09-29 18:14:24.359127 | num_txs: 1355 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 499.73
+[block 370088536] 2025-09-29 18:14:26.220148 | num_txs: 1549 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 761.60
+[block 370088535] 2025-09-29 18:14:28.447050 | num_txs: 1294 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 165.03
+[block 370088534] 2025-09-29 18:14:30.453892 | num_txs: 1426 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 243.99
+[block 370088533] 2025-09-29 18:14:32.607650 | num_txs: 1351 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 188.33
+[block 370088532] 2025-09-29 18:14:34.618488 | num_txs: 1564 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 288.55
+[block 370088531] 2025-09-29 18:14:36.485411 | num_txs: 1684 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 171.99
+[block 370088530] 2025-09-29 18:14:38.354176 | num_txs: 1424 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 216.47
+[block 370088529] 2025-09-29 18:14:40.278523 | num_txs: 1374 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 346.87
+[block 370088528] 2025-09-29 18:14:41.801595 | num_txs: 1500 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 315.93
+[block 370088527] 2025-09-29 18:14:43.392079 | num_txs: 1316 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 197.21
+[block 370088526] 2025-09-29 18:14:45.034564 | num_txs: 1261 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 199.80
+[block 370088525] 2025-09-29 18:14:46.719986 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 179.66
+[fetch_block_transactions] 2025-09-29 18:14:47.789368 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088524] 2025-09-29 18:14:54.284117 | num_txs: 1451 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 234.64
+[block 370088523] 2025-09-29 18:14:55.956882 | num_txs: 1433 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 2109.10
+[block 370088522] 2025-09-29 18:14:57.527682 | num_txs: 1391 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 248.56
+[block 370088521] 2025-09-29 18:14:59.180373 | num_txs: 1299 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 265.24
+[block 370088520] 2025-09-29 18:15:00.963460 | num_txs: 1535 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 234.95
+[block 370088519] 2025-09-29 18:15:02.769217 | num_txs: 1333 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 203.59
+[block 370088518] 2025-09-29 18:15:04.283437 | num_txs: 1339 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 128.81
+[block 370088517] 2025-09-29 18:15:06.074713 | num_txs: 1301 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.81
+[fetch_block_transactions] 2025-09-29 18:15:07.726762 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088516] 2025-09-29 18:15:14.601790 | num_txs: 1429 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 270.28
+[block 370088515] 2025-09-29 18:15:16.379676 | num_txs: 1242 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 146.75
+[block 370088514] 2025-09-29 18:15:17.983239 | num_txs: 1230 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 132.67
+[block 370088513] 2025-09-29 18:15:19.471170 | num_txs: 1284 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 365.45
+[block 370088512] 2025-09-29 18:15:21.062530 | num_txs: 1283 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 200.78
+[block 370088511] 2025-09-29 18:15:22.735317 | num_txs: 1321 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 406.41
+[block 370088510] 2025-09-29 18:15:24.522704 | num_txs: 1351 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 273.39
+[block 370088509] 2025-09-29 18:15:26.579570 | num_txs: 1443 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 191.40
+[fetch_block_transactions] 2025-09-29 18:15:27.908475 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088508] 2025-09-29 18:15:34.019889 | num_txs: 1297 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 437.32
+[block 370088507] 2025-09-29 18:15:35.538638 | num_txs: 1448 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 223.71
+[block 370088506] 2025-09-29 18:15:37.294081 | num_txs: 1614 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 179.09
+[block 370088505] 2025-09-29 18:15:38.686178 | num_txs: 1367 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 303.76
+[block 370088504] 2025-09-29 18:15:40.172466 | num_txs: 1492 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1444.30
+[block 370088503] 2025-09-29 18:15:41.693967 | num_txs: 1369 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 209.52
+[block 370088502] 2025-09-29 18:15:43.166857 | num_txs: 1358 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 1274.57
+[fetch_block_transactions] 2025-09-29 18:15:44.128847 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088501] 2025-09-29 18:15:50.319744 | num_txs: 1378 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 222.25
+[block 370088500] 2025-09-29 18:15:51.986701 | num_txs: 1583 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 466.68
+[block 370088499] 2025-09-29 18:15:53.565047 | num_txs: 1284 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 297.90
+[block 370088498] 2025-09-29 18:15:54.978418 | num_txs: 1376 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 370.48
+[fetch_block_transactions] 2025-09-29 18:15:56.016655 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088497] 2025-09-29 18:16:02.260145 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.06
+[block 370088496] 2025-09-29 18:16:03.811215 | num_txs: 1901 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 290.25
+[block 370088495] 2025-09-29 18:16:05.162979 | num_txs: 1227 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 182.89
+[block 370088494] 2025-09-29 18:16:06.436037 | num_txs: 1267 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 182.95
+[block 370088493] 2025-09-29 18:16:07.850481 | num_txs: 1205 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 217.22
+[block 370088492] 2025-09-29 18:16:09.227278 | num_txs: 1406 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 459.98
+[block 370088491] 2025-09-29 18:16:10.525085 | num_txs: 1338 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 170.05
+[fetch_block_transactions] 2025-09-29 18:16:11.392380 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088490] 2025-09-29 18:16:17.554675 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 173.26
+[block 370088489] 2025-09-29 18:16:19.003766 | num_txs: 1420 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 288.31
+[block 370088488] 2025-09-29 18:16:20.541059 | num_txs: 1620 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 101.53
+[block 370088487] 2025-09-29 18:16:21.837837 | num_txs: 1278 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 16517.47
+[fetch_block_transactions] 2025-09-29 18:16:22.667527 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: 429 | text:  {"jsonrpc":"2.0","error":{"code": 429,"message":"Too many requests for a specific RPC call"}, "id": 1 } 
+
+[block 370088486] 2025-09-29 18:16:28.861406 | num_txs: 1372 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 24197.26
+[block 370088485] 2025-09-29 18:16:30.222396 | num_txs: 1284 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 181.15

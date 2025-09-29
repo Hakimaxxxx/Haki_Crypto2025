@@ -1,0 +1,23 @@
+﻿
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"data":[{"metric":"AdrActCnt","full_name":"Addresses, active, count","description":"The sum count of 
+                    unique addresses that were active in the network (either as a recipient or originator of a ledger ...
+RawContent        : HTTP/1.1 200 OK
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    CF-RAY: 985cab177deea085-SIN
+                    access-control-allow-origin: *
+                    access-control-expose-headers: x-ratelimit-limit, x-ratelimit-remaini...
+Forms             : {}
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [CF-RAY, 985cab177deea085-SIN], 
+                    [access-control-allow-origin, *]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 571648
+
+
+
