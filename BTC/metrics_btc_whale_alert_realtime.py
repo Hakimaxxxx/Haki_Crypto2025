@@ -8,6 +8,7 @@ import time
 import json
 import os
 import html
+from cloud_db import db
 
 LOG_FILE = "btc_whale_scanner.log"
 
@@ -50,31 +51,83 @@ def fetch_block_transactions(block_number):
     return blocks[0].get("tx", [])
 
 def load_last_block():
+    # Giá trị từ file local
+    local_last_block = None
     if os.path.exists(BLOCK_FILE):
         with open(BLOCK_FILE, "r") as f:
             data = json.load(f)
-            return data.get("last_block", None)
-    return None
+            local_last_block = data.get("last_block", None)
+
+    if db.available():
+        # Giá trị từ database
+        kv = db.get_kv("btc_meta", "last_block")
+        db_last_block = kv.get("last_block") if kv and isinstance(kv, dict) else None
+
+        # Gộp giá trị từ file local vào database nếu cần
+        if local_last_block and (db_last_block is None or local_last_block > db_last_block):
+            db.set_kv("btc_meta", "last_block", {"last_block": local_last_block})
+            print(f"Gộp giá trị last_block {local_last_block} từ file local vào database.")
+
+        # Trả về giá trị từ database
+        return db.get_kv("btc_meta", "last_block").get("last_block")
+
+    # Nếu database không khả dụng, trả về giá trị từ file local
+    return local_last_block
 
 def save_last_block(block_num):
-    with open(BLOCK_FILE, "w") as f:
-        json.dump({"last_block": block_num}, f)
+    if db.available():
+        try:
+            db.set_kv("btc_meta", "last_block", {"last_block": int(block_num)})
+            print(f"Saved last block: {block_num}")
+        except Exception as e:
+            print(f"Error saving last block: {e}")
 
 def load_whale_history():
+    # Prefer cloud DB if available
+    local_history = []
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r") as f:
-            return json.load(f)
-    return []
+            local_history = json.load(f)
+
+    if db.available():
+        # Lấy dữ liệu từ database
+        db_history = db.find_all("btc_whale_history", sort_field="time", ascending=True)
+        db_hashes = {d.get("hash") for d in db_history if isinstance(d, dict) and "hash" in d}
+
+        # Gộp dữ liệu từ file local vào database
+        new_entries = [entry for entry in local_history if entry.get("hash") not in db_hashes]
+        if new_entries:
+            db.upsert_many("btc_whale_history", new_entries, unique_keys=["hash"])
+            print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+
+        # Trả về dữ liệu đã gộp
+        return db.find_all("btc_whale_history", sort_field="time", ascending=True)
+
+    # Nếu database không khả dụng, trả về dữ liệu từ file local
+    return local_history
 
 def save_whale_history(history):
+    # Save to cloud first if available
+    if db.available() and isinstance(history, list):
+        # Upsert by unique key 'hash'
+        db.upsert_many("btc_whale_history", history, unique_keys=["hash"])
+    # Always keep local backup
     with open(HISTORY_FILE, "w") as f:
         json.dump(history, f)
 
 # --- Helpers & logging ---
 def _log(msg: str):
     try:
+        line = f"[{datetime.utcnow()}] {msg}"
         with open(LOG_FILE, "a", encoding="utf-8") as logf:
-            logf.write(f"[{datetime.utcnow()}] {msg}\n")
+            logf.write(line + "\n")
+
+        if db.available():
+            # Gộp log từ file local vào database
+            with open(LOG_FILE, "r", encoding="utf-8") as logf:
+                local_logs = [{"ts": datetime.utcnow().isoformat(), "line": line.strip()} for line in logf]
+            db.insert_many("btc_logs", local_logs)
+            print(f"Gộp {len(local_logs)} log từ file local vào database.")
     except Exception:
         pass
 
@@ -209,7 +262,7 @@ def show_btc_whale_alert_realtime(min_value_btc=100, num_blocks=5):
             )
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
-def background_whale_alert_scanner(min_value_btc=50, num_blocks=5, interval_sec=300):
+def background_whale_alert_scanner(min_value_btc=300, num_blocks=5, interval_sec=300):
     while True:
         try:
             latest_block = fetch_latest_block_number()
@@ -299,6 +352,6 @@ def add_overlay_marker(transaction):
 #     print(f"Transaction {tx['hash']} marked as {marker['type']} with color {marker['color']}")
 
 if "_btc_whale_bg_thread" not in globals():
-    t = threading.Thread(target=background_whale_alert_scanner, args=(50, 5, 300), daemon=True)
+    t = threading.Thread(target=background_whale_alert_scanner, args=(300, 5, 300), daemon=True)
     t.start()
     _btc_whale_bg_thread = True

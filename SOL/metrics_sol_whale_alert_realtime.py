@@ -8,6 +8,7 @@ import time
 import json
 import os
 from .sol_cex_wallets import ALL_EXCHANGE_WALLETS, is_internal_exchange_transfer, is_exchange_wallet, is_org_wallet
+from cloud_db import db
 
 USER_SEEN_BLOCK_FILE = "sol_whale_user_seen_block.json"
 HISTORY_FILE = "sol_whale_alert_history.json"
@@ -49,7 +50,6 @@ def fetch_latest_block_number():
 def fetch_block_transactions(block_number):
     # Use Solana RPC node to get block transactions
     url = "https://api.mainnet-beta.solana.com"
-    # Add maxSupportedTransactionVersion for full compatibility
     payload = {
         "jsonrpc": "2.0",
         "id": 1,
@@ -64,6 +64,7 @@ def fetch_block_transactions(block_number):
         ]
     }
     max_retries = 3
+    r = None  # Ensure 'r' is defined before usage
     for attempt in range(max_retries):
         try:
             r = requests.post(url, json=payload, timeout=15)
@@ -72,8 +73,8 @@ def fetch_block_transactions(block_number):
             txs = data.get("result", {}).get("transactions", [])
             return txs
         except Exception as e:
-            status = getattr(r, 'status_code', 'N/A')
-            text = getattr(r, 'text', '')
+            status = getattr(r, 'status_code', 'N/A') if r else 'N/A'
+            text = getattr(r, 'text', '') if r else ''
             with open("solscan_api_error.log", "a", encoding="utf-8") as logf:
                 logf.write(f"[fetch_block_transactions] {datetime.utcnow()} | Error: {e} | status: {status} | text: {text}\n")
             # Nếu lỗi 429 thì sleep 5s rồi retry
@@ -99,27 +100,62 @@ def fetch_blocks_with_transactions(start_slot, end_slot):
             logf.write(f"[fetch_blocks_with_transactions] {datetime.utcnow()} | Error: {e} | status: {getattr(r, 'status_code', 'N/A')} | text: {getattr(r, 'text', '')}\n")
         return []
 def load_last_block():
+    # Giá trị từ file local
+    local_last_block = None
     if os.path.exists(BLOCK_FILE):
         with open(BLOCK_FILE, "r") as f:
             data = json.load(f)
-            return data.get("last_block", None)
-    return None
+            local_last_block = data.get("last_block", None)
+
+    if db.available():
+        # Giá trị từ database
+        kv = db.get_kv("sol_meta", "last_block")
+        db_last_block = kv.get("last_block") if kv and isinstance(kv, dict) else None
+
+        # Gộp giá trị từ file local vào database nếu cần
+        if local_last_block and (db_last_block is None or local_last_block > db_last_block):
+            db.set_kv("sol_meta", "last_block", {"last_block": local_last_block})
+            print(f"Gộp giá trị last_block {local_last_block} từ file local vào database.")
+
+        # Trả về giá trị từ database
+        return db.get_kv("sol_meta", "last_block").get("last_block")
+
+    # Nếu database không khả dụng, trả về giá trị từ file local
+    return local_last_block
+
+def load_whale_history():
+    # Prefer cloud DB if available
+    local_history = []
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, "r") as f:
+            local_history = json.load(f)
+
+    if db.available():
+        # Lấy dữ liệu từ database
+        db_history = db.find_all("sol_whale_history", sort_field="time", ascending=True)
+        db_hashes = {d.get("hash") for d in db_history if isinstance(d, dict) and "hash" in d}
+
+        # Gộp dữ liệu từ file local vào database
+        new_entries = [entry for entry in local_history if entry.get("hash") not in db_hashes]
+        if new_entries:
+            db.upsert_many("sol_whale_history", new_entries, unique_keys=["hash"])
+            print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+
+        # Trả về dữ liệu đã gộp
+        return db.find_all("sol_whale_history", sort_field="time", ascending=True)
+
+    # Nếu database không khả dụng, trả về dữ liệu từ file local
+    return local_history
 
 def save_last_block(block_num):
     with open(BLOCK_FILE, "w") as f:
         json.dump({"last_block": block_num}, f)
 
-def load_whale_history():
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r") as f:
-            return json.load(f)
-    return []
-
 def save_whale_history(history):
     with open(HISTORY_FILE, "w") as f:
         json.dump(history, f)
 
-def show_sol_whale_alert_realtime(min_value_sol=1000, num_blocks=750):
+def show_sol_whale_alert_realtime(min_value_sol=3000, num_blocks=750):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
     🐳 Whale Alert - SOL Large Transactions
@@ -152,7 +188,7 @@ def show_sol_whale_alert_realtime(min_value_sol=1000, num_blocks=750):
             box_content += f"<div style='margin-bottom:8px;'>{new_badge}{type_badge}<span style='color:#1e88e5;font-weight:bold;'>🐳 {tx['value']:.2f} SOL</span> | Hash: <code>{tx['hash'][:12]}...</code> | Từ: <code>{tx['from']}</code> → Đến: <code>{tx['to']}</code> | <span style='color:#888;'>{tx['time']}</span></div>"
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
-def background_whale_alert_scanner(min_value_sol=1000, num_blocks=750, interval_sec=300):
+def background_whale_alert_scanner(min_value_sol=3000, num_blocks=750, interval_sec=300):
     # Load danh sách protocol address từ Solana-programs.json
     protocol_addr_to_name = {}
     try:

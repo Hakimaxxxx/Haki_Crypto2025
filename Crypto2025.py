@@ -13,6 +13,91 @@ import threading
 # Import các module metrics
 # Import các module metrics
 import metrics_flow
+# Set MongoDB environment variables
+os.environ["MONGO_URI"] = "mongodb+srv://quanghuy060997_db_user:MPCuEbF2GhpmiZm8@cluster0.x3iyjjm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+os.environ["CLOUD_DB_NAME"] = "Crypto2025"
+from cloud_db import db
+
+# --- DB sync helpers ---
+def _db_upsert_portfolio_docs(docs: list):
+    try:
+        if db.available() and docs:
+            # Unique by (timestamp, coin) when coin exists; totals use timestamp only
+            db.upsert_many("portfolio_history", docs, unique_keys=["timestamp", "coin"])
+    except Exception:
+        pass
+
+def _db_set_portfolio_meta(holdings: dict | None = None, avg_price: dict | None = None):
+    try:
+        if not db.available():
+            return
+        if holdings is not None:
+            db.set_kv("portfolio_meta", "holdings", holdings)
+        if avg_price is not None:
+            db.set_kv("portfolio_meta", "avg_price", avg_price)
+    except Exception:
+        pass
+
+def _db_upsert_dominance_row(row: dict):
+    try:
+        if db.available() and row:
+            db.upsert_many("dominance_history", [row], unique_keys=["timestamp"])
+    except Exception:
+        pass
+
+def _db_upsert_marketcap_row(row: dict):
+    try:
+        if db.available() and row:
+            db.upsert_many("marketcap_history", [row], unique_keys=["timestamp"])
+    except Exception:
+        pass
+
+def _db_bootstrap_sync_once():
+    """One-time backfill from local files/CSVs into DB (idempotent)."""
+    try:
+        if not db.available():
+            return
+        # Portfolio meta
+        try:
+            if os.path.exists("data.json"):
+                with open("data.json", "r") as f:
+                    _db_set_portfolio_meta(holdings=json.load(f))
+            if os.path.exists("avg_price.json"):
+                with open("avg_price.json", "r") as f:
+                    _db_set_portfolio_meta(avg_price=json.load(f))
+        except Exception:
+            pass
+        # Portfolio history
+        try:
+            if os.path.exists("portfolio_history.json"):
+                with open("portfolio_history.json", "r") as f:
+                    hist = json.load(f)
+                if isinstance(hist, list) and hist:
+                    _db_upsert_portfolio_docs(hist)
+        except Exception:
+            pass
+        # Dominance history
+        try:
+            if os.path.exists("dominance_history.csv"):
+                df = pd.read_csv("dominance_history.csv")
+                recs = df.to_dict(orient="records")
+                for r in recs:
+                    _db_upsert_dominance_row(r)
+        except Exception:
+            pass
+        # Marketcap history
+        try:
+            if os.path.exists("marketcap_history.csv"):
+                df = pd.read_csv("marketcap_history.csv")
+                recs = df.to_dict(orient="records")
+                for r in recs:
+                    _db_upsert_marketcap_row(r)
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+
 # --- TỰ ĐỘNG CRAWL DOMINANCE MỖI PHÚT (KHÔNG BLOCK UI) ---
 def crawl_dominance_background():
     import requests
@@ -22,6 +107,11 @@ def crawl_dominance_background():
     from datetime import datetime
     file = "dominance_history.csv"
     market_file = "marketcap_history.csv"
+    # One-time bootstrap to DB on thread start
+    try:
+        _db_bootstrap_sync_once()
+    except Exception:
+        pass
     while True:
         try:
             url = "https://api.coingecko.com/api/v3/global"
@@ -41,6 +131,8 @@ def crawl_dominance_background():
             else:
                 df = pd.DataFrame([row])
             df.to_csv(file, index=False)
+            # DB append/upsert for dominance
+            _db_upsert_dominance_row(row)
 
             # Market cap: luôn thêm dòng mới (line chart), volume: chỉ update dòng volume hôm nay (1 cột/ngày)
             mcap = data.get("total_market_cap", {}).get("usd", None)
@@ -57,13 +149,18 @@ def crawl_dominance_background():
                 if today_mask.any():
                     idx = df2[today_mask].index[-1]
                     df2.at[idx, "volume_1d"] = vol
+                    # Reflect this update to DB using same timestamp string
+                    ts_str = df2.loc[idx, "timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+                    _db_upsert_marketcap_row({"timestamp": ts_str, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
                 else:
                     # Nếu chưa có dòng volume cho hôm nay, thêm dòng mới với volume
                     new_row = {"timestamp": now, "market_cap": mcap, "volume_1d": vol}
                     df2 = pd.concat([df2, pd.DataFrame([new_row])], ignore_index=True)
+                    _db_upsert_marketcap_row({"timestamp": now, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
             else:
                 # File chưa tồn tại, tạo dòng đầu tiên với market cap và volume
                 df2 = pd.DataFrame([{"timestamp": now, "market_cap": mcap, "volume_1d": vol}])
+                _db_upsert_marketcap_row({"timestamp": now, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
             df2.to_csv(market_file, index=False)
         except Exception as e:
             pass
@@ -210,6 +307,8 @@ def save_avg_price(avg_price):
     try:
         with open(AVG_PRICE_FILE, "w") as f:
             json.dump(avg_price, f)
+        # Sync to DB KV
+        _db_set_portfolio_meta(avg_price=avg_price)
     except Exception as e:
         st.warning(f"Không thể lưu giá mua trung bình: {e}")
 
@@ -218,6 +317,8 @@ def save_holdings(holdings):
     try:
         with open(DATA_FILE, "w") as f:
             json.dump(holdings, f)
+        # Sync to DB KV
+        _db_set_portfolio_meta(holdings=holdings)
     except Exception as e:
         st.warning(f"Không thể lưu dữ liệu: {e}")
 
@@ -269,6 +370,7 @@ with tab1:
         # Lưu tổng portfolio
         entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
         history.append(entry)
+        new_docs = [entry]
         # Lưu từng coin (dạng flat, mỗi coin 1 entry riêng, có key 'coin')
         for coin in coins:
             coin_value = prices.get(coin, 0.0) * holdings.get(coin, 0.0)
@@ -286,7 +388,13 @@ with tab1:
                     "avg_price": avg_price.get(coin, 0.0)
                 }
                 history.append(coin_entry)
+                new_docs.append(coin_entry)
+        # Save to local and DB
         save_portfolio_history(history)
+        try:
+            _db_upsert_portfolio_docs(new_docs)
+        except Exception:
+            pass
 
 
     # --- Hiển thị tổng giá trị portfolio và thay đổi so với hôm qua ---
@@ -1073,6 +1181,7 @@ def save_avg_price(avg_price):
     try:
         with open(AVG_PRICE_FILE, "w") as f:
             json.dump(avg_price, f)
+        _db_set_portfolio_meta(avg_price=avg_price)
     except Exception as e:
         st.warning(f"Không thể lưu giá mua trung bình: {e}")
 
@@ -1081,6 +1190,7 @@ def save_holdings(holdings):
     try:
         with open(DATA_FILE, "w") as f:
             json.dump(holdings, f)
+        _db_set_portfolio_meta(holdings=holdings)
     except Exception as e:
         st.warning(f"Không thể lưu dữ liệu: {e}")
 

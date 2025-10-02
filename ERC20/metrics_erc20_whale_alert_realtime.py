@@ -7,6 +7,7 @@ from datetime import datetime
 import time
 import json
 import os
+from cloud_db import db
 
 # ERC20 token configs
 LINK_CONTRACT = "0x514910771af9ca656af840dff83e8264ecf986ca"  # Chainlink ERC20
@@ -164,24 +165,12 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
         for token in ERC20_TOKENS:
             try:
                 min_th = resolve_token_min_threshold_units(token)
-                with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                    logf.write(
-                        f"[{datetime.utcnow()}] [SCANNER] Scanning token: {token['name']} | Contract: {token['contract']} | threshold_mode: {token.get('threshold_mode','token')} | min_threshold_token_units: {min_th}\n"
-                    )
+                last_block = load_last_block(token)  # Call load_last_block
                 latest_block_url = f"https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey={api_key}"
                 r = requests.get(latest_block_url, timeout=10)
                 latest_block_data = r.json()
                 latest_block = int(latest_block_data.get("result", "0x0"), 16)
-                block_file = token.get("block_file")
-                if block_file and os.path.exists(block_file):
-                    try:
-                        with open(block_file, "r") as f:
-                            block_info = json.load(f)
-                            last_block = int(block_info.get("last_block", 0))
-                    except Exception:
-                        last_block = 0
-                else:
-                    last_block = 0
+
                 if latest_block > last_block:
                     start_block = last_block + 1
                     end_block = latest_block
@@ -193,16 +182,8 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
                         start_block=start_block,
                         end_block=end_block
                     )
-                    # if token["name"] == "LINK":
-                    #     with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                    #         logf.write(f"[{datetime.utcnow()}] [DEBUG_LINK] DataFrame shape: {df.shape} | Columns: {list(df.columns)}\n")
-                    #         logf.write(f"[{datetime.utcnow()}] [DEBUG_LINK] DataFrame head:\n{df.head(5).to_json()}\n")
-                    history = []
-                    whale_count = 0
-                    min_scanned_block = end_block
+                    history = load_whale_history(token)  # Call load_whale_history
                     if not df.empty:
-                        whale_count = len(df)
-                        first_row_logged = False
                         for _, row in df.iterrows():
                             history.append({
                                 "hash": row.get("hash", ""),
@@ -215,24 +196,15 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
                                 "time": str(row.get("time", "")),
                                 "blockNumber": row.get("blockNumber", None)
                             })
-                    #     if token["name"] == "LINK":
-                    #         with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                    #             logf.write(f"[{datetime.utcnow()}] [DEBUG_LINK] History to save: {json.dumps(history, ensure_ascii=False)}\n")
-                    with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                        logf.write(f"[{datetime.utcnow()}] [SCANNER] Token: {token['name']} | Whale txs found: {whale_count} | Blocks scanned: {start_block} to {end_block}\n")
                     save_token_whale_history(token, history)
-                    with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                        logf.write(f"[{datetime.utcnow()}] [SCANNER] History file updated for {token['name']} | Total txs saved: {len(history)} | Types: {[tx.get('type') for tx in history]}\n")
+                    _log(token, f"Token: {token['name']} | Whale txs found: {len(df)} | Blocks scanned: {start_block} to {end_block}")  # Call _log
                     save_token_last_block(token, end_block)
                 else:
-                    with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                        logf.write(f"[{datetime.utcnow()}] [SCANNER] No new block for token {token['name']}. Latest block: {latest_block}, Last scanned: {last_block}\n")
+                    _log(token, f"No new block for token {token['name']}. Latest block: {latest_block}, Last scanned: {last_block}")
             except Exception as e:
-                with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-                    logf.write(f"[{datetime.utcnow()}] Error scanning token {token['name']}: {str(e)}\n")
+                _log(token, f"Error scanning token {token['name']}: {str(e)}")
     except Exception as e:
-        with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-            logf.write(f"[{datetime.utcnow()}] FATAL error in background_erc20_whale_alert_scanner: {str(e)}\n")
+        _log({"name": "GENERAL"}, f"FATAL error in background_erc20_whale_alert_scanner: {str(e)}")
 
 # Start background scanner thread on import (only once)
 if '_erc20_whale_scanner_started' not in globals():
@@ -294,3 +266,67 @@ def show_erc20_whale_alert_realtime(token, api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3
     except Exception as e:
         box_content += f"<div style='color:#c00;'>Không thể lấy dữ liệu whale alert từ Etherscan: {str(e)}</div>"
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
+
+def load_whale_history(token):
+    # Prefer cloud DB if available
+    local_history = []
+    if os.path.exists(token["history_file"]):
+        with open(token["history_file"], "r") as f:
+            local_history = json.load(f)
+
+    if db.available():
+        # Lấy dữ liệu từ database
+        db_history = db.find_all(f"{token['name'].lower()}_whale_history", sort_field="time", ascending=True)
+        db_hashes = {d.get("hash") for d in db_history if isinstance(d, dict) and "hash" in d}
+
+        # Gộp dữ liệu từ file local vào database
+        new_entries = [entry for entry in local_history if entry.get("hash") not in db_hashes]
+        if new_entries:
+            db.upsert_many(f"{token['name'].lower()}_whale_history", new_entries, unique_keys=["hash"])
+            print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+
+        # Trả về dữ liệu đã gộp
+        return db.find_all(f"{token['name'].lower()}_whale_history", sort_field="time", ascending=True)
+
+    # Nếu database không khả dụng, trả về dữ liệu từ file local
+    return local_history
+
+def load_last_block(token):
+    # Giá trị từ file local
+    local_last_block = None
+    if os.path.exists(token["block_file"]):
+        with open(token["block_file"], "r") as f:
+            data = json.load(f)
+            local_last_block = data.get("last_block", None)
+
+    if db.available():
+        # Giá trị từ database
+        kv = db.get_kv(f"{token['name'].lower()}_meta", "last_block")
+        db_last_block = kv.get("last_block") if kv and isinstance(kv, dict) else None
+
+        # Gộp giá trị từ file local vào database nếu cần
+        if local_last_block and (db_last_block is None or local_last_block > db_last_block):
+            db.set_kv(f"{token['name'].lower()}_meta", "last_block", {"last_block": local_last_block})
+            print(f"Gộp giá trị last_block {local_last_block} từ file local vào database.")
+
+        # Trả về giá trị từ database
+        return db.get_kv(f"{token['name'].lower()}_meta", "last_block").get("last_block")
+
+    # Nếu database không khả dụng, trả về giá trị từ file local
+    return local_last_block
+
+def _log(token, msg: str):
+    try:
+        line = f"[{datetime.utcnow()}] {msg}"
+        log_file = f"{token['name'].lower()}_whale_scanner.log"
+        with open(log_file, "a", encoding="utf-8") as logf:
+            logf.write(line + "\n")
+
+        if db.available():
+            # Gộp log từ file local vào database
+            with open(log_file, "r", encoding="utf-8") as logf:
+                local_logs = [{"ts": datetime.utcnow().isoformat(), "line": line.strip()} for line in logf]
+            db.insert_many(f"{token['name'].lower()}_logs", local_logs)
+            print(f"Gộp {len(local_logs)} log từ file local vào database.")
+    except Exception:
+        pass
