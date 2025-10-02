@@ -27,12 +27,10 @@ EXCHANGE_WALLETS = {
     # Gate
     "Gate": [
         "GQ1r8r1Q1r8r1Q1r8r1Q1r8r1Q1r8r1Q1r8r1Q1r8r1Q1r8r1"  # ví mẫu
+        "ASTyfSima4LLAdDgoFGkgqoKowG1LZFDr9fAQrg7iaJZ"
     ]
     ,
-    # Fireblocks Custody (ví lưu ký)
-    "FireblocksCustody": [
-        "GJFXMTxWdT4uWPXon1d9rJmx4U6NWbeaneh8uhVArVfP"
-    ],
+
     # Wintermute (imported from CSV)
     "Exchange": [
         "u6PJ8DtQuPFnfmwHbGFULQ4u4EgjDiyYKjVEsynXq2w",
@@ -54,7 +52,8 @@ EXCHANGE_WALLETS = {
         "fr6yQkDmWy6R6pecbUsxXaw6EvRJznZ2HsK5frQgud8",
         "3huamNpghPSPbgQSLX56B18Sj1hq5SE4KGxwTvhwJGnC",
         "9obNtb5GyUegcs3a1CbBkLuc5hEWynWfJC6gjz5uWQkE",
-        "GJRs4FwHtemZ5ZE9x3FNvJ8TMwitKTh21yxdRPqn7npE"
+        "GJRs4FwHtemZ5ZE9x3FNvJ8TMwitKTh21yxdRPqn7npE",
+        "2bXv6v4g7k3i5cU8m3F6n1Z1J1r8r1Q1r8r1Q1r8r1Q1r8r"  # ví mẫu
     ]
 }
 
@@ -64,7 +63,10 @@ ORG_WALLETS = {
     # Wintermute
     "Wintermute": [
         "3ADzk5YDP9sgorvPSs9YPxigJiSqhgddpwHwwPwmEFib"
-    ]
+    ],
+    "FireblocksCustody": [
+        "GJFXMTxWdT4uWPXon1d9rJmx4U6NWbeaneh8uhVArVfP"
+    ],
 }
 
 # Tập hợp tất cả ví sàn (CEX/Dex/lưu ký) để phân loại mua/bán

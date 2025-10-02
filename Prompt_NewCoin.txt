@@ -1,0 +1,40 @@
+Gợi ý Prompt mẫu để thêm coin mới
+Dùng prompt này khi bạn muốn thêm một coin khác vào chương trình (chỉ cần thay chỗ ngoặc vuông):
+
+Ngữ cảnh:
+
+Framework: Streamlit + Plotly
+Nguồn giá/volume/oi: OKX (symbol: [SYMBOL]-USDT-SWAP)
+On-chain metrics: Coin Metrics community API (asset id: [CM_ASSET_ID])
+Whale Alert (tùy chọn):
+BTC/SOL/BNB: module riêng
+ERC20 (ETH, LINK…): dùng module ERC20 chung + contract
+Yêu cầu:
+
+Thêm coin [COINGECKO_ID], hiển thị tên rút gọn [TICKER] vào COIN_LIST trong Crypto2025.py, đảm bảo có tab riêng y hệt coin khác.
+Cập nhật metrics_onchain_cm.py để map [COINGECKO_ID] -> [CM_ASSET_ID].
+Kiểm tra OKX symbol: [TICKER]-USDT-SWAP (nếu khác, thêm xử lý mapping riêng).
+Bật đầy đủ tính năng:
+Chart Portfolio coin
+Giá & Volume OKX (5m/15m/30m/1H)
+Liquidation heatmap
+On-chain metrics (Coin Metrics)
+(Tùy chọn Whale Alert)
+Nếu là ERC20: thêm vào ERC20_TOKENS (name, contract, history_file, block_file, min_value_token, coingecko_id).
+Nếu là L1 (không ERC20): tạo module metrics_[chain]_whale_alert_realtime.py tương tự BTC/BNB/SOL, với:
+Lưu *_whale_alert_history.json, *_whale_last_block.json, *_whale_user_seen_block.json
+Hàm load_whale_history(), show_[chain]_whale_alert_realtime(), mark_*_seen(), và background scanner
+Overlay markers qua overlay_whale_alert_chart(...) trong Crypto2025.py.
+Đảm bảo data.json và avg_price.json tự thêm key mới = 0.0 nếu thiếu.
+Commit code kèm message: feat([TICKER]): add [Name] tab and on-chain mapping
+Điền thông tin:
+
+[COINGECKO_ID] = ví dụ “cardano”
+[TICKER] = ví dụ “ADA”
+[CM_ASSET_ID] = ví dụ “ada”
+[SYMBOL] = ví dụ “ADA” (OKX dùng TICKER)
+Nếu ERC20:
+contract = [0x...]
+min_value_token = [ngưỡng]
+files = [xxx_history.json], [xxx_last_block.json]
+Nếu L1: Chọn API khối/tx phù hợp (chain explorer hoặc RPC), ngưỡng Whale theo đơn vị native.
