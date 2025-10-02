@@ -352,8 +352,8 @@ if "_portfolio_recorder" not in st.session_state:
 
 
 
-# Hàm lấy giá và % thay đổi từ CoinGecko, cache 60s
-@st.cache_data(ttl=1200, show_spinner=False)
+# Hàm lấy giá và % thay đổi từ CoinGecko, cache ngắn để cập nhật thường xuyên
+@st.cache_data(ttl=60, show_spinner=False)
 def get_prices_and_changes(coins):
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
@@ -483,10 +483,28 @@ with tab1:
 
     if "coingecko_429" not in st.session_state:
         st.session_state["coingecko_429"] = False
+    # Nút làm mới giá để bỏ qua cache ngay lập tức
+    refresh_now = st.button("Làm mới giá (bỏ qua cache)", key="refresh_prices")
+    if refresh_now:
+        try:
+            st.cache_data.clear()
+        except Exception:
+            pass
     price_data = get_prices_and_changes(coins)
     if st.session_state["coingecko_429"]:
         st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
         st.session_state["coingecko_429"] = False
+    # Cơ chế tự động làm mới dữ liệu khi người dùng tương tác (ticker nhẹ)
+    _ = st.empty()
+    # Chèn một khóa phụ thuộc vào thời gian để streamlit nhận biết cần re-run, không ảnh hưởng hiệu năng
+    st.session_state.setdefault("_last_price_refresh", 0)
+    if (int(time.time()) - st.session_state["_last_price_refresh"]) > 65:
+        try:
+            st.cache_data.clear()
+        except Exception:
+            pass
+        st.session_state["_last_price_refresh"] = int(time.time())
+        price_data = get_prices_and_changes(coins)
     prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
 
     now = int(time.time())

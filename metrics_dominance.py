@@ -82,7 +82,7 @@ def show_dominance_metric():
                     ts = pd.to_datetime(s, unit="s", errors="coerce")
                 return ts
             # String mixed formats
-            return pd.to_datetime(s, errors="coerce", utc=False, infer_datetime_format=True)
+            return pd.to_datetime(s, errors="coerce", utc=False)
 
         df["timestamp"] = _parse_ts(df["timestamp"])  # Đảm bảo đúng kiểu datetime, coerce lỗi
         df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
