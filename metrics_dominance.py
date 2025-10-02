@@ -69,12 +69,23 @@ def show_dominance_metric():
     # Ưu tiên đọc file CSV nếu có
     import os
     if os.path.exists("dominance_history.csv"):
-        df = pd.read_csv("dominance_history.csv", parse_dates=["timestamp"])
-        df["timestamp"] = pd.to_datetime(df["timestamp"])  # Đảm bảo đúng kiểu datetime
-        df = df.sort_values("timestamp")
-        # df = pd.read_csv("dominance_history.csv")
-        # df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")  # Bỏ qua giá trị lỗi
-        # df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
+        # Đọc và parse timestamp một cách an toàn cho mọi định dạng
+        df = pd.read_csv("dominance_history.csv")
+        # Hàm parse linh hoạt (string/numeric/datetime) và bỏ qua giá trị lỗi
+        def _parse_ts(s: pd.Series) -> pd.Series:
+            if pd.api.types.is_datetime64_any_dtype(s):
+                return s
+            if pd.api.types.is_numeric_dtype(s):
+                # Thử ms trước, sau đó s
+                ts = pd.to_datetime(s, unit="ms", errors="coerce")
+                if ts.isna().all():
+                    ts = pd.to_datetime(s, unit="s", errors="coerce")
+                return ts
+            # String mixed formats
+            return pd.to_datetime(s, errors="coerce", utc=False, infer_datetime_format=True)
+
+        df["timestamp"] = _parse_ts(df["timestamp"])  # Đảm bảo đúng kiểu datetime, coerce lỗi
+        df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
         # Nếu dữ liệu có theo giờ, lọc theo giờ, nếu chỉ có ngày thì vẫn hoạt động bình thường
         min_time = pd.Timestamp.now() - pd.Timedelta(days=days)
         df = df[df["timestamp"] >= min_time]

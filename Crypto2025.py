@@ -115,7 +115,7 @@ def crawl_dominance_background():
     while True:
         try:
             url = "https://api.coingecko.com/api/v3/global"
-            response = requests.get(url, timeout=10)
+            response = requests.get(url, timeout=15)
             data = response.json()["data"]
             # Dominance
             dom = data["market_cap_percentage"]
@@ -163,7 +163,8 @@ def crawl_dominance_background():
                 _db_upsert_marketcap_row({"timestamp": now, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
             df2.to_csv(market_file, index=False)
         except Exception as e:
-            pass
+            # swallow and retry later
+            time.sleep(5)
         time.sleep(300)  # 300 giây = 5 phút
 
 # Khởi động thread crawl dominance khi chạy app
@@ -213,10 +214,148 @@ selected_coin_names = st.multiselect(
 )
 coins = [coin_name_to_id[name] for name in selected_coin_names]
 
+"""
+Các hằng số file lưu trữ cần được định nghĩa TRƯỚC khi khởi chạy thread nền
+để tránh NameError trong các hàm background.
+"""
+# Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
+DATA_FILE = "data.json"
+AVG_PRICE_FILE = "avg_price.json"
+HISTORY_FILE = "portfolio_history.json"
+
+
+# --- Nền: Ghi nhận Portfolio (Value/PNL/% P&L) theo phút, đồng bộ DB liên tục ---
+def _fetch_prices_raw(coins_list: list[str]) -> dict:
+    """Fetch current prices for given CoinGecko ids without Streamlit cache (for background thread)."""
+    if not coins_list:
+        return {}
+    url = "https://api.coingecko.com/api/v3/coins/markets"
+    params = {
+        "vs_currency": "usd",
+        "ids": ",".join(coins_list),
+        "price_change_percentage": "1h,24h,7d,30d"
+    }
+    try:
+        r = requests.get(url, params=params, timeout=15)
+        r.raise_for_status()
+        data = r.json()
+    except Exception:
+        data = []
+    prices = {}
+    for item in data:
+        try:
+            prices[item.get("id")] = float(item.get("current_price", 0) or 0)
+        except Exception:
+            prices[item.get("id")] = 0.0
+    return prices
+
+
+def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
+    """Load holdings and avg_price from local files with fallbacks for missing keys."""
+    try:
+        with open(DATA_FILE, "r") as f:
+            holdings = json.load(f)
+    except Exception:
+        holdings = {}
+    try:
+        with open(AVG_PRICE_FILE, "r") as f:
+            avg_price_local = json.load(f)
+    except Exception:
+        avg_price_local = {}
+    # Ensure all keys exist
+    for c in coin_ids:
+        holdings.setdefault(c, 0.0)
+        avg_price_local.setdefault(c, 0.0)
+    return holdings, avg_price_local
+
+
+def portfolio_recorder_background(interval_sec: int = 60):
+    """Background loop to record portfolio totals and per-coin PNL every minute and upsert to DB.
+
+    - Reads holdings/avg_price from local files (already synced to DB on edits)
+    - Fetches prices from CoinGecko
+    - Appends to portfolio_history.json (local) and upserts to MongoDB
+    """
+    history_file = HISTORY_FILE
+    while True:
+        try:
+            holdings, avg_price_local = _load_portfolio_meta_from_local()
+            # Consider coins with non-zero amount or avg to reduce API load
+            active_coins = [c for c in coin_ids if (holdings.get(c, 0) != 0 or avg_price_local.get(c, 0) != 0)]
+            if not active_coins:
+                time.sleep(interval_sec)
+                continue
+            prices = _fetch_prices_raw(active_coins)
+            now = int(time.time())
+            minute_ts = (now // 60) * 60
+
+            # Compute totals
+            portfolio_value = sum(prices.get(c, 0.0) * float(holdings.get(c, 0.0)) for c in active_coins)
+            total_invested = sum(float(avg_price_local.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
+            current_pnl = portfolio_value - total_invested
+
+            # Build docs for DB and local history
+            docs = []
+            total_entry = {"timestamp": minute_ts, "value": portfolio_value, "PNL": current_pnl}
+            docs.append(total_entry)
+            for c in active_coins:
+                amount = float(holdings.get(c, 0.0))
+                if amount == 0 and float(avg_price_local.get(c, 0.0)) == 0:
+                    continue
+                price = float(prices.get(c, 0.0))
+                val = amount * price
+                if val <= 0 and amount == 0:
+                    continue
+                invested = amount * float(avg_price_local.get(c, 0.0))
+                coin_doc = {
+                    "timestamp": minute_ts,
+                    "coin": c,
+                    "value": val,
+                    "invested": invested,
+                    "PNL": val - invested,
+                    "amount": amount,
+                    "avg_price": float(avg_price_local.get(c, 0.0))
+                }
+                docs.append(coin_doc)
+
+            # Local file: append if newer than last minute recorded
+            try:
+                existing = []
+                if os.path.exists(history_file):
+                    with open(history_file, "r") as f:
+                        existing = json.load(f)
+                # Avoid duplicate total record for the same minute
+                has_same_minute = any((d.get("timestamp") == minute_ts and "coin" not in d) for d in existing)
+                if not has_same_minute:
+                    existing.extend(docs)
+                    with open(history_file, "w") as f:
+                        json.dump(existing, f)
+            except Exception:
+                pass
+
+            # DB upsert
+            try:
+                _db_upsert_portfolio_docs(docs)
+            except Exception:
+                pass
+        except Exception:
+            pass
+        time.sleep(interval_sec)
+
+
+# Start background portfolio recorder once
+if "_portfolio_recorder" not in st.session_state:
+    try:
+        t = threading.Thread(target=portfolio_recorder_background, kwargs={"interval_sec": 60}, daemon=True)
+        t.start()
+    except Exception:
+        pass
+    st.session_state["_portfolio_recorder"] = True
+
 
 
 # Hàm lấy giá và % thay đổi từ CoinGecko, cache 60s
-@st.cache_data(ttl=600, show_spinner=False)
+@st.cache_data(ttl=1200, show_spinner=False)
 def get_prices_and_changes(coins):
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
@@ -248,14 +387,6 @@ def get_prices_and_changes(coins):
             "image": item.get("image", "")
         }
     return result
-
-
-
-
-# Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
-DATA_FILE = "data.json"
-AVG_PRICE_FILE = "avg_price.json"
-HISTORY_FILE = "portfolio_history.json"
 
 # Hàm load lịch sử portfolio
 def load_portfolio_history():
@@ -1127,10 +1258,6 @@ st_autorefresh = getattr(st, "autorefresh", None)
 if st_autorefresh:
     st_autorefresh(interval=60 * 1000, key="refresh")  # 1 phút
 
-# Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
-DATA_FILE = "data.json"
-AVG_PRICE_FILE = "avg_price.json"
-HISTORY_FILE = "portfolio_history.json"
 # Hàm load lịch sử portfolio
 def load_portfolio_history():
     if os.path.exists(HISTORY_FILE):
