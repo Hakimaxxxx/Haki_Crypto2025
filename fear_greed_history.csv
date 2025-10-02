@@ -1,7 +1,4 @@
 value,value_classification,timestamp,time_until_update
-54,Neutral,2024-08-25,
-55,Greed,2024-08-26,
-48,Neutral,2024-08-27,
 30,Fear,2024-08-28,
 29,Fear,2024-08-29,
 34,Fear,2024-08-30,
@@ -398,4 +395,7 @@ value,value_classification,timestamp,time_until_update
 28,Fear,2025-09-26,
 33,Fear,2025-09-27,
 37,Fear,2025-09-28,
-50,Neutral,2025-09-29,20662
+50,Neutral,2025-09-29,
+50,Neutral,2025-09-30,
+49,Neutral,2025-10-01,
+64,Greed,2025-10-02,76089

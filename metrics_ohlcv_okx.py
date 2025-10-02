@@ -71,7 +71,8 @@ def fetch_okx_ohlcv_oi(symbol="BTC-USDT-SWAP", bar="1h", limit=200):
         "timestamp": "int64", "open": "float", "high": "float", "low": "float", "close": "float",
         "volume": "float"
     })
-    df["datetime"] = pd.to_datetime(df["timestamp"], unit="ms")
+    # Make timezone explicit (UTC) to avoid mixing naive and tz-aware datetimes later
+    df["datetime"] = pd.to_datetime(df["timestamp"], unit="ms", utc=True)
     df = df.sort_values("datetime")
     return df
 
@@ -84,7 +85,7 @@ def plot_price_volume_chart(df, symbol="BTC-USDT-SWAP"):
     fig.add_trace(go.Bar(x=df["datetime"], y=df["volume"], name="Volume", yaxis="y2", marker_color="orange", opacity=0.4))
     fig.update_layout(
         title=f"Giá & Volume ({symbol})",
-        xaxis=dict(title="Thời gian"),
+        xaxis=dict(title="Thời gian (UTC)"),
         yaxis=dict(title="Giá đóng cửa", side="left"),
         yaxis2=dict(title="Volume", overlaying="y", side="right", showgrid=False),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
