@@ -53,49 +53,54 @@ def _db_upsert_marketcap_row(row: dict):
         pass
 
 def _db_bootstrap_sync_once():
-    """One-time backfill from local files/CSVs into DB (idempotent)."""
+    """One-time bootstrap from Cloud DB to local files (prefer cloud as source of truth).
+
+    If cloud has data, write it down to local JSON/CSV before we start recording new logs.
+    """
     try:
         if not db.available():
             return
-        # Portfolio meta
+        # 1) Portfolio meta (holdings, avg_price)
         try:
-            if os.path.exists("data.json"):
-                with open("data.json", "r") as f:
-                    _db_set_portfolio_meta(holdings=json.load(f))
-            if os.path.exists("avg_price.json"):
-                with open("avg_price.json", "r") as f:
-                    _db_set_portfolio_meta(avg_price=json.load(f))
+            kv_hold = db.get_kv("portfolio_meta", "holdings") or {}
+            kv_avg = db.get_kv("portfolio_meta", "avg_price") or {}
+            if kv_hold:
+                try:
+                    with open("data.json", "w") as f:
+                        json.dump(kv_hold, f)
+                except Exception:
+                    pass
+            if kv_avg:
+                try:
+                    with open("avg_price.json", "w") as f:
+                        json.dump(kv_avg, f)
+                except Exception:
+                    pass
         except Exception:
             pass
-        # Portfolio history
+        # 2) Portfolio history
         try:
-            if os.path.exists("portfolio_history.json"):
-                with open("portfolio_history.json", "r") as f:
-                    hist = json.load(f)
-                if isinstance(hist, list) and hist:
-                    _db_upsert_portfolio_docs(hist)
+            hist_docs = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
+            if hist_docs:
+                try:
+                    with open("portfolio_history.json", "w") as f:
+                        json.dump(hist_docs, f)
+                except Exception:
+                    pass
         except Exception:
             pass
-        # Dominance history
-        try:
-            if os.path.exists("dominance_history.csv"):
-                df = pd.read_csv("dominance_history.csv")
-                recs = df.to_dict(orient="records")
-                for r in recs:
-                    _db_upsert_dominance_row(r)
-        except Exception:
-            pass
-        # Marketcap history
-        try:
-            if os.path.exists("marketcap_history.csv"):
-                df = pd.read_csv("marketcap_history.csv")
-                recs = df.to_dict(orient="records")
-                for r in recs:
-                    _db_upsert_marketcap_row(r)
-        except Exception:
-            pass
+        # (Optional) Dominance & Marketcap history
+        # We keep DB as source but don't overwrite local CSVs here to avoid format issues.
     except Exception:
         pass
+
+# Ensure we always load data from Cloud DB first before any logging threads or UI reads
+try:
+    if "_bootstrapped_from_cloud" not in st.session_state:
+        _db_bootstrap_sync_once()
+        st.session_state["_bootstrapped_from_cloud"] = True
+except Exception:
+    pass
 
 
 # --- TỰ ĐỘNG CRAWL DOMINANCE MỖI PHÚT (KHÔNG BLOCK UI) ---
@@ -267,7 +272,7 @@ def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
     return holdings, avg_price_local
 
 
-def portfolio_recorder_background(interval_sec: int = 200):
+def portfolio_recorder_background(interval_sec: int = 300):
     """Background loop to record portfolio totals and per-coin PNL every minute and upsert to DB.
 
     - Reads holdings/avg_price from local files (already synced to DB on edits)
@@ -284,13 +289,28 @@ def portfolio_recorder_background(interval_sec: int = 200):
                 time.sleep(interval_sec)
                 continue
             prices = _fetch_prices_raw(active_coins)
+            # Guard: if API failed (no prices), skip this round
+            if not prices:
+                time.sleep(interval_sec)
+                continue
             now = int(time.time())
             minute_ts = (now // 60) * 60
 
             # Compute totals
-            portfolio_value = sum(prices.get(c, 0.0) * float(holdings.get(c, 0.0)) for c in active_coins)
+            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
             total_invested = sum(float(avg_price_local.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
             current_pnl = portfolio_value - total_invested
+
+            # Noise filter: skip invalid snapshots
+            # - portfolio_value < 0 (invalid)
+            # - portfolio_value == 0 with non-zero holdings indicates price fetch failure
+            has_holdings = any(float(holdings.get(c, 0.0)) != 0 for c in active_coins)
+            if portfolio_value < 0:
+                time.sleep(interval_sec)
+                continue
+            if has_holdings and portfolio_value == 0:
+                time.sleep(interval_sec)
+                continue
 
             # Build docs for DB and local history
             docs = []
@@ -508,13 +528,16 @@ with tab1:
     prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
 
     now = int(time.time())
-    portfolio_value = sum(prices[c] * holdings.get(c, 0.0) for c in coins)
+    portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
     total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
     current_pnl = portfolio_value - total_invested_now
     history = load_portfolio_history()
     # --- Lưu lịch sử tổng và từng coin ---
     # Lưu mỗi phút 1 lần (theo timestamp phút), chỉ lưu nếu portfolio_value > 0 (có data hợp lệ)
-    if portfolio_value > 0 and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
+    # Noise filter for UI-side logging as well
+    has_holdings_any = any(float(holdings.get(c, 0.0)) != 0 for c in coins)
+    valid_snapshot = (portfolio_value >= 0) and (not has_holdings_any or portfolio_value > 0)
+    if valid_snapshot and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
         # Lưu tổng portfolio
         entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
         history.append(entry)
@@ -538,6 +561,7 @@ with tab1:
                 history.append(coin_entry)
                 new_docs.append(coin_entry)
         # Save to local and DB
+        # Only persist if snapshot still valid (avoid writing noise)
         save_portfolio_history(history)
         try:
             _db_upsert_portfolio_docs(new_docs)
