@@ -3823,3 +3823,6 @@
 2025-10-03 01:48:28,458 - ERROR - API returned error for block 63242033: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
 2025-10-03 01:48:28,458 - ERROR - Error processing block 63242033: API error: Unknown error
 2025-10-03 01:48:53,067 - INFO - Block scan completed and history updated.
+2025-10-03 02:25:06,106 - INFO - Starting block scan...
+2025-10-03 02:25:08,315 - INFO - Latest block number: 63245361
+2025-10-03 02:25:08,316 - INFO - Scanning blocks from 63245361 to 63245262

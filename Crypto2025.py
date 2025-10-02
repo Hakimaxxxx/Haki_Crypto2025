@@ -214,10 +214,8 @@ selected_coin_names = st.multiselect(
 )
 coins = [coin_name_to_id[name] for name in selected_coin_names]
 
-"""
-Các hằng số file lưu trữ cần được định nghĩa TRƯỚC khi khởi chạy thread nền
-để tránh NameError trong các hàm background.
-"""
+# Lưu ý: Các hằng số file lưu trữ cần được định nghĩa TRƯỚC khi khởi chạy thread nền
+# để tránh NameError trong các hàm background.
 # Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
 DATA_FILE = "data.json"
 AVG_PRICE_FILE = "avg_price.json"
@@ -269,7 +267,7 @@ def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
     return holdings, avg_price_local
 
 
-def portfolio_recorder_background(interval_sec: int = 60):
+def portfolio_recorder_background(interval_sec: int = 200):
     """Background loop to record portfolio totals and per-coin PNL every minute and upsert to DB.
 
     - Reads holdings/avg_price from local files (already synced to DB on edits)

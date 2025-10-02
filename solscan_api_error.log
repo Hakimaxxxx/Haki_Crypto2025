@@ -1,802 +1,182 @@
-[block 370754331] 2025-10-02 18:43:20.488164 | num_txs: 1480 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 115.39
-[block 370754330] 2025-10-02 18:43:21.999369 | num_txs: 1491 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 142.32
-[block 370754329] 2025-10-02 18:43:23.611267 | num_txs: 1471 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 160.96
-[block 370754328] 2025-10-02 18:43:25.441873 | num_txs: 1688 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 269.99
-[fetch_block_transactions] 2025-10-02 18:43:26.743121 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754327] 2025-10-02 18:43:26.752130 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:27.782901 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754326] 2025-10-02 18:43:27.796919 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:29.401959 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754325] 2025-10-02 18:43:29.404957 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:30.421286 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754324] 2025-10-02 18:43:30.424281 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:31.417771 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754323] 2025-10-02 18:43:31.421766 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:32.532511 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754322] 2025-10-02 18:43:32.534526 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:33.489188 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754321] 2025-10-02 18:43:33.496194 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:34.430190 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754320] 2025-10-02 18:43:34.432188 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:35.459880 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754319] 2025-10-02 18:43:35.461877 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:36.418667 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754318] 2025-10-02 18:43:36.420664 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:37.375114 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754317] 2025-10-02 18:43:37.377115 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:38.367800 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754316] 2025-10-02 18:43:38.371778 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:39.877765 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754315] 2025-10-02 18:43:39.881763 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:40.980129 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754314] 2025-10-02 18:43:40.982128 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:42.218510 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754313] 2025-10-02 18:43:42.221508 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:44.153512 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754312] 2025-10-02 18:43:44.156510 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:45.796564 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754311] 2025-10-02 18:43:45.800561 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:47.329679 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754310] 2025-10-02 18:43:47.332677 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:50.013171 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754309] 2025-10-02 18:43:50.017168 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:50.848847 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754308] 2025-10-02 18:43:50.850844 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:51.801018 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754307] 2025-10-02 18:43:51.803039 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:52.856086 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754306] 2025-10-02 18:43:52.858086 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:53.760857 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754305] 2025-10-02 18:43:53.762839 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:54.756105 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754304] 2025-10-02 18:43:54.759102 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:55.714583 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754303] 2025-10-02 18:43:55.716596 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:56.992949 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754302] 2025-10-02 18:43:56.994948 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:57.901235 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754301] 2025-10-02 18:43:57.904233 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:43:58.986397 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754300] 2025-10-02 18:43:58.989403 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:00.984298 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754299] 2025-10-02 18:44:00.988295 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:01.865928 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754298] 2025-10-02 18:44:01.872921 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:02.865578 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754297] 2025-10-02 18:44:02.871580 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:04.051435 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754296] 2025-10-02 18:44:04.054432 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:05.269730 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754295] 2025-10-02 18:44:05.272730 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:06.743880 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754294] 2025-10-02 18:44:06.747878 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:07.673344 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754293] 2025-10-02 18:44:07.675343 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:09.067538 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754292] 2025-10-02 18:44:09.069537 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:10.248856 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754291] 2025-10-02 18:44:10.252853 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:11.749565 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754290] 2025-10-02 18:44:11.753562 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:13.156751 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754289] 2025-10-02 18:44:13.160747 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:14.335491 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754288] 2025-10-02 18:44:14.337492 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:15.849100 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754287] 2025-10-02 18:44:15.853096 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:16.923960 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754286] 2025-10-02 18:44:16.927958 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:18.321153 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754285] 2025-10-02 18:44:18.324152 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:19.524460 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754284] 2025-10-02 18:44:19.527456 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:20.870680 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754283] 2025-10-02 18:44:20.873678 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:22.311184 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754282] 2025-10-02 18:44:22.314182 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:23.516487 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754281] 2025-10-02 18:44:23.520485 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:24.623849 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754280] 2025-10-02 18:44:24.626845 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:25.885577 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754279] 2025-10-02 18:44:25.889574 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:27.457668 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754278] 2025-10-02 18:44:27.460665 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:28.982787 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754277] 2025-10-02 18:44:29.009771 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:30.446942 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754276] 2025-10-02 18:44:30.450939 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:31.872120 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754275] 2025-10-02 18:44:31.875116 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:33.010461 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754274] 2025-10-02 18:44:33.012459 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:34.181783 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754273] 2025-10-02 18:44:34.185782 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:35.465889 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754272] 2025-10-02 18:44:35.469887 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:37.057969 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754271] 2025-10-02 18:44:37.060967 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:38.519126 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754270] 2025-10-02 18:44:38.523123 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:40.108208 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754269] 2025-10-02 18:44:40.112206 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:41.747262 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754268] 2025-10-02 18:44:41.749260 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:43.214413 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754267] 2025-10-02 18:44:43.217412 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:44.443264 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754266] 2025-10-02 18:44:44.447261 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:45.862444 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754265] 2025-10-02 18:44:45.866441 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:46.914835 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754264] 2025-10-02 18:44:46.920833 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:48.578874 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754263] 2025-10-02 18:44:48.582873 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:50.241915 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754262] 2025-10-02 18:44:50.245912 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:51.961922 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754261] 2025-10-02 18:44:51.966919 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:53.171223 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754260] 2025-10-02 18:44:53.173222 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:54.495688 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754259] 2025-10-02 18:44:54.502684 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:55.798951 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754258] 2025-10-02 18:44:55.802950 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:57.213134 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754257] 2025-10-02 18:44:57.217132 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:58.320496 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754256] 2025-10-02 18:44:58.324493 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:44:59.830622 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754255] 2025-10-02 18:44:59.832621 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:01.161853 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754254] 2025-10-02 18:45:01.165852 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:02.477095 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754253] 2025-10-02 18:45:02.479092 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:03.913720 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754252] 2025-10-02 18:45:03.916716 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:05.223105 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754251] 2025-10-02 18:45:05.242094 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:06.488672 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754250] 2025-10-02 18:45:06.495668 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:07.644634 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754249] 2025-10-02 18:45:07.647634 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:08.949881 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754248] 2025-10-02 18:45:08.952880 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:10.066238 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754247] 2025-10-02 18:45:10.069233 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:11.307519 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754246] 2025-10-02 18:45:11.312516 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:12.687446 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754245] 2025-10-02 18:45:12.690444 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:14.180586 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754244] 2025-10-02 18:45:14.184582 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:15.543798 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754243] 2025-10-02 18:45:15.547793 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:16.679127 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754242] 2025-10-02 18:45:16.681125 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:17.732643 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754241] 2025-10-02 18:45:17.734641 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:18.582925 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754240] 2025-10-02 18:45:18.589924 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:19.558333 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754239] 2025-10-02 18:45:19.560332 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:20.449280 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754238] 2025-10-02 18:45:20.451277 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:21.387238 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754237] 2025-10-02 18:45:21.390249 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:22.312525 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754236] 2025-10-02 18:45:22.314513 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:23.163656 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754235] 2025-10-02 18:45:23.166654 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:24.465905 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754234] 2025-10-02 18:45:24.468902 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:25.771149 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754233] 2025-10-02 18:45:25.775147 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:26.833537 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754232] 2025-10-02 18:45:26.837536 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:28.049833 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754231] 2025-10-02 18:45:28.053831 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:29.986715 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754230] 2025-10-02 18:45:29.989714 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:31.424885 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754229] 2025-10-02 18:45:31.427883 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:32.569225 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754228] 2025-10-02 18:45:32.573223 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:33.581639 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754227] 2025-10-02 18:45:33.584636 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:34.672009 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754226] 2025-10-02 18:45:34.676006 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:35.680428 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754225] 2025-10-02 18:45:35.683425 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:37.000665 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754224] 2025-10-02 18:45:37.004661 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:37.995091 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754223] 2025-10-02 18:45:37.997088 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:39.372295 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754222] 2025-10-02 18:45:39.375300 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:40.481655 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754221] 2025-10-02 18:45:40.485652 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:41.374567 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754220] 2025-10-02 18:45:41.383556 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:42.261012 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754219] 2025-10-02 18:45:42.263011 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:43.130136 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754218] 2025-10-02 18:45:43.134121 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:44.490974 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754217] 2025-10-02 18:45:44.493971 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:45.924145 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754216] 2025-10-02 18:45:45.927146 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:47.143015 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754215] 2025-10-02 18:45:47.145016 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:48.134444 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754214] 2025-10-02 18:45:48.137440 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:49.569615 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754213] 2025-10-02 18:45:49.573611 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:50.694143 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754212] 2025-10-02 18:45:50.698141 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:52.324201 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754211] 2025-10-02 18:45:52.327199 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:53.291643 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754210] 2025-10-02 18:45:53.315630 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:54.564549 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754209] 2025-10-02 18:45:54.566547 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:55.530510 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754208] 2025-10-02 18:45:55.532507 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:56.682984 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754207] 2025-10-02 18:45:56.686981 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:57.748912 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754206] 2025-10-02 18:45:57.750928 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:45:58.986883 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754205] 2025-10-02 18:45:58.990880 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:00.225648 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754204] 2025-10-02 18:46:00.228645 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:01.395971 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754203] 2025-10-02 18:46:01.399968 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:02.587617 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754202] 2025-10-02 18:46:02.591614 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:03.992806 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754201] 2025-10-02 18:46:03.996806 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:05.162130 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754200] 2025-10-02 18:46:05.165128 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:06.312072 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754199] 2025-10-02 18:46:06.314073 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:07.742373 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754198] 2025-10-02 18:46:07.745372 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:08.801764 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754197] 2025-10-02 18:46:08.804762 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:09.852156 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754196] 2025-10-02 18:46:09.856153 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:11.145209 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754195] 2025-10-02 18:46:11.148230 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:12.089031 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754194] 2025-10-02 18:46:12.091030 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:12.949602 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754193] 2025-10-02 18:46:12.955606 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:13.829169 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754192] 2025-10-02 18:46:13.831166 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:14.677325 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754191] 2025-10-02 18:46:14.682322 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:15.540103 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754190] 2025-10-02 18:46:15.546075 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:16.513976 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754189] 2025-10-02 18:46:16.515977 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:17.399354 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754188] 2025-10-02 18:46:17.401353 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:18.513710 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754187] 2025-10-02 18:46:18.516707 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:19.924896 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754186] 2025-10-02 18:46:19.928892 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:20.982516 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754185] 2025-10-02 18:46:20.984499 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:22.270144 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754184] 2025-10-02 18:46:22.272142 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:24.160375 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754183] 2025-10-02 18:46:24.163373 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:25.851398 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754182] 2025-10-02 18:46:25.854396 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:27.391509 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754181] 2025-10-02 18:46:27.395506 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:29.152493 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754180] 2025-10-02 18:46:29.156490 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:31.493141 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754179] 2025-10-02 18:46:31.496142 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:32.710438 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754178] 2025-10-02 18:46:32.713434 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:34.174145 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754177] 2025-10-02 18:46:34.178143 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:36.208970 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754176] 2025-10-02 18:46:36.217966 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:37.361082 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754175] 2025-10-02 18:46:37.367072 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:38.260720 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754174] 2025-10-02 18:46:38.262720 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:39.304416 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754173] 2025-10-02 18:46:39.306414 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:40.438420 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754172] 2025-10-02 18:46:40.441409 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:41.437731 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754171] 2025-10-02 18:46:41.439727 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:42.776103 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754170] 2025-10-02 18:46:42.781099 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:43.887461 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754169] 2025-10-02 18:46:43.890457 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:44.961171 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754168] 2025-10-02 18:46:44.964169 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:46.222447 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754167] 2025-10-02 18:46:46.226445 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:47.434853 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754166] 2025-10-02 18:46:47.437851 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:48.421478 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754165] 2025-10-02 18:46:48.423476 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:49.580375 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754164] 2025-10-02 18:46:49.583372 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:50.858356 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754163] 2025-10-02 18:46:50.862354 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:52.108075 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754162] 2025-10-02 18:46:52.110058 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:53.243511 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754161] 2025-10-02 18:46:53.245512 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:54.364865 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754160] 2025-10-02 18:46:54.367878 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:55.823022 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754159] 2025-10-02 18:46:55.826021 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:56.849430 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754158] 2025-10-02 18:46:56.852442 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:58.077261 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754157] 2025-10-02 18:46:58.082258 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:46:59.246586 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754156] 2025-10-02 18:46:59.249585 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:00.268879 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754155] 2025-10-02 18:47:00.270885 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:01.627579 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754154] 2025-10-02 18:47:01.631578 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:02.994789 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754153] 2025-10-02 18:47:02.997788 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:03.915233 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754152] 2025-10-02 18:47:03.917234 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:04.888670 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754151] 2025-10-02 18:47:04.890670 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:06.069111 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754150] 2025-10-02 18:47:06.073109 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:07.416189 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754149] 2025-10-02 18:47:07.420186 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:08.485634 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754148] 2025-10-02 18:47:08.488630 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:09.741352 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754147] 2025-10-02 18:47:09.743352 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:10.981295 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754146] 2025-10-02 18:47:10.984291 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:12.166610 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754145] 2025-10-02 18:47:12.168610 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:13.683732 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754144] 2025-10-02 18:47:13.686730 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:14.883338 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754143] 2025-10-02 18:47:14.885336 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:16.451642 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754142] 2025-10-02 18:47:16.455641 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:17.889813 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754141] 2025-10-02 18:47:17.893812 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:19.382950 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754140] 2025-10-02 18:47:19.389948 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:20.606243 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754139] 2025-10-02 18:47:20.609242 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:21.700610 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754138] 2025-10-02 18:47:21.703610 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:22.891924 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754137] 2025-10-02 18:47:22.894920 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:23.998240 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754136] 2025-10-02 18:47:24.000237 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:25.380767 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754135] 2025-10-02 18:47:25.382766 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:26.486030 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754134] 2025-10-02 18:47:26.489028 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:27.722249 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754133] 2025-10-02 18:47:27.724248 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:28.978969 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754132] 2025-10-02 18:47:28.982968 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:30.380183 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754131] 2025-10-02 18:47:30.382185 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:31.396651 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754130] 2025-10-02 18:47:31.399647 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:32.339362 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754129] 2025-10-02 18:47:32.341362 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:33.284817 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754128] 2025-10-02 18:47:33.286816 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:34.157858 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754127] 2025-10-02 18:47:34.163863 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:35.253223 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754126] 2025-10-02 18:47:35.256207 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:36.288157 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754125] 2025-10-02 18:47:36.291157 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:37.406031 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754124] 2025-10-02 18:47:37.408033 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:38.350582 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754123] 2025-10-02 18:47:38.356551 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:39.474106 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754122] 2025-10-02 18:47:39.476088 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:40.358693 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754121] 2025-10-02 18:47:40.362667 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:41.379292 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754120] 2025-10-02 18:47:41.381309 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:42.255647 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754119] 2025-10-02 18:47:42.259637 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:43.266752 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754118] 2025-10-02 18:47:43.273727 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:44.124297 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754117] 2025-10-02 18:47:44.128303 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:45.242037 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754116] 2025-10-02 18:47:45.244037 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:47.329830 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754115] 2025-10-02 18:47:47.332830 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:48.688046 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754114] 2025-10-02 18:47:48.691046 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:50.128215 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754113] 2025-10-02 18:47:50.131212 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:51.454511 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754112] 2025-10-02 18:47:51.458509 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:52.596666 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754111] 2025-10-02 18:47:52.602637 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:53.482215 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754110] 2025-10-02 18:47:53.484199 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:54.563705 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754109] 2025-10-02 18:47:54.566700 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:55.446134 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754108] 2025-10-02 18:47:55.452132 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:56.458236 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754107] 2025-10-02 18:47:56.460238 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:57.345587 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754106] 2025-10-02 18:47:57.347585 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:58.222412 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754105] 2025-10-02 18:47:58.224434 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:59.058967 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754104] 2025-10-02 18:47:59.060968 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:47:59.928917 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754103] 2025-10-02 18:47:59.933891 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:00.791922 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754102] 2025-10-02 18:48:00.793924 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:01.634071 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754101] 2025-10-02 18:48:01.636064 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:02.529357 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754100] 2025-10-02 18:48:02.536327 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:03.417595 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754099] 2025-10-02 18:48:03.419595 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:04.279822 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754098] 2025-10-02 18:48:04.282837 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:05.164975 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754097] 2025-10-02 18:48:05.166972 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:06.042728 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754096] 2025-10-02 18:48:06.045748 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:06.986627 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754095] 2025-10-02 18:48:06.988625 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:07.873617 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754094] 2025-10-02 18:48:07.876613 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:08.735056 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754093] 2025-10-02 18:48:08.737072 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:09.616948 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754092] 2025-10-02 18:48:09.620948 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:10.617373 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754091] 2025-10-02 18:48:10.619373 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:11.515998 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754090] 2025-10-02 18:48:11.517995 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:12.558849 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754089] 2025-10-02 18:48:12.560850 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:13.430462 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754088] 2025-10-02 18:48:13.432460 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:14.430308 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754087] 2025-10-02 18:48:14.433309 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:15.308110 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754086] 2025-10-02 18:48:15.314081 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:16.292976 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754085] 2025-10-02 18:48:16.295991 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:17.162709 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754084] 2025-10-02 18:48:17.164712 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:18.061914 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754083] 2025-10-02 18:48:18.064912 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:18.930578 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754082] 2025-10-02 18:48:18.932579 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:19.856504 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754081] 2025-10-02 18:48:19.867498 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:20.854559 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754080] 2025-10-02 18:48:20.856559 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:21.819723 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754079] 2025-10-02 18:48:21.822720 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:22.771529 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754078] 2025-10-02 18:48:22.773530 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:23.667678 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754077] 2025-10-02 18:48:23.669678 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:24.689091 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754076] 2025-10-02 18:48:24.692088 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:25.563342 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754075] 2025-10-02 18:48:25.569338 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:26.578207 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754074] 2025-10-02 18:48:26.580198 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:27.559937 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754073] 2025-10-02 18:48:27.561938 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:28.571925 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754072] 2025-10-02 18:48:28.574922 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:30.211979 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754071] 2025-10-02 18:48:30.214974 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:31.114791 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754070] 2025-10-02 18:48:31.119788 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:32.102715 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754069] 2025-10-02 18:48:32.104737 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:32.988182 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754068] 2025-10-02 18:48:32.991199 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:34.027617 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754067] 2025-10-02 18:48:34.029614 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:34.903874 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754066] 2025-10-02 18:48:34.906856 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:35.893933 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754065] 2025-10-02 18:48:35.895928 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:36.814375 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754064] 2025-10-02 18:48:36.818373 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:37.792138 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754063] 2025-10-02 18:48:37.794135 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:38.771572 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754062] 2025-10-02 18:48:38.774569 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:39.783344 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754061] 2025-10-02 18:48:39.786343 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:40.751970 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754060] 2025-10-02 18:48:40.754972 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:41.695466 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754059] 2025-10-02 18:48:41.697467 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:42.571265 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754058] 2025-10-02 18:48:42.573280 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:43.460950 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754057] 2025-10-02 18:48:43.462934 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:44.642186 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754056] 2025-10-02 18:48:44.644190 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:45.505751 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754055] 2025-10-02 18:48:45.509723 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:46.405039 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754054] 2025-10-02 18:48:46.407038 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:47.298707 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754053] 2025-10-02 18:48:47.300705 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:48.494728 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754052] 2025-10-02 18:48:48.496713 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:49.378895 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754051] 2025-10-02 18:48:49.386859 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:51.824082 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754050] 2025-10-02 18:48:51.826081 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:52.933621 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754049] 2025-10-02 18:48:52.936620 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:53.782041 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754048] 2025-10-02 18:48:53.785025 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:54.911888 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754047] 2025-10-02 18:48:54.914887 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:56.311226 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754046] 2025-10-02 18:48:56.321734 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:58.392250 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754045] 2025-10-02 18:48:58.395246 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:48:59.252400 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754044] 2025-10-02 18:48:59.254398 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:00.139754 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754043] 2025-10-02 18:49:00.141735 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:01.000143 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754042] 2025-10-02 18:49:01.002141 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:02.152321 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754041] 2025-10-02 18:49:02.159308 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:04.227011 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754040] 2025-10-02 18:49:04.237994 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:05.129524 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754039] 2025-10-02 18:49:05.132542 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[block 370754038] 2025-10-02 18:49:12.537633 | num_txs: 1072 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 90.60
-[block 370754037] 2025-10-02 18:49:14.040343 | num_txs: 1185 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 69.13
-[block 370754036] 2025-10-02 18:49:15.428957 | num_txs: 1314 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 124.58
-[block 370754035] 2025-10-02 18:49:17.247687 | num_txs: 1415 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 282.60
-[block 370754034] 2025-10-02 18:49:18.832311 | num_txs: 1450 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 104.47
-[block 370754033] 2025-10-02 18:49:20.531273 | num_txs: 1318 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 122.38
-[block 370754032] 2025-10-02 18:49:24.600923 | num_txs: 1342 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 248.27
-[block 370754031] 2025-10-02 18:49:27.790350 | num_txs: 1386 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 114.17
-[block 370754030] 2025-10-02 18:49:31.129164 | num_txs: 1378 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 93.54
-[block 370754029] 2025-10-02 18:49:35.537367 | num_txs: 1307 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 135.93
-[block 370754028] 2025-10-02 18:49:37.036491 | num_txs: 1447 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 148.15
-[block 370754027] 2025-10-02 18:49:38.500350 | num_txs: 1269 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 94.83
-[block 370754026] 2025-10-02 18:49:39.762513 | num_txs: 1205 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 108.33
-[block 370754025] 2025-10-02 18:49:41.052858 | num_txs: 1243 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 86.00
-[block 370754024] 2025-10-02 18:49:42.664655 | num_txs: 1395 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 165.13
-[block 370754023] 2025-10-02 18:49:44.123351 | num_txs: 1364 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 100.46
-[fetch_block_transactions] 2025-10-02 18:49:45.025798 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754022] 2025-10-02 18:49:45.047787 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:45.917292 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754021] 2025-10-02 18:49:45.919281 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:46.781396 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754020] 2025-10-02 18:49:46.786367 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:47.649047 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754019] 2025-10-02 18:49:47.651065 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:48.537540 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754018] 2025-10-02 18:49:48.539538 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:49.430228 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754017] 2025-10-02 18:49:49.432229 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:50.300749 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754016] 2025-10-02 18:49:50.303750 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:51.222600 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754015] 2025-10-02 18:49:51.224581 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:52.100412 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754014] 2025-10-02 18:49:52.103396 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:53.017269 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754013] 2025-10-02 18:49:53.020252 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:53.903728 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754012] 2025-10-02 18:49:53.908699 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:54.786472 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754011] 2025-10-02 18:49:54.788474 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:55.673981 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754010] 2025-10-02 18:49:55.675965 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:56.555698 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754009] 2025-10-02 18:49:56.557700 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:57.428266 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754008] 2025-10-02 18:49:57.432263 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:58.316340 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754007] 2025-10-02 18:49:58.322370 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:49:59.221781 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754006] 2025-10-02 18:49:59.224777 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:00.229364 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754005] 2025-10-02 18:50:00.232362 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:02.098284 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754004] 2025-10-02 18:50:02.102281 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:03.402533 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754003] 2025-10-02 18:50:03.405529 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:04.427940 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754002] 2025-10-02 18:50:04.430951 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:05.329361 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754001] 2025-10-02 18:50:05.331359 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:06.179599 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370754000] 2025-10-02 18:50:06.182597 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:07.052247 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753999] 2025-10-02 18:50:07.054232 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:07.968878 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753998] 2025-10-02 18:50:07.973875 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:08.829449 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753997] 2025-10-02 18:50:08.832443 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:09.691348 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753996] 2025-10-02 18:50:09.693345 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:10.588994 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753995] 2025-10-02 18:50:10.591990 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:11.603183 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753994] 2025-10-02 18:50:11.606181 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:12.642580 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753993] 2025-10-02 18:50:12.644582 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:13.533114 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753992] 2025-10-02 18:50:13.535115 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:14.526402 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753991] 2025-10-02 18:50:14.529400 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:15.405537 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753990] 2025-10-02 18:50:15.409546 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:16.313468 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753989] 2025-10-02 18:50:16.318465 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:17.262999 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753988] 2025-10-02 18:50:17.264996 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:18.263395 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753987] 2025-10-02 18:50:18.266393 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:19.105579 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753986] 2025-10-02 18:50:19.107575 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:19.998631 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753985] 2025-10-02 18:50:20.002612 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:20.901394 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753984] 2025-10-02 18:50:20.903389 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:21.790892 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753983] 2025-10-02 18:50:21.796888 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:22.671202 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753982] 2025-10-02 18:50:22.673203 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:23.555113 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753981] 2025-10-02 18:50:23.561111 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:24.462291 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753980] 2025-10-02 18:50:24.465288 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:25.369536 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753979] 2025-10-02 18:50:25.371538 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:26.255340 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753978] 2025-10-02 18:50:26.257332 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:27.167944 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753977] 2025-10-02 18:50:27.169947 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:28.045281 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753976] 2025-10-02 18:50:28.047278 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:29.096576 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753975] 2025-10-02 18:50:29.098576 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:30.239139 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753974] 2025-10-02 18:50:30.245115 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:31.272187 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753973] 2025-10-02 18:50:31.276186 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:32.240748 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753972] 2025-10-02 18:50:32.243764 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:33.095207 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753971] 2025-10-02 18:50:33.100203 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:33.978696 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753970] 2025-10-02 18:50:33.980697 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:34.872233 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753969] 2025-10-02 18:50:34.875230 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:35.751398 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753968] 2025-10-02 18:50:35.753380 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:36.705373 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753967] 2025-10-02 18:50:36.708372 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:37.593358 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753966] 2025-10-02 18:50:37.598357 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:38.812812 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753965] 2025-10-02 18:50:38.815810 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:40.178024 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753964] 2025-10-02 18:50:40.182021 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:41.525244 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753963] 2025-10-02 18:50:41.527245 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:42.527145 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753962] 2025-10-02 18:50:42.530142 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:43.459232 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753961] 2025-10-02 18:50:43.461233 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:44.347384 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753960] 2025-10-02 18:50:44.351363 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:45.268593 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753959] 2025-10-02 18:50:45.271593 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:46.139920 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753958] 2025-10-02 18:50:46.143918 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:47.042698 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753957] 2025-10-02 18:50:47.047675 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:47.935375 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753956] 2025-10-02 18:50:47.938360 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:48.831693 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753955] 2025-10-02 18:50:48.833695 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:49.722077 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753954] 2025-10-02 18:50:49.724064 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:50.686302 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753953] 2025-10-02 18:50:50.689313 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:51.574107 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753952] 2025-10-02 18:50:51.576104 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:52.448156 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753951] 2025-10-02 18:50:52.450153 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:53.334417 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753950] 2025-10-02 18:50:53.336419 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:54.222114 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753949] 2025-10-02 18:50:54.227095 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:55.163861 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753948] 2025-10-02 18:50:55.165861 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:56.047546 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753947] 2025-10-02 18:50:56.054523 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:56.933394 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753946] 2025-10-02 18:50:56.936395 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:57.800357 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753945] 2025-10-02 18:50:57.803351 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:58.760847 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753944] 2025-10-02 18:50:58.763842 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:50:59.924172 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753943] 2025-10-02 18:50:59.926172 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:02.297800 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753942] 2025-10-02 18:51:02.301800 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:03.554079 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753941] 2025-10-02 18:51:03.558073 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:04.763378 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753940] 2025-10-02 18:51:04.767376 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:05.764879 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753939] 2025-10-02 18:51:05.767878 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:06.671204 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753938] 2025-10-02 18:51:06.677202 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:07.520356 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753937] 2025-10-02 18:51:07.527317 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:08.388482 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753936] 2025-10-02 18:51:08.395471 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:09.438939 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753935] 2025-10-02 18:51:09.443953 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:10.331547 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753934] 2025-10-02 18:51:10.333529 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:11.178499 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753933] 2025-10-02 18:51:11.182496 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:12.016837 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753932] 2025-10-02 18:51:12.020809 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:12.972378 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753931] 2025-10-02 18:51:12.979339 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:13.814650 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753930] 2025-10-02 18:51:13.817650 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:14.656221 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753929] 2025-10-02 18:51:14.658244 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:15.495861 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753928] 2025-10-02 18:51:15.497861 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:16.360757 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753927] 2025-10-02 18:51:16.366728 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:17.237416 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753926] 2025-10-02 18:51:17.239417 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:18.110495 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753925] 2025-10-02 18:51:18.115511 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:18.964510 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753924] 2025-10-02 18:51:18.967526 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:19.814270 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753923] 2025-10-02 18:51:19.816268 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:20.690396 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753922] 2025-10-02 18:51:20.694393 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
-[fetch_block_transactions] 2025-10-02 18:51:21.546559 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
-[block 370753921] 2025-10-02 18:51:21.548557 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[block 370760459] 2025-10-02 19:23:48.756866 | num_txs: 1279 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 93.51
+[block 370760458] 2025-10-02 19:23:50.549831 | num_txs: 1321 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 150.35
+[block 370760457] 2025-10-02 19:23:52.564667 | num_txs: 1343 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 96.64
+[block 370760456] 2025-10-02 19:23:54.681444 | num_txs: 1667 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 651.76
+[fetch_block_transactions] 2025-10-02 19:23:56.030664 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760455] 2025-10-02 19:23:56.043659 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:23:56.999105 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760454] 2025-10-02 19:23:57.001105 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:23:58.329056 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760453] 2025-10-02 19:23:58.333053 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:23:59.504288 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760452] 2025-10-02 19:23:59.507285 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:00.721584 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760451] 2025-10-02 19:24:00.724582 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:02.725427 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760450] 2025-10-02 19:24:02.728424 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:04.226931 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760449] 2025-10-02 19:24:04.230928 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:05.330294 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760448] 2025-10-02 19:24:05.332292 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:06.442680 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760447] 2025-10-02 19:24:06.444678 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:08.110100 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760446] 2025-10-02 19:24:08.114097 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:09.288418 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760445] 2025-10-02 19:24:09.291416 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:10.449391 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760444] 2025-10-02 19:24:10.451414 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:12.567805 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760443] 2025-10-02 19:24:12.571804 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:13.764565 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760442] 2025-10-02 19:24:13.767565 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:15.104804 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760441] 2025-10-02 19:24:15.107803 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:17.613355 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760440] 2025-10-02 19:24:17.616353 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:19.454292 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760439] 2025-10-02 19:24:19.458291 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:20.340906 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760438] 2025-10-02 19:24:20.342893 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:21.816656 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760437] 2025-10-02 19:24:21.818654 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:22.792375 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760436] 2025-10-02 19:24:22.794373 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:23.774186 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760435] 2025-10-02 19:24:23.776194 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:24.721220 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760434] 2025-10-02 19:24:24.724217 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:25.906941 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760433] 2025-10-02 19:24:25.908942 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:26.904365 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760432] 2025-10-02 19:24:26.907362 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:27.769926 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760431] 2025-10-02 19:24:27.776922 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:28.994225 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760430] 2025-10-02 19:24:28.997223 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:29.994560 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760429] 2025-10-02 19:24:29.997559 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:31.139750 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760428] 2025-10-02 19:24:31.141749 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:32.295084 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760427] 2025-10-02 19:24:32.299081 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:33.951128 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760426] 2025-10-02 19:24:33.955124 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:35.775073 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760425] 2025-10-02 19:24:35.779070 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:37.074324 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760424] 2025-10-02 19:24:37.077320 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:38.449529 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760423] 2025-10-02 19:24:38.453527 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:39.581881 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760422] 2025-10-02 19:24:39.586878 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:41.113996 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760421] 2025-10-02 19:24:41.139983 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:42.469109 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760420] 2025-10-02 19:24:42.471089 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:43.336138 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760419] 2025-10-02 19:24:43.342133 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:44.254819 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760418] 2025-10-02 19:24:44.258827 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:45.319780 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760417] 2025-10-02 19:24:45.321796 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:46.669252 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760416] 2025-10-02 19:24:46.673249 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:48.595140 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760415] 2025-10-02 19:24:48.599137 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:50.245187 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760414] 2025-10-02 19:24:50.249184 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:51.674361 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760413] 2025-10-02 19:24:51.678359 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:53.041571 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760412] 2025-10-02 19:24:53.045569 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:54.433767 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760411] 2025-10-02 19:24:54.435767 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:55.668055 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760410] 2025-10-02 19:24:55.670055 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:56.954312 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760409] 2025-10-02 19:24:56.958309 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:58.326520 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760408] 2025-10-02 19:24:58.329517 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:24:59.569801 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760407] 2025-10-02 19:24:59.573798 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:00.847063 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760406] 2025-10-02 19:25:00.851061 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:02.279237 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760405] 2025-10-02 19:25:02.294230 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:03.754384 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760404] 2025-10-02 19:25:03.758382 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:05.106603 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760403] 2025-10-02 19:25:05.110600 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:07.005507 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760402] 2025-10-02 19:25:07.009504 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:08.403699 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760401] 2025-10-02 19:25:08.407697 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:09.919823 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760400] 2025-10-02 19:25:09.922821 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:11.316017 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760399] 2025-10-02 19:25:11.320015 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:12.789167 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760398] 2025-10-02 19:25:12.793163 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:13.995752 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760397] 2025-10-02 19:25:13.998750 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:15.390947 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760396] 2025-10-02 19:25:15.392946 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:17.282854 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760395] 2025-10-02 19:25:17.285851 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:18.596095 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760394] 2025-10-02 19:25:18.600092 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:19.970303 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760393] 2025-10-02 19:25:19.972301 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:21.443452 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760392] 2025-10-02 19:25:21.447448 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:23.028536 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760391] 2025-10-02 19:25:23.031533 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:24.416733 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760390] 2025-10-02 19:25:24.420731 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:25.642026 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760389] 2025-10-02 19:25:25.645024 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:27.189132 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760388] 2025-10-02 19:25:27.193129 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:28.570335 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760387] 2025-10-02 19:25:28.574333 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:30.008505 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760386] 2025-10-02 19:25:30.011503 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:31.303757 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760385] 2025-10-02 19:25:31.307755 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:32.786900 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760384] 2025-10-02 19:25:32.791898 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:34.005196 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760383] 2025-10-02 19:25:34.009194 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:36.017034 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760382] 2025-10-02 19:25:36.021031 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:37.571136 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760381] 2025-10-02 19:25:37.574134 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:38.999312 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760380] 2025-10-02 19:25:39.003309 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:40.470462 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760379] 2025-10-02 19:25:40.474462 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:41.762716 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760378] 2025-10-02 19:25:41.766713 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:43.003998 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760377] 2025-10-02 19:25:43.006999 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:44.318240 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760376] 2025-10-02 19:25:44.322236 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:45.653469 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760375] 2025-10-02 19:25:45.657466 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:46.668882 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760374] 2025-10-02 19:25:46.670880 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:47.711559 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760373] 2025-10-02 19:25:47.713549 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:48.636962 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760372] 2025-10-02 19:25:48.638959 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:49.765371 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760371] 2025-10-02 19:25:49.767369 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:50.661835 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760370] 2025-10-02 19:25:50.664854 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:51.831737 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760369] 2025-10-02 19:25:51.834735 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:52.732709 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760368] 2025-10-02 19:25:52.738705 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
+[fetch_block_transactions] 2025-10-02 19:25:53.647011 | Error: 429 Client Error: Too Many Requests for url: https://api.mainnet-beta.solana.com/ | status: N/A | text: 
+[block 370760367] 2025-10-02 19:25:53.650008 | num_txs: 0 | Tổng SOL lớn phát hiện: 0.00 | Tổng SOL phát hiện: 0.00
