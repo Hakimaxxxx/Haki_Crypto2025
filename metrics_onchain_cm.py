@@ -6,6 +6,7 @@ COINGECKO_TO_CM_ASSET = {
     "bitcoin": "btc",
     "ethereum": "eth",
     "solana": "sol",
+    "cardano": "ada",
     "chainlink": "link",
     "near": "near",
     "avalanche-2": "avax",

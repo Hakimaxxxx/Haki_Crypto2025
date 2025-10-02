@@ -182,6 +182,7 @@ COIN_LIST = [
     ("bitcoin", "BTC"),
     ("ethereum", "ETH"),
     ("solana", "SOL"),
+    ("cardano", "ADA"),
     ("chainlink", "LINK"),
     ("near", "NEAR"),
     ("avalanche-2", "AVAX"),
