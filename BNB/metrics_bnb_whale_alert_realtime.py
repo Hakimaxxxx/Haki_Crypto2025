@@ -8,6 +8,7 @@ import time
 import json
 import os
 import logging
+from cloud_db import db
 
 from .bnb_cex_dex_wallets import classify_transaction
 
@@ -17,6 +18,9 @@ BLOCK_FILE = "bnb_whale_last_block.json"
 
 # Configure logging
 logging.basicConfig(filename="bnb_whale_scanner.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# Define the log file for BNB whale scanner
+LOG_FILE = "bnb_whale_scanner.log"
 
 # --- User seen block logic ---
 def mark_bnb_whale_alert_seen():
@@ -88,26 +92,68 @@ def fetch_block_transactions(block_number):
 
     return formatted_txs
 
+def load_whale_history():
+    # Prefer cloud DB if available
+    local_history = []
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, "r") as f:
+            local_history = json.load(f)
+
+    if db.available():
+        # Lấy dữ liệu từ database
+        db_history = db.find_all("bnb_whale_history", sort_field="time", ascending=True)
+        db_hashes = {d.get("hash") for d in db_history if isinstance(d, dict) and "hash" in d}
+
+        # Gộp dữ liệu từ file local vào database
+        new_entries = [entry for entry in local_history if entry.get("hash") not in db_hashes]
+        if new_entries:
+            db.upsert_many("bnb_whale_history", new_entries, unique_keys=["hash"])
+            print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+
+        # Trả về dữ liệu đã gộp
+        return db.find_all("bnb_whale_history", sort_field="time", ascending=True)
+
+    # Nếu database không khả dụng, trả về dữ liệu từ file local
+    return local_history
+
 def load_last_block():
+    # Giá trị từ file local
+    local_last_block = None
     if os.path.exists(BLOCK_FILE):
         with open(BLOCK_FILE, "r") as f:
             data = json.load(f)
-            return data.get("last_block", None)
-    return None
+            local_last_block = data.get("last_block", None)
 
-def save_last_block(block_num):
-    with open(BLOCK_FILE, "w") as f:
-        json.dump({"last_block": block_num}, f)
+    if db.available():
+        # Giá trị từ database
+        kv = db.get_kv("bnb_meta", "last_block")
+        db_last_block = kv.get("last_block") if kv and isinstance(kv, dict) else None
 
-def load_whale_history():
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r") as f:
-            return json.load(f)
-    return []
+        # Gộp giá trị từ file local vào database nếu cần
+        if local_last_block and (db_last_block is None or local_last_block > db_last_block):
+            db.set_kv("bnb_meta", "last_block", {"last_block": local_last_block})
+            print(f"Gộp giá trị last_block {local_last_block} từ file local vào database.")
 
-def save_whale_history(history):
-    with open(HISTORY_FILE, "w") as f:
-        json.dump(history, f)
+        # Trả về giá trị từ database
+        return db.get_kv("bnb_meta", "last_block").get("last_block")
+
+    # Nếu database không khả dụng, trả về giá trị từ file local
+    return local_last_block
+
+def _log(msg: str):
+    try:
+        line = f"[{datetime.utcnow()}] {msg}"
+        with open(LOG_FILE, "a", encoding="utf-8") as logf:
+            logf.write(line + "\n")
+
+        if db.available():
+            # Gộp log từ file local vào database
+            with open(LOG_FILE, "r", encoding="utf-8") as logf:
+                local_logs = [{"ts": datetime.utcnow().isoformat(), "line": line.strip()} for line in logf]
+            db.insert_many("bnb_logs", local_logs)
+            print(f"Gộp {len(local_logs)} log từ file local vào database.")
+    except Exception:
+        pass
 
 def show_bnb_whale_alert_realtime(min_value_bnb=250, num_blocks=100):
     st.markdown("""
@@ -128,6 +174,28 @@ def show_bnb_whale_alert_realtime(min_value_bnb=250, num_blocks=100):
             box_content += f"<div style='margin-bottom:8px;'>{new_badge}<span style='color:#1e88e5;font-weight:bold;'>🐳 {tx['value']:.2f} BNB</span> | Hash: <code>{tx['hash'][:12]}...</code> | Từ: <code>{tx['from']}</code> → Đến: <code>{tx['to']}</code> | <span style='color:#888;'>{tx['time']}</span></div>"
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
+# Function to save the last processed block number
+def save_last_block(block_num):
+    if db.available():
+        try:
+            db.set_kv("bnb_meta", "last_block", {"last_block": int(block_num)})
+            print(f"Saved last block: {block_num}")
+        except Exception as e:
+            print(f"Error saving last block: {e}")
+    # Always save to local file as a backup
+    with open(BLOCK_FILE, "w") as f:
+        json.dump({"last_block": block_num}, f)
+
+# Function to save whale transaction history
+def save_whale_history(history):
+    # Save to cloud first if available
+    if db.available() and isinstance(history, list):
+        # Upsert by unique key 'hash'
+        db.upsert_many("bnb_whale_history", history, unique_keys=["hash"])
+    # Always keep a local backup
+    with open(HISTORY_FILE, "w") as f:
+        json.dump(history, f)
+
 # Updated background_whale_alert_scanner to continue scanning even if an error occurs
 def background_whale_alert_scanner(min_value_bnb=250, num_blocks=100, interval_sec=300):
     while True:
@@ -135,7 +203,7 @@ def background_whale_alert_scanner(min_value_bnb=250, num_blocks=100, interval_s
             logging.info("Starting block scan...")
             latest_block = fetch_latest_block_number()
             if not latest_block:
-                logging.warning("Failed to fetch the latest block number.")
+                #logging.warning("Failed to fetch the latest block number.")
                 time.sleep(interval_sec)
                 continue
             logging.info(f"Latest block number: {latest_block}")
@@ -151,7 +219,7 @@ def background_whale_alert_scanner(min_value_bnb=250, num_blocks=100, interval_s
                 try:
                     txs = fetch_block_transactions(block_num)
                     total_bnb = sum(tx.get("value", 0) for tx in txs)
-                    logging.info(f"Block {block_num} contains a total of {total_bnb:.2f} BNB")
+                    #logging.info(f"Block {block_num} contains a total of {total_bnb:.2f} BNB")
                     for tx in txs:
                         value_bnb = tx.get("value", 0)
                         tx_hash = tx.get("hash", "")
