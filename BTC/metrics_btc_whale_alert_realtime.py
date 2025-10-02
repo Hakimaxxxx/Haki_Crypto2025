@@ -7,6 +7,9 @@ from datetime import datetime
 import time
 import json
 import os
+import html
+
+LOG_FILE = "btc_whale_scanner.log"
 
 USER_SEEN_BLOCK_FILE = "btc_whale_user_seen_block.json"
 HISTORY_FILE = "btc_whale_alert_history.json"
@@ -67,6 +70,83 @@ def save_whale_history(history):
     with open(HISTORY_FILE, "w") as f:
         json.dump(history, f)
 
+# --- Helpers & logging ---
+def _log(msg: str):
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as logf:
+            logf.write(f"[{datetime.utcnow()}] {msg}\n")
+    except Exception:
+        pass
+
+def _extract_addrs(tx):
+    """Safely extract first input and output addresses from a blockchain.info tx object."""
+    from_addr = "unknown"
+    to_addr = "unknown"
+    try:
+        if isinstance(tx.get('inputs'), list) and tx['inputs']:
+            prev_out = tx['inputs'][0].get('prev_out') or {}
+            from_addr = prev_out.get('addr', 'unknown') or 'unknown'
+        if isinstance(tx.get('out'), list) and tx['out']:
+            to_addr = tx['out'][0].get('addr', 'unknown') or 'unknown'
+    except Exception:
+        pass
+    return from_addr, to_addr
+
+def fetch_recent_whales_once(min_value_btc, num_blocks=5):
+    """Synchronous fetch of recent blocks to populate large BTC transfers when history is empty."""
+    try:
+        latest_block = fetch_latest_block_number()
+        if not latest_block:
+            _log("[ONDEMAND] latest_block not available")
+            return []
+        start = int(latest_block)
+        end = start - max(1, int(num_blocks)) + 1
+        seen = {tx.get('hash') for tx in load_whale_history()}
+        results = []
+        try:
+            from BTC.btc_cex_dex_wallets import is_cex_wallet
+        except Exception:
+            is_cex_wallet = lambda a: False
+        for b in range(start, end - 1, -1):
+            try:
+                txs = fetch_block_transactions(b)
+            except Exception as e:
+                _log(f"[ONDEMAND] error fetch block {b}: {e}")
+                continue
+            for tx in txs:
+                if 'hash' not in tx or 'out' not in tx:
+                    continue
+                value_btc = sum(out.get('value', 0) for out in tx.get('out', [])) / 1e8
+                if value_btc < float(min_value_btc):
+                    continue
+                h = tx.get('hash')
+                if h in seen:
+                    continue
+                from_addr, to_addr = _extract_addrs(tx)
+                tx_type = 'SELL' if is_cex_wallet(to_addr) else ('BUY' if is_cex_wallet(from_addr) else 'N/A')
+                results.append({
+                    "block": b,
+                    "hash": h,
+                    "from": from_addr,
+                    "to": to_addr,
+                    "value": value_btc,
+                    "time": datetime.utcfromtimestamp(tx.get('time', int(time.time()))).strftime("%Y-%m-%d %H:%M:%S"),
+                    "type": tx_type
+                })
+                seen.add(h)
+        if results:
+            hist = load_whale_history()
+            by_hash = {t.get('hash'): t for t in hist}
+            for r in results:
+                by_hash[r['hash']] = r
+            merged = list(by_hash.values())
+            save_whale_history(merged)
+            _log(f"[ONDEMAND] saved {len(results)} new whales, total {len(merged)}")
+        return results
+    except Exception as e:
+        _log(f"[ONDEMAND] fatal: {e}")
+        return []
+
 def show_btc_whale_alert_realtime(min_value_btc=100, num_blocks=5):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
@@ -76,37 +156,96 @@ def show_btc_whale_alert_realtime(min_value_btc=100, num_blocks=5):
     whale_txs = load_whale_history()
     last_block = load_last_block()
     seen_block = load_user_seen_block()
+    # Wallet labeling
+    try:
+        from BTC.btc_cex_dex_wallets import ADDRESS_LABELS
+    except Exception:
+        ADDRESS_LABELS = {}
     box_content = ""
+    # helpers to render safe HTML fragments
+    def _esc(x):
+        try:
+            return html.escape(str(x)) if x is not None else ""
+        except Exception:
+            return ""
+    def _mono(x):
+        return f"<span style='font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace; background:#f1f3f5; padding:1px 4px; border-radius:3px;'>{_esc(x)}</span>"
     if not whale_txs:
-        box_content += "<div style='color:#888;'>Không có transaction lớn nào được phát hiện gần đây.</div>"
+        # Trigger a quick fetch to avoid empty UI if background thread hasn't populated yet
+        _log("[UI] history empty -> trigger on-demand fetch")
+        whale_txs = fetch_recent_whales_once(min_value_btc=min_value_btc, num_blocks=num_blocks)
+        if not whale_txs:
+            box_content += "<div style='color:#888;'>Không có transaction lớn nào được phát hiện gần đây.</div>"
     else:
         for tx in whale_txs[::-1]:
+            # Skip transactions without 'value' or 'hash'
+            if 'value' not in tx or 'hash' not in tx:
+                print("Skipping transaction without required keys")
+                continue
             is_new = (last_block is not None and tx.get('block', 0) > seen_block)
             new_badge = "<span style='color:#fff;background:#43a047;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;vertical-align:middle;'>NEW</span>" if is_new else "<span style='color:#fff;background:#888;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;vertical-align:middle;'>OLD</span>"
-            box_content += f"<div style='margin-bottom:8px;'>{new_badge}<span style='color:#1e88e5;font-weight:bold;'>🐳 {tx['value']:.2f} BTC</span> | Hash: <code>{tx['hash'][:12]}...</code> | Từ: <code>{tx['from']}</code> → Đến: <code>{tx['to']}</code> | <span style='color:#888;'>{tx['time']}</span></div>"
+            from_addr = tx.get('from', '')
+            to_addr = tx.get('to', '')
+            from_label = ADDRESS_LABELS.get((from_addr or '').lower(), from_addr)
+            to_label = ADDRESS_LABELS.get((to_addr or '').lower(), to_addr)
+            tx_type = tx.get('type', 'N/A')
+            if tx_type == 'SELL':
+                type_badge = "<span style='color:#fff;background:#e53935;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;vertical-align:middle;'>SELL</span>"
+            elif tx_type == 'BUY':
+                type_badge = "<span style='color:#fff;background:#1e88e5;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;vertical-align:middle;'>BUY</span>"
+            else:
+                type_badge = "<span style='color:#fff;background:#888;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;vertical-align:middle;'>N/A</span>"
+            # Build safe, escaped HTML without raw <code> tags to avoid InvalidCharacterError
+            h_preview = (tx.get('hash') or '')[:12] + '...'
+            time_str = tx.get('time', '')
+            box_content += (
+                "<div style='margin-bottom:8px;'>"
+                f"{new_badge}{type_badge}"
+                f"<span style='color:#1e88e5;font-weight:bold;'>🐳 {tx['value']:.2f} BTC</span> | "
+                f"Hash: {_mono(h_preview)} | "
+                f"From: {_mono(from_label)} → To: {_mono(to_label)} | "
+                f"<span style='color:#888;'>{_esc(time_str)}</span>"
+                "</div>"
+            )
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
-def background_whale_alert_scanner(min_value_btc=5, num_blocks=5, interval_sec=300):
+def background_whale_alert_scanner(min_value_btc=50, num_blocks=5, interval_sec=300):
     while True:
         try:
             latest_block = fetch_latest_block_number()
             if not latest_block:
+                _log("[BG] latest_block not available")
                 time.sleep(interval_sec)
                 continue
             last_scanned = load_last_block()
             start_block = latest_block
-            end_block = latest_block - num_blocks + 1
+            end_block = latest_block - max(1, int(num_blocks)) + 1
             if last_scanned and last_scanned >= end_block:
                 end_block = last_scanned + 1
             whale_txs = load_whale_history()
             seen_hashes = set(tx['hash'] for tx in whale_txs)
+            try:
+                from BTC.btc_cex_dex_wallets import is_cex_wallet
+            except Exception:
+                is_cex_wallet = lambda a: False
+            appended = False
+            _log(f"[BG] scanning blocks {start_block} -> {end_block}")
             for block_num in range(start_block, end_block - 1, -1):
                 txs = fetch_block_transactions(block_num)
                 for tx in txs:
-                    value_btc = sum([out.get('value', 0) for out in tx.get('out', [])]) / 1e8
+                    # blockchain.info tx doesn't include top-level 'value'; sum outputs instead
+                    if 'hash' not in tx or 'out' not in tx:
+                        # Nếu muốn log cảnh báo, dùng logging.warning thay vì print
+                        continue
+                    value_btc = sum(out.get('value', 0) for out in tx.get('out', [])) / 1e8
                     tx_hash = tx.get('hash', '')
-                    from_addr = tx.get('inputs', [{}])[0].get('prev_out', {}).get('addr', 'unknown')
-                    to_addr = tx.get('out', [{}])[0].get('addr', 'unknown')
+                    from_addr, to_addr = _extract_addrs(tx)
+                    if is_cex_wallet(to_addr):
+                        tx_type = 'SELL'
+                    elif is_cex_wallet(from_addr):
+                        tx_type = 'BUY'
+                    else:
+                        tx_type = 'N/A'
                     if value_btc >= min_value_btc and tx_hash not in seen_hashes:
                         tx_obj = {
                             "block": block_num,
@@ -115,18 +254,51 @@ def background_whale_alert_scanner(min_value_btc=5, num_blocks=5, interval_sec=3
                             "to": to_addr,
                             "value": value_btc,
                             "time": datetime.utcfromtimestamp(tx.get('time', int(time.time()))).strftime("%Y-%m-%d %H:%M:%S"),
+                            "type": tx_type
                         }
                         whale_txs.append(tx_obj)
                         seen_hashes.add(tx_hash)
+                        appended = True
             save_last_block(start_block)
-            whale_txs = [tx for tx in whale_txs if tx['value'] >= min_value_btc]
-            whale_txs = whale_txs[-100:]
-            save_whale_history(whale_txs)
-        except Exception:
-            pass
+            # Chỉ ghi file nếu có giao dịch lớn mới
+            if appended:
+                save_whale_history(whale_txs)
+        except Exception as e:
+            _log(f"[BG] error: {e}")
         time.sleep(interval_sec)
 
+# --- Standardized Transaction Type Logic ---
+def determine_transaction_type(value):
+    """
+    Determine the transaction type based on value.
+    """
+    if value > 0:
+        return "BUY"
+    elif value < 0:
+        return "SELL"
+    return "N/A"
+
+# --- Overlay Marker Logic ---
+def add_overlay_marker(transaction):
+    """
+    Add overlay marker for the transaction.
+    """
+    transaction_type = determine_transaction_type(transaction.get("value", 0))
+    marker = {
+        "type": transaction_type,
+        "color": "green" if transaction_type == "BUY" else "red" if transaction_type == "SELL" else "gray",
+        "size": abs(transaction.get("value", 0))
+    }
+    return marker
+
+# Example usage in existing logic
+# transactions = fetch_block_transactions(last_block)
+# for tx in transactions:
+#     marker = add_overlay_marker(tx)
+#     # Add marker to visualization or log
+#     print(f"Transaction {tx['hash']} marked as {marker['type']} with color {marker['color']}")
+
 if "_btc_whale_bg_thread" not in globals():
-    t = threading.Thread(target=background_whale_alert_scanner, args=(100, 5, 300), daemon=True)
+    t = threading.Thread(target=background_whale_alert_scanner, args=(50, 5, 300), daemon=True)
     t.start()
     _btc_whale_bg_thread = True

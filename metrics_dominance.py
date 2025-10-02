@@ -72,6 +72,9 @@ def show_dominance_metric():
         df = pd.read_csv("dominance_history.csv", parse_dates=["timestamp"])
         df["timestamp"] = pd.to_datetime(df["timestamp"])  # Đảm bảo đúng kiểu datetime
         df = df.sort_values("timestamp")
+        # df = pd.read_csv("dominance_history.csv")
+        # df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")  # Bỏ qua giá trị lỗi
+        # df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
         # Nếu dữ liệu có theo giờ, lọc theo giờ, nếu chỉ có ngày thì vẫn hoạt động bình thường
         min_time = pd.Timestamp.now() - pd.Timedelta(days=days)
         df = df[df["timestamp"] >= min_time]

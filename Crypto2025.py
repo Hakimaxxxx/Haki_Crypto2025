@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 from datetime import datetime
 from SOL import metrics_sol_whale_alert_realtime
 import json
@@ -12,7 +13,6 @@ import threading
 # Import các module metrics
 # Import các module metrics
 import metrics_flow
-from ETH import metrics_eth_whale_alert_realtime
 # --- TỰ ĐỘNG CRAWL DOMINANCE MỖI PHÚT (KHÔNG BLOCK UI) ---
 def crawl_dominance_background():
     import requests
@@ -297,7 +297,8 @@ with tab1:
         # Lọc chỉ các entry tổng portfolio (không có key 'coin')
         df_hist_metric = pd.DataFrame([h for h in history if 'coin' not in h])
         if not df_hist_metric.empty:
-            df_hist_metric["Date"] = pd.to_datetime(df_hist_metric["timestamp"], unit="s").dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
+            # Chỉ chuyển sang GMT+7 khi hiển thị, dữ liệu gốc vẫn giữ UTC
+            df_hist_metric["Date"] = pd.to_datetime(df_hist_metric["timestamp"], unit="s").dt.tz_localize("UTC")
             now_dt = pd.Timestamp.now(tz=tz_gmt7)
             df_hist_sorted = df_hist_metric.sort_values("Date")
             yesterday = now_dt - pd.Timedelta(days=1)
@@ -479,7 +480,8 @@ with tab1:
     metric_delta_pnl = ""
     metric_delta_profit = ""
     if not df_hist.empty:
-        df_hist["Date"] = pd.to_datetime(df_hist["timestamp"], unit="s").dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
+        # Chỉ chuyển sang GMT+7 khi hiển thị, dữ liệu gốc vẫn giữ UTC
+        df_hist["Date"] = pd.to_datetime(df_hist["timestamp"], unit="s").dt.tz_localize("UTC")
         # Tính tổng số tiền đầu tư tại mỗi thời điểm (dùng giá mua trung bình hiện tại * số token hiện tại)
         total_invested = sum(
             st.session_state["avg_price"].get(c, 0.0) * st.session_state["holdings"].get(c, 0.0)
@@ -521,12 +523,14 @@ with tab1:
         # Hiển thị chart với 2 trục y: value/PNL và % Profit & Loss
         import plotly.graph_objects as go
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
-        fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible="legendonly"))
-        fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible="legendonly"))
+        # Chuyển sang GMT+7 khi hiển thị
+        x_gmt7 = df_hist["Date"].dt.tz_convert(tz_gmt7)
+        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
+        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible="legendonly"))
+        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible="legendonly"))
         fig.update_layout(
             title="Portfolio Value, PNL & % Profit & Loss Over Time (GMT+7)",
-            xaxis=dict(title="Date"),
+            xaxis=dict(title="Date (GMT+7)"),
             yaxis=dict(title="Portfolio Value / PNL (USD)", side="left"),
             yaxis2=dict(title="% Profit & Loss", overlaying="y", side="right", showgrid=False),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -792,14 +796,16 @@ with tab2:
                 )
                 fig = go.Figure()
                 if "Portfolio Value" in chart_options:
-                    fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
-                if "PNL" in chart_options:
-                    fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible=True))
-                if "% Profit & Loss" in chart_options:
-                    fig.add_trace(go.Scatter(x=df_hist["Date"], y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible=True))
+                    # Chuyển sang GMT+7 khi hiển thị
+                    x_gmt7 = df_hist["Date"].dt.tz_convert(tz_gmt7)
+                    fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
+                    if "PNL" in chart_options:
+                        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible=True))
+                    if "% Profit & Loss" in chart_options:
+                        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible=True))
                 fig.update_layout(
                     title=f"{coin[1]} Portfolio Value, PNL & % Profit & Loss Over Time (GMT+7)",
-                    xaxis=dict(title="Date"),
+                    xaxis=dict(title="Date (GMT+7)"),
                     yaxis=dict(title="Portfolio Value / PNL (USD)", side="left"),
                     yaxis2=dict(title="% Profit & Loss", overlaying="y", side="right", showgrid=False),
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
@@ -838,12 +844,23 @@ with tab2:
                     df_ohlcv = None
             fig_ohlcv = metrics_ohlcv_okx.plot_price_volume_chart(df_ohlcv, symbol=f"{coin[1]}-USDT-SWAP")
 
+            # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
+            if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
+                if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                    df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
             fig_to_show = fig_ohlcv
             # Whale Alert cho ETH: overlay vào fig_ohlcv nếu là ETH
             if coin[1] == "ETH" and fig_ohlcv and not df_ohlcv.empty:
                 from overlay_whale_alert import overlay_whale_alert_chart
-                from ETH import metrics_eth_whale_alert_realtime
-                whale_txs = metrics_eth_whale_alert_realtime.load_whale_history()
+                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                eth_token = [t for t in ERC20_TOKENS if t['name'] == 'ETH'][0]
+                whale_txs = []
+                try:
+                    import json
+                    with open(eth_token['history_file'], 'r') as f:
+                        whale_txs = json.load(f)
+                except:
+                    pass
                 st.session_state[f"fig_ohlcv_ETH"] = fig_ohlcv
                 overlay_whale_alert_chart(
                     whale_txs=whale_txs,
@@ -852,23 +869,15 @@ with tab2:
                     slider_label="Lọc theo độ lớn giao dịch Whale (ETH)",
                     slider_step=0.1,
                     value_unit="ETH",
-                    type_map={"MUA": "MUA", "BÁN": "BÁN"},
-                    color_map={"MUA": "#43a047", "BÁN": "#e53935"},
+                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                        color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
                     default_show=True,
                     key_prefix="eth_"
                 )
-            # Whale Alert cho ETH: gọi ở cuối tab
-            # show_eth_whale_alert = None
-            # if coin[1] == "ETH":
-            #     import metrics_eth_whale_alert
-            #     show_eth_whale_alert = metrics_eth_whale_alert.show_eth_whale_alert_tab
-            #     show_eth_whale_alert()
-            # Whale Alert realtime toàn mạng (ETH, SOL)
-            # if coin[1] == "ETH":
-            #     # Đánh dấu đã xem alert khi user vào tab ETH
-            #     metrics_eth_whale_alert_realtime.mark_eth_whale_alert_seen()
             if coin[1] == "ETH":
-                metrics_eth_whale_alert_realtime.show_eth_whale_alert_realtime()
+                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                eth_token = [t for t in ERC20_TOKENS if t['name'] == 'ETH'][0]
+                show_erc20_whale_alert_realtime(eth_token)
             
             # Whale Alert cho SOL
             if coin[1] == "SOL":
@@ -876,6 +885,10 @@ with tab2:
                 from SOL import metrics_sol_whale_alert_realtime
                 metrics_sol_whale_alert_realtime.mark_sol_whale_alert_seen()
                 whale_txs = metrics_sol_whale_alert_realtime.load_whale_history()
+                # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
+                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
+                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
                 # Kiểm tra dữ liệu df_ohlcv và whale_txs cho SOL
                 error_msgs = []
                 if df_ohlcv is None or df_ohlcv.empty:
@@ -900,17 +913,103 @@ with tab2:
                     slider_label="Lọc theo độ lớn giao dịch Whale (SOL)",
                     slider_step=1.0,
                     value_unit="SOL",
-                    type_map={"withdraw": "MUA (Withdraw CEX)", "deposit": "BÁN (Deposit CEX)", "other": "Khác"},
-                    color_map={"withdraw": "#43a047", "deposit": "#e53935", "other": "#888"},
+                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
                     default_show=True,
                     key_prefix="sol_"
                 )
+            # Whale Alert cho BTC: overlay bóng Whale lên chart nếu có whale_txs
+            if coin[1] == "BTC" and fig_ohlcv and not df_ohlcv.empty:
+                from overlay_whale_alert import overlay_whale_alert_chart
+                from BTC import metrics_btc_whale_alert_realtime
+                whale_txs = metrics_btc_whale_alert_realtime.load_whale_history()
+                # Chuẩn hóa cột thời gian của df_ohlcv sang GMT+7 nếu chưa có tz
+                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
+                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
+                st.session_state[f"fig_ohlcv_BTC"] = fig_ohlcv
+                overlay_whale_alert_chart(
+                    whale_txs=whale_txs,
+                    df_ohlcv=df_ohlcv,
+                    coin_symbol="BTC",
+                    slider_label="Lọc theo độ lớn giao dịch Whale (BTC)",
+                    slider_step=1.0,
+                    value_unit="BTC",
+                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
+                    default_show=True,
+                    key_prefix="btc_"
+                )
+            # Whale Alert cho BNB: overlay markers (giống LINK/SOL/BTC)
+            if coin[1] == "BNB" and fig_ohlcv and not df_ohlcv.empty:
+                from overlay_whale_alert import overlay_whale_alert_chart
+                from BNB import metrics_bnb_whale_alert_realtime
+                whale_txs = metrics_bnb_whale_alert_realtime.load_whale_history()
+                # Chuẩn hóa cột thời gian df_ohlcv sang UTC nếu chưa có tz
+                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
+                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
+                st.session_state[f"fig_ohlcv_BNB"] = fig_ohlcv
+                overlay_whale_alert_chart(
+                    whale_txs=whale_txs,
+                    df_ohlcv=df_ohlcv,
+                    coin_symbol="BNB",
+                    slider_label="Lọc theo độ lớn giao dịch Whale (BNB)",
+                    slider_step=10.0,
+                    value_unit="BNB",
+                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
+                    default_show=True,
+                    key_prefix="bnb_"
+                )
+            # Hiển thị box Whale Alert BTC
+            if coin[1] == "BTC":
+                from BTC import metrics_btc_whale_alert_realtime
+                metrics_btc_whale_alert_realtime.show_btc_whale_alert_realtime()
+            if coin[1] == "SOL":
+                metrics_sol_whale_alert_realtime.show_sol_whale_alert_realtime()
+            # Whale Alert cho LINK: overlay markers, slider, box (thực hiện TRƯỚC khi vẽ chart)
+            if coin[1] == "LINK" and fig_ohlcv and not df_ohlcv.empty:
+                from overlay_whale_alert import overlay_whale_alert_chart
+                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
+                whale_txs = []
+                try:
+                    import json
+                    with open(link_token['history_file'], 'r') as f:
+                        whale_txs = json.load(f)
+                except:
+                    pass
+                # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
+                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
+                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
+                st.session_state[f"fig_ohlcv_LINK"] = fig_ohlcv
+                overlay_whale_alert_chart(
+                    whale_txs=whale_txs,
+                    df_ohlcv=df_ohlcv,
+                    coin_symbol="LINK",
+                    slider_label="Lọc theo độ lớn giao dịch Whale (LINK)",
+                    slider_step=100.0,
+                    value_unit="LINK",
+                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
+                    default_show=True,
+                    key_prefix="link_"
+                )
+            if coin[1] == "LINK":
+                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
+                show_erc20_whale_alert_realtime(link_token)
+            # Hiển thị box Whale Alert BNB
+            if coin[1] == "BNB":
+                from BNB import metrics_bnb_whale_alert_realtime
+                metrics_bnb_whale_alert_realtime.show_bnb_whale_alert_realtime()
+            # Vẽ chart SAU khi đã overlay để đảm bảo marker hiển thị
             if fig_ohlcv:
                 st.plotly_chart(fig_ohlcv, use_container_width=True, key=f"plotly_chart_{coin[1]}")
             else:
                 st.info(f"Không có dữ liệu giá/volume từ OKX cho khung {bar_label}.")
-            if coin[1] == "SOL":
-                metrics_sol_whale_alert_realtime.show_sol_whale_alert_realtime()
 
 
 # Tự động refresh mỗi 60 giây
