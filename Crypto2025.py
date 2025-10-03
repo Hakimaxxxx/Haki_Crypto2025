@@ -503,17 +503,28 @@ with tab1:
 
     if "coingecko_429" not in st.session_state:
         st.session_state["coingecko_429"] = False
+    if "coingecko_last_error_time" not in st.session_state:
+        st.session_state["coingecko_last_error_time"] = 0
     # Nút làm mới giá để bỏ qua cache ngay lập tức
     refresh_now = st.button("Làm mới giá (bỏ qua cache)", key="refresh_prices")
-    if refresh_now:
-        try:
-            st.cache_data.clear()
-        except Exception:
-            pass
-    price_data = get_prices_and_changes(coins)
-    if st.session_state["coingecko_429"]:
-        st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
-        st.session_state["coingecko_429"] = False
+    now_time = int(time.time())
+    # Nếu vừa gặp lỗi API, chỉ cho phép request lại sau 70 giây
+    can_request = True
+    if st.session_state["coingecko_last_error_time"] > 0:
+        if now_time - st.session_state["coingecko_last_error_time"] < 70:
+            can_request = False
+    price_data = {}
+    if can_request:
+        price_data = get_prices_and_changes(coins)
+        if st.session_state["coingecko_429"]:
+            st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
+            st.session_state["coingecko_429"] = False
+            st.session_state["coingecko_last_error_time"] = now_time
+        elif not price_data:
+            st.warning("Lỗi kết nối tới CoinGecko. Sẽ thử lại sau 1 phút.")
+            st.session_state["coingecko_last_error_time"] = now_time
+    else:
+        st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
     # Cơ chế tự động làm mới dữ liệu khi người dùng tương tác (ticker nhẹ)
     _ = st.empty()
     # Chèn một khóa phụ thuộc vào thời gian để streamlit nhận biết cần re-run, không ảnh hưởng hiệu năng
