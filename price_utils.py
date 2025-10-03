@@ -64,7 +64,7 @@ def fetch_prices_and_changes(coins: List[str], force: bool = False) -> tuple[Dic
         "price_change_percentage": "1h,24h,7d,30d"
     }
     try:
-        r = requests.get(url, params=params, timeout=15)
+        r = requests.get(url, params=params, timeout=20)
         if r.status_code == 429:
             raise CoinGeckoError("Rate limited (429)")
         r.raise_for_status()

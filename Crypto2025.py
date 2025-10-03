@@ -7,7 +7,12 @@ from db_utils import (
     backup_file
 )
 from price_utils import init_price_cache, fetch_prices_and_changes
-from db_bootstrap import bootstrap_from_cloud
+try:
+    from db_bootstrap import bootstrap_from_cloud
+except Exception:
+    # Fallback no-op if module import fails (prevents KeyError in some deployment packaging)
+    def bootstrap_from_cloud():
+        return False, "Bootstrap module unavailable"
 from config import COIN_LIST, DATA_FILE, AVG_PRICE_FILE, HISTORY_FILE
 from portfolio_history import load_history, append_snapshot
 from ui_metrics import show_portfolio_over_time_chart, show_pie_distribution, show_bar_pnl, show_health_panel

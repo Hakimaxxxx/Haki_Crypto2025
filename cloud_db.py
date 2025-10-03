@@ -122,37 +122,11 @@ class CloudDB:
         return d
 
 
-# Singleton
+# Singleton exposed for importers
 db = CloudDB()
 
-from cloud_db import db
+__all__ = ["CloudDB", "db"]
 
-if db.available():
-    print("Cloud database connected successfully!")
-else:
-    print("Failed to connect to the cloud database.")
-if db.available():
-    result = db.insert_one("test_collection", {"key": "value"})
-    if result:
-        print(f"Document inserted with ID: {result}")
-    else:
-        print("Failed to insert document.")
-
-
-import unittest
-from cloud_db import db
-
-class TestCloudDB(unittest.TestCase):
-    def test_connection(self):
-        self.assertTrue(db.available(), "Database connection failed!")
-
-    def test_insert_one(self):
-        result = db.insert_one("test_collection", {"key": "test_value"})
-        self.assertIsNotNone(result, "Failed to insert document!")
-
-    def test_find_all(self):
-        docs = db.find_all("test_collection")
-        self.assertGreater(len(docs), 0, "No documents found!")
-
-if __name__ == "__main__":
-    unittest.main()
+# (Optional lightweight connection log – disabled in Streamlit to avoid clutter)
+if os.getenv("PRINT_DB_STATUS_ON_IMPORT", "0") == "1":
+    print("Cloud DB connected" if db.available() else "Cloud DB NOT available")
