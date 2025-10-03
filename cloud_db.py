@@ -20,6 +20,7 @@ from typing import Any, Dict, Iterable, List, Optional
 
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError
+import time
 
 MONGO_CLIENT = None
 
@@ -31,20 +32,46 @@ class CloudDB:
         """Initialize the CloudDB instance and connect to MongoDB if URI is provided."""
         self._provider = None
         self._db = None
-        mongo_uri = os.getenv("MONGO_URI")
-        if mongo_uri:
-            try:
-                db_name = os.getenv("CLOUD_DB_NAME", "Cypto2025")
-                global MONGO_CLIENT
-                if MONGO_CLIENT is None:
-                    MONGO_CLIENT = MongoClient(mongo_uri, tz_aware=True)
-                self._db = MONGO_CLIENT[db_name]
-                self._provider = "mongo"
-            except PyMongoError:
-                self._provider = None
+        self._mongo_uri = os.getenv("MONGO_URI")
+        self._db_name = os.getenv("CLOUD_DB_NAME", "Cypto2025")
+        self._last_attempt = 0.0
+        self._retry_interval = 30  # seconds between reconnect attempts
+        self._connect_initial()
+
+    def _connect_initial(self):
+        if not self._mongo_uri:
+            return
+        try:
+            global MONGO_CLIENT
+            if MONGO_CLIENT is None:
+                MONGO_CLIENT = MongoClient(self._mongo_uri, tz_aware=True, serverSelectionTimeoutMS=5000)
+            # Force a ping to validate
+            MONGO_CLIENT.admin.command('ping')
+            self._db = MONGO_CLIENT[self._db_name]
+            self._provider = "mongo"
+        except PyMongoError:
+            self._provider = None
+
+    def _maybe_reconnect(self):
+        if self._db is not None or not self._mongo_uri:
+            return
+        now = time.time()
+        if now - self._last_attempt < self._retry_interval:
+            return
+        self._last_attempt = now
+        try:
+            global MONGO_CLIENT
+            MONGO_CLIENT = MongoClient(self._mongo_uri, tz_aware=True, serverSelectionTimeoutMS=5000)
+            MONGO_CLIENT.admin.command('ping')
+            self._db = MONGO_CLIENT[self._db_name]
+            self._provider = "mongo"
+        except PyMongoError:
+            self._provider = None
 
     def available(self) -> bool:
-        """Check if the database connection is available."""
+        """Check if the database connection is available (attempt lazy reconnect)."""
+        if self._db is None:
+            self._maybe_reconnect()
         return self._db is not None
 
     def insert_one(self, collection: str, doc: Dict[str, Any]) -> Optional[str]:

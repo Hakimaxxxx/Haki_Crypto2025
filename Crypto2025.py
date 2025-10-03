@@ -1037,7 +1037,18 @@ with tab1:
         queue_len = 0
     # Giá trị cập nhật cuối cùng đã lưu trong session
     last_price_ts = int(st.session_state.get("_last_portfolio_value_ts", 0)) if "_last_portfolio_value" in st.session_state else 0
-    show_health_panel(db, queue_len, last_price_ts, last_price_update_message="Price cache active")
+    # Thử flush queue DB thường xuyên hơn nếu đã có kết nối trở lại
+    if db.available():
+        try:
+            db_retry_queue(db)
+        except Exception:
+            pass
+    db_status_msg = "Price cache active"
+    if not db.available():
+        db_status_msg = "DB unavailable – will auto-retry every 30s"
+    elif queue_len > 0:
+        db_status_msg = f"Flushing queued writes: {queue_len} pending"
+    show_health_panel(db, queue_len, last_price_ts, last_price_update_message=db_status_msg)
 
 with tab2:
     st.title("📈 Metric")
