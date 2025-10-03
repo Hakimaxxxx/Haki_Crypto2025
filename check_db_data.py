@@ -33,5 +33,41 @@ def check_data():
     except Exception as e:
         print(f"Lỗi khi kết nối tới MongoDB: {e}")
 
+from pymongo import MongoClient
+import json
+def check_data_portfolio():
+    mongo_uri = os.getenv("MONGO_URI")
+    db_name = os.getenv("CLOUD_DB_NAME", "Crypto2025")
+    client = MongoClient(mongo_uri)
+    db = client[db_name]
+    collection = db["portfolio_history"]
+
+    data = list(collection.find({}))
+    with open("portfolio_history_DB_fetch.json", "w") as f:
+        json.dump(data, f, default=str)
+
+
+def import_portfolio_history():
+    import json
+    from pymongo import MongoClient
+    # Thay đổi thông tin kết nối
+    mongo_uri = os.getenv("MONGO_URI")
+    db_name = os.getenv("CLOUD_DB_NAME", "Crypto2025")
+
+    with open("d:\\Crypto\\portfolio_history_DB.json", "r", encoding="utf-8") as f:
+        data = json.load(f)  # Nếu là JSON array
+        # Nếu là NDJSON, dùng: data = [json.loads(line) for line in f if line.strip()]
+
+    # Kết nối tới MongoDB và xác định collection
+    client = MongoClient(mongo_uri)
+    db = client[db_name]
+    collection = db["portfolio_history"]
+
+    collection.insert_many(data)
+
+    print("Import thành công!")
+
 if __name__ == "__main__":
-    check_data()
+    #check_data()
+    #check_data_portfolio()
+    import_portfolio_history()

@@ -513,21 +513,55 @@ with tab1:
     if st.session_state["coingecko_last_error_time"] > 0:
         if now_time - st.session_state["coingecko_last_error_time"] < 70:
             can_request = False
-    price_data = {}
+    # --- Cơ chế giữ giá trị cũ khi API lỗi ---
+    # Lưu cache giá, portfolio_value, các thông tin coin
+    if "_last_prices" not in st.session_state:
+        st.session_state["_last_prices"] = {c: 0.0 for c in coins}
+    if "_last_price_data" not in st.session_state:
+        st.session_state["_last_price_data"] = {c: {} for c in coins}
+    if "_last_portfolio_value" not in st.session_state:
+        st.session_state["_last_portfolio_value"] = 0.0
+    if "_last_total_invested_now" not in st.session_state:
+        st.session_state["_last_total_invested_now"] = 0.0
+    if "_last_current_pnl" not in st.session_state:
+        st.session_state["_last_current_pnl"] = 0.0
+
+    price_data = st.session_state["_last_price_data"]
+    prices = st.session_state["_last_prices"]
+    portfolio_value = st.session_state["_last_portfolio_value"]
+    total_invested_now = st.session_state["_last_total_invested_now"]
+    current_pnl = st.session_state["_last_current_pnl"]
+
+    update_success = False
     if can_request:
-        price_data = get_prices_and_changes(coins)
+        new_price_data = get_prices_and_changes(coins)
         if st.session_state["coingecko_429"]:
             st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
             st.session_state["coingecko_429"] = False
             st.session_state["coingecko_last_error_time"] = now_time
-        elif not price_data:
+        elif not new_price_data:
             st.warning("Lỗi kết nối tới CoinGecko. Sẽ thử lại sau 1 phút.")
             st.session_state["coingecko_last_error_time"] = now_time
+        else:
+            # Chỉ cập nhật khi lấy được dữ liệu mới thành công
+            price_data = new_price_data
+            prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
+            now = int(time.time())
+            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+            total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
+            current_pnl = portfolio_value - total_invested_now
+            # Lưu lại cache giá trị cuối cùng thành công
+            st.session_state["_last_price_data"] = price_data
+            st.session_state["_last_prices"] = prices
+            st.session_state["_last_portfolio_value"] = portfolio_value
+            st.session_state["_last_total_invested_now"] = total_invested_now
+            st.session_state["_last_current_pnl"] = current_pnl
+            update_success = True
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
+
     # Cơ chế tự động làm mới dữ liệu khi người dùng tương tác (ticker nhẹ)
     _ = st.empty()
-    # Chèn một khóa phụ thuộc vào thời gian để streamlit nhận biết cần re-run, không ảnh hưởng hiệu năng
     st.session_state.setdefault("_last_price_refresh", 0)
     if (int(time.time()) - st.session_state["_last_price_refresh"]) > 65:
         try:
@@ -535,13 +569,20 @@ with tab1:
         except Exception:
             pass
         st.session_state["_last_price_refresh"] = int(time.time())
-        price_data = get_prices_and_changes(coins)
-    prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
-
-    now = int(time.time())
-    portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
-    total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
-    current_pnl = portfolio_value - total_invested_now
+        # Chỉ cập nhật khi lấy được dữ liệu mới thành công
+        new_price_data = get_prices_and_changes(coins)
+        if new_price_data:
+            price_data = new_price_data
+            prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
+            now = int(time.time())
+            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+            total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
+            current_pnl = portfolio_value - total_invested_now
+            st.session_state["_last_price_data"] = price_data
+            st.session_state["_last_prices"] = prices
+            st.session_state["_last_portfolio_value"] = portfolio_value
+            st.session_state["_last_total_invested_now"] = total_invested_now
+            st.session_state["_last_current_pnl"] = current_pnl
     history = load_portfolio_history()
     # --- Lưu lịch sử tổng và từng coin ---
     # Lưu mỗi phút 1 lần (theo timestamp phút), chỉ lưu nếu portfolio_value > 0 (có data hợp lệ)
