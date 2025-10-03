@@ -569,6 +569,9 @@ with tab1:
     api_error = False
     if (has_holdings_any and (portfolio_value == 0 or portfolio_value is None)):
         api_error = True
+    # Ensure 'now' is defined
+    if 'now' not in locals():
+        now = int(time.time())
     if valid_snapshot and not api_error and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
         # Lưu tổng portfolio + từng coin vào new_docs
         entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
