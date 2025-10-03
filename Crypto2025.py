@@ -1,3 +1,17 @@
+
+from db_utils import (
+    db_upsert_portfolio_docs_with_retry,
+    db_retry_queue,
+    validate_portfolio_docs,
+    save_portfolio_history_optimized,
+    backup_file
+)
+from price_utils import init_price_cache, fetch_prices_and_changes
+from db_bootstrap import bootstrap_from_cloud
+from config import COIN_LIST, DATA_FILE, AVG_PRICE_FILE, HISTORY_FILE
+from portfolio_history import load_history, append_snapshot
+from ui_metrics import show_portfolio_over_time_chart, show_pie_distribution, show_bar_pnl, show_health_panel
+
 import streamlit as st
 import requests
 import pandas as pd
@@ -20,12 +34,9 @@ from cloud_db import db
 
 # --- DB sync helpers ---
 def _db_upsert_portfolio_docs(docs: list):
-    try:
-        if db.available() and docs:
-            # Unique by (timestamp, coin) when coin exists; totals use timestamp only
-            db.upsert_many("portfolio_history", docs, unique_keys=["timestamp", "coin"])
-    except Exception:
-        pass
+    # Sử dụng hàm helper từ db_utils.py
+    db_upsert_portfolio_docs_with_retry(db, docs)
+    db_retry_queue(db)
 
 def _db_set_portfolio_meta(holdings: dict | None = None, avg_price: dict | None = None):
     try:
@@ -95,12 +106,12 @@ def _db_bootstrap_sync_once():
         pass
 
 # Ensure we always load data from Cloud DB first before any logging threads or UI reads
-try:
-    if "_bootstrapped_from_cloud" not in st.session_state:
-        _db_bootstrap_sync_once()
-        st.session_state["_bootstrapped_from_cloud"] = True
-except Exception:
-    pass
+if "_bootstrapped_from_cloud" not in st.session_state:
+    changed, msg = bootstrap_from_cloud()
+    st.session_state["_bootstrapped_from_cloud"] = True
+    if not changed:
+        st.warning(f"Bootstrap DB: {msg}")
+init_price_cache()
 
 
 # --- TỰ ĐỘNG CRAWL DOMINANCE MỖI PHÚT (KHÔNG BLOCK UI) ---
@@ -183,28 +194,7 @@ import pytz
 
 tz_gmt7 = pytz.timezone("Asia/Bangkok")
 
-# Danh sách coin đầy đủ (id của CoinGecko)
-COIN_LIST = [
-    ("bitcoin", "BTC"),
-    ("ethereum", "ETH"),
-    ("solana", "SOL"),
-    ("cardano", "ADA"),
-    ("chainlink", "LINK"),
-    ("near", "NEAR"),
-    ("avalanche-2", "AVAX"),
-    ("sui", "SUI"),
-    ("binancecoin", "BNB"),
-    ("ether-fi", "ETHFI"),
-    ("aptos", "APT"),
-    ("ethena", "ENA"),
-    ("eigenlayer", "EIGEN"),
-    ("worldcoin-wld", "WLD"),
-    ("ondo-finance", "ONDO"),
-    ("render-token", "RENDER"),
-    ("tether", "USDT")
-]
-
-# Lấy danh sách id và tên hiển thị
+# Lấy danh sách id và tên hiển thị từ config
 coin_ids = [c[0] for c in COIN_LIST]
 coin_names = [c[1] for c in COIN_LIST]
 coin_id_to_name = dict(COIN_LIST)
@@ -222,9 +212,7 @@ coins = [coin_name_to_id[name] for name in selected_coin_names]
 # Lưu ý: Các hằng số file lưu trữ cần được định nghĩa TRƯỚC khi khởi chạy thread nền
 # để tránh NameError trong các hàm background.
 # Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
-DATA_FILE = "data.json"
-AVG_PRICE_FILE = "avg_price.json"
-HISTORY_FILE = "portfolio_history.json"
+# (Đã lấy từ config)
 
 
 # --- Nền: Ghi nhận Portfolio (Value/PNL/% P&L) theo phút, đồng bộ DB liên tục ---
@@ -418,11 +406,8 @@ def load_portfolio_history():
 
 # Hàm lưu lịch sử portfolio
 def save_portfolio_history(history):
-    try:
-        with open(HISTORY_FILE, "w") as f:
-            json.dump(history, f)
-    except Exception as e:
-        st.warning(f"Không thể lưu lịch sử portfolio: {e}")
+    save_portfolio_history_optimized(history, HISTORY_FILE)
+    backup_file(HISTORY_FILE)
 
 # Hàm load holdings từ file
 def load_holdings():
@@ -534,29 +519,22 @@ with tab1:
 
     update_success = False
     if can_request:
-        new_price_data = get_prices_and_changes(coins)
-        if st.session_state["coingecko_429"]:
-            st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
-            st.session_state["coingecko_429"] = False
-            st.session_state["coingecko_last_error_time"] = now_time
-        elif not new_price_data:
-            st.warning("Lỗi kết nối tới CoinGecko. Sẽ thử lại sau 1 phút.")
-            st.session_state["coingecko_last_error_time"] = now_time
-        else:
-            # Chỉ cập nhật khi lấy được dữ liệu mới thành công
-            price_data = new_price_data
-            prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
+        prices_new, pdata_new, updated, msg = fetch_prices_and_changes(coins, force=refresh_now)
+        if updated:
+            price_data = pdata_new
+            prices = {c: prices_new.get(c, 0.0) for c in coins}
             now = int(time.time())
             portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
             total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
             current_pnl = portfolio_value - total_invested_now
-            # Lưu lại cache giá trị cuối cùng thành công
             st.session_state["_last_price_data"] = price_data
             st.session_state["_last_prices"] = prices
             st.session_state["_last_portfolio_value"] = portfolio_value
             st.session_state["_last_total_invested_now"] = total_invested_now
             st.session_state["_last_current_pnl"] = current_pnl
-            update_success = True
+        else:
+            if msg:
+                st.info(msg)
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
 
@@ -564,16 +542,11 @@ with tab1:
     _ = st.empty()
     st.session_state.setdefault("_last_price_refresh", 0)
     if (int(time.time()) - st.session_state["_last_price_refresh"]) > 65:
-        try:
-            st.cache_data.clear()
-        except Exception:
-            pass
         st.session_state["_last_price_refresh"] = int(time.time())
-        # Chỉ cập nhật khi lấy được dữ liệu mới thành công
-        new_price_data = get_prices_and_changes(coins)
-        if new_price_data:
-            price_data = new_price_data
-            prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
+        prices_new, pdata_new, updated, msg = fetch_prices_and_changes(coins)
+        if updated:
+            price_data = pdata_new
+            prices = {c: prices_new.get(c, 0.0) for c in coins}
             now = int(time.time())
             portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
             total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
@@ -583,7 +556,10 @@ with tab1:
             st.session_state["_last_portfolio_value"] = portfolio_value
             st.session_state["_last_total_invested_now"] = total_invested_now
             st.session_state["_last_current_pnl"] = current_pnl
-    history = load_portfolio_history()
+        else:
+            if msg:
+                st.info(msg)
+    history = load_history()
     # --- Lưu lịch sử tổng và từng coin ---
     # Lưu mỗi phút 1 lần (theo timestamp phút), chỉ lưu nếu portfolio_value > 0 (có data hợp lệ)
     # Noise filter for UI-side logging as well
@@ -594,14 +570,11 @@ with tab1:
     if (has_holdings_any and (portfolio_value == 0 or portfolio_value is None)):
         api_error = True
     if valid_snapshot and not api_error and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
-        # Lưu tổng portfolio
+        # Lưu tổng portfolio + từng coin vào new_docs
         entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
-        history.append(entry)
         new_docs = [entry]
-        # Lưu từng coin (dạng flat, mỗi coin 1 entry riêng, có key 'coin')
         for coin in coins:
             coin_value = prices.get(coin, 0.0) * holdings.get(coin, 0.0)
-            # Chỉ lưu nếu coin_value > 0
             if coin_value > 0:
                 coin_invested = avg_price.get(coin, 0.0) * holdings.get(coin, 0.0)
                 coin_pnl = coin_value - coin_invested
@@ -614,11 +587,8 @@ with tab1:
                     "amount": holdings.get(coin, 0.0),
                     "avg_price": avg_price.get(coin, 0.0)
                 }
-                history.append(coin_entry)
                 new_docs.append(coin_entry)
-        # Save to local and DB
-        # Only persist if snapshot still valid (avoid writing noise)
-        save_portfolio_history(history)
+        append_snapshot(new_docs)
         try:
             _db_upsert_portfolio_docs(new_docs)
         except Exception:
@@ -856,39 +826,9 @@ with tab1:
         elif range_option == "1 ngày":
             df_hist = df_hist[df_hist["Date"] >= now_dt - pd.Timedelta(days=1)]
 
-        # Hiển thị chart với 2 trục y: value/PNL và % Profit & Loss
-        import plotly.graph_objects as go
-        fig = go.Figure()
-        # Chuyển sang GMT+7 khi hiển thị
-        x_gmt7 = df_hist["Date"].dt.tz_convert(tz_gmt7)
-        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
-        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible="legendonly"))
-        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible="legendonly"))
-        fig.update_layout(
-            title="Portfolio Value, PNL & % Profit & Loss Over Time (GMT+7)",
-            xaxis=dict(title="Date (GMT+7)"),
-            yaxis=dict(title="Portfolio Value / PNL (USD)", side="left"),
-            yaxis2=dict(title="% Profit & Loss", overlaying="y", side="right", showgrid=False),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-        st.plotly_chart(fig, use_container_width=True, key="main_line_chart")
-
-        # Pie chart: % tỉ lệ sở hữu của từng đồng trên tổng portfolio
-        pie_df = result_df[["Coin", "Tổng giá trị"]].copy()
-        pie_df = pie_df[pie_df["Tổng giá trị"] > 0]
-        if not pie_df.empty:
-            fig_pie = px.pie(pie_df, names="Coin", values="Tổng giá trị", title="Tỉ lệ sở hữu từng đồng coin trên tổng Portfolio", hole=0.3)
-            st.plotly_chart(fig_pie, use_container_width=True)
-
-        # Bar chart: PNL và % Profit & Loss của từng đồng coin
-        bar_df = result_df[["Coin", "Profit & Loss", "% Profit/Loss"]].copy()
-        if not bar_df.empty:
-            fig_bar = px.bar(bar_df, x="Coin", y=["Profit & Loss", "% Profit/Loss"], barmode="group",
-                            title="PNL và % Profit & Loss của từng đồng coin",
-                            labels={"value": "Giá trị", "variable": "Chỉ số"})
-            st.plotly_chart(fig_bar, use_container_width=True)
-
-        # Lưu các metric tổng hợp vào session_state để tab2 dùng
+        show_portfolio_over_time_chart(history, key="main_line_chart")
+        show_pie_distribution(result_df)
+        show_bar_pnl(result_df)
         st.session_state["portfolio_value"] = portfolio_value
         st.session_state["total_invested_now"] = total_invested_now
         st.session_state["current_pnl"] = current_pnl
@@ -993,6 +933,17 @@ with tab1:
                 st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("Không đủ dữ liệu giá OKX để so sánh tăng trưởng các coin.")
+
+    # --- Health Panel ---
+    # Lấy độ dài queue DB (thông qua biến trong db_utils - tạm không public nên dùng try) và timestamp cập nhật giá gần nhất
+    try:
+        from db_utils import _db_write_queue  # type: ignore
+        queue_len = len(_db_write_queue)
+    except Exception:
+        queue_len = 0
+    # Giá trị cập nhật cuối cùng đã lưu trong session
+    last_price_ts = int(st.session_state.get("_last_portfolio_value_ts", 0)) if "_last_portfolio_value" in st.session_state else 0
+    show_health_panel(db, queue_len, last_price_ts, last_price_update_message="Price cache active")
 
 with tab2:
     st.title("📈 Metric")
