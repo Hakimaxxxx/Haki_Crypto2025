@@ -491,6 +491,61 @@ with tab1:
     holdings = st.session_state["holdings"]
     avg_price = st.session_state["avg_price"]
 
+    # --- Bootstrap portfolio cache from DB (tránh hiển thị 0 lúc đầu nếu API chưa trả giá) ---
+    def _bootstrap_portfolio_cache_from_db():
+        try:
+            if not db.available():
+                return False
+            # Lấy một batch nhỏ mới nhất (descending) để tìm tổng + giá trị từng coin mới nhất
+            docs = db.find_all("portfolio_history", sort_field="timestamp", ascending=False, limit=250)
+            if not docs:
+                return False
+            last_total = None
+            coin_latest = {}
+            for d in docs:
+                if last_total is None and 'coin' not in d:
+                    last_total = d
+                elif 'coin' in d:
+                    c = d.get('coin')
+                    if c and c not in coin_latest:
+                        coin_latest[c] = d
+                if last_total and len(coin_latest) >= len(holdings):
+                    # Đã có đủ dữ liệu cơ bản
+                    pass
+            if not last_total:
+                return False
+            pv = float(last_total.get('value') or 0)
+            if pv <= 0:
+                return False
+            # Ghi vào session state
+            st.session_state.setdefault("_last_prices", {c: 0.0 for c in holdings})
+            st.session_state.setdefault("_last_price_data", {c: {} for c in holdings})
+            st.session_state["_last_portfolio_value"] = pv
+            st.session_state["_last_nonzero_portfolio_value"] = pv
+            # Tái tạo giá từng coin từ snapshot (value / amount)
+            reconstructed_prices = {}
+            for c, doc in coin_latest.items():
+                amt = float(doc.get('amount') or 0)
+                val = float(doc.get('value') or 0)
+                if amt > 0 and val > 0:
+                    reconstructed_prices[c] = val / amt
+            if reconstructed_prices:
+                lp = st.session_state.get("_last_prices", {})
+                lp.update(reconstructed_prices)
+                st.session_state["_last_prices"] = lp
+            # Tính tổng vốn đầu tư dựa trên avg_price hiện tại
+            invested = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in holdings)
+            st.session_state["_last_total_invested_now"] = invested
+            st.session_state["_last_current_pnl"] = pv - invested
+            st.session_state["_bootstrap_source"] = "db"
+            return True
+        except Exception:
+            return False
+
+    # Chỉ bootstrap nếu chưa có non-zero cache
+    if st.session_state.get("_last_nonzero_portfolio_value", 0) == 0:
+        _bootstrap_portfolio_cache_from_db()
+
     if "coingecko_429" not in st.session_state:
         st.session_state["coingecko_429"] = False
     if "coingecko_last_error_time" not in st.session_state:
@@ -526,6 +581,7 @@ with tab1:
     current_pnl = st.session_state["_last_current_pnl"]
 
     update_success = False
+    prev_portfolio_value = portfolio_value
     if can_request:
         prices_new, pdata_new, updated, msg = fetch_prices_and_changes(coins, force=refresh_now)
         if updated:
@@ -542,9 +598,18 @@ with tab1:
             st.session_state["_last_portfolio_value"] = portfolio_value
             st.session_state["_last_total_invested_now"] = total_invested_now
             st.session_state["_last_current_pnl"] = current_pnl
+            update_success = True
         else:
             if msg:
                 st.info(msg)
+            # If API rate limit and computed value becomes 0 but we have previous non-zero -> keep previous snapshot
+            if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
+                portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
+                # Do not change invested/current_pnl; recompute with preserved prices
+                prices = st.session_state["_last_prices"]
+                price_data = st.session_state["_last_price_data"]
+                total_invested_now = st.session_state["_last_total_invested_now"]
+                current_pnl = portfolio_value - total_invested_now
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
 
@@ -638,15 +703,20 @@ with tab1:
     if display_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
         display_value = st.session_state["_last_nonzero_portfolio_value"]
 
+    cached_note = ""
+    if st.session_state.get("_bootstrap_source") == "db" and display_value > 0 and not update_success:
+        cached_note = " (db cached)"
+    elif not update_success and prices is st.session_state.get("_last_prices") and any(holdings.get(c, 0.0) > 0 for c in coins):
+        cached_note = " (cached)"
     if metric_delta != "N/A" and value_change != "N/A" and value_yesterday is not None:
         st.metric(
-            "💰 Tổng giá trị Portfolio (USD)",
+            f"💰 Tổng giá trị Portfolio (USD){cached_note}",
             f"{display_value:,.2f}",
             delta=f"{metric_delta} | {value_change:,.2f} USD",
             delta_color="normal"
         )
     else:
-        st.metric("💰 Tổng giá trị Portfolio (USD)", f"{display_value:,.2f}", delta="N/A | N/A")
+        st.metric(f"💰 Tổng giá trị Portfolio (USD){cached_note}", f"{display_value:,.2f}", delta="N/A | N/A")
 
     # Chuẩn bị dataframe cho bảng
     data = []
