@@ -537,7 +537,11 @@ with tab1:
     # Noise filter for UI-side logging as well
     has_holdings_any = any(float(holdings.get(c, 0.0)) != 0 for c in coins)
     valid_snapshot = (portfolio_value >= 0) and (not has_holdings_any or portfolio_value > 0)
-    if valid_snapshot and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
+    # Kiểm tra lỗi API: nếu có holdings mà portfolio_value == 0 hoặc None thì không lưu
+    api_error = False
+    if (has_holdings_any and (portfolio_value == 0 or portfolio_value is None)):
+        api_error = True
+    if valid_snapshot and not api_error and (len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60):
         # Lưu tổng portfolio
         entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
         history.append(entry)
