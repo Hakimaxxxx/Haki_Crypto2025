@@ -511,6 +511,9 @@ with tab1:
         st.session_state["_last_price_data"] = {c: {} for c in coins}
     if "_last_portfolio_value" not in st.session_state:
         st.session_state["_last_portfolio_value"] = 0.0
+    # Track the last non-zero (valid) portfolio value so UI never flashes 0 when API rate limits
+    if "_last_nonzero_portfolio_value" not in st.session_state:
+        st.session_state["_last_nonzero_portfolio_value"] = 0.0
     if "_last_total_invested_now" not in st.session_state:
         st.session_state["_last_total_invested_now"] = 0.0
     if "_last_current_pnl" not in st.session_state:
@@ -530,6 +533,8 @@ with tab1:
             prices = {c: prices_new.get(c, 0.0) for c in coins}
             now = int(time.time())
             portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+            if portfolio_value > 0:
+                st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
             total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
             current_pnl = portfolio_value - total_invested_now
             st.session_state["_last_price_data"] = price_data
@@ -554,6 +559,8 @@ with tab1:
             prices = {c: prices_new.get(c, 0.0) for c in coins}
             now = int(time.time())
             portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+            if portfolio_value > 0:
+                st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
             total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
             current_pnl = portfolio_value - total_invested_now
             st.session_state["_last_price_data"] = price_data
@@ -564,6 +571,10 @@ with tab1:
         else:
             if msg:
                 st.info(msg)
+    # If API failed and current computed value is 0 while we have a previous valid snapshot, reuse last non-zero value
+    if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
+        portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
+
     history = load_history()
     # --- Lưu lịch sử tổng và từng coin ---
     # Lưu mỗi phút 1 lần (theo timestamp phút), chỉ lưu nếu portfolio_value > 0 (có data hợp lệ)
@@ -622,15 +633,20 @@ with tab1:
                 metric_delta = f"{(portfolio_value - value_yesterday) / (value_yesterday + 1e-9) * 100:.2f}%"
                 value_change = portfolio_value - value_yesterday
 
+    # Display portfolio metric (never show 0 if holdings exist and we have prior non-zero)
+    display_value = portfolio_value
+    if display_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
+        display_value = st.session_state["_last_nonzero_portfolio_value"]
+
     if metric_delta != "N/A" and value_change != "N/A" and value_yesterday is not None:
         st.metric(
             "💰 Tổng giá trị Portfolio (USD)",
-            f"{portfolio_value:,.2f}",
+            f"{display_value:,.2f}",
             delta=f"{metric_delta} | {value_change:,.2f} USD",
             delta_color="normal"
         )
     else:
-        st.metric("💰 Tổng giá trị Portfolio (USD)", f"{portfolio_value:,.2f}", delta="N/A | N/A")
+        st.metric("💰 Tổng giá trị Portfolio (USD)", f"{display_value:,.2f}", delta="N/A | N/A")
 
     # Chuẩn bị dataframe cho bảng
     data = []
