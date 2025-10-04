@@ -68,6 +68,6 @@ def import_portfolio_history():
     print("Import thành công!")
 
 if __name__ == "__main__":
-    #check_data()
+    check_data()
     #check_data_portfolio()
-    import_portfolio_history()
+    #import_portfolio_history()

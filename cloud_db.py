@@ -33,7 +33,7 @@ class CloudDB:
         self._provider = None
         self._db = None
         self._mongo_uri = os.getenv("MONGO_URI")
-        self._db_name = os.getenv("CLOUD_DB_NAME", "Cypto2025")
+        self._db_name = os.getenv("CLOUD_DB_NAME", "Crypto2025")  # Fixed typo
         self._last_attempt = 0.0
         self._retry_interval = 30  # seconds between reconnect attempts
         self._last_error_msg = None  # type: Optional[str]
@@ -45,7 +45,14 @@ class CloudDB:
         try:
             global MONGO_CLIENT
             if MONGO_CLIENT is None:
-                MONGO_CLIENT = MongoClient(self._mongo_uri, tz_aware=True, serverSelectionTimeoutMS=5000)
+                MONGO_CLIENT = MongoClient(
+                    self._mongo_uri, 
+                    tz_aware=True, 
+                    serverSelectionTimeoutMS=15000,  # Increased timeout
+                    connectTimeoutMS=15000,
+                    socketTimeoutMS=15000,
+                    maxPoolSize=10
+                )
             # Force a ping to validate
             MONGO_CLIENT.admin.command('ping')
             self._db = MONGO_CLIENT[self._db_name]
@@ -63,10 +70,18 @@ class CloudDB:
         self._last_attempt = now
         try:
             global MONGO_CLIENT
-            MONGO_CLIENT = MongoClient(self._mongo_uri, tz_aware=True, serverSelectionTimeoutMS=5000)
+            MONGO_CLIENT = MongoClient(
+                self._mongo_uri, 
+                tz_aware=True, 
+                serverSelectionTimeoutMS=15000,  # Increased timeout
+                connectTimeoutMS=15000,
+                socketTimeoutMS=15000,
+                maxPoolSize=10
+            )
             MONGO_CLIENT.admin.command('ping')
             self._db = MONGO_CLIENT[self._db_name]
             self._provider = "mongo"
+            self._last_error_msg = None  # Clear error on successful connect
         except PyMongoError as e:
             self._provider = None
             self._last_error_msg = f"reconnect error: {e}"[:300]
@@ -75,10 +90,35 @@ class CloudDB:
         """Check if the database connection is available (attempt lazy reconnect)."""
         if self._db is None:
             self._maybe_reconnect()
+        
+        # Additional ping test to ensure connection is really alive
+        if self._db is not None:
+            try:
+                global MONGO_CLIENT
+                if MONGO_CLIENT:
+                    MONGO_CLIENT.admin.command('ping')
+                return True
+            except Exception as e:
+                self._last_error_msg = f"ping failed: {e}"[:300]
+                self._db = None
+                return False
+        
         return self._db is not None
 
     def last_error(self) -> str | None:
         return self._last_error_msg
+
+    def get_connection_info(self) -> Dict[str, Any]:
+        """Get detailed connection information for debugging."""
+        return {
+            "mongo_uri_set": bool(self._mongo_uri),
+            "db_name": self._db_name,
+            "provider": self._provider,
+            "db_available": self._db is not None,
+            "last_error": self._last_error_msg,
+            "last_attempt": self._last_attempt,
+            "retry_interval": self._retry_interval
+        }
 
     def force_reconnect(self) -> bool:
         """Force an immediate reconnect attempt regardless of backoff."""

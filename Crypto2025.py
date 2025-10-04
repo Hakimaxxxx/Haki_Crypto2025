@@ -6,21 +6,18 @@ from db_utils import (
     save_portfolio_history_optimized,
     backup_file
 )
-# --- Safe import price_utils (avoid KeyError in partial import states) ---
-try:
-    from price_utils import init_price_cache, fetch_prices_and_changes
-except Exception as e:
-    def init_price_cache():
-        pass
-    def fetch_prices_and_changes(coins, force: bool = False):
-        return {}, {}, False, f"Price module load error: {e}"  # type: ignore
-    import traceback; print("[WARN] Fallback price_utils stub active", e)
-try:
-    from db_bootstrap import bootstrap_from_cloud
-except Exception:
-    # Fallback no-op if module import fails (prevents KeyError in some deployment packaging)
-    def bootstrap_from_cloud():
-        return False, "Bootstrap module unavailable"
+
+# New robust initialization system
+from app_init import (
+    initialize_app, 
+    get_portfolio_data, 
+    get_price_data, 
+    get_history_data, 
+    update_portfolio_data,
+    get_app_state,
+    get_cached_data
+)
+
 from config import COIN_LIST, DATA_FILE, AVG_PRICE_FILE, HISTORY_FILE
 from portfolio_history import load_history, append_snapshot
 from ui_metrics import show_portfolio_over_time_chart, show_pie_distribution, show_bar_pnl, show_health_panel
@@ -31,8 +28,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from datetime import datetime
-from SOL import load_metrics_realtime
-metrics_sol_whale_alert_realtime = load_metrics_realtime()
 import json
 from datetime import datetime
 import json
@@ -41,10 +36,51 @@ import threading
 # Import các module metrics
 # Import các module metrics
 import metrics_flow
-# Set MongoDB environment variables
+# Set MongoDB environment variables FIRST before any cloud_db imports
 os.environ["MONGO_URI"] = "mongodb+srv://quanghuy060997_db_user:MPCuEbF2GhpmiZm8@cluster0.x3iyjjm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 os.environ["CLOUD_DB_NAME"] = "Crypto2025"
+
+# Now safe to import cloud_db and modules that depend on it
 from cloud_db import db
+from SOL import load_metrics_realtime
+metrics_sol_whale_alert_realtime = load_metrics_realtime()
+
+# Initialize app with robust error handling
+if "app_initialized" not in st.session_state:
+    with st.spinner("🚀 Initializing application..."):
+        success, message = initialize_app()
+        st.session_state["app_initialized"] = True
+        st.session_state["init_success"] = success
+        st.session_state["init_message"] = message
+        
+        if success:
+            st.success(f"✅ {message}")
+        else:
+            st.error(f"❌ {message}")
+            st.info("💡 App will run with limited functionality using available data sources.")
+
+# Helper functions for price fetching with new init system
+def get_current_prices():
+    """Get current prices using the new initialization system."""
+    try:
+        prices, price_data = get_price_data()
+        if prices:
+            return prices, price_data, True, "Prices loaded successfully"
+        else:
+            return {}, {}, False, "No price data available"
+    except Exception as e:
+        return {}, {}, False, f"Price fetch error: {e}"
+
+def load_portfolio_holdings():
+    """Load portfolio holdings using the new initialization system."""
+    try:
+        portfolio, avg_prices = get_portfolio_data()
+        print(f"[DEBUG] load_portfolio_holdings() called - Portfolio: {len(portfolio)} items, Avg prices: {len(avg_prices)} items")
+        return portfolio, avg_prices
+    except Exception as e:
+        st.error(f"Error loading portfolio: {e}")
+        print(f"[DEBUG] load_portfolio_holdings() error: {e}")
+        return {}, {}
 
 # --- DB sync helpers ---
 def _db_upsert_portfolio_docs(docs: list):
@@ -119,13 +155,7 @@ def _db_bootstrap_sync_once():
     except Exception:
         pass
 
-# Ensure we always load data from Cloud DB first before any logging threads or UI reads
-if "_bootstrapped_from_cloud" not in st.session_state:
-    changed, msg = bootstrap_from_cloud()
-    st.session_state["_bootstrapped_from_cloud"] = True
-    if not changed:
-        st.warning(f"Bootstrap DB: {msg}")
-init_price_cache()
+
 
 
 # --- TỰ ĐỘNG CRAWL DOMINANCE MỖI PHÚT (KHÔNG BLOCK UI) ---
@@ -256,21 +286,14 @@ def _fetch_prices_raw(coins_list: list[str]) -> dict:
 
 
 def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
-    """Load holdings and avg_price from local files with fallbacks for missing keys."""
-    try:
-        with open(DATA_FILE, "r") as f:
-            holdings = json.load(f)
-    except Exception:
-        holdings = {}
-    try:
-        with open(AVG_PRICE_FILE, "r") as f:
-            avg_price_local = json.load(f)
-    except Exception:
-        avg_price_local = {}
-    # Ensure all keys exist
+    """Load holdings and avg_price using the new initialization system."""
+    holdings, avg_price_local = load_portfolio_holdings()
+    
+    # Ensure all coin keys exist
     for c in coin_ids:
         holdings.setdefault(c, 0.0)
         avg_price_local.setdefault(c, 0.0)
+    
     return holdings, avg_price_local
 
 
@@ -425,51 +448,35 @@ def save_portfolio_history(history):
 
 # Hàm load holdings từ file
 def load_holdings():
-    if os.path.exists(DATA_FILE):
-        try:
-            with open(DATA_FILE, "r") as f:
-                data = json.load(f)
-            for c in coin_ids:
-                if c not in data:
-                    data[c] = 0.0
-            return data
-        except Exception:
-            pass
-    return {c: 0.0 for c in coin_ids}
+    """Load holdings using the new initialization system."""
+    holdings, _ = load_portfolio_holdings()
+    print(f"[DEBUG] load_holdings() returned {len(holdings)} items: {list(holdings.keys())[:5]}...")
+    return holdings
 
 # Hàm load giá mua trung bình từ file
 def load_avg_price():
-    if os.path.exists(AVG_PRICE_FILE):
-        try:
-            with open(AVG_PRICE_FILE, "r") as f:
-                data = json.load(f)
-            for c in coin_ids:
-                if c not in data:
-                    data[c] = 0.0
-            return data
-        except Exception:
-            pass
-    return {c: 0.0 for c in coin_ids}
+    """Load average prices using the new initialization system."""
+    _, avg_prices = load_portfolio_holdings()
+    print(f"[DEBUG] load_avg_price() returned {len(avg_prices)} items: {list(avg_prices.keys())[:5]}...")
+    return avg_prices
 
 # Hàm lưu giá mua trung bình vào file
 def save_avg_price(avg_price):
     try:
-        with open(AVG_PRICE_FILE, "w") as f:
-            json.dump(avg_price, f)
-        # Sync to DB KV
-        _db_set_portfolio_meta(avg_price=avg_price)
+        portfolio, _ = get_portfolio_data()
+        update_portfolio_data(portfolio, avg_price)
+        st.success("✅ Giá mua trung bình đã được cập nhật!")
     except Exception as e:
-        st.warning(f"Không thể lưu giá mua trung bình: {e}")
+        st.warning(f"❌ Không thể lưu giá mua trung bình: {e}")
 
 # Hàm lưu holdings vào file
 def save_holdings(holdings):
     try:
-        with open(DATA_FILE, "w") as f:
-            json.dump(holdings, f)
-        # Sync to DB KV
-        _db_set_portfolio_meta(holdings=holdings)
+        _, avg_price = get_portfolio_data()
+        update_portfolio_data(holdings, avg_price)
+        st.success("✅ Số lượng holdings đã được cập nhật!")
     except Exception as e:
-        st.warning(f"Không thể lưu dữ liệu: {e}")
+        st.warning(f"❌ Không thể lưu dữ liệu: {e}")
 
 # Tabs: Portfolio & Metric
 
@@ -488,6 +495,58 @@ tab_coin_tabs = tabs[2:]
 
 with tab1:
     st.title("📊 Crypto Portfolio Tracker")
+    
+    # === Application Health Panel ===
+    with st.expander("🏥 System Health & Status", expanded=False):
+        app_state = get_app_state()
+        
+        # Status indicators
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            db_status = "🟢 Connected" if app_state["db_available"] else "🔴 Disconnected"
+            st.metric("Database", db_status)
+        with col2:
+            api_status = "🟢 Available" if app_state["api_available"] else "🔴 Unavailable"
+            st.metric("API Services", api_status)
+        with col3:
+            init_status = "✅ Complete" if app_state["init_complete"] else "⏳ In Progress"
+            st.metric("Initialization", init_status)
+        
+        # Sync information
+        if app_state["last_db_sync"] > 0:
+            last_db = datetime.fromtimestamp(app_state["last_db_sync"]).strftime("%H:%M:%S")
+            st.info(f"📊 Last DB sync: {last_db}")
+        if app_state["last_api_sync"] > 0:
+            last_api = datetime.fromtimestamp(app_state["last_api_sync"]).strftime("%H:%M:%S")
+            st.info(f"🔄 Last API sync: {last_api}")
+        
+        # Background sync status
+        sync_status = "🟢 Active" if app_state["background_sync_active"] else "🔴 Inactive"
+        st.text(f"Background Sync: {sync_status}")
+        
+        # DB Connection Details
+        if st.button("🔍 Show DB Connection Details"):
+            try:
+                from cloud_db import db
+                conn_info = db.get_connection_info()
+                st.json(conn_info)
+                
+                # Try manual reconnect
+                if st.button("🔄 Force DB Reconnect"):
+                    with st.spinner("Reconnecting to database..."):
+                        success = db.force_reconnect()
+                        if success:
+                            st.success("✅ Database reconnected successfully!")
+                        else:
+                            st.error(f"❌ Reconnect failed. Error: {db.last_error()}")
+            except Exception as e:
+                st.error(f"Error getting DB info: {e}")
+        
+        # Recent errors
+        if app_state["errors"]:
+            st.warning("⚠️ Recent errors:")
+            for error in app_state["errors"][-5:]:  # Show last 5 errors
+                st.text(f"• {error}")
 
     # --- BẢNG NHẬP DỮ LIỆU KIỂU EXCEL ---
     st.subheader("Bảng quản lý Portfolio")
@@ -592,7 +651,7 @@ with tab1:
     update_success = False
     prev_portfolio_value = portfolio_value
     if can_request:
-        prices_new, pdata_new, updated, msg = fetch_prices_and_changes(coins, force=refresh_now)
+        prices_new, pdata_new, updated, msg = get_current_prices()
         if updated:
             price_data = pdata_new
             prices = {c: prices_new.get(c, 0.0) for c in coins}
@@ -627,7 +686,7 @@ with tab1:
     st.session_state.setdefault("_last_price_refresh", 0)
     if (int(time.time()) - st.session_state["_last_price_refresh"]) > 65:
         st.session_state["_last_price_refresh"] = int(time.time())
-        prices_new, pdata_new, updated, msg = fetch_prices_and_changes(coins)
+        prices_new, pdata_new, updated, msg = get_current_prices()
         if updated:
             price_data = pdata_new
             prices = {c: prices_new.get(c, 0.0) for c in coins}
