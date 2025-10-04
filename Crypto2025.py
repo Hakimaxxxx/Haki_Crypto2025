@@ -1238,7 +1238,7 @@ with tab2:
 
             # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
             if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
                     df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
             fig_to_show = fig_ohlcv
             # Whale Alert cho ETH: overlay vào fig_ohlcv nếu là ETH
@@ -1279,7 +1279,7 @@ with tab2:
                 whale_txs = metrics_sol_whale_alert_realtime.load_whale_history()
                 # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
                 if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
                         df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
                 # Kiểm tra dữ liệu df_ohlcv và whale_txs cho SOL
                 error_msgs = []
@@ -1317,7 +1317,7 @@ with tab2:
                 whale_txs = metrics_btc_whale_alert_realtime.load_whale_history()
                 # Chuẩn hóa cột thời gian của df_ohlcv sang GMT+7 nếu chưa có tz
                 if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
                         df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
                 st.session_state[f"fig_ohlcv_BTC"] = fig_ohlcv
                 overlay_whale_alert_chart(
@@ -1339,7 +1339,7 @@ with tab2:
                 whale_txs = metrics_bnb_whale_alert_realtime.load_whale_history()
                 # Chuẩn hóa cột thời gian df_ohlcv sang UTC nếu chưa có tz
                 if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
                         df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
                 st.session_state[f"fig_ohlcv_BNB"] = fig_ohlcv
                 overlay_whale_alert_chart(
@@ -1374,7 +1374,7 @@ with tab2:
                     pass
                 # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
                 if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not pd.api.types.is_datetime64tz_dtype(df_ohlcv["datetime"]):
+                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
                         df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
                 st.session_state[f"fig_ohlcv_LINK"] = fig_ohlcv
                 overlay_whale_alert_chart(
