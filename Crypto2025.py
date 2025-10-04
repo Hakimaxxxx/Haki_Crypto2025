@@ -23,10 +23,8 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from datetime import datetime
-try:
-    from SOL import metrics_sol_whale_alert_realtime
-except ImportError:
-    metrics_sol_whale_alert_realtime = None
+from SOL import load_metrics_realtime
+metrics_sol_whale_alert_realtime = load_metrics_realtime()
 import json
 from datetime import datetime
 import json
@@ -1278,8 +1276,11 @@ with tab2:
             if coin[1] == "SOL":
                 from overlay_whale_alert import overlay_whale_alert_chart
                 from SOL import metrics_sol_whale_alert_realtime
-                metrics_sol_whale_alert_realtime.mark_sol_whale_alert_seen()
-                whale_txs = metrics_sol_whale_alert_realtime.load_whale_history()
+                if metrics_sol_whale_alert_realtime:
+                    metrics_sol_whale_alert_realtime.mark_sol_whale_alert_seen()
+                    whale_txs = metrics_sol_whale_alert_realtime.load_whale_history()
+                else:
+                    whale_txs = []
                 # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
                 if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
                     if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
@@ -1361,7 +1362,7 @@ with tab2:
             if coin[1] == "BTC":
                 from BTC import metrics_btc_whale_alert_realtime
                 metrics_btc_whale_alert_realtime.show_btc_whale_alert_realtime()
-            if coin[1] == "SOL":
+            if coin[1] == "SOL" and metrics_sol_whale_alert_realtime:
                 metrics_sol_whale_alert_realtime.show_sol_whale_alert_realtime()
             # Whale Alert cho LINK: overlay markers, slider, box (thực hiện TRƯỚC khi vẽ chart)
             if coin[1] == "LINK" and fig_ohlcv and not df_ohlcv.empty:

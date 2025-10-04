@@ -20,35 +20,62 @@ def validate_portfolio_docs(docs: list) -> list:
 
 _db_write_queue = []
 _db_last_retry = 0
-_db_retry_interval = 60  # giây
+_db_retry_interval = 30  # giây
+_db_backoff_multiplier = 2
+_db_max_retry_interval = 600  # 10 phút
+_db_consecutive_failures = 0
+_DB_QUEUE_MAX = 5000  # tránh nở vô hạn bộ nhớ
 
 def db_upsert_portfolio_docs_with_retry(db, docs: list):
     docs = validate_portfolio_docs(docs)
     if not docs:
         return
-    global _db_write_queue, _db_last_retry
+    global _db_write_queue, _db_last_retry, _db_consecutive_failures, _db_retry_interval
     try:
         if db.available():
             db.upsert_many("portfolio_history", docs, unique_keys=["timestamp", "coin"])
+            _db_consecutive_failures = 0
+            _db_retry_interval = 30
             return
         else:
             raise Exception("DB not available")
     except Exception as e:
+        # Giới hạn độ dài queue
+        if len(_db_write_queue) >= _DB_QUEUE_MAX:
+            # Bỏ bớt bản ghi cũ nhất (FIFO) để tránh tràn bộ nhớ
+            _db_write_queue.pop(0)
         _db_write_queue.append((time.time(), docs))
-        print(f"[DB] Lỗi ghi, đã lưu vào queue: {e}")
+        _db_consecutive_failures += 1
+        # Tăng backoff nhưng không vượt quá max
+        _db_retry_interval = min(_db_retry_interval * _db_backoff_multiplier, _db_max_retry_interval)
+        if _db_consecutive_failures % 10 == 1:
+            print(f"[DB] Lỗi ghi (x{_db_consecutive_failures}), queue={len(_db_write_queue)}, next retry interval={_db_retry_interval}s: {e}")
 
 def db_retry_queue(db):
-    global _db_write_queue, _db_last_retry
+    global _db_write_queue, _db_last_retry, _db_consecutive_failures, _db_retry_interval
     now = time.time()
-    if _db_write_queue and db.available() and now - _db_last_retry > _db_retry_interval:
-        for ts, docs in list(_db_write_queue):
-            try:
-                db.upsert_many("portfolio_history", docs, unique_keys=["timestamp", "coin"])
-                _db_write_queue.remove((ts, docs))
-                print(f"[DB] Đã retry ghi thành công docs lúc {ts}")
-            except Exception as e:
-                print(f"[DB] Retry ghi thất bại: {e}")
-        _db_last_retry = now
+    if not _db_write_queue:
+        return
+    if not db.available():
+        return
+    if now - _db_last_retry <= _db_retry_interval:
+        return
+    # Retry theo batch nhỏ để tránh tạo áp lực
+    batch = list(_db_write_queue)[:50]
+    success_any = False
+    for ts, docs in batch:
+        try:
+            db.upsert_many("portfolio_history", docs, unique_keys=["timestamp", "coin"])
+            _db_write_queue.remove((ts, docs))
+            success_any = True
+        except Exception as e:
+            print(f"[DB] Retry ghi thất bại batch item: {e}")
+            break
+    _db_last_retry = now
+    if success_any:
+        _db_consecutive_failures = 0
+        _db_retry_interval = 30
+        print(f"[DB] Retry thành công một batch, queue còn {len(_db_write_queue)}")
 
 def save_portfolio_history_optimized(history, file_path="portfolio_history.json"):
     old = []
