@@ -36,6 +36,7 @@ class CloudDB:
         self._db_name = os.getenv("CLOUD_DB_NAME", "Cypto2025")
         self._last_attempt = 0.0
         self._retry_interval = 30  # seconds between reconnect attempts
+        self._last_error_msg = None  # type: Optional[str]
         self._connect_initial()
 
     def _connect_initial(self):
@@ -49,8 +50,9 @@ class CloudDB:
             MONGO_CLIENT.admin.command('ping')
             self._db = MONGO_CLIENT[self._db_name]
             self._provider = "mongo"
-        except PyMongoError:
+        except PyMongoError as e:
             self._provider = None
+            self._last_error_msg = f"initial connect error: {e}"[:300]
 
     def _maybe_reconnect(self):
         if self._db is not None or not self._mongo_uri:
@@ -65,14 +67,26 @@ class CloudDB:
             MONGO_CLIENT.admin.command('ping')
             self._db = MONGO_CLIENT[self._db_name]
             self._provider = "mongo"
-        except PyMongoError:
+        except PyMongoError as e:
             self._provider = None
+            self._last_error_msg = f"reconnect error: {e}"[:300]
 
     def available(self) -> bool:
         """Check if the database connection is available (attempt lazy reconnect)."""
         if self._db is None:
             self._maybe_reconnect()
         return self._db is not None
+
+    def last_error(self) -> str | None:
+        return self._last_error_msg
+
+    def force_reconnect(self) -> bool:
+        """Force an immediate reconnect attempt regardless of backoff."""
+        self._last_attempt = 0
+        old_db = self._db
+        self._db = None
+        self._maybe_reconnect()
+        return self._db is not None and old_db is not self._db
 
     def insert_one(self, collection: str, doc: Dict[str, Any]) -> Optional[str]:
         """Insert a single document into the specified collection."""

@@ -26,6 +26,16 @@ _db_max_retry_interval = 600  # 10 phút
 _db_consecutive_failures = 0
 _DB_QUEUE_MAX = 5000  # tránh nở vô hạn bộ nhớ
 
+def get_db_queue_info():
+    """Return dict with queue diagnostics for health panel."""
+    next_retry_in = max(0, int(_db_retry_interval - (time.time() - _db_last_retry))) if _db_write_queue else 0
+    return {
+        "queue_length": len(_db_write_queue),
+        "consecutive_failures": _db_consecutive_failures,
+        "retry_interval": _db_retry_interval,
+        "next_retry_in": next_retry_in,
+    }
+
 def db_upsert_portfolio_docs_with_retry(db, docs: list):
     docs = validate_portfolio_docs(docs)
     if not docs:

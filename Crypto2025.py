@@ -6,7 +6,15 @@ from db_utils import (
     save_portfolio_history_optimized,
     backup_file
 )
-from price_utils import init_price_cache, fetch_prices_and_changes
+# --- Safe import price_utils (avoid KeyError in partial import states) ---
+try:
+    from price_utils import init_price_cache, fetch_prices_and_changes
+except Exception as e:
+    def init_price_cache():
+        pass
+    def fetch_prices_and_changes(coins, force: bool = False):
+        return {}, {}, False, f"Price module load error: {e}"  # type: ignore
+    import traceback; print("[WARN] Fallback price_utils stub active", e)
 try:
     from db_bootstrap import bootstrap_from_cloud
 except Exception:
@@ -1032,10 +1040,12 @@ with tab1:
     # --- Health Panel ---
     # Lấy độ dài queue DB (thông qua biến trong db_utils - tạm không public nên dùng try) và timestamp cập nhật giá gần nhất
     try:
-        from db_utils import _db_write_queue  # type: ignore
-        queue_len = len(_db_write_queue)
+        from db_utils import get_db_queue_info  # type: ignore
+        qinfo = get_db_queue_info()
+        queue_len = qinfo["queue_length"]
     except Exception:
         queue_len = 0
+        qinfo = {"queue_length":0, "consecutive_failures":0, "retry_interval":0, "next_retry_in":0}
     # Giá trị cập nhật cuối cùng đã lưu trong session
     last_price_ts = int(st.session_state.get("_last_portfolio_value_ts", 0)) if "_last_portfolio_value" in st.session_state else 0
     # Thử flush queue DB thường xuyên hơn nếu đã có kết nối trở lại
@@ -1046,9 +1056,12 @@ with tab1:
             pass
     db_status_msg = "Price cache active"
     if not db.available():
-        db_status_msg = "DB unavailable – will auto-retry every 30s"
+        last_err = getattr(db, 'last_error', lambda: None)()
+        db_status_msg = "DB unavailable – auto retry 30s" + (f" | {last_err}" if last_err else "")
     elif queue_len > 0:
-        db_status_msg = f"Flushing queued writes: {queue_len} pending"
+        db_status_msg = (
+            f"Queue: {queue_len} | next retry in {qinfo['next_retry_in']}s | fail x{qinfo['consecutive_failures']}"
+        )
     show_health_panel(db, queue_len, last_price_ts, last_price_update_message=db_status_msg)
 
 with tab2:
