@@ -3,20 +3,30 @@ Canonical lists of known CEX/DEX wallets on Binance Smart Chain (BSC) for basic 
 This is a best-effort set; extend or correct as needed. For large-scale precision, consider using a tagging service.
 """
 
-# Known exchange clusters (sample + commonly referenced addresses). Edit safely.
-CEX_WALLETS = {
+from .cex_wallets_loader import load_cex_wallets
+
+# Danh sách tĩnh tối thiểu (fallback). Không nên phình to – dữ liệu lớn đặt ở cex_wallets.json.
+STATIC_CEX_WALLETS = {
     "Binance": [
-        "0x123...",  # Binance hot wallet
-        "0x456...",  # sample/placeholder
+        "0x38B661e9df2cc4A7570618AA6645319D6bdf2F46",
+        "0xBE0eB53F46cd790Cd13851d5EFf43D12404d33E8",
+        "0x5a52E96BAcdaBb82fd05763E25335261B270Efcb",
+        "0xF977814e90dA44bFA03b6295A0616a897441aceC",
     ],
-    "KuCoin": [
-        "0x789...",  # KuCoin wallet
-        "0xabc...",  # sample/placeholder
-    ],
-    "Crypto.com": [
-        "0xdef...",  # Crypto.com wallet
-    ],
+    "Kraken": ["0x7DAFbA1d69F6C01AE7567Ffd7b046Ca03B706f83"],
+    "KuCoin": ["0xC61b9BB3A7a0767E3179713f3A5c7a9aeDCE193C"],
 }
+
+# Load động (nếu có file JSON) rồi merge fallback.
+_dynamic = load_cex_wallets()
+CEX_WALLETS = {**STATIC_CEX_WALLETS}
+for ex, addrs in _dynamic.items():
+    base = {a.lower(): a for a in CEX_WALLETS.get(ex, [])}
+    for a in addrs:
+        if a.lower() not in base:
+            CEX_WALLETS.setdefault(ex, []).append(a)
+
+ # (Các sàn Gate / Bybit / Bithumb ... sẽ nạp từ JSON nếu có)
 
 DEX_WALLETS = {
     "PancakeSwap": [

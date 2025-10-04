@@ -12,12 +12,14 @@ def get_fear_greed_index():
     if os.path.exists(cache_file):
         try:
             df = pd.read_csv(cache_file)
-            df["value"] = df["value"].astype(int)
-            # Cast to numeric seconds to avoid pandas FutureWarning when unit used later
-            if not pd.api.types.is_numeric_dtype(df["timestamp"]):
-                df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
-            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s", errors="coerce")
-            df = df.sort_values("timestamp")
+            df["value"] = pd.to_numeric(df["value"], errors="coerce").fillna(0).astype(int)
+            # Nếu timestamp là số, chuyển sang datetime từ epoch
+            if pd.api.types.is_numeric_dtype(df["timestamp"]):
+                df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s", errors="coerce")
+            else:
+                # Nếu là chuỗi ngày, chuyển sang datetime với format ngày
+                df["timestamp"] = pd.to_datetime(df["timestamp"], format="%Y-%m-%d", errors="coerce")
+            df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
             return df
         except Exception:
             pass
@@ -36,6 +38,7 @@ def get_fear_greed_index():
     except Exception as e:
         st.error(f"Không lấy được dữ liệu Fear & Greed Index: {e}")
         return pd.DataFrame()
+
 # --- TỰ ĐỘNG CRAWL FEAR & GREED INDEX MỖI 5 PHÚT ---
 def crawl_fear_greed_background():
     cache_file = "fear_greed_history.csv"
@@ -59,6 +62,7 @@ if not hasattr(st.session_state, "_fear_greed_crawler"):
     t.start()
     st.session_state["_fear_greed_crawler"] = True
 
+# --- Hiển thị chỉ số Fear & Greed ---
 def show_fear_greed_metric():
     df = get_fear_greed_index()
     if df.empty:
@@ -83,6 +87,9 @@ def show_fear_greed_metric():
     else:
         df_show = df[df["timestamp"] >= (df["timestamp"].max() - pd.Timedelta(days=365))]
 
+    # # Debugging: Print filtered data
+    # st.write("Filtered Data:", df_show)
+
     # Đổi màu line theo giá trị chỉ số (tham lam/sợ hãi)
     import plotly.graph_objects as go
     color_map = []
@@ -98,7 +105,7 @@ def show_fear_greed_metric():
     # Vẽ từng đoạn line với màu tương ứng
     vals = df_show["value"].values
     # Đảm bảo times là kiểu datetime (không phải numpy object)
-    times = pd.to_datetime(pd.to_numeric(df_show["timestamp"], errors="coerce"), unit="s", errors="coerce").to_list()
+    times = pd.to_datetime(df_show["timestamp"], errors="coerce").to_list()
     for i in range(1, len(vals)):
         fig.add_trace(go.Scatter(
             x=[times[i-1], times[i]],

@@ -1139,10 +1139,25 @@ with tab2:
         with tab_coin_tabs[idx]:
             # Lấy link logo từ CoinGecko
             logo_url = price_data.get(coin[0], {}).get('image', '')
-            if logo_url:
-                st.markdown(f"<div style='display:flex;align-items:center;gap:10px;'><img src='{logo_url}' width='36' style='vertical-align:middle;border-radius:50%;border:1px solid #ccc;'/> <span style='font-size:2rem;font-weight:bold'>{coin[1]} ({coin[0].capitalize()})</span></div>", unsafe_allow_html=True)
-            else:
-                st.title(f"{coin[1]} ({coin[0].capitalize()})")
+            current_price = prices.get(coin[0], 0.0)
+            price_str = f"<span style='font-size:1.2rem;font-weight:normal;color:#3df78a;'>${current_price:,.2f}</span>" if current_price else ""
+            # Luôn dùng markdown để tránh hiển thị thô chuỗi HTML (tránh lỗi thấy <span ...> xuất hiện)
+            if not logo_url:
+                # Fallback logo đơn giản (data URI hình tròn xám) để đồng bộ layout
+                logo_url = "https://via.placeholder.com/36/cccccc/000000?text=?"
+            try:
+                st.markdown(
+                    (
+                        "<div style='display:flex;align-items:center;gap:10px;'>"
+                        f"<img src='{logo_url}' width='36' style='vertical-align:middle;border-radius:50%;border:1px solid #ccc;'/>"
+                        f" <span style='font-size:2rem;font-weight:bold'>{coin[1]} ({coin[0].capitalize()}) {price_str}</span>"
+                        "</div>"
+                    ),
+                    unsafe_allow_html=True,
+                )
+            except Exception:
+                # Fallback cuối cùng: hiển thị plain text (không HTML) nếu có lỗi render
+                st.header(f"{coin[1]} ({coin[0].capitalize()}) - ${current_price:,.2f}")
 
             # --- Hiển thị tổng giá trị và PNL từng coin (format đẹp) ---
             coin_id = coin[0]

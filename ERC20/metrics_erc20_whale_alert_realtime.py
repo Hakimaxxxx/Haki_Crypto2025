@@ -42,20 +42,23 @@ ERC20_TOKENS = [
     # Add more tokens here
 ]
 
-# --- Exchange wallet mapping (ETH, LINK, ... can share) ---
-EXCHANGE_WALLETS = {
-    '0x28c6c06298d514db089934071355e5743bf21d60': 'Binance',
-    '0x564286362092d8e7936f0549571a803b203aaced': 'Binance',
-    '0x742d35cc6634c0532925a3b844bc454e4438f44e': 'Bitfinex',
-    '0x267be1c1d684f78cb4f6a176c4911b741e4ffdc0': 'Binance',
-    '0x53d284357ec70ce289d6d64134dfac8e511c8a3d': 'Kraken',
-    '0x66f820a414680b5bcda5eeca5dea238543f42054': 'OKX',
-    '0x21a31ee1afc51d94c2efccaa2092ad1028285549': 'Huobi',
-    '0xf977814e90da44bfa03b6295a0616a897441acec': 'Binance',
-    '0xFCD159D0FeF5B1003E10D91A5b79d52BbB8cD05d': 'Coinbase',
-    '0xb5d85CBf7cB3EE0D56b3bB207D5Fc4B82f43F511': 'Coinbase',
-    # Add more if needed
+import os
+from wallet_loader import load_wallet_groups
+
+# Fallback nhỏ – phần mở rộng nằm trong erc20_cex_wallets.json
+_STATIC_EX_WALLETS = {
+    "Binance": [
+        '0x28c6c06298d514db089934071355e5743bf21d60',
+        '0xf977814e90da44bfa03b6295a0616a897441acec',
+    ],
+    "Kraken": ['0x53d284357ec70ce289d6d64134dfac8e511c8a3d'],
+    "OKX": ['0x66f820a414680b5bcda5eeca5dea238543f42054'],
+    "Huobi": ['0x21a31ee1afc51d94c2efccaa2092ad1028285549'],
+    "Coinbase": ['0xFCD159D0FeF5B1003E10D91A5b79d52BbB8cD05d'],
 }
+_JSON_PATH_EX = os.path.join(os.path.dirname(__file__), 'erc20_cex_wallets.json')
+_GROUPS = load_wallet_groups(_JSON_PATH_EX, _STATIC_EX_WALLETS)
+EXCHANGE_WALLETS = {addr.lower(): label for label, addrs in _GROUPS.items() for addr in addrs}
 
 # --- Generic ERC20 token transfer fetch logic ---
 def fetch_large_erc20_transfers(api_key, contract_address, min_value=20000, max_results=20, start_block=0, end_block=99999999, chain_id=1):
