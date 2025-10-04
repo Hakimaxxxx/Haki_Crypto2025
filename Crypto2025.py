@@ -23,7 +23,10 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from datetime import datetime
-from SOL import metrics_sol_whale_alert_realtime
+try:
+    from SOL import metrics_sol_whale_alert_realtime
+except ImportError:
+    metrics_sol_whale_alert_realtime = None
 import json
 from datetime import datetime
 import json
