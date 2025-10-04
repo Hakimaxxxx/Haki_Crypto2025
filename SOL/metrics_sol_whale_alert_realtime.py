@@ -103,9 +103,14 @@ def load_last_block():
     # Giá trị từ file local
     local_last_block = None
     if os.path.exists(BLOCK_FILE):
-        with open(BLOCK_FILE, "r") as f:
-            data = json.load(f)
-            local_last_block = data.get("last_block", None)
+        try:
+            with open(BLOCK_FILE, "r") as f:
+                raw = f.read().strip()
+                if raw:
+                    data = json.loads(raw)
+                    local_last_block = data.get("last_block", None)
+        except Exception:
+            local_last_block = None
 
     if db.available():
         # Giá trị từ database
@@ -127,8 +132,13 @@ def load_whale_history():
     # Prefer cloud DB if available
     local_history = []
     if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r") as f:
-            local_history = json.load(f)
+        try:
+            with open(HISTORY_FILE, "r") as f:
+                raw = f.read().strip()
+                if raw:
+                    local_history = json.loads(raw)
+        except Exception:
+            local_history = []
 
     if db.available():
         # Lấy dữ liệu từ database

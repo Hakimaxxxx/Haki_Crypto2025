@@ -13,7 +13,10 @@ def get_fear_greed_index():
         try:
             df = pd.read_csv(cache_file)
             df["value"] = df["value"].astype(int)
-            df["timestamp"] = pd.to_datetime(df["timestamp"])
+            # Cast to numeric seconds to avoid pandas FutureWarning when unit used later
+            if not pd.api.types.is_numeric_dtype(df["timestamp"]):
+                df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
+            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s", errors="coerce")
             df = df.sort_values("timestamp")
             return df
         except Exception:
@@ -22,11 +25,13 @@ def get_fear_greed_index():
     url = "https://api.alternative.me/fng/?limit=400&format=json"
     try:
         response = requests.get(url, timeout=10)
-        data = response.json()["data"]
+        data = response.json().get("data", [])
         df = pd.DataFrame(data)
-        df["value"] = df["value"].astype(int)
-        df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s")
-        df = df.sort_values("timestamp")
+        if df.empty:
+            return pd.DataFrame()
+        df["value"] = pd.to_numeric(df["value"], errors="coerce").fillna(0).astype(int)
+        df["timestamp"] = pd.to_datetime(pd.to_numeric(df["timestamp"], errors="coerce"), unit="s", errors="coerce")
+        df = df.dropna(subset=["timestamp"]).sort_values("timestamp")
         return df
     except Exception as e:
         st.error(f"Không lấy được dữ liệu Fear & Greed Index: {e}")
@@ -41,7 +46,7 @@ def crawl_fear_greed_background():
             data = response.json()["data"]
             df = pd.DataFrame(data)
             df["value"] = df["value"].astype(int)
-            df["timestamp"] = pd.to_datetime(df["timestamp"], unit="s")
+            df["timestamp"] = pd.to_datetime(pd.to_numeric(df["timestamp"], errors="coerce"), unit="s", errors="coerce")
             df = df.sort_values("timestamp")
             df.to_csv(cache_file, index=False)
         except Exception:
@@ -93,7 +98,7 @@ def show_fear_greed_metric():
     # Vẽ từng đoạn line với màu tương ứng
     vals = df_show["value"].values
     # Đảm bảo times là kiểu datetime (không phải numpy object)
-    times = pd.to_datetime(df_show["timestamp"]).to_list()
+    times = pd.to_datetime(pd.to_numeric(df_show["timestamp"], errors="coerce"), unit="s", errors="coerce").to_list()
     for i in range(1, len(vals)):
         fig.add_trace(go.Scatter(
             x=[times[i-1], times[i]],
