@@ -200,7 +200,7 @@ def fetch_recent_whales_once(min_value_btc, num_blocks=5):
         _log(f"[ONDEMAND] fatal: {e}")
         return []
 
-def show_btc_whale_alert_realtime(min_value_btc=100, num_blocks=5):
+def show_btc_whale_alert_realtime(min_value_btc=1000, num_blocks=5):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
     🐳 Whale Alert - BTC Large Transactions
@@ -352,6 +352,6 @@ def add_overlay_marker(transaction):
 #     print(f"Transaction {tx['hash']} marked as {marker['type']} with color {marker['color']}")
 
 if "_btc_whale_bg_thread" not in globals():
-    t = threading.Thread(target=background_whale_alert_scanner, args=(300, 5, 300), daemon=True)
+    t = threading.Thread(target=background_whale_alert_scanner, args=(1000, 5, 300), daemon=True)
     t.start()
     _btc_whale_bg_thread = True

@@ -1,0 +1,16 @@
+[2025-10-05 08:59:17.507091] Error scanning token EIGEN: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:03:06.852454] Token: EIGEN | Whale txs found: 606 | Blocks scanned: 1 to 23510542
+[2025-10-05 09:28:23.617294] Token: EIGEN | Whale txs found: 4 | Blocks scanned: 23510543 to 23510664
+[2025-10-05 10:08:35.735929] Token: EIGEN | Whale txs found: 9 | Blocks scanned: 23510665 to 23510867
+[2025-10-05 10:35:04.503618] Token: EIGEN | Whale txs found: 3 | Blocks scanned: 23510868 to 23510998
+[2025-10-05 10:38:26.494186] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23510999 to 23511015
+[2025-10-05 10:58:11.939549] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511016 to 23511114
+[2025-10-05 11:17:47.765676] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511115 to 23511212
+[2025-10-05 11:37:59.397379] Token: EIGEN | Whale txs found: 2 | Blocks scanned: 23511213 to 23511313
+[2025-10-05 11:58:22.765801] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511314 to 23511414
+[2025-10-05 12:16:40.899594] Token: EIGEN | Whale txs found: 2 | Blocks scanned: 23511415 to 23511506
+[2025-10-05 12:19:33.380579] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511507 to 23511521
+[2025-10-05 12:23:50.945409] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511522 to 23511542
+[2025-10-05 12:30:43.453018] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23511543 to 23511577
+[2025-10-05 13:01:54.379502] Token: EIGEN | Whale txs found: 9 | Blocks scanned: 23511578 to 23511732
+[2025-10-05 13:28:22.172388] Token: EIGEN | Whale txs found: 1 | Blocks scanned: 23511733 to 23511865

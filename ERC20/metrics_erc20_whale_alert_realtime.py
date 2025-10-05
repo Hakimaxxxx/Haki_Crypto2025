@@ -12,7 +12,14 @@ from cloud_db import db
 # ERC20 token configs
 LINK_CONTRACT = "0x514910771af9ca656af840dff83e8264ecf986ca"  # Chainlink ERC20
 WETH_CONTRACT = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"  # Wrapped ETH ERC20
-# Add more ERC20 contract addresses here
+# New token contract addresses (PLEASE VERIFY!)
+ETHFI_CONTRACT = "0xFe0c30065B384F05761f15d0CC899D4F9F9Cc0eB"  # Ether.fi (cần xác minh)
+ENA_CONTRACT   = "0x57e114B691Db790C35207b2e685D4A43181e6061"  # Ethena (cần xác minh)
+EIGEN_CONTRACT = "0xec53bf9167f50cdeb3ae105f56099aaab9061f83"  # EigenLayer (cần xác minh/đang lock?)
+WLD_CONTRACT   = "0x163f8c2467924be0ae7b5347228cabf260318753"  # Worldcoin (cần xác minh)
+ONDO_CONTRACT  = "0xfaba6f8e4a5e8ab82f62fe7c39859fa577269be3"  # Ondo (cần xác minh)
+RNDR_CONTRACT  = "0x6de037ef9ad2725eb40118bb1702ebb27e4aeb24"  # Render (RNDR)
+# Nếu có token nào chưa chắc chắn, thay địa chỉ bằng "TODO_UPDATE" để tránh scan sai.
 
 ERC20_TOKENS = [
     {
@@ -20,11 +27,8 @@ ERC20_TOKENS = [
         "contract": WETH_CONTRACT,
         "history_file": "eth_whale_alert_history.json",
         "block_file": "eth_whale_last_block.json",
-        # Threshold configuration (back-compat: "min_value" == token units)
-        "min_value_token": 500,
-        # Alternatively, you can specify a USD-based threshold and set threshold_mode to "usd"
-        # "min_value_usd": 500000,  # example
-        "threshold_mode": "token",  # or "usd"
+        "min_value_token": 3000,
+        "threshold_mode": "token",
         "coingecko_id": "ethereum",
         "max_results": 2000
     },
@@ -34,12 +38,71 @@ ERC20_TOKENS = [
         "history_file": "link_whale_alert_history.json",
         "block_file": "link_whale_last_block.json",
         "min_value_token": 20000,
-        # "min_value_usd": 500000,  # example
         "threshold_mode": "token",
         "coingecko_id": "chainlink",
         "max_results": 2000
     },
-    # Add more tokens here
+    # --- Added Tokens ---
+    {
+        "name": "ETHFI",
+        "contract": ETHFI_CONTRACT,
+        "history_file": "ethfi_whale_alert_history.json",
+        "block_file": "ethfi_whale_last_block.json",
+        "min_value_token": 50000,
+        "threshold_mode": "token",
+        "coingecko_id": "ether-fi",  # CoinGecko ID cần xác minh
+        "max_results": 1500
+    },
+    {
+        "name": "ENA",
+        "contract": ENA_CONTRACT,
+        "history_file": "ena_whale_alert_history.json",
+        "block_file": "ena_whale_last_block.json",
+        "min_value_token": 100000,
+        "threshold_mode": "token",
+        "coingecko_id": "ethena",  # cần xác minh
+        "max_results": 1500
+    },
+    {
+        "name": "EIGEN",
+        "contract": EIGEN_CONTRACT,
+        "history_file": "eigen_whale_alert_history.json",
+        "block_file": "eigen_whale_last_block.json",
+        "min_value_token": 50000,
+        "threshold_mode": "token",
+        "coingecko_id": "eigenlayer",  # placeholder
+        "max_results": 1500
+    },
+    {
+        "name": "WLD",
+        "contract": WLD_CONTRACT,
+        "history_file": "wld_whale_alert_history.json",
+        "block_file": "wld_whale_last_block.json",
+        "min_value_token": 100000,
+        "threshold_mode": "token",
+        "coingecko_id": "worldcoin-wld",  # cần xác minh
+        "max_results": 1500
+    },
+    {
+        "name": "ONDO",
+        "contract": ONDO_CONTRACT,
+        "history_file": "ondo_whale_alert_history.json",
+        "block_file": "ondo_whale_last_block.json",
+        "min_value_token": 300000,
+        "threshold_mode": "token",
+        "coingecko_id": "ondo-finance",  # cần xác minh
+        "max_results": 1500
+    },
+    {
+        "name": "RENDER",
+        "contract": RNDR_CONTRACT,
+        "history_file": "render_whale_alert_history.json",
+        "block_file": "render_whale_last_block.json",
+        "min_value_token": 50000,
+        "threshold_mode": "token",
+        "coingecko_id": "render-token",  # RNDR
+        "max_results": 1500
+    },
 ]
 
 import os
@@ -115,7 +178,7 @@ def _get_coingecko_price_usd(coin_id: str) -> float:
         return 0.0
 
 def resolve_token_min_threshold_units(token_cfg: dict) -> float:
-    # Backward compatibility: allow "min_value" to act as token-unit threshold
+    # Backward compatibility: allow "min_value_token" to act as token-unit threshold
     if "min_value_token" in token_cfg:
         return float(token_cfg.get("min_value_token", 0.0))
     if token_cfg.get("threshold_mode", "token").lower() == "usd":
@@ -132,31 +195,41 @@ def resolve_token_min_threshold_units(token_cfg: dict) -> float:
 # --- Save whale history and block ---
 def save_token_whale_history(token, history):
     try:
-        # Log nội dung biến history trước khi ghi file
-        # with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
-        #     logf.write(f"[{datetime.utcnow()}] [SAVE_HISTORY] {token['name']} | Số lượng tx: {len(history)} | Types: {[tx.get('type') for tx in history]}\n")
-        #     for tx in history:
-        #         logf.write(f"[{datetime.utcnow()}] [SAVE_HISTORY] TX: {tx.get('hash','')} | Type: {tx.get('type','N/A')} | Value: {tx.get('value',0)}\n")
         # Load old history if exists
         if os.path.exists(token["history_file"]):
             with open(token["history_file"], "r") as f:
                 old_history = json.load(f)
         else:
             old_history = []
+
         # Combine old and new history, remove duplicates by hash
         combined_history = {tx["hash"]: tx for tx in old_history}
         for tx in history:
             combined_history[tx["hash"]] = tx
-        # Save combined history
+
+        # Save combined history to local file
         with open(token["history_file"], "w") as f:
             json.dump(list(combined_history.values()), f, ensure_ascii=False, indent=2)
+
+        # Save combined history to database
+        if db.available():
+            db.upsert_many(f"{token['name'].lower()}_whale_history", list(combined_history.values()), unique_keys=["hash"])
     except Exception as e:
         with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
             logf.write(f"[{datetime.utcnow()}] Error saving whale history for {token['name']}: {str(e)}\n")
 
 def save_token_last_block(token, block_num):
-    with open(token["block_file"], "w") as f:
-        json.dump({"last_block": block_num}, f)
+    try:
+        # Save last block to local file
+        with open(token["block_file"], "w") as f:
+            json.dump({"last_block": block_num}, f)
+
+        # Save last block to database
+        if db.available():
+            db.set_kv(f"{token['name'].lower()}_meta", "last_block", {"last_block": block_num})
+    except Exception as e:
+        with open("eth_whale_scanner.log", "a", encoding="utf-8") as logf:
+            logf.write(f"[{datetime.utcnow()}] Error saving last block for {token['name']}: {str(e)}\n")
 
 # --- Background scanner for multiple ERC20 whale alerts ---
 def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG', interval_sec=300):
@@ -167,13 +240,28 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
             logf.write(f"[{datetime.utcnow()}] [SCANNER] Start scan loop.\n")
         for token in ERC20_TOKENS:
             try:
-                min_th = resolve_token_min_threshold_units(token)
-                last_block = load_last_block(token)  # Call load_last_block
-                latest_block_url = f"https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey={api_key}"
-                r = requests.get(latest_block_url, timeout=10)
-                latest_block_data = r.json()
-                latest_block = int(latest_block_data.get("result", "0x0"), 16)
-
+                # Skip token if contract placeholder invalid
+                if not (isinstance(token.get("contract"), str) and token["contract"].startswith("0x") and len(token["contract"]) == 42):
+                    _log(token, f"Skip {token['name']} do chua co contract hop le.")
+                    continue
+                min_th = resolve_token_min_threshold_units(token) or 0
+                last_block = load_last_block(token) or 0
+                latest_block = 0
+                try:
+                    latest_block_url = f"https://api.etherscan.io/v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey={api_key}"
+                    r = requests.get(latest_block_url, timeout=10)
+                    latest_block_data = r.json() if r.status_code == 200 else {}
+                    raw_result = latest_block_data.get("result") if isinstance(latest_block_data, dict) else None
+                    if isinstance(raw_result, str) and raw_result.startswith("0x"):
+                        latest_block = int(raw_result, 16)
+                    elif isinstance(raw_result, str) and raw_result.isdigit():
+                        latest_block = int(raw_result)
+                except Exception as e_req:
+                    _log(token, f"Warn: khong the lay block moi nhat: {e_req}")
+                # Nếu không lấy được block mới -> bỏ qua token
+                if latest_block == 0:
+                    _log(token, f"Bo qua {token['name']} do latest_block=0")
+                    continue
                 if latest_block > last_block:
                     start_block = last_block + 1
                     end_block = latest_block
@@ -209,11 +297,31 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
     except Exception as e:
         _log({"name": "GENERAL"}, f"FATAL error in background_erc20_whale_alert_scanner: {str(e)}")
 
-# Start background scanner thread on import (only once)
-if '_erc20_whale_scanner_started' not in globals():
-    t = threading.Thread(target=background_erc20_whale_alert_scanner, kwargs={"api_key": "2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG", "interval_sec": 300}, daemon=True)
-    t.start()
-    _erc20_whale_scanner_started = True
+# Helper to load recent whale events for overlay
+
+def load_recent_whale_events(token_name: str, limit: int = 50):
+    token_name_upper = token_name.upper()
+    for t in ERC20_TOKENS:
+        if t["name"].upper() == token_name_upper:
+            file = t["history_file"]
+            if os.path.exists(file):
+                try:
+                    with open(file, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                    # Sort by time descending and take recent
+                    import pandas as _pd
+                    df = _pd.DataFrame(data)
+                    if 'time' in df.columns:
+                        try:
+                            df['time'] = _pd.to_datetime(df['time'], utc=True)
+                        except Exception:
+                            pass
+                    df = df.sort_values('time', ascending=False).head(limit)
+                    return df
+                except Exception:
+                    return None
+            return None
+    return None
 
 # --- Show whale alert box for a token ---
 
@@ -305,18 +413,25 @@ def load_last_block(token):
     if db.available():
         # Giá trị từ database
         kv = db.get_kv(f"{token['name'].lower()}_meta", "last_block")
-        db_last_block = kv.get("last_block") if kv and isinstance(kv, dict) else None
+        db_last_block = kv.get("last_block") if isinstance(kv, dict) else None
 
-        # Gộp giá trị từ file local vào database nếu cần
-        if local_last_block and (db_last_block is None or local_last_block > db_last_block):
-            db.set_kv(f"{token['name'].lower()}_meta", "last_block", {"last_block": local_last_block})
-            print(f"Gộp giá trị last_block {local_last_block} từ file local vào database.")
+        # Nếu local lớn hơn hoặc db chưa có -> cập nhật db
+        if local_last_block is not None and (db_last_block is None or local_last_block > db_last_block):
+            try:
+                db.set_kv(f"{token['name'].lower()}_meta", "last_block", {"last_block": int(local_last_block)})
+                db_last_block = int(local_last_block)
+            except Exception:
+                pass
 
-        # Trả về giá trị từ database
-        return db.get_kv(f"{token['name'].lower()}_meta", "last_block").get("last_block")
+        # Lấy lại giá trị sau cập nhật (an toàn)
+        kv2 = db.get_kv(f"{token['name'].lower()}_meta", "last_block")
+        if isinstance(kv2, dict):
+            return kv2.get("last_block", 0) or 0
+        # fallback ưu tiên local rồi 0
+        return local_last_block or 0
 
     # Nếu database không khả dụng, trả về giá trị từ file local
-    return local_last_block
+    return local_last_block or 0
 
 def _log(token, msg: str):
     try:
@@ -331,5 +446,14 @@ def _log(token, msg: str):
                 local_logs = [{"ts": datetime.utcnow().isoformat(), "line": line.strip()} for line in logf]
             db.insert_many(f"{token['name'].lower()}_logs", local_logs)
             print(f"Gộp {len(local_logs)} log từ file local vào database.")
+    except Exception:
+        pass
+
+# --- Start background scanner (one-pass per import) ---
+if '_erc20_whale_scanner_started' not in globals():
+    try:
+        t = threading.Thread(target=background_erc20_whale_alert_scanner, kwargs={"api_key": "2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG", "interval_sec": 300}, daemon=True)
+        t.start()
+        _erc20_whale_scanner_started = True
     except Exception:
         pass

@@ -1640,7 +1640,7 @@ with tab2:
             # Whale Alert cho LINK: overlay markers, slider, box (thực hiện TRƯỚC khi vẽ chart)
             if coin[1] == "LINK" and fig_ohlcv and not df_ohlcv.empty:
                 from overlay_whale_alert import overlay_whale_alert_chart
-                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime, load_recent_whale_events, resolve_token_min_threshold_units
                 link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
                 whale_txs = []
                 try:
@@ -1670,6 +1670,65 @@ with tab2:
                 from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
                 link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
                 show_erc20_whale_alert_realtime(link_token)
+
+            # Hiển thị box Whale Alert cho các token ERC20 mở rộng
+            erc20_box_tokens = ["ETHFI", "ENA", "EIGEN", "WLD", "ONDO", "RENDER"]
+            if coin[1] in erc20_box_tokens:
+                try:
+                    from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
+                    token_cfg_list = [t for t in ERC20_TOKENS if t['name'] == coin[1]]
+                    if token_cfg_list:
+                        show_erc20_whale_alert_realtime(token_cfg_list[0])
+                except Exception as _erc_box_ex:
+                    st.warning(f"Không thể hiển thị Whale Alert box cho {coin[1]}: {_erc_box_ex}")
+
+            # --- Generic overlay for other ERC20 tokens (ETHFI, ENA, EIGEN, WLD, ONDO, RENDER) ---
+            erc20_extra = ["ETHFI", "ENA", "EIGEN", "WLD", "ONDO", "RENDER"]
+            if coin[1] in erc20_extra and fig_ohlcv and df_ohlcv is not None and not df_ohlcv.empty:
+                try:
+                    from overlay_whale_alert import overlay_whale_alert_chart
+                    from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, load_recent_whale_events, resolve_token_min_threshold_units
+                    token_cfg_list = [t for t in ERC20_TOKENS if t['name'] == coin[1]]
+                    if token_cfg_list:
+                        token_cfg = token_cfg_list[0]
+                        whale_txs = []
+                        try:
+                            import json
+                            with open(token_cfg['history_file'], 'r') as f:
+                                whale_txs = json.load(f)
+                                #st.warning(f"[Debug] Đã tải lịch sử giao dịch cá voi cho {coin[1]}: {len(whale_txs)} giao dịch.")
+                        except Exception as e:
+                            whale_txs = []
+                            #st.warning(f"[Debug] Không thể tải lịch sử giao dịch cá voi cho {coin[1]}: {e}")
+                        # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
+                        if 'datetime' in df_ohlcv.columns and not isinstance(df_ohlcv['datetime'].dtype, pd.DatetimeTZDtype):
+                            df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime']).dt.tz_localize('UTC')
+                        
+                        base_step = 1.0
+                        # Heuristic slider step based on avg threshold
+                        threshold_used = resolve_token_min_threshold_units(token_cfg)
+                        if threshold_used > 0:
+                            base_step = max(threshold_used / 50, 0.1)
+                        st.session_state[f"fig_ohlcv_{coin[1]}"] = fig_ohlcv
+                        #st.warning(f"[DEBUG]: Overlay Whale cho {coin[1]} với slider step {base_step}.")
+                        overlay_whale_alert_chart(
+                            whale_txs=whale_txs,
+                            df_ohlcv=df_ohlcv,
+                            coin_symbol=coin[1],
+                            slider_label=f"Lọc Whale ({coin[1]})",
+                            slider_step=base_step,
+                            value_unit=coin[1],
+                            type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+                            color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#949086"},
+                            default_show=True,
+                            key_prefix=f"{coin[1].lower()}_"
+                        )
+                    else :
+                        st.warning(f"[DEBUG]: Không tìm thấy cấu hình token ERC20 cho {coin[1]}.")
+                except Exception as _erc20_ex:
+                    st.warning(f"[DEBUG]: Không thể overlay Whale cho {coin[1]}: {_erc20_ex}")
+            else:
+                st.warning(f"[DEBUG]: Không tìm thấy coin để overlay Whale cho {coin[1]} do thiếu dữ liệu df_ohlcv.")
             # Hiển thị box Whale Alert BNB
             if coin[1] == "BNB":
                 from BNB import metrics_bnb_whale_alert_realtime
@@ -1750,17 +1809,6 @@ def save_holdings(holdings):
         _db_set_portfolio_meta(holdings=holdings)
     except Exception as e:
         st.warning(f"Không thể lưu dữ liệu: {e}")
-
-
-
-
-
-
-
-
-
-
-
     # --- BẢNG NHẬP DỮ LIỆU KIỂU EXCEL ---
     st.subheader("Bảng quản lý Portfolio")
 

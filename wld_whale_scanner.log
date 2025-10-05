@@ -1,0 +1,15 @@
+[2025-10-05 08:59:17.740958] Error scanning token WLD: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:03:19.812463] Token: WLD | Whale txs found: 280 | Blocks scanned: 1 to 23510543
+[2025-10-05 09:28:48.689030] Token: WLD | Whale txs found: 1 | Blocks scanned: 23510544 to 23510668
+[2025-10-05 10:08:47.801421] Token: WLD | Whale txs found: 3 | Blocks scanned: 23510669 to 23510868
+[2025-10-05 10:35:19.199680] Token: WLD | Whale txs found: 8 | Blocks scanned: 23510869 to 23511001
+[2025-10-05 10:38:43.224416] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511002 to 23511018
+[2025-10-05 10:58:24.704168] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511019 to 23511116
+[2025-10-05 11:18:01.527688] Token: WLD | Whale txs found: 1 | Blocks scanned: 23511117 to 23511214
+[2025-10-05 11:38:13.673692] Token: WLD | Whale txs found: 2 | Blocks scanned: 23511215 to 23511315
+[2025-10-05 11:58:39.253625] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511316 to 23511417
+[2025-10-05 12:16:57.756303] Token: WLD | Whale txs found: 4 | Blocks scanned: 23511418 to 23511509
+[2025-10-05 12:19:47.981294] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511510 to 23511523
+[2025-10-05 12:24:06.615583] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511524 to 23511545
+[2025-10-05 12:30:57.984232] Token: WLD | Whale txs found: 0 | Blocks scanned: 23511546 to 23511579
+[2025-10-05 13:02:11.047696] Token: WLD | Whale txs found: 1 | Blocks scanned: 23511580 to 23511735

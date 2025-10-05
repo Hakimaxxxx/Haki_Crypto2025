@@ -1,0 +1,14 @@
+[2025-10-05 08:59:17.970822] Error scanning token ONDO: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:03:28.995654] Token: ONDO | Whale txs found: 58 | Blocks scanned: 1 to 23510544
+[2025-10-05 09:28:56.919982] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23510545 to 23510670
+[2025-10-05 10:08:53.574099] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23510671 to 23510869
+[2025-10-05 10:38:50.065998] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23510870 to 23511019
+[2025-10-05 10:58:31.250406] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511020 to 23511117
+[2025-10-05 11:18:07.502344] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23511118 to 23511215
+[2025-10-05 11:38:19.690042] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511216 to 23511317
+[2025-10-05 11:58:49.465457] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511318 to 23511419
+[2025-10-05 12:17:10.425363] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511420 to 23511511
+[2025-10-05 12:19:53.955459] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511512 to 23511524
+[2025-10-05 12:24:13.478166] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511525 to 23511546
+[2025-10-05 12:31:06.066580] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23511547 to 23511580
+[2025-10-05 13:02:18.465638] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23511581 to 23511736

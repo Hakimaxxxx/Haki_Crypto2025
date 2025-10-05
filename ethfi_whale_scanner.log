@@ -1,0 +1,16 @@
+[2025-10-05 08:59:16.998384] Error scanning token ETHFI: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:02:43.965675] Token: ETHFI | Whale txs found: 175 | Blocks scanned: 1 to 23510540
+[2025-10-05 09:26:45.852408] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23510541 to 23510659
+[2025-10-05 10:07:50.781809] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23510660 to 23510864
+[2025-10-05 10:33:58.482345] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23510865 to 23510994
+[2025-10-05 10:37:23.710131] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23510995 to 23511011
+[2025-10-05 10:57:22.539790] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511012 to 23511111
+[2025-10-05 11:16:55.341858] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511112 to 23511209
+[2025-10-05 11:37:03.994734] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511210 to 23511309
+[2025-10-05 11:57:17.760906] Token: ETHFI | Whale txs found: 1 | Blocks scanned: 23511310 to 23511411
+[2025-10-05 12:15:34.341425] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511412 to 23511502
+[2025-10-05 12:18:42.957089] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511503 to 23511518
+[2025-10-05 12:22:53.668532] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511519 to 23511539
+[2025-10-05 12:29:50.823652] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511540 to 23511573
+[2025-10-05 13:00:49.339910] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511574 to 23511729
+[2025-10-05 13:27:17.994347] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23511730 to 23511861

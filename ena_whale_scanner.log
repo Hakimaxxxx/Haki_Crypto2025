@@ -1,0 +1,16 @@
+[2025-10-05 08:59:17.218257] Error scanning token ENA: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:02:56.707323] Token: ENA | Whale txs found: 578 | Blocks scanned: 1 to 23510541
+[2025-10-05 09:27:35.987797] Token: ENA | Whale txs found: 1 | Blocks scanned: 23510542 to 23510660
+[2025-10-05 10:08:12.356417] Token: ENA | Whale txs found: 6 | Blocks scanned: 23510661 to 23510865
+[2025-10-05 10:34:28.208991] Token: ENA | Whale txs found: 3 | Blocks scanned: 23510866 to 23510995
+[2025-10-05 10:37:53.185924] Token: ENA | Whale txs found: 0 | Blocks scanned: 23510996 to 23511013
+[2025-10-05 10:57:45.524863] Token: ENA | Whale txs found: 3 | Blocks scanned: 23511014 to 23511112
+[2025-10-05 11:17:20.650246] Token: ENA | Whale txs found: 6 | Blocks scanned: 23511113 to 23511210
+[2025-10-05 11:37:32.364831] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511211 to 23511311
+[2025-10-05 11:57:49.301934] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511312 to 23511412
+[2025-10-05 12:16:09.285739] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511413 to 23511504
+[2025-10-05 12:19:07.778956] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511505 to 23511519
+[2025-10-05 12:23:20.825720] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511520 to 23511540
+[2025-10-05 12:30:17.899947] Token: ENA | Whale txs found: 1 | Blocks scanned: 23511541 to 23511575
+[2025-10-05 13:01:24.561648] Token: ENA | Whale txs found: 1 | Blocks scanned: 23511576 to 23511730
+[2025-10-05 13:27:49.214443] Token: ENA | Whale txs found: 0 | Blocks scanned: 23511731 to 23511862

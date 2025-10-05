@@ -1,0 +1,14 @@
+[2025-10-05 08:59:18.477526] Error scanning token RENDER: 'NoneType' object has no attribute 'get'
+[2025-10-05 09:03:41.245547] Token: RENDER | Whale txs found: 30 | Blocks scanned: 1 to 23510545
+[2025-10-05 09:29:05.134851] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23510546 to 23510671
+[2025-10-05 10:08:57.655631] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23510672 to 23510870
+[2025-10-05 10:38:54.628229] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23510871 to 23511020
+[2025-10-05 10:58:35.912696] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511021 to 23511118
+[2025-10-05 11:18:11.893954] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511119 to 23511216
+[2025-10-05 11:38:23.782031] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511217 to 23511317
+[2025-10-05 11:58:54.341439] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511318 to 23511419
+[2025-10-05 12:17:15.269613] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511420 to 23511511
+[2025-10-05 12:19:58.190385] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511512 to 23511525
+[2025-10-05 12:24:18.709469] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511526 to 23511547
+[2025-10-05 12:31:11.982171] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511548 to 23511581
+[2025-10-05 13:02:23.859026] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23511582 to 23511737

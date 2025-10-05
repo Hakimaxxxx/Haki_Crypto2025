@@ -41,9 +41,9 @@ import pandas as pd
 
 def fetch_okx_ohlcv_oi(symbol="BTC-USDT-SWAP", bar="1h", limit=200):
     # Bỏ qua các cặp không hợp lệ như USDT-USDT-SWAP
-    if symbol.upper().startswith("USDT-USDT"):
-        st.warning(f"Cặp giao dịch {symbol} không hợp lệ trên OKX, sẽ bỏ qua.")
-        return pd.DataFrame()
+    #if symbol.upper().startswith("USDT-USDT"):
+        #st.warning(f"Cặp giao dịch {symbol} không hợp lệ trên OKX, sẽ bỏ qua.")
+        #return pd.DataFrame()
     """
     Lấy dữ liệu nến (OHLCV), volume, open interest từ OKX cho symbol và khung thời gian bar.
     symbol: ví dụ BTC-USDT-SWAP

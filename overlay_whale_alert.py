@@ -94,7 +94,15 @@ def overlay_whale_alert_chart(
             debug_log.append(f"TX: {tx.get('hash','')} | ERROR chart index: {e}")
             continue
     # Hiển thị debug log trên Streamlit để kiểm tra
-    st.expander("Debug whale marker time mapping").write("\n".join(debug_log))
+    st.expander("Debug whale marker time mapping").write({
+        "whale_txs": whale_txs,
+        "df_ohlcv": df_ohlcv.head(),
+        "filtered_txs": filtered_txs,
+        "whale_times": whale_times,
+        "whale_values": whale_values,
+        "whale_types": whale_types,
+        "whale_texts": whale_texts
+    })
     # Compact mode: aggregate markers by (candle time, type) to reduce clutter
     from collections import defaultdict
     grouped = defaultdict(lambda: {"value_sum": 0.0, "texts": [], "time": None, "type": None})
@@ -249,3 +257,12 @@ def overlay_whale_alert_chart(
         size_scale=2.0,
         showlegend=True
     )
+
+    # # Debug fig_ohlcv state and added traces
+    # st.expander("Debug fig_ohlcv state").write({
+    #     "fig_ohlcv": fig,
+    #     "items": items,
+    #     "na_items": na_items,
+    #     "sell_items": sell_items,
+    #     "buy_items": buy_items
+    # })
