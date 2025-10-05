@@ -47,7 +47,9 @@
     "0xF1C7b9A188C071d397ef55440A028321D6D780A0",
     "0xc9ef0fde9c18a2f12b9e1eb0f9350bdbcfbaff7b"
   ],
-  "Bithumb": [],
+  "Bitbank": [
+    "bc1qx2x5cqhymfcnjtg902ky6u5t5htmt7fvqztdsm028hkrvxcl4t2sjtpd9l"
+  ],
   "Crypto.com": [
     "0x08c7676680F187A31241E83e6d44C03A98AdaB05",
     "0x1E061ac5099620148BD64867997F35e0e148C277",

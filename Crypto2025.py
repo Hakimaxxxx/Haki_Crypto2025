@@ -33,6 +33,10 @@ from datetime import datetime
 import json
 import os
 import threading
+import time
+import numpy as np
+import pytz
+import plotly.graph_objects as go
 # Import các module metrics
 # Import các module metrics
 import metrics_flow
@@ -162,98 +166,36 @@ def _db_bootstrap_sync_once():
 def crawl_dominance_background():
     import requests
     import pandas as pd
-    import time
-    import os
-    from datetime import datetime
+    import time as _t
     file = "dominance_history.csv"
-    market_file = "marketcap_history.csv"
-    # One-time bootstrap to DB on thread start
     try:
         _db_bootstrap_sync_once()
     except Exception:
         pass
     while True:
         try:
-            url = "https://api.coingecko.com/api/v3/global"
-            response = requests.get(url, timeout=15)
-            data = response.json()["data"]
-            # Dominance
-            dom = data["market_cap_percentage"]
-            btc = dom.get("btc", 0)
-            eth = dom.get("eth", 0)
+            resp = requests.get("https://api.coingecko.com/api/v3/global", timeout=15)
+            data = resp.json().get("data", {})
+            dom = data.get("market_cap_percentage", {})
+            btc = dom.get("btc", 0.0)
+            eth = dom.get("eth", 0.0)
             others = 100 - btc - eth
-            now_dt = datetime.now()
-            now = now_dt.strftime("%Y-%m-%d %H:%M:%S")
-            row = {"timestamp": now, "BTC": btc, "ETH": eth, "Others": others}
-            if os.path.exists(file):
-                df = pd.read_csv(file)
-                df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-            else:
-                df = pd.DataFrame([row])
-            df.to_csv(file, index=False)
-            # DB append/upsert for dominance
-            _db_upsert_dominance_row(row)
-
-            # Market cap: luôn thêm dòng mới (line chart), volume: chỉ update dòng volume hôm nay (1 cột/ngày)
-            mcap = data.get("total_market_cap", {}).get("usd", None)
-            vol = data.get("total_volume", {}).get("usd", None)
-            row2 = {"timestamp": now, "market_cap": mcap, "volume_1d": ''}
-            if os.path.exists(market_file):
-                df2 = pd.read_csv(market_file)
-                # Luôn thêm dòng mới cho market cap (line chart)
-                df2 = pd.concat([df2, pd.DataFrame([row2])], ignore_index=True)
-                # Volume: chỉ update dòng volume hôm nay (nếu có), nếu chưa có thì thêm dòng mới với volume
-                df2["timestamp"] = pd.to_datetime(df2["timestamp"])
-                today = now_dt.date()
-                today_mask = df2["timestamp"].dt.date == today
-                if today_mask.any():
-                    idx = df2[today_mask].index[-1]
-                    df2.at[idx, "volume_1d"] = vol
-                    # Reflect this update to DB using same timestamp string
-                    ts_str = df2.loc[idx, "timestamp"].strftime("%Y-%m-%d %H:%M:%S")
-                    _db_upsert_marketcap_row({"timestamp": ts_str, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
+            ts = int(_t.time())
+            row = {"timestamp": ts, "btc": btc, "eth": eth, "others": others}
+            # Append to CSV
+            try:
+                if os.path.exists(file):
+                    df = pd.read_csv(file)
                 else:
-                    # Nếu chưa có dòng volume cho hôm nay, thêm dòng mới với volume
-                    new_row = {"timestamp": now, "market_cap": mcap, "volume_1d": vol}
-                    df2 = pd.concat([df2, pd.DataFrame([new_row])], ignore_index=True)
-                    _db_upsert_marketcap_row({"timestamp": now, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
-            else:
-                # File chưa tồn tại, tạo dòng đầu tiên với market cap và volume
-                df2 = pd.DataFrame([{"timestamp": now, "market_cap": mcap, "volume_1d": vol}])
-                _db_upsert_marketcap_row({"timestamp": now, "market_cap": float(mcap) if mcap is not None else None, "volume_1d": float(vol) if vol is not None else ''})
-            df2.to_csv(market_file, index=False)
-        except Exception as e:
-            # swallow and retry later
-            time.sleep(5)
-        time.sleep(300)  # 300 giây = 5 phút
-
-# Khởi động thread crawl dominance khi chạy app
-if "_dominance_crawler" not in st.session_state:
-    t = threading.Thread(target=crawl_dominance_background, daemon=True)
-    t.start()
-    st.session_state["_dominance_crawler"] = True
-import numpy as np
-import time
-import pytz
-
-tz_gmt7 = pytz.timezone("Asia/Bangkok")
-
-# Lấy danh sách id và tên hiển thị từ config
-coin_ids = [c[0] for c in COIN_LIST]
-coin_names = [c[1] for c in COIN_LIST]
-coin_id_to_name = dict(COIN_LIST)
-coin_name_to_id = {v: k for k, v in COIN_LIST}
-
-# Chọn coin theo dõi bằng multiselect
-st.subheader("Chọn các đồng coin muốn theo dõi trong portfolio")
-selected_coin_names = st.multiselect(
-    "Chọn coin:",
-    options=coin_names,
-    default=coin_names  # Mặc định chọn tất cả
-)
-coins = [coin_name_to_id[name] for name in selected_coin_names]
-
-# Lưu ý: Các hằng số file lưu trữ cần được định nghĩa TRƯỚC khi khởi chạy thread nền
+                    df = pd.DataFrame(columns=["timestamp","btc","eth","others"])
+                df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
+                df.to_csv(file, index=False)
+            except Exception:
+                pass
+            _db_upsert_dominance_row(row)
+        except Exception:
+            pass
+        _t.sleep(300)
 # để tránh NameError trong các hàm background.
 # Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
 # (Đã lấy từ config)
@@ -431,6 +373,115 @@ def get_prices_and_changes(coins):
         }
     return result
 
+# ================= PERFORMANCE OPTIMIZATION HELPERS =================
+# 1. Cache heavy external fetches (OKX OHLCV, Liquidation, On-chain metrics)
+# 2. Avoid re-reading large history / JSON files inside per-coin loop
+# 3. Debounce saving holdings / avg_price when no real change
+
+@st.cache_data(ttl=90, show_spinner=False)
+def fetch_okx_ohlcv_cached(symbol: str, bar: str, limit: int = 200):
+    """Cached wrapper around metrics_ohlcv_okx.fetch_okx_ohlcv_oi.
+    TTL 90s to reduce network calls when switching tabs / sliders.
+    """
+    try:
+        return metrics_ohlcv_okx.fetch_okx_ohlcv_oi(symbol=symbol, bar=bar, limit=limit)
+    except Exception:
+        return None
+
+@st.cache_data(ttl=120, show_spinner=False)
+def fetch_okx_liq_cached(symbol: str, limit: int = 100):
+    try:
+        import metrics_liquidation_okx  # local import to reduce initial load
+        return metrics_liquidation_okx.fetch_okx_liquidation(symbol=symbol, limit=limit)
+    except Exception:
+        return None
+
+@st.cache_data(ttl=600, show_spinner=False)
+def load_onchain_metrics_cached(asset: str, days: int = 365):
+    try:
+        import metrics_onchain_cm
+        return metrics_onchain_cm.load_onchain_metrics(asset, days)
+    except Exception:
+        return None
+
+@st.cache_data(ttl=120, show_spinner=False)
+def load_portfolio_history_cached(history_file: str):
+    if os.path.exists(history_file):
+        try:
+            with open(history_file, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+@st.cache_data(ttl=120, show_spinner=False)
+def history_by_coin_cached(history_file: str):
+    """Return a mapping {coin: list[entry]} using cached full history."""
+    from collections import defaultdict
+    hist = load_portfolio_history_cached(history_file)
+    by_coin: dict[str, list] = defaultdict(list)
+    for h in hist:
+        c = h.get("coin")
+        if c:
+            by_coin[c].append(h)
+    return hist, by_coin
+
+@st.cache_data(ttl=120, show_spinner=False)
+def compute_growth_chart_cached(coins: tuple, coin_id_to_name_map: dict, bar: str = "30m", coin_limit: int | None = 8):
+    import plotly.graph_objects as go
+    import pandas as pd
+    # Dynamic giới hạn: nếu coin_limit None => không giới hạn
+    coins_limited = list(coins)[:coin_limit] if coin_limit else list(coins)
+    price_histories = {}
+    time_histories = {}
+    min_len = None
+    for coin in coins_limited:
+        try:
+            symbol = f"{coin_id_to_name_map[coin]}-USDT-SWAP"
+            df_ohlcv = fetch_okx_ohlcv_cached(symbol=symbol, bar=bar, limit=200)
+            if df_ohlcv is None or df_ohlcv.empty:
+                continue
+            closes = df_ohlcv["close"] if "close" in df_ohlcv.columns else df_ohlcv.iloc[:,4]
+            closes = closes.astype(float).values
+            if len(closes) < 5:
+                continue
+            if "ts" in df_ohlcv.columns:
+                times = pd.to_datetime(df_ohlcv["ts"].values, unit="ms")
+            elif "datetime" in df_ohlcv.columns:
+                times = pd.to_datetime(df_ohlcv["datetime"], errors="coerce")
+            else:
+                times = pd.to_datetime(df_ohlcv.iloc[:,0], unit="ms", errors="coerce")
+            if times.isna().all():
+                continue
+            price_histories[coin] = closes
+            time_histories[coin] = times
+            if min_len is None or len(closes) < min_len:
+                min_len = len(closes)
+        except Exception:
+            continue
+    if not price_histories or not min_len or min_len < 2:
+        return None
+    fig = go.Figure()
+    base_coin = next(iter(price_histories.keys()))
+    times = time_histories[base_coin][-min_len:]
+    for coin in coins_limited:
+        if coin in price_histories:
+            closes = price_histories[coin][-min_len:]
+            if closes[0] == 0:
+                continue
+            pct_growth = (closes / closes[0] - 1) * 100
+            fig.add_trace(go.Scatter(x=times, y=pct_growth, mode="lines", name=coin_id_to_name_map[coin]))
+    if len(fig.data) == 0:
+        return None
+    fig.update_layout(
+        title="Tăng trưởng (%) (OKX 30m, chuẩn hóa 0% tại điểm đầu) - Cached",
+        xaxis_title="Thời gian",
+        yaxis_title="% Tăng trưởng",
+        legend_title="Coin",
+        hovermode="x unified"
+    )
+    return fig
+
 # Hàm load lịch sử portfolio
 def load_portfolio_history():
     if os.path.exists(HISTORY_FILE):
@@ -484,11 +535,27 @@ def save_holdings(holdings):
 
 
 # Tabs: Portfolio & Metric & Coin
-tab_names = ["Portfolio", "Metric"] + [c[1] for c in COIN_LIST]
+coin_ids = [c[0] for c in COIN_LIST]
+coin_names = [c[1] for c in COIN_LIST]
+coin_id_to_name = dict(COIN_LIST)
+coin_name_to_id = {v: k for k, v in COIN_LIST}
+
+tab_names = ["Portfolio", "Metric"] + coin_names
 tabs = st.tabs(tab_names)
 tab1 = tabs[0]
 tab2 = tabs[1]
 tab_coin_tabs = tabs[2:]
+
+tz_gmt7 = pytz.timezone("Asia/Bangkok")
+
+# Coin selection (default all)
+with st.expander("Chọn các đồng coin muốn theo dõi", expanded=False):
+    selected_coin_names = st.multiselect(
+        "Chọn coin:", options=coin_names, default=coin_names, key="selected_coins_portfolio"
+    )
+if not selected_coin_names:
+    selected_coin_names = coin_names
+coins = [coin_name_to_id[n] for n in selected_coin_names]
 
 # Không cần update_eth_tab_label nữa
 
@@ -681,11 +748,8 @@ with tab1:
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
 
-    # Cơ chế tự động làm mới dữ liệu khi người dùng tương tác (ticker nhẹ)
-    _ = st.empty()
-    st.session_state.setdefault("_last_price_refresh", 0)
-    if (int(time.time()) - st.session_state["_last_price_refresh"]) > 65:
-        st.session_state["_last_price_refresh"] = int(time.time())
+    # Không auto refresh mỗi 65s nữa -> giữ dữ liệu static cho tới khi user bấm nút refresh
+    if refresh_now:
         prices_new, pdata_new, updated, msg = get_current_prices()
         if updated:
             price_data = pdata_new
@@ -701,9 +765,10 @@ with tab1:
             st.session_state["_last_portfolio_value"] = portfolio_value
             st.session_state["_last_total_invested_now"] = total_invested_now
             st.session_state["_last_current_pnl"] = current_pnl
+            st.success("🔄 Đã tải lại dữ liệu giá mới nhất.")
         else:
             if msg:
-                st.info(msg)
+                st.info(f"Không cập nhật được giá mới: {msg}")
     # If API failed and current computed value is 0 while we have a previous valid snapshot, reuse last non-zero value
     if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
         portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
@@ -877,10 +942,25 @@ with tab1:
         coin = coins[idx]
         holdings[coin] = row["Số token nắm giữ"]
         avg_price[coin] = row["Giá mua trung bình"]
+    # Debounce saving: only persist if changed checksum
+    import json, hashlib
+    def _checksum(obj):
+        try:
+            return hashlib.md5(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()
+        except Exception:
+            return str(obj)
+    new_holdings_sum = _checksum(holdings)
+    new_avg_sum = _checksum(avg_price)
+    prev_holdings_sum = st.session_state.get("_holdings_checksum")
+    prev_avg_sum = st.session_state.get("_avg_price_checksum")
     st.session_state["holdings"] = holdings
     st.session_state["avg_price"] = avg_price
-    save_holdings(holdings)
-    save_avg_price(avg_price)
+    if new_holdings_sum != prev_holdings_sum:
+        save_holdings(holdings)
+        st.session_state["_holdings_checksum"] = new_holdings_sum
+    if new_avg_sum != prev_avg_sum:
+        save_avg_price(avg_price)
+        st.session_state["_avg_price_checksum"] = new_avg_sum
 
     # Tạo bảng kết quả với các cột tính toán và màu sắc
     result_df = edited_df.copy()
@@ -1035,66 +1115,170 @@ with tab1:
             st.session_state["max_pnl_value"] = profits[max_pnl_idx]
             st.session_state["min_pnl_coin"] = coin_id_to_name[coins[min_pnl_idx]]
             st.session_state["min_pnl_value"] = profits[min_pnl_idx]
-            # --- Line chart: So sánh tăng trưởng % của các đồng coin theo thời gian (OKX OHLCV, chỉ 30 phút) ---
-            #st.subheader("So sánh tăng trưởng (%) của các đồng coin trong Portfolio theo thời gian (OKX 30 phút)")
-            import metrics_ohlcv_okx
-            import plotly.graph_objects as go
-            bar = "30m"
-            fig = go.Figure()
-            min_len = None
-            price_histories = {}
-            time_histories = {}
-            for coin in coins:
-                symbol = f"{coin_id_to_name[coin]}-USDT-SWAP"
+            # --- Growth Chart (resilient snapshot) ---
+            import pandas as _pd
+
+            def _okx_symbol_for_coin(display_symbol: str) -> str:
+                overrides = {"RENDER": "RENDER"}
+                return overrides.get(display_symbol.upper(), display_symbol.upper())
+
+            def _snapshot_file(bar: str) -> str:
+                return f"ohlcv_snapshot_{bar}.json"
+
+            def _save_okx_snapshot_file(data_map: dict, bar: str):
                 try:
-                    df_ohlcv = metrics_ohlcv_okx.fetch_okx_ohlcv_oi(symbol=symbol, bar=bar, limit=200)
-                except Exception as e:
-                    import requests
-                    if isinstance(e, requests.exceptions.ProxyError):
-                        st.warning(f"Không thể lấy dữ liệu OKX cho {symbol} do lỗi proxy: {e}")
-                        continue
+                    out = {}
+                    for cid, dfc in data_map.items():
+                        try:
+                            sub = dfc[['timestamp','open','high','low','close','volume']].tail(200)
+                            out[cid] = sub.to_dict(orient='list')
+                        except Exception:
+                            continue
+                    with open(_snapshot_file(bar), 'w', encoding='utf-8') as f:
+                        json.dump({"bar": bar, "data": out, "ts": time.time()}, f)
+                except Exception:
+                    pass
+
+            def _load_okx_snapshot_file(bar: str) -> dict:
+                fp = _snapshot_file(bar)
+                if not os.path.exists(fp):
+                    return {}
+                try:
+                    with open(fp, 'r', encoding='utf-8') as f:
+                        raw = json.load(f)
+                    if raw.get('bar') != bar:
+                        return {}
+                    out = {}
+                    for cid, obj in raw.get('data', {}).items():
+                        try:
+                            df = pd.DataFrame(obj)
+                            if not df.empty:
+                                df['datetime'] = pd.to_datetime(df['timestamp'], unit='ms', utc=True)
+                            out[cid] = df
+                        except Exception:
+                            continue
+                    return out
+                except Exception:
+                    return {}
+
+            def _prefetch_okx_ohlcv_all(bar: str = "30m"):
+                snap = st.session_state.get('_ohlcv_snapshot_all')
+                if snap and snap.get('bar') == bar and set(snap.get('coins', [])) == set(coins):
+                    return snap['data'], st.session_state.get('_okx_prefetch_stats', {})
+                success = 0
+                failed = []
+                data_map: dict[str, pd.DataFrame] = {}
+                for c in coins:
+                    base_disp = coin_id_to_name[c]
+                    base = _okx_symbol_for_coin(base_disp)
+                    symbol = f"{base}-USDT-SWAP"
+                    df_ohlcv = None
+                    for attempt in range(2):
+                        try:
+                            import metrics_ohlcv_okx as _mx
+                            df_ohlcv = _mx.fetch_okx_ohlcv_oi(symbol=symbol, bar=bar, limit=200)
+                            if df_ohlcv is not None and not df_ohlcv.empty:
+                                break
+                        except Exception:
+                            df_ohlcv = None
+                        time.sleep(0.25)
+                    if df_ohlcv is None or df_ohlcv.empty:
+                        failed.append(base_disp)
                     else:
-                        st.warning(f"Lỗi lấy dữ liệu OKX cho {symbol}: {e}")
-                        continue
-                if df_ohlcv is not None and not df_ohlcv.empty:
-                    closes = df_ohlcv["close"] if "close" in df_ohlcv.columns else df_ohlcv.iloc[:,4]
-                    closes = closes.astype(float).values
-                    if "ts" in df_ohlcv.columns:
-                        times = df_ohlcv["ts"].values
-                    else:
-                        times = df_ohlcv.iloc[:,0].values
-                    import pandas as pd
-                    times = pd.to_datetime(times, unit="ms")
-                    price_histories[coin] = closes
-                    time_histories[coin] = times
-                    if min_len is None or len(closes) < min_len:
-                        min_len = len(closes)
-            if price_histories and min_len and min_len > 1:
-                for coin in coins:
-                    if coin in price_histories:
-                        closes = price_histories[coin][-min_len:]
-                        times = time_histories[coin][-min_len:]
-                        break
-                for coin in coins:
-                    if coin in price_histories:
-                        closes = price_histories[coin][-min_len:]
-                        pct_growth = (closes / closes[0] - 1) * 100
-                        fig.add_trace(go.Scatter(
-                            x=times,
-                            y=pct_growth,
-                            mode="lines",
-                            name=coin_id_to_name[coin]
-                        ))
-                fig.update_layout(
-                    title="Tăng trưởng (%) của các đồng coin (OKX, 30 phút) - Tất cả xuất phát từ 0%",
-                    xaxis_title="Thời gian",
-                    yaxis_title="% Tăng trưởng từ điểm xuất phát",
-                    legend_title="Coin",
-                    hovermode="x unified"
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                        success += 1
+                        data_map[c] = df_ohlcv.copy()
+                used_cache_file = False
+                if success == 0:
+                    file_map = _load_okx_snapshot_file(bar)
+                    if file_map:
+                        data_map = file_map
+                        used_cache_file = True
+                        success = len(data_map)
+                        failed = [coin_id_to_name[c] for c in coins if c not in data_map]
+                stats = {
+                    'bar': bar,
+                    'success': success,
+                    'total': len(coins),
+                    'failed_symbols': failed,
+                    'used_cache_file': used_cache_file,
+                    'timestamp': time.time()
+                }
+                st.session_state['_ohlcv_snapshot_all'] = {
+                    'data': data_map,
+                    'bar': bar,
+                    'coins': list(coins),
+                    'ts': stats['timestamp']
+                }
+                st.session_state['_okx_prefetch_stats'] = stats
+                if success > 0 and not used_cache_file:
+                    _save_okx_snapshot_file(data_map, bar)
+                return data_map, stats
+
+            data_map, stats = _prefetch_okx_ohlcv_all(bar="30m")
+            if stats.get('success', 0) == 0:
+                st.error("⚠️ Không lấy được dữ liệu OKX 30m cho bất kỳ coin nào để vẽ chart tăng trưởng.")
             else:
-                st.info("Không đủ dữ liệu giá OKX để so sánh tăng trưởng các coin.")
+                if stats.get('failed_symbols'):
+                    st.warning(
+                        f"OKX 30m: {stats['success']}/{stats['total']} coin có dữ liệu. Thiếu: {', '.join(stats['failed_symbols'])}" +
+                        (" | Sử dụng snapshot file" if stats.get('used_cache_file') else "")
+                    )
+                else:
+                    st.success(
+                        f"OKX 30m: Đã tải đầy đủ {stats['success']}/{stats['total']} coin." +
+                        (" (snapshot file)" if stats.get('used_cache_file') else "")
+                    )
+            if stats.get('success', 0) > 0:
+                min_len = None
+                aligned = {}
+                for c, dfc in data_map.items():
+                    try:
+                        if dfc is None or dfc.empty or 'close' not in dfc.columns:
+                            continue
+                        closes = dfc['close'].astype(float).values
+                        if len(closes) < 5:
+                            continue
+                        if 'ts' in dfc.columns:
+                            times = _pd.to_datetime(dfc['ts'].values, unit='ms')
+                        elif 'datetime' in dfc.columns:
+                            times = _pd.to_datetime(dfc['datetime'], errors='coerce')
+                        else:
+                            times = _pd.to_datetime(dfc.iloc[:,0], unit='ms', errors='coerce')
+                        if times.isna().all():
+                            continue
+                        if min_len is None or len(closes) < min_len:
+                            min_len = len(closes)
+                        aligned[c] = (times, closes)
+                    except Exception:
+                        continue
+                if not aligned or not min_len or min_len < 5:
+                    st.info("⚠️ Chưa đủ dữ liệu (>=5 nến) để vẽ chart tăng trưởng.")
+                else:
+                    fig = go.Figure()
+                    for c in coins:
+                        if c not in aligned:
+                            continue
+                        times, closes = aligned[c]
+                        closes = closes[-min_len:]
+                        times = times[-min_len:]
+                        if closes[0] == 0:
+                            continue
+                        pct = (closes / closes[0] - 1) * 100
+                        fig.add_trace(go.Scatter(x=times, y=pct, mode='lines', name=coin_id_to_name[c]))
+                    if not fig.data:
+                        st.info("⚠️ Không thể vẽ chart do thiếu dữ liệu hợp lệ.")
+                    else:
+                        ts_loaded = stats.get('timestamp')
+                        loaded_at = datetime.utcfromtimestamp(ts_loaded).strftime('%H:%M:%S UTC') if ts_loaded else ''
+                        suffix = "(snapshot file)" if stats.get('used_cache_file') else ""
+                        fig.update_layout(
+                            title=f"Tăng trưởng (%) tất cả coin (OKX 30m - snapshot) {suffix} | Loaded {loaded_at}",
+                            xaxis_title="Thời gian",
+                            yaxis_title="% Tăng trưởng",
+                            hovermode='x unified',
+                            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1)
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
 
     # --- Health Panel ---
     # Lấy độ dài queue DB (thông qua biến trong db_utils - tạm không public nên dùng try) và timestamp cập nhật giá gần nhất
@@ -1178,63 +1362,71 @@ with tab2:
             import metrics_mvrv_z
             if coin[1] == "ETH":
                 metrics_mvrv_z.show_mvrv_z_metric("ethereum", "ETH")
-            # --- Hiển thị on-chain metrics cho mọi coin (dùng chung) ---
-            import metrics_onchain_cm
+            # --- On-chain metrics (Lazy load qua expander) ---
             import pandas as pd
             import plotly.graph_objects as go
-            def show_onchain_metrics(asset, asset_name, days=365):
-                df = metrics_onchain_cm.load_onchain_metrics(asset, days)
-                if df is not None and not df.empty:
-                    last = df.iloc[-1]
-                    cols = st.columns(4)
-                    def safe_metric(val, fmt, default="N/A"):
-                        try:
-                            if pd.isna(val):
-                                return default
-                            return fmt.format(val)
-                        except Exception:
-                            return default
-                    with cols[0]:
-                        st.markdown(f"<div style='font-size:13px;'>Giá {asset_name} (USD)<br><b>{safe_metric(last.get('PriceUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-                        st.markdown(f"<div style='font-size:13px;'>Địa chỉ active<br><b>{safe_metric(last.get('AdrActCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-                    with cols[1]:
-                        st.markdown(f"<div style='font-size:13px;'>Số giao dịch<br><b>{safe_metric(last.get('TxCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-                        st.markdown(f"<div style='font-size:13px;'>Tổng phí giao dịch<br><b>{safe_metric(last.get('FeeTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-                    with cols[2]:
-                        st.markdown(f"<div style='font-size:13px;'>Coin mới phát hành<br><b>{safe_metric(last.get('IssTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-                        st.markdown(f"<div style='font-size:13px;'>Số block/ngày<br><b>{safe_metric(last.get('BlkCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-                    with cols[3]:
-                        st.markdown(f"<div style='font-size:13px;'>Hashrate TB<br><b>{safe_metric(last.get('HashRate'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
-                        st.markdown(f"<div style='font-size:13px;'>Độ khó TB<br><b>{safe_metric(last.get('DiffMean'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
-                    # Chart lịch sử các chỉ số chính
-                    fig = go.Figure()
-                    if 'PriceUSD' in df.columns:
-                        fig.add_trace(go.Scatter(x=df['date'], y=df['PriceUSD'], name=f'Giá {asset_name} (USD)', line=dict(color='blue')))
-                    if 'AdrActCnt' in df.columns:
-                        fig.add_trace(go.Scatter(x=df['date'], y=df['AdrActCnt'], name='Địa chỉ active', line=dict(color='orange')))
-                    if 'TxCnt' in df.columns:
-                        fig.add_trace(go.Scatter(x=df['date'], y=df['TxCnt'], name='Số giao dịch', line=dict(color='green')))
-                    if 'FeeTotUSD' in df.columns:
-                        fig.add_trace(go.Scatter(x=df['date'], y=df['FeeTotUSD'], name='Tổng phí giao dịch', line=dict(color='red')))
-                    fig.update_layout(
-                        title=f"{asset_name} On-chain Metrics (Community API)",
-                        xaxis=dict(title="Date"),
-                        yaxis=dict(title="Giá trị / Số lượng", side="left"),
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
-                else:
-                    st.info(f"Không có dữ liệu on-chain cho {asset_name} để hiển thị.")
+            # def _render_onchain(asset, asset_name, days=365):
+            #     df = load_onchain_metrics_cached(asset, days)
+            #     if df is None or df.empty:
+            #         st.info(f"Không có dữ liệu on-chain cho {asset_name}.")
+            #         return
+            #     last = df.iloc[-1]
+            #     cols = st.columns(4)
+            #     def safe_metric(val, fmt, default="N/A"):
+            #         try:
+            #             if pd.isna(val):
+            #                 return default
+            #             return fmt.format(val)
+            #         except Exception:
+            #             return default
+            #     with cols[0]:
+            #         st.markdown(f"<div style='font-size:13px;'>Giá {asset_name} (USD)<br><b>{safe_metric(last.get('PriceUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
+            #         st.markdown(f"<div style='font-size:13px;'>Địa chỉ active<br><b>{safe_metric(last.get('AdrActCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
+            #     with cols[1]:
+            #         st.markdown(f"<div style='font-size:13px;'>Số giao dịch<br><b>{safe_metric(last.get('TxCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
+            #         st.markdown(f"<div style='font-size:13px;'>Tổng phí giao dịch<br><b>{safe_metric(last.get('FeeTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
+            #     with cols[2]:
+            #         st.markdown(f"<div style='font-size:13px;'>Coin mới phát hành<br><b>{safe_metric(last.get('IssTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
+            #         st.markdown(f"<div style='font-size:13px;'>Số block/ngày<br><b>{safe_metric(last.get('BlkCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
+            #     with cols[3]:
+            #         st.markdown(f"<div style='font-size:13px;'>Hashrate TB<br><b>{safe_metric(last.get('HashRate'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
+            #         st.markdown(f"<div style='font-size:13px;'>Độ khó TB<br><b>{safe_metric(last.get('DiffMean'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
+            #     fig = go.Figure()
+            #     if 'PriceUSD' in df.columns:
+            #         fig.add_trace(go.Scatter(x=df['date'], y=df['PriceUSD'], name=f'Giá {asset_name} (USD)', line=dict(color='blue')))
+            #     if 'AdrActCnt' in df.columns:
+            #         fig.add_trace(go.Scatter(x=df['date'], y=df['AdrActCnt'], name='Địa chỉ active', line=dict(color='orange')))
+            #     if 'TxCnt' in df.columns:
+            #         fig.add_trace(go.Scatter(x=df['date'], y=df['TxCnt'], name='Số giao dịch', line=dict(color='green')))
+            #     if 'FeeTotUSD' in df.columns:
+            #         fig.add_trace(go.Scatter(x=df['date'], y=df['FeeTotUSD'], name='Tổng phí giao dịch', line=dict(color='red')))
+            #     fig.update_layout(
+            #         title=f"{asset_name} On-chain Metrics (Community API)",
+            #         xaxis=dict(title="Date"),
+            #         yaxis=dict(title="Giá trị / Số lượng", side="left"),
+            #         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+            #     )
+            #     st.plotly_chart(fig, use_container_width=True)
 
-            # Gọi cho từng coin
-            show_onchain_metrics(coin[0], coin[1])
+            # perf_mode = st.session_state.get("_perf_mode", True)
+            # with st.expander("🔗 On-chain Metrics (nhấn để tải)", expanded=False):
+            #     if perf_mode:
+            #         # Performance mode: user phải nhấn nút để tránh load tự động nhiều coin
+            #         if st.button("Tải dữ liệu on-chain", key=f"btn_onchain_{coin[0]}"):
+            #             _render_onchain(coin[0], coin[1])
+            #     else:
+            #         # Non-performance: tự động render khi mở expander
+            #         _render_onchain(coin[0], coin[1])
 
             # --- Hiển thị heatmap liquidation OKX cho mọi coin ---
-            import metrics_liquidation_okx
             symbol = f"{coin[1]}-USDT-SWAP"
             st.subheader(f"Heatmap Liquidation OKX ({symbol})")
-            df_liq = metrics_liquidation_okx.fetch_okx_liquidation(symbol=symbol, limit=100)
-            fig_liq = metrics_liquidation_okx.plot_liquidation_heatmap(df_liq, symbol=symbol)
+            df_liq = fetch_okx_liq_cached(symbol=symbol, limit=100)
+            try:
+                import metrics_liquidation_okx
+                fig_liq = metrics_liquidation_okx.plot_liquidation_heatmap(df_liq, symbol=symbol)
+            except Exception:
+                fig_liq = None
             if fig_liq:
                 st.plotly_chart(fig_liq, use_container_width=True)
             else:
@@ -1247,14 +1439,8 @@ with tab2:
             tz_gmt7 = pytz.timezone("Asia/Bangkok")
             # Đọc lịch sử portfolio
             HISTORY_FILE = "portfolio_history.json"
-            if os.path.exists(HISTORY_FILE):
-                try:
-                    with open(HISTORY_FILE, "r") as f:
-                        history = json.load(f)
-                except Exception:
-                    history = []
-            else:
-                history = []
+            # Cached portfolio history load
+            history = load_portfolio_history_cached(HISTORY_FILE)
             # Lọc lịch sử cho coin này
             df_hist = pd.DataFrame([h for h in history if h.get("coin") == coin[0]])
             if not df_hist.empty:
@@ -1313,7 +1499,7 @@ with tab2:
             st.subheader(f"Giá & Volume OKX ({coin[1]}-USDT-SWAP, {bar_label})")
 
             try:
-                df_ohlcv = metrics_ohlcv_okx.fetch_okx_ohlcv_oi(symbol=f"{coin[1]}-USDT-SWAP", bar=bar, limit=200)
+                df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{coin[1]}-USDT-SWAP", bar=bar, limit=200)
             except Exception as e:
                 import requests
                 if isinstance(e, requests.exceptions.ProxyError):

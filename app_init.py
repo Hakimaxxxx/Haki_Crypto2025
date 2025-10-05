@@ -59,20 +59,24 @@ def get_cached_data() -> Dict[str, Any]:
 def _load_local_files() -> bool:
     """Load data from local JSON files as fallback."""
     try:
+        local_data_loaded = False
         # Portfolio data
         if os.path.exists("data.json"):
             with open("data.json", "r") as f:
                 _DATA_CACHE["portfolio"] = json.load(f)
+            local_data_loaded = True
         
         # Average prices
         if os.path.exists("avg_price.json"):
             with open("avg_price.json", "r") as f:
                 _DATA_CACHE["avg_prices"] = json.load(f)
+            local_data_loaded = True
         
         # History
         if os.path.exists("portfolio_history.json"):
             with open("portfolio_history.json", "r") as f:
                 _DATA_CACHE["history"] = json.load(f)
+            local_data_loaded = True
         
         # Last prices
         if os.path.exists("last_prices.json"):
@@ -80,8 +84,13 @@ def _load_local_files() -> bool:
                 data = json.load(f)
                 _DATA_CACHE["prices"] = data.get("prices", {})
                 _DATA_CACHE["price_changes"] = data.get("price_data", {})
+            local_data_loaded = True
         
-        return True
+        if local_data_loaded:
+            print("[DEBUG] Local files loaded successfully.")
+        else:
+            print("[DEBUG] No local files found.")
+        return local_data_loaded
     except Exception as e:
         _APP_STATE["errors"].append(f"Local file load error: {e}")
         return False
@@ -91,66 +100,37 @@ def _bootstrap_from_db() -> bool:
     try:
         from cloud_db import db
         
-        # Debug connection info
-        conn_info = db.get_connection_info()
-        print(f"[DEBUG] DB connection info: {conn_info}")
-        
         if not db.available():
-            # Try force reconnect
-            print("[DEBUG] DB not available, attempting force reconnect...")
-            reconnect_success = db.force_reconnect()
-            if reconnect_success:
-                print("[DEBUG] Force reconnect successful!")
-            else:
-                error_msg = f"DB not available after reconnect. Info: {db.get_connection_info()}"
-                _APP_STATE["errors"].append(error_msg)
-                print(f"[DEBUG] {error_msg}")
+            print("[DEBUG] DB not available, attempting reconnect...")
+            if not db.force_reconnect():
+                _APP_STATE["errors"].append("DB reconnect failed.")
                 return False
         
         # Load portfolio metadata
-        try:
-            print("[DEBUG] Attempting to load portfolio metadata from DB...")
-            holdings = db.get_kv("portfolio_meta", "holdings") or {}
-            avg_prices = db.get_kv("portfolio_meta", "avg_price") or {}
-            
-            print(f"[DEBUG] Loaded from DB - Holdings: {len(holdings)} items")
-            print(f"[DEBUG] Loaded from DB - Avg Prices: {len(avg_prices)} items")
-            
-            if holdings:
-                _DATA_CACHE["portfolio"] = holdings
-                print(f"[DEBUG] Updated portfolio cache with {len(holdings)} holdings")
-                # Backup to local file
-                with open("data.json", "w") as f:
-                    json.dump(holdings, f)
-                print("[DEBUG] Saved holdings to data.json")
-            
-            if avg_prices:
-                _DATA_CACHE["avg_prices"] = avg_prices
-                print(f"[DEBUG] Updated avg_prices cache with {len(avg_prices)} prices")
-                # Backup to local file
-                with open("avg_price.json", "w") as f:
-                    json.dump(avg_prices, f)
-                print("[DEBUG] Saved avg_prices to avg_price.json")
+        holdings = db.get_kv("portfolio_meta", "holdings") or {}
+        avg_prices = db.get_kv("portfolio_meta", "avg_price") or {}
         
-        except Exception as e:
-            _APP_STATE["errors"].append(f"DB portfolio meta load error: {e}")
+        if holdings:
+            _DATA_CACHE["portfolio"] = holdings
+            with open("data.json", "w") as f:
+                json.dump(holdings, f)
+        
+        if avg_prices:
+            _DATA_CACHE["avg_prices"] = avg_prices
+            with open("avg_price.json", "w") as f:
+                json.dump(avg_prices, f)
         
         # Load portfolio history
-        try:
-            history = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
-            if history:
-                _DATA_CACHE["history"] = history
-                # Backup to local file
-                with open("portfolio_history.json", "w") as f:
-                    json.dump(history, f)
-        
-        except Exception as e:
-            _APP_STATE["errors"].append(f"DB history load error: {e}")
+        history = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
+        if history:
+            _DATA_CACHE["history"] = history
+            with open("portfolio_history.json", "w") as f:
+                json.dump(history, f)
         
         _APP_STATE["db_available"] = True
         _APP_STATE["last_db_sync"] = time.time()
+        print("[DEBUG] DB bootstrap completed successfully.")
         return True
-        
     except Exception as e:
         _APP_STATE["errors"].append(f"DB bootstrap error: {e}")
         return False
@@ -276,23 +256,29 @@ def initialize_app() -> Tuple[bool, str]:
             
             # Step 1: Load local files as base
             local_loaded = _load_local_files()
-            if local_loaded:
-                _APP_STATE["data_loaded"] = True
             
             # Step 2: Try to bootstrap from DB
             db_loaded = _bootstrap_from_db()
             
-            # Step 3: Initialize API services
+            # Step 3: Prioritize DB data over local files
+            if db_loaded:
+                print("[DEBUG] Using DB data as primary source.")
+            elif local_loaded:
+                print("[DEBUG] Falling back to local files.")
+            else:
+                print("[DEBUG] No data sources available.")
+                return False, "Initialization failed: No data sources available."
+            
+            # Step 4: Initialize API services
             api_loaded = _init_api_services()
             
-            # Step 4: Start background sync if any service is available
+            # Step 5: Start background sync if any service is available
             if db_loaded or api_loaded:
                 sync_thread = threading.Thread(target=_background_sync, daemon=True)
                 sync_thread.start()
             
             _APP_STATE["init_complete"] = True
             
-            # Generate status message
             sources = []
             if local_loaded:
                 sources.append("local files")
@@ -301,11 +287,7 @@ def initialize_app() -> Tuple[bool, str]:
             if api_loaded:
                 sources.append("API")
             
-            if sources:
-                return True, f"App initialized successfully from: {', '.join(sources)}"
-            else:
-                return False, "App initialization failed - no data sources available"
-                
+            return True, f"App initialized successfully from: {', '.join(sources)}"
         except Exception as e:
             _APP_STATE["errors"].append(f"Init error: {e}")
             return False, f"Initialization failed: {e}"
