@@ -9565,3 +9565,68 @@
 2025-10-05 14:30:01,490 - ERROR - Error processing block 63533387: API error: Unknown error
 2025-10-05 14:30:17,886 - ERROR - API returned error for block 63533379: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
 2025-10-05 14:30:17,886 - ERROR - Error processing block 63533379: API error: Unknown error
+2025-10-05 14:30:29,460 - ERROR - API returned error for block 63533374: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:30:29,460 - ERROR - Error processing block 63533374: API error: Unknown error
+2025-10-05 14:30:41,059 - ERROR - API returned error for block 63533369: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:30:41,059 - ERROR - Error processing block 63533369: API error: Unknown error
+2025-10-05 14:30:43,625 - ERROR - API returned error for block 63533368: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:30:43,625 - ERROR - Error processing block 63533368: API error: Unknown error
+2025-10-05 14:31:01,029 - ERROR - API returned error for block 63533360: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:01,029 - ERROR - Error processing block 63533360: API error: Unknown error
+2025-10-05 14:31:13,054 - ERROR - API returned error for block 63533354: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:13,055 - ERROR - Error processing block 63533354: API error: Unknown error
+2025-10-05 14:31:16,822 - ERROR - API returned error for block 63533352: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:16,822 - ERROR - Error processing block 63533352: API error: Unknown error
+2025-10-05 14:31:31,427 - ERROR - API returned error for block 63533348: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:31,427 - ERROR - Error processing block 63533348: API error: Unknown error
+2025-10-05 14:31:39,813 - ERROR - API returned error for block 63533344: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:39,813 - ERROR - Error processing block 63533344: API error: Unknown error
+2025-10-05 14:31:59,643 - ERROR - API returned error for block 63533335: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:31:59,643 - ERROR - Error processing block 63533335: API error: Unknown error
+2025-10-05 14:32:03,299 - ERROR - API returned error for block 63533333: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:32:03,299 - ERROR - Error processing block 63533333: API error: Unknown error
+2025-10-05 14:32:25,189 - ERROR - API returned error for block 63533323: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:32:25,189 - ERROR - Error processing block 63533323: API error: Unknown error
+2025-10-05 14:32:35,447 - ERROR - API returned error for block 63533318: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:32:35,448 - ERROR - Error processing block 63533318: API error: Unknown error
+2025-10-05 14:32:36,967 - ERROR - API returned error for block 63533317: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:32:36,967 - ERROR - Error processing block 63533317: API error: Unknown error
+2025-10-05 14:32:52,754 - ERROR - API returned error for block 63533309: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:32:52,755 - ERROR - Error processing block 63533309: API error: Unknown error
+2025-10-05 14:32:57,623 - INFO - Block scan completed and history updated.
+2025-10-05 14:37:57,624 - INFO - Starting block scan...
+2025-10-05 14:37:59,247 - INFO - Latest block number: 63534108
+2025-10-05 14:37:59,426 - INFO - Scanning blocks from 63534108 to 63534009
+2025-10-05 14:38:01,431 - ERROR - API returned error for block 63534108: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:01,431 - ERROR - Error processing block 63534108: API error: Unknown error
+2025-10-05 14:38:02,834 - ERROR - API returned error for block 63534107: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:02,835 - ERROR - Error processing block 63534107: API error: Unknown error
+2025-10-05 14:38:15,331 - ERROR - API returned error for block 63534101: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:15,331 - ERROR - Error processing block 63534101: API error: Unknown error
+2025-10-05 14:38:16,863 - ERROR - API returned error for block 63534100: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:16,863 - ERROR - Error processing block 63534100: API error: Unknown error
+2025-10-05 14:38:23,840 - ERROR - API returned error for block 63534097: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:23,840 - ERROR - Error processing block 63534097: API error: Unknown error
+2025-10-05 14:38:25,286 - ERROR - API returned error for block 63534096: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:25,286 - ERROR - Error processing block 63534096: API error: Unknown error
+2025-10-05 14:38:27,016 - ERROR - API returned error for block 63534095: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:27,016 - ERROR - Error processing block 63534095: API error: Unknown error
+2025-10-05 14:38:28,647 - ERROR - API returned error for block 63534094: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:28,647 - ERROR - Error processing block 63534094: API error: Unknown error
+2025-10-05 14:38:51,178 - ERROR - API returned error for block 63534084: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:38:51,178 - ERROR - Error processing block 63534084: API error: Unknown error
+2025-10-05 14:39:03,378 - ERROR - API returned error for block 63534078: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:03,378 - ERROR - Error processing block 63534078: API error: Unknown error
+2025-10-05 14:39:20,794 - ERROR - Error processing block 63534074: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-05 14:39:26,402 - ERROR - API returned error for block 63534071: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:26,402 - ERROR - Error processing block 63534071: API error: Unknown error
+2025-10-05 14:39:29,798 - ERROR - API returned error for block 63534069: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:29,799 - ERROR - Error processing block 63534069: API error: Unknown error
+2025-10-05 14:39:47,855 - ERROR - API returned error for block 63534060: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:47,855 - ERROR - Error processing block 63534060: API error: Unknown error
+2025-10-05 14:39:51,182 - ERROR - API returned error for block 63534058: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:51,182 - ERROR - Error processing block 63534058: API error: Unknown error
+2025-10-05 14:39:53,129 - ERROR - API returned error for block 63534057: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:39:53,129 - ERROR - Error processing block 63534057: API error: Unknown error
+2025-10-05 14:40:01,504 - ERROR - API returned error for block 63534053: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-05 14:40:01,504 - ERROR - Error processing block 63534053: API error: Unknown error
