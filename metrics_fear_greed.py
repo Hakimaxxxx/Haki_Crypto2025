@@ -5,6 +5,26 @@ import requests
 import pandas as pd
 import streamlit as st
 from datetime import datetime
+import time as _t
+
+_FG_CACHE = {"data": None, "ts": 0}
+
+def load_fear_greed_cached(ttl: int = 300):
+    now = _t.time()
+    if _FG_CACHE["data"] and now - _FG_CACHE["ts"] < ttl:
+        return _FG_CACHE["data"]
+    df = get_fear_greed_index()
+    if df is None or df.empty:
+        return None
+    cur = df.iloc[-1]
+    rec = {
+        "value": int(cur.get("value", 0)),
+        "value_classification": cur.get("value_classification", "-"),
+        "timestamp": str(cur.get("timestamp"))
+    }
+    _FG_CACHE["data"] = rec
+    _FG_CACHE["ts"] = now
+    return rec
 
 def get_fear_greed_index():
     # Đọc cache nếu có
@@ -125,4 +145,4 @@ def show_fear_greed_metric():
         showlegend=False
     ))
     fig.update_layout(title="Crypto Fear & Greed Index", xaxis_title="Ngày", yaxis_title="Chỉ số", height=300, xaxis_tickformat='%d-%m-%Y')
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch', config={'displaylogo': False, 'responsive': True})

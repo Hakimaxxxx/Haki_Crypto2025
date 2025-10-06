@@ -24,5 +24,5 @@ def show_mvrv_z_metric(coin_id, coin_name):
     std_mcap = np.std(df["market_cap"])
     df["mvrv_z"] = (df["market_cap"] - df["realized_cap"]) / (std_mcap if std_mcap > 0 else 1)
     st.subheader(f"MVRV-Z Score ({coin_name})")
-    st.line_chart(df.set_index("date")["mvrv_z"], use_container_width=True)
+    st.line_chart(df.set_index("date")["mvrv_z"], width='stretch')
     st.caption("MVRV-Z = (Market Cap - Realized Cap) / Std(Market Cap). Giá trị cao: thị trường có thể đang bị định giá quá cao. Giá trị thấp: có thể bị định giá thấp.")

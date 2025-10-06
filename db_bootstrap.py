@@ -21,14 +21,14 @@ def bootstrap_from_cloud():
                     json.dump(kv_hold, f)
                 changed = True
             except Exception:
-                pass
+                return False, "Lỗi ghi file holdings"
         if kv_avg:
             try:
                 with open(AVG_PRICE_FILE, 'w', encoding='utf-8') as f:
                     json.dump(kv_avg, f)
                 changed = True
             except Exception:
-                pass
+                return False, "Lỗi ghi file avg_price"
         hist_docs = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
         if hist_docs:
             try:
@@ -36,7 +36,7 @@ def bootstrap_from_cloud():
                     json.dump(hist_docs, f)
                 changed = True
             except Exception:
-                pass
+                return False, "Lỗi ghi file portfolio_history"
         return changed, "Bootstrap thành công" if changed else "Không có thay đổi khi bootstrap"
     except Exception as e:
         return False, f"Lỗi bootstrap: {e}"

@@ -82,9 +82,21 @@ def _load_local_files() -> bool:
         if os.path.exists("last_prices.json"):
             with open("last_prices.json", "r") as f:
                 data = json.load(f)
-                _DATA_CACHE["prices"] = data.get("prices", {})
-                _DATA_CACHE["price_changes"] = data.get("price_data", {})
-            local_data_loaded = True
+                if isinstance(data, dict):
+                    # Support legacy formats:
+                    # 1) {"prices": {...}, "price_data": {...}}
+                    # 2) {"BTC": {"price":123}, ...}
+                    # 3) {"BTC": 123.45, ...}
+                    if "prices" in data:
+                        _DATA_CACHE["prices"] = data.get("prices", {})
+                        _DATA_CACHE["price_changes"] = data.get("price_data", {})
+                    else:
+                        # Assume direct mapping of symbol->obj/float
+                        _DATA_CACHE["prices"] = data
+                        # Do not overwrite existing price_changes if already loaded earlier
+                        if not _DATA_CACHE["price_changes"]:
+                            _DATA_CACHE["price_changes"] = {}
+                local_data_loaded = True
         
         if local_data_loaded:
             print("[DEBUG] Local files loaded successfully.")
@@ -240,16 +252,41 @@ def _background_sync():
         except Exception as e:
             _APP_STATE["errors"].append(f"Background sync error: {e}")
 
-def initialize_app() -> Tuple[bool, str]:
-    """
-    Initialize the application with robust error handling.
-    
-    Returns:
-        (success, message)
+def initialize_app(refresh: bool = False) -> Tuple[bool, str]:
+    """Initialize the application (idempotent) with robust error handling.
+
+    Parameters
+    ----------
+    refresh: bool
+        If True, forces a hydration pass (re-load from local/DB) even when already initialized.
+        Useful for new Streamlit sessions after browser hard refresh where session_state is empty.
     """
     with _init_lock:
-        if _APP_STATE["init_complete"]:
+        if _APP_STATE["init_complete"] and not refresh:
+            # If caches somehow empty (edge case after code reload) attempt lightweight hydration
+            if (not _DATA_CACHE["portfolio"]) and os.path.exists("data.json"):
+                try:
+                    _load_local_files()
+                except Exception:
+                    pass
+            # If portfolio still empty, try DB bootstrap once more (non-intrusive)
+            if not _DATA_CACHE["portfolio"]:
+                try:
+                    _bootstrap_from_db()
+                except Exception:
+                    pass
             return True, "App already initialized"
+        if _APP_STATE["init_complete"] and refresh:
+            # Force re-hydration path
+            try:
+                _load_local_files()
+            except Exception:
+                pass
+            try:
+                _bootstrap_from_db()
+            except Exception:
+                pass
+            return True, "App already initialized (hydrated)"
         
         try:
             _APP_STATE["errors"].clear()

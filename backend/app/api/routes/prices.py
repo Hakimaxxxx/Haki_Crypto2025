@@ -1,26 +1,21 @@
-from fastapi import APIRouter, HTTPException, Query
-from typing import List, Dict
-import json, os
+from fastapi import APIRouter, Query
+from typing import List, Optional
+from ...schemas.base import PriceSnapshot
+from ...services.prices_service import get_prices, get_price_ttl, get_cache_ts
 
 router = APIRouter()
 
-DATA_FILE = "data.json"  # holdings (legacy)
-LAST_PRICE_FILE = "last_prices.json"  # existing spot prices local cache
-
-@router.get("/spot")
-async def get_spot_prices(symbols: str = Query(None, description="Comma separated symbols (e.g. BTC,ETH,SOL)")):
-    # Load local cache file (Phase 0 style) – to be replaced with DB in later phase
-    if not os.path.exists(LAST_PRICE_FILE):
-        raise HTTPException(status_code=404, detail="Price cache file not found")
-    try:
-        with open(LAST_PRICE_FILE, 'r', encoding='utf-8') as f:
-            price_data = json.load(f)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cannot read price cache: {e}")
-
+@router.get("/spot", response_model=dict)
+async def get_spot_prices(symbols: Optional[str] = Query(None, description="Comma separated symbols (e.g. BTC,ETH,SOL)")):
+    symbol_list: Optional[List[str]] = None
     if symbols:
-        req = [s.strip().lower() for s in symbols.split(',') if s.strip()]
-        filtered = {k: v for k, v in price_data.items() if k.lower() in req}
-    else:
-        filtered = price_data
-    return {"count": len(filtered), "prices": filtered}
+        symbol_list = [s.strip() for s in symbols.split(',') if s.strip()]
+    snaps = get_prices(symbol_list)
+    # Serialize PriceSnapshot objects
+    serialized = {k: v.model_dump() for k, v in snaps.items()}
+    return {
+        "count": len(serialized),
+        "prices": serialized,
+        "ttl": get_price_ttl(),
+        "generated_at": get_cache_ts()
+    }

@@ -1,4 +1,3 @@
-
 from db_utils import (
     db_upsert_portfolio_docs_with_retry,
     db_retry_queue,
@@ -40,6 +39,7 @@ import plotly.graph_objects as go
 # Import các module metrics
 # Import các module metrics
 import metrics_flow
+import metrics_ohlcv_okx  # Added back for OHLCV chart rendering in coin tabs
 # Set MongoDB environment variables FIRST before any cloud_db imports
 os.environ["MONGO_URI"] = "mongodb+srv://quanghuy060997_db_user:MPCuEbF2GhpmiZm8@cluster0.x3iyjjm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 os.environ["CLOUD_DB_NAME"] = "Crypto2025"
@@ -60,6 +60,14 @@ if "app_initialized" not in st.session_state:
         if success:
             st.success(f"✅ {message}")
         else:
+            # New streamlit session (after F5) may have lost session_state but backend init is persistent.
+            # If holdings file empty & DB available, trigger hydration.
+            try:
+                if ("holdings" not in st.session_state or not st.session_state.get("holdings")):
+                    # Light re-hydration attempt
+                    initialize_app(refresh=True)
+            except Exception:
+                pass
             st.error(f"❌ {message}")
             st.info("💡 App will run with limited functionality using available data sources.")
 
@@ -482,6 +490,61 @@ def compute_growth_chart_cached(coins: tuple, coin_id_to_name_map: dict, bar: st
     )
     return fig
 
+# ---------------- Phase 0: OHLCV Prefetch Optimization (shared for coin tabs) ---------------- #
+def _ohlcv_prefetch_key(bar: str) -> str:
+    return f"_ohlcv_prefetch_bar_{bar}"
+
+def prefetch_ohlcv_all(bar: str, coin_symbols: list[str], limit: int = 200, force: bool = False):
+    """Prefetch OHLCV for a list of coin symbols once per timeframe to reduce repeated calls.
+
+    Stores result in st.session_state with lightweight TTL logic (reuse for ~80s).
+    """
+    key = _ohlcv_prefetch_key(bar)
+    snap = st.session_state.get(key)
+    now_t = time.time()
+    if (not force) and snap and (now_t - snap.get('ts', 0) < 80):
+        return snap.get('data', {}), snap.get('stats', {})
+    data_map = {}
+    success = 0
+    failed = []
+    for sym in coin_symbols:
+        try:
+            df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{sym}-USDT-SWAP", bar=bar, limit=limit)
+            if df_ohlcv is not None and not df_ohlcv.empty:
+                data_map[sym] = df_ohlcv.copy()
+                success += 1
+            else:
+                failed.append(sym)
+        except Exception:
+            failed.append(sym)
+    stats = {
+        'bar': bar,
+        'success': success,
+        'total': len(coin_symbols),
+        'failed': failed,
+        'timestamp': now_t
+    }
+    st.session_state[key] = {'data': data_map, 'stats': stats, 'ts': now_t}
+    return data_map, stats
+
+def get_prefetched_ohlcv(bar: str, coin_symbol: str):
+    key = _ohlcv_prefetch_key(bar)
+    snap = st.session_state.get(key)
+    if not snap:
+        return None
+    return snap.get('data', {}).get(coin_symbol)
+
+# Phase 0: unified loaders
+try:
+    from services.whale.whale_loader import load_whales_for_symbol
+except Exception:
+    load_whales_for_symbol = None
+
+try:
+    from services.ohlcv.ohlcv_loader import load_ohlcv as unified_load_ohlcv
+except Exception:
+    unified_load_ohlcv = None
+
 # Hàm load lịch sử portfolio
 def load_portfolio_history():
     if os.path.exists(HISTORY_FILE):
@@ -718,33 +781,93 @@ with tab1:
     update_success = False
     prev_portfolio_value = portfolio_value
     if can_request:
-        prices_new, pdata_new, updated, msg = get_current_prices()
-        if updated:
-            price_data = pdata_new
-            prices = {c: prices_new.get(c, 0.0) for c in coins}
-            now = int(time.time())
-            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
-            if portfolio_value > 0:
-                st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
-            total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
-            current_pnl = portfolio_value - total_invested_now
-            st.session_state["_last_price_data"] = price_data
-            st.session_state["_last_prices"] = prices
-            st.session_state["_last_portfolio_value"] = portfolio_value
-            st.session_state["_last_total_invested_now"] = total_invested_now
-            st.session_state["_last_current_pnl"] = current_pnl
-            update_success = True
-        else:
-            if msg:
-                st.info(msg)
-            # If API rate limit and computed value becomes 0 but we have previous non-zero -> keep previous snapshot
-            if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
-                portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
-                # Do not change invested/current_pnl; recompute with preserved prices
-                prices = st.session_state["_last_prices"]
-                price_data = st.session_state["_last_price_data"]
-                total_invested_now = st.session_state["_last_total_invested_now"]
+        backend_ok = False
+        # Pilot: thử gọi backend FastAPI /prices/spot trước, nếu lỗi fallback sang logic cũ
+        try:
+            import httpx
+            api_url = st.session_state.get("_backend_price_api", "http://127.0.0.1:8000/prices/spot")
+            # Gửi danh sách SYMBOL (BTC, ETH, ...) thay vì coin id (bitcoin, ethereum)
+            symbols_param = ",".join([sym for _, sym in COIN_LIST])
+            with httpx.Client(timeout=3.5) as client:
+                resp = client.get(api_url, params={"symbols": symbols_param})
+            if resp.status_code == 200:
+                js = resp.json()
+                backend_prices_block = js.get("prices") or {}
+                prices_new = {}
+                pdata_new = {}
+                for symbol_key, v in backend_prices_block.items():
+                    if not isinstance(v, dict):
+                        continue  # backend luôn trả dict PriceSnapshot
+                    coin_id_match = v.get("coin_id") or v.get("symbol")
+                    if not coin_id_match:
+                        continue
+                    raw_price = v.get("price") or v.get("last") or v.get("value")
+                    c1 = v.get("change_1d", 0)
+                    c7 = v.get("change_7d", 0)
+                    c30 = v.get("change_30d", 0)
+                    try:
+                        prices_new[coin_id_match] = float(raw_price)
+                    except Exception:
+                        prices_new[coin_id_match] = 0.0
+                    pdata_new[coin_id_match] = {
+                        "change_1d": c1 or 0,
+                        "change_7d": c7 or 0,
+                        "change_30d": c30 or 0
+                    }
+                if prices_new:
+                    prices = {c: prices_new.get(c, prices.get(c, 0.0)) for c in coins}
+                    price_data = {**price_data, **pdata_new}
+                    now = int(time.time())
+                    portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+                    if portfolio_value > 0:
+                        st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
+                    total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
+                    current_pnl = portfolio_value - total_invested_now
+                    st.session_state["_last_price_data"] = price_data
+                    st.session_state["_last_prices"] = prices
+                    st.session_state["_last_portfolio_value"] = portfolio_value
+                    st.session_state["_last_total_invested_now"] = total_invested_now
+                    st.session_state["_last_current_pnl"] = current_pnl
+                    st.session_state["_price_source"] = "api"
+                    update_success = True
+                    backend_ok = True
+        except Exception as be:
+            st.session_state["_last_backend_error"] = str(be)
+
+        if not backend_ok:  # fallback original function
+            prices_new, pdata_new, updated, msg = get_current_prices()
+            if updated:
+                price_data = pdata_new
+                prices = {c: prices_new.get(c, 0.0) for c in coins}
+                now = int(time.time())
+                portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+                if portfolio_value > 0:
+                    st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
+                total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
                 current_pnl = portfolio_value - total_invested_now
+                st.session_state["_last_price_data"] = price_data
+                st.session_state["_last_prices"] = prices
+                st.session_state["_last_portfolio_value"] = portfolio_value
+                st.session_state["_last_total_invested_now"] = total_invested_now
+                st.session_state["_last_current_pnl"] = current_pnl
+                update_success = True
+            else:
+                if msg:
+                    st.info(msg)
+                # If API rate limit and computed value becomes 0 but we have previous non-zero -> keep previous snapshot
+                if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
+                    portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
+                    prices = st.session_state["_last_prices"]
+                    price_data = st.session_state["_last_price_data"]
+                    total_invested_now = st.session_state["_last_total_invested_now"]
+                    current_pnl = portfolio_value - total_invested_now
+            # Debug list of zero-priced coins
+            try:
+                zero_coins = [c for c in coins if float(prices.get(c,0.0))==0.0 and float(holdings.get(c,0.0))!=0]
+                if zero_coins:
+                    st.caption(f"[DEBUG] Zero-priced coins (fallback path): {', '.join(zero_coins)} | source={st.session_state.get('_price_source','legacy')} backend_err={st.session_state.get('_last_backend_error')}")
+            except Exception:
+                pass
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
 
@@ -805,6 +928,7 @@ with tab1:
                     "avg_price": avg_price.get(coin, 0.0)
                 }
                 new_docs.append(coin_entry)
+
         append_snapshot(new_docs)
         try:
             _db_upsert_portfolio_docs(new_docs)
@@ -841,6 +965,8 @@ with tab1:
         cached_note = " (db cached)"
     elif not update_success and prices is st.session_state.get("_last_prices") and any(holdings.get(c, 0.0) > 0 for c in coins):
         cached_note = " (cached)"
+    elif st.session_state.get("_price_source") == "api" and update_success:
+        cached_note = " (API)"
     if metric_delta != "N/A" and value_change != "N/A" and value_yesterday is not None:
         st.metric(
             f"💰 Tổng giá trị Portfolio (USD){cached_note}",
@@ -874,12 +1000,25 @@ with tab1:
         df_input.at[idx, "Số token nắm giữ"] = st.session_state["holdings"].get(coin, 0.0)
         df_input.at[idx, "Giá mua trung bình"] = st.session_state["avg_price"].get(coin, 0.0)
     df_input["Tổng giá trị"] = df_input["Số token nắm giữ"] * df_input["Giá hiện tại"]
-    df_input["Profit & Loss"] = df_input["Tổng giá trị"] - df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"]
-    df_input["% Profit/Loss"] = np.where(
-        df_input["Giá mua trung bình"] > 0,
-        100 * df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9),
-        0.0
-    )
+    def _pnl_row(row):
+        amt = row["Số token nắm giữ"]
+        avgc = row["Giá mua trung bình"]
+        price_now = row["Giá hiện tại"]
+        if amt >= 0:
+            return price_now * amt - avgc * amt
+        # position âm: coi như short => PNL = (avg_cost - current_price)*abs(amt)
+        return (avgc - price_now) * abs(amt)
+    df_input["Profit & Loss"] = df_input.apply(_pnl_row, axis=1)
+    def _pct_pl(row):
+        amt = row["Số token nắm giữ"]
+        avgc = row["Giá mua trung bình"]
+        if avgc == 0 or amt == 0:
+            return 0.0
+        invested = avgc * abs(amt)
+        if invested <= 0:
+            return 0.0
+        return 100 * row["Profit & Loss"] / (invested + 1e-9)
+    df_input["% Profit/Loss"] = df_input.apply(_pct_pl, axis=1)
     df_input["% Hòa vốn"] = np.where(df_input["Profit & Loss"] >= 0, 0.0, 100 * -df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9))
 
     # Chỉ hiển thị 1 bảng duy nhất: nhập liệu và có màu cho các cột tính toán
@@ -973,13 +1112,38 @@ with tab1:
     result_df["% 1D"] = [price_data.get(c, {}).get("change_1d", 0) for c in coins]
     result_df["% 7D"] = [price_data.get(c, {}).get("change_7d", 0) for c in coins]
     result_df["% 30D"] = [price_data.get(c, {}).get("change_30d", 0) for c in coins]
+    # Debug hỗ trợ nếu toàn 0 nhưng backend có dữ liệu
+    try:
+        if all(v.get("change_1d", 0) == 0 for k, v in price_data.items()) and any(
+            (v.get("change_1d",0)!=0 or v.get("change_7d",0)!=0 or v.get("change_30d",0)!=0) for v in price_data.values()
+        ):
+            st.caption("(Debug) price_data có dữ liệu nhưng bảng mapping sai key. Kiểm tra coin id vs symbol.")
+    except Exception:
+        pass
+    try:
+        if all((result_df["% 1D"]==0) & (result_df["% 7D"]==0) & (result_df["% 30D"]==0)):
+            st.caption("(Debug) Tất cả change% đang = 0. Kiểm tra backend /prices/spot hoặc file last_prices.json.")
+    except Exception:
+        pass
     result_df["Tổng giá trị"] = result_df["Số token nắm giữ"] * result_df["Giá hiện tại"]
-    result_df["Profit & Loss"] = result_df["Tổng giá trị"] - result_df["Giá mua trung bình"] * result_df["Số token nắm giữ"]
-    result_df["% Profit/Loss"] = np.where(
-        result_df["Giá mua trung bình"] > 0,
-        100 * result_df["Profit & Loss"] / (result_df["Giá mua trung bình"] * result_df["Số token nắm giữ"] + 1e-9),
-        0.0
-    )
+    def _pnl_row2(row):
+        amt = row["Số token nắm giữ"]
+        avgc = row["Giá mua trung bình"]
+        price_now = row["Giá hiện tại"]
+        if amt >= 0:
+            return price_now * amt - avgc * amt
+        return (avgc - price_now) * abs(amt)
+    result_df["Profit & Loss"] = result_df.apply(_pnl_row2, axis=1)
+    def _pct_pl2(row):
+        amt = row["Số token nắm giữ"]
+        avgc = row["Giá mua trung bình"]
+        if avgc == 0 or amt == 0:
+            return 0.0
+        invested = avgc * abs(amt)
+        if invested <= 0:
+            return 0.0
+        return 100 * row["Profit & Loss"] / (invested + 1e-9)
+    result_df["% Profit/Loss"] = result_df.apply(_pct_pl2, axis=1)
     result_df["% Hòa vốn"] = np.where(
         result_df["Profit & Loss"] >= 0,
         0.0,
@@ -1278,718 +1442,381 @@ with tab1:
                             hovermode='x unified',
                             legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1)
                         )
-                        st.plotly_chart(fig, use_container_width=True)
+                        # Updated deprecation: use width='stretch' instead of use_container_width
+                        st.plotly_chart(
+                            fig,
+                            width='stretch',
+                            config={
+                                'displaylogo': False,
+                                'modeBarButtonsToRemove': ['lasso2d','select2d'],
+                                'responsive': True
+                            }
+                        )
 
-    # --- Health Panel ---
-    # Lấy độ dài queue DB (thông qua biến trong db_utils - tạm không public nên dùng try) và timestamp cập nhật giá gần nhất
+# Phase 0 unified overlay refactor start
+from services.whale.whale_loader import load_whales_for_symbol, as_overlay_events
+
+def phase0_overlay_whales(coin_symbol: str, df_ohlcv, fig_ohlcv):
     try:
-        from db_utils import get_db_queue_info  # type: ignore
-        qinfo = get_db_queue_info()
-        queue_len = qinfo["queue_length"]
-    except Exception:
-        queue_len = 0
-        qinfo = {"queue_length":0, "consecutive_failures":0, "retry_interval":0, "next_retry_in":0}
-    # Giá trị cập nhật cuối cùng đã lưu trong session
-    last_price_ts = int(st.session_state.get("_last_portfolio_value_ts", 0)) if "_last_portfolio_value" in st.session_state else 0
-    # Thử flush queue DB thường xuyên hơn nếu đã có kết nối trở lại
-    if db.available():
-        try:
-            db_retry_queue(db)
-        except Exception:
-            pass
-    db_status_msg = "Price cache active"
-    if not db.available():
-        last_err = getattr(db, 'last_error', lambda: None)()
-        db_status_msg = "DB unavailable – auto retry 30s" + (f" | {last_err}" if last_err else "")
-    elif queue_len > 0:
-        db_status_msg = (
-            f"Queue: {queue_len} | next retry in {qinfo['next_retry_in']}s | fail x{qinfo['consecutive_failures']}"
+        if not fig_ohlcv or df_ohlcv is None or df_ohlcv.empty:
+            return
+        from overlay_whale_alert import overlay_whale_alert_chart
+        # Load generic events
+        raw_events = load_whales_for_symbol(coin_symbol)
+        overlay_events = as_overlay_events(raw_events)
+        if not overlay_events:
+            return
+        # Slider step heuristic (reuse older logic per token)
+        step = 1.0
+        if coin_symbol in ("LINK",):
+            step = 100.0
+        elif coin_symbol == "BNB":
+            step = 10.0
+        elif coin_symbol == "ETH":
+            step = 0.1
+        overlay_whale_alert_chart(
+            whale_txs=overlay_events,
+            df_ohlcv=df_ohlcv,
+            coin_symbol=coin_symbol,
+            slider_label=f"Lọc Whale ({coin_symbol})",
+            slider_step=step,
+            value_unit=coin_symbol,
+            type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
+            color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#949086"},
+            default_show=True,
+            key_prefix=f"unified_{coin_symbol.lower()}_"
         )
-    show_health_panel(db, queue_len, last_price_ts, last_price_update_message=db_status_msg)
+    except Exception as _ph0_ex:
+        st.warning(f"[Phase0 unified overlay lỗi {coin_symbol}]: {_ph0_ex}")
+# Phase 0 unified overlay refactor end
 
+"""Phase 0 NOTE:
+Unified whale overlay helper `phase0_overlay_whales` is defined.
+Next step (still Phase 0) is to integrate calls inside the per-coin tab rendering loop
+right after OHLCV figure creation for each coin instead of duplicated logic.
+This placeholder remains until that loop section is migrated (original whale overlay
+code was removed/trimmed earlier in this branch).
+"""
+
+# ===================== TAB 2 (Metrics) & PER-COIN TABS (RESTORED Phase 0) =====================
+# Tab2: hiển thị các metric tổng hợp (có thể mở rộng thêm sau)
 with tab2:
-    st.title("📈 Metric")
-    st.info("Các metric thị trường tổng quan:")
-    # Metric 1: Crypto Fear & Greed Index
-    import metrics_fear_greed
-    metrics_fear_greed.show_fear_greed_metric()
-    import metrics_dominance
-    metrics_dominance.show_dominance_metric()
+    st.title("📈 Metrics tổng hợp")
+    # Sử dụng các module metrics nếu có
+    cols = st.columns(3)
+    with cols[0]:
+        try:
+            import metrics_dominance as _md
+            dom = _md.load_dominance_cached()
+            if dom:
+                st.metric("BTC Dominance (%)", f"{dom.get('btc',0):.2f}")
+            else:
+                st.caption("Dominance n/a (no data)")
+        except Exception as e:
+            st.caption(f"Dominance n/a: {e}")
+    with cols[1]:
+        try:
+            import metrics_fear_greed as _fg
+            fg = _fg.load_fear_greed_cached()
+            if fg:
+                st.metric("Fear & Greed", f"{fg.get('value',0)} {fg.get('value_classification','')}" )
+            else:
+                st.caption("FG n/a (no data)")
+        except Exception as e:
+            st.caption(f"FG n/a: {e}")
+    with cols[2]:
+        try:
+            import metrics_marketcap_volume as _mv
+            mv = _mv.load_global_marketcap_cached()
+            if mv:
+                st.metric("Total MktCap (T)", f"{mv.get('total_market_cap_usd',0)/1e12:.2f}")
+            else:
+                st.caption("MktCap n/a (no data)")
+        except Exception as e:
+            st.caption(f"MktCap n/a: {e}")
+    # Health panel (tùy chọn)
+    try:
+        show_health_panel()
+    except Exception:
+        pass
+    st.markdown("---")
+    st.caption("(Phase 0) Đây là bản gọn của tab Metrics. Có thể mở rộng trong Phase 1.")
 
-    # --- Market Cap & Volume Chart ---
-    import metrics_marketcap_volume
-    metrics_marketcap_volume.show_marketcap_volume_chart(key_suffix="_main")
-    for idx, coin in enumerate(COIN_LIST):
-        with tab_coin_tabs[idx]:
-            # Lấy link logo từ CoinGecko
-            logo_url = price_data.get(coin[0], {}).get('image', '')
-            current_price = prices.get(coin[0], 0.0)
-            price_str = f"<span style='font-size:1.2rem;font-weight:normal;color:#3df78a;'>${current_price:,.2f}</span>" if current_price else ""
-            # Luôn dùng markdown để tránh hiển thị thô chuỗi HTML (tránh lỗi thấy <span ...> xuất hiện)
-            if not logo_url:
-                # Fallback logo đơn giản (data URI hình tròn xám) để đồng bộ layout
-                logo_url = "https://via.placeholder.com/36/cccccc/000000?text=?"
+# Per-coin tabs: tái tạo loop hiển thị OHLCV + overlay whale (unified)
+for idx, coin_tuple in enumerate(COIN_LIST):
+    coin_id, coin_symbol = coin_tuple
+    # Bỏ qua nếu không tồn tại tab (phòng trường hợp user filter coin)
+    if idx >= len(tab_coin_tabs):
+        continue
+    with tab_coin_tabs[idx]:
+        st.subheader(f"📌 {coin_symbol} - Tổng quan")
+        # === Timeframe selection ===
+        khung_list = [("5m", "5 phút"), ("15m", "15 phút"), ("30m", "30 phút"), ("1H", "1 giờ")]
+        bar_options = {label: bar for bar, label in khung_list}
+        bar_label = st.selectbox(
+            f"Chọn khung thời gian giá/volume OKX cho {coin_symbol}",
+            list(bar_options.keys()),
+            index=2,
+            key=f"ohlcv_bar_retab_{coin_symbol}"
+        )
+        bar = bar_options[bar_label]
+
+        # === Prefetch (first coin triggers) ===
+        prefetch_ohlcv_all(bar, [c[1] for c in COIN_LIST])  # use display symbols
+        df_ohlcv = get_prefetched_ohlcv(bar, coin_symbol)
+        if df_ohlcv is None:
+            # fallback single fetch
             try:
-                st.markdown(
-                    (
-                        "<div style='display:flex;align-items:center;gap:10px;'>"
-                        f"<img src='{logo_url}' width='36' style='vertical-align:middle;border-radius:50%;border:1px solid #ccc;'/>"
-                        f" <span style='font-size:2rem;font-weight:bold'>{coin[1]} ({coin[0].capitalize()}) {price_str}</span>"
-                        "</div>"
-                    ),
-                    unsafe_allow_html=True,
-                )
-            except Exception:
-                # Fallback cuối cùng: hiển thị plain text (không HTML) nếu có lỗi render
-                st.header(f"{coin[1]} ({coin[0].capitalize()}) - ${current_price:,.2f}")
+                df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{coin_symbol}-USDT-SWAP", bar=bar, limit=200)
+            except Exception as _ex:
+                st.warning(f"Không lấy được OHLCV {coin_symbol}: {_ex}")
+                df_ohlcv = None
+        fig_ohlcv = metrics_ohlcv_okx.plot_price_volume_chart(df_ohlcv, symbol=f"{coin_symbol}-USDT-SWAP") if df_ohlcv is not None else None
 
-            # --- Hiển thị tổng giá trị và PNL từng coin (format đẹp) ---
-            coin_id = coin[0]
-            coin_name = coin[1]
-            amount = holdings.get(coin_id, 0.0)
-            price = prices.get(coin_id, 0.0)
-            avg = avg_price.get(coin_id, 0.0)
-            total = amount * price
-            invested = amount * avg
-            pnl = total - invested
-            pnl_pct = (pnl / invested * 100) if invested > 0 else 0
-            st.markdown(f"<div style='font-size:2rem;font-weight:bold;text-transform:uppercase;'>TOTAL: {total:,.2f} USD</div>", unsafe_allow_html=True)
-            pnl_color = 'green' if pnl >= 0 else 'red'
-            st.markdown(f"<div style='font-size:1.2rem;font-weight:bold;color:{pnl_color};'>PNL: {'+' if pnl >= 0 else ''}{pnl:,.2f} ({'+' if pnl_pct >= 0 else ''}{pnl_pct:.2f}%)</div>", unsafe_allow_html=True)
-            st.info(f"Tab này dành riêng cho các metric, biểu đồ, thông tin liên quan đến {coin[1]}.")
+        # === Normalize datetime to UTC ===
+        if df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
+            if not isinstance(df_ohlcv['datetime'].dtype, pd.DatetimeTZDtype):
+                try:
+                    df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime'], errors='coerce').dt.tz_localize('UTC')
+                except Exception:
+                    pass
 
-            # Hiển thị metric MVRV-Z cho ETH và Realized Price cho BTC
-            import metrics_mvrv_z
-            if coin[1] == "ETH":
-                metrics_mvrv_z.show_mvrv_z_metric("ethereum", "ETH")
-            # --- On-chain metrics (Lazy load qua expander) ---
-            import pandas as pd
-            import plotly.graph_objects as go
-            # def _render_onchain(asset, asset_name, days=365):
-            #     df = load_onchain_metrics_cached(asset, days)
-            #     if df is None or df.empty:
-            #         st.info(f"Không có dữ liệu on-chain cho {asset_name}.")
-            #         return
-            #     last = df.iloc[-1]
-            #     cols = st.columns(4)
-            #     def safe_metric(val, fmt, default="N/A"):
-            #         try:
-            #             if pd.isna(val):
-            #                 return default
-            #             return fmt.format(val)
-            #         except Exception:
-            #             return default
-            #     with cols[0]:
-            #         st.markdown(f"<div style='font-size:13px;'>Giá {asset_name} (USD)<br><b>{safe_metric(last.get('PriceUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-            #         st.markdown(f"<div style='font-size:13px;'>Địa chỉ active<br><b>{safe_metric(last.get('AdrActCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-            #     with cols[1]:
-            #         st.markdown(f"<div style='font-size:13px;'>Số giao dịch<br><b>{safe_metric(last.get('TxCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-            #         st.markdown(f"<div style='font-size:13px;'>Tổng phí giao dịch<br><b>{safe_metric(last.get('FeeTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-            #     with cols[2]:
-            #         st.markdown(f"<div style='font-size:13px;'>Coin mới phát hành<br><b>{safe_metric(last.get('IssTotUSD'), '${:,.2f}')}</b></div>", unsafe_allow_html=True)
-            #         st.markdown(f"<div style='font-size:13px;'>Số block/ngày<br><b>{safe_metric(last.get('BlkCnt'), '{:,.0f}')}</b></div>", unsafe_allow_html=True)
-            #     with cols[3]:
-            #         st.markdown(f"<div style='font-size:13px;'>Hashrate TB<br><b>{safe_metric(last.get('HashRate'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
-            #         st.markdown(f"<div style='font-size:13px;'>Độ khó TB<br><b>{safe_metric(last.get('DiffMean'), '{:,.2f}')}</b></div>", unsafe_allow_html=True)
-            #     fig = go.Figure()
-            #     if 'PriceUSD' in df.columns:
-            #         fig.add_trace(go.Scatter(x=df['date'], y=df['PriceUSD'], name=f'Giá {asset_name} (USD)', line=dict(color='blue')))
-            #     if 'AdrActCnt' in df.columns:
-            #         fig.add_trace(go.Scatter(x=df['date'], y=df['AdrActCnt'], name='Địa chỉ active', line=dict(color='orange')))
-            #     if 'TxCnt' in df.columns:
-            #         fig.add_trace(go.Scatter(x=df['date'], y=df['TxCnt'], name='Số giao dịch', line=dict(color='green')))
-            #     if 'FeeTotUSD' in df.columns:
-            #         fig.add_trace(go.Scatter(x=df['date'], y=df['FeeTotUSD'], name='Tổng phí giao dịch', line=dict(color='red')))
-            #     fig.update_layout(
-            #         title=f"{asset_name} On-chain Metrics (Community API)",
-            #         xaxis=dict(title="Date"),
-            #         yaxis=dict(title="Giá trị / Số lượng", side="left"),
-            #         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-            #     )
-            #     st.plotly_chart(fig, use_container_width=True)
-
-            # perf_mode = st.session_state.get("_perf_mode", True)
-            # with st.expander("🔗 On-chain Metrics (nhấn để tải)", expanded=False):
-            #     if perf_mode:
-            #         # Performance mode: user phải nhấn nút để tránh load tự động nhiều coin
-            #         if st.button("Tải dữ liệu on-chain", key=f"btn_onchain_{coin[0]}"):
-            #             _render_onchain(coin[0], coin[1])
-            #     else:
-            #         # Non-performance: tự động render khi mở expander
-            #         _render_onchain(coin[0], coin[1])
-
-            # --- Hiển thị heatmap liquidation OKX cho mọi coin ---
-            symbol = f"{coin[1]}-USDT-SWAP"
-            st.subheader(f"Heatmap Liquidation OKX ({symbol})")
-            df_liq = fetch_okx_liq_cached(symbol=symbol, limit=100)
+        # === Liquidation Heatmap (if available) ===
+        with st.expander("Liquidation Heatmap", expanded=False):
             try:
                 import metrics_liquidation_okx
-                fig_liq = metrics_liquidation_okx.plot_liquidation_heatmap(df_liq, symbol=symbol)
-            except Exception:
-                fig_liq = None
-            if fig_liq:
-                st.plotly_chart(fig_liq, use_container_width=True)
-            else:
-                st.info("Không có dữ liệu liquidation từ OKX.")
-
-            # --- Chart Portfolio Value, PNL & % Profit & Loss Over Time cho từng coin ---
-            import plotly.graph_objects as go
-            import numpy as np
-            import pytz
-            tz_gmt7 = pytz.timezone("Asia/Bangkok")
-            # Đọc lịch sử portfolio
-            HISTORY_FILE = "portfolio_history.json"
-            # Cached portfolio history load
-            history = load_portfolio_history_cached(HISTORY_FILE)
-            # Lọc lịch sử cho coin này
-            df_hist = pd.DataFrame([h for h in history if h.get("coin") == coin[0]])
-            if not df_hist.empty:
-                df_hist["Date"] = pd.to_datetime(df_hist["timestamp"], unit="s").dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
-                df_hist = df_hist.sort_values("Date")
-                # Tính toán các chỉ số
-                df_hist["PNL"] = df_hist["value"] - df_hist["invested"]
-                df_hist["% Profit & Loss"] = np.where(
-                    df_hist["value"] > 0,
-                    df_hist["PNL"] / (df_hist["value"] + 1e-9) * 100,
-                    0.0
-                )
-                # Option enable/disable từng dòng trên chart
-                chart_options = st.multiselect(
-                    "Chọn dòng muốn hiển thị trên chart:",
-                    ["Portfolio Value", "PNL", "% Profit & Loss"],
-                    default=["Portfolio Value", "PNL", "% Profit & Loss"],
-                    key=f"chart_lines_{coin[0]}"
-                )
-                fig = go.Figure()
-                if "Portfolio Value" in chart_options:
-                    # Chuyển sang GMT+7 khi hiển thị
-                    x_gmt7 = df_hist["Date"].dt.tz_convert(tz_gmt7)
-                    fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["value"], name="Portfolio Value", yaxis="y1", line=dict(color="royalblue"), visible=True))
-                    if "PNL" in chart_options:
-                        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["PNL"], name="PNL", yaxis="y1", line=dict(color="orange"), visible=True))
-                    if "% Profit & Loss" in chart_options:
-                        fig.add_trace(go.Scatter(x=x_gmt7, y=df_hist["% Profit & Loss"], name="% Profit & Loss", yaxis="y2", line=dict(color="green"), visible=True))
-                fig.update_layout(
-                    title=f"{coin[1]} Portfolio Value, PNL & % Profit & Loss Over Time (GMT+7)",
-                    xaxis=dict(title="Date (GMT+7)"),
-                    yaxis=dict(title="Portfolio Value / PNL (USD)", side="left"),
-                    yaxis2=dict(title="% Profit & Loss", overlaying="y", side="right", showgrid=False),
-                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-                )
-                st.plotly_chart(fig, use_container_width=True, key=f"line_chart_{coin[0]}")
-            else:
-                st.info("Chưa có lịch sử portfolio cho coin này.")
-            # --- Hiển thị chart giá & volume OKX với lựa chọn timeframe ---
-            import metrics_ohlcv_okx
-            khung_list = [
-                ("5m", "5 phút"),
-                ("15m", "15 phút"),
-                ("30m", "30 phút"),
-                ("1H", "1 giờ")
-            ]
-            bar_options = {label: bar for bar, label in khung_list}
-            bar_label = st.selectbox(
-                f"Chọn khung thời gian giá/volume OKX cho {coin[1]}",
-                list(bar_options.keys()),
-                index=2,  # mặc định 30 phút
-                key=f"ohlcv_bar_{coin[1]}"
-            )
-            bar = bar_options[bar_label]
-
-            st.subheader(f"Giá & Volume OKX ({coin[1]}-USDT-SWAP, {bar_label})")
-
-            try:
-                df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{coin[1]}-USDT-SWAP", bar=bar, limit=200)
-            except Exception as e:
-                import requests
-                if isinstance(e, requests.exceptions.ProxyError):
-                    st.warning(f"Không thể lấy dữ liệu OKX cho {coin[1]}-USDT-SWAP do lỗi proxy: {e}")
-                    df_ohlcv = None
-                else:
-                    st.warning(f"Lỗi lấy dữ liệu OKX cho {coin[1]}-USDT-SWAP: {e}")
-                    df_ohlcv = None
-            fig_ohlcv = metrics_ohlcv_okx.plot_price_volume_chart(df_ohlcv, symbol=f"{coin[1]}-USDT-SWAP")
-
-            # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
-            if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
-                    df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
-            fig_to_show = fig_ohlcv
-            # Whale Alert cho ETH: overlay vào fig_ohlcv nếu là ETH
-            if coin[1] == "ETH" and fig_ohlcv and not df_ohlcv.empty:
-                from overlay_whale_alert import overlay_whale_alert_chart
-                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
-                eth_token = [t for t in ERC20_TOKENS if t['name'] == 'ETH'][0]
-                whale_txs = []
-                try:
-                    import json
-                    with open(eth_token['history_file'], 'r') as f:
-                        whale_txs = json.load(f)
-                except:
-                    pass
-                st.session_state[f"fig_ohlcv_ETH"] = fig_ohlcv
-                overlay_whale_alert_chart(
-                    whale_txs=whale_txs,
-                    df_ohlcv=df_ohlcv,
-                    coin_symbol="ETH",
-                    slider_label="Lọc theo độ lớn giao dịch Whale (ETH)",
-                    slider_step=0.1,
-                    value_unit="ETH",
-                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                        color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
-                    default_show=True,
-                    key_prefix="eth_"
-                )
-            if coin[1] == "ETH":
-                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
-                eth_token = [t for t in ERC20_TOKENS if t['name'] == 'ETH'][0]
-                show_erc20_whale_alert_realtime(eth_token)
-            
-            # Whale Alert cho SOL
-            if coin[1] == "SOL":
-                from overlay_whale_alert import overlay_whale_alert_chart
-                from SOL import metrics_sol_whale_alert_realtime
-                if metrics_sol_whale_alert_realtime:
-                    metrics_sol_whale_alert_realtime.mark_sol_whale_alert_seen()
-                    whale_txs = metrics_sol_whale_alert_realtime.load_whale_history()
-                else:
-                    whale_txs = []
-                # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
-                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
-                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
-                # Kiểm tra dữ liệu df_ohlcv và whale_txs cho SOL
-                error_msgs = []
-                if df_ohlcv is None or df_ohlcv.empty:
-                    error_msgs.append("❌ df_ohlcv cho SOL bị thiếu hoặc rỗng!")
-                elif "datetime" not in df_ohlcv.columns or "close" not in df_ohlcv.columns:
-                    error_msgs.append("❌ df_ohlcv cho SOL thiếu cột 'datetime' hoặc 'close'!")
-                if not whale_txs:
-                    error_msgs.append("❌ whale_txs cho SOL bị rỗng!")
-                else:
-                    # Kiểm tra định dạng time
-                    for tx in whale_txs:
-                        if "time" not in tx:
-                            error_msgs.append("❌ Một số whale_txs thiếu trường 'time'!")
-                            break
-                if error_msgs:
-                    st.warning("\n".join(error_msgs))
-                st.session_state[f"fig_ohlcv_SOL"] = fig_ohlcv
-                overlay_whale_alert_chart(
-                    whale_txs=whale_txs,
-                    df_ohlcv=df_ohlcv,
-                    coin_symbol="SOL",
-                    slider_label="Lọc theo độ lớn giao dịch Whale (SOL)",
-                    slider_step=1.0,
-                    value_unit="SOL",
-                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
-                    default_show=True,
-                    key_prefix="sol_"
-                )
-            # Whale Alert cho BTC: overlay bóng Whale lên chart nếu có whale_txs
-            if coin[1] == "BTC" and fig_ohlcv and not df_ohlcv.empty:
-                from overlay_whale_alert import overlay_whale_alert_chart
-                from BTC import metrics_btc_whale_alert_realtime
-                whale_txs = metrics_btc_whale_alert_realtime.load_whale_history()
-                # Chuẩn hóa cột thời gian của df_ohlcv sang GMT+7 nếu chưa có tz
-                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
-                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC").dt.tz_convert(tz_gmt7)
-                st.session_state[f"fig_ohlcv_BTC"] = fig_ohlcv
-                overlay_whale_alert_chart(
-                    whale_txs=whale_txs,
-                    df_ohlcv=df_ohlcv,
-                    coin_symbol="BTC",
-                    slider_label="Lọc theo độ lớn giao dịch Whale (BTC)",
-                    slider_step=1.0,
-                    value_unit="BTC",
-                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
-                    default_show=True,
-                    key_prefix="btc_"
-                )
-            # Whale Alert cho BNB: overlay markers (giống LINK/SOL/BTC)
-            if coin[1] == "BNB" and fig_ohlcv and not df_ohlcv.empty:
-                from overlay_whale_alert import overlay_whale_alert_chart
-                from BNB import metrics_bnb_whale_alert_realtime
-                whale_txs = metrics_bnb_whale_alert_realtime.load_whale_history()
-                # Chuẩn hóa cột thời gian df_ohlcv sang UTC nếu chưa có tz
-                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
-                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
-                st.session_state[f"fig_ohlcv_BNB"] = fig_ohlcv
-                overlay_whale_alert_chart(
-                    whale_txs=whale_txs,
-                    df_ohlcv=df_ohlcv,
-                    coin_symbol="BNB",
-                    slider_label="Lọc theo độ lớn giao dịch Whale (BNB)",
-                    slider_step=10.0,
-                    value_unit="BNB",
-                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
-                    default_show=True,
-                    key_prefix="bnb_"
-                )
-            # Hiển thị box Whale Alert BTC
-            if coin[1] == "BTC":
-                from BTC import metrics_btc_whale_alert_realtime
-                metrics_btc_whale_alert_realtime.show_btc_whale_alert_realtime()
-            if coin[1] == "SOL" and metrics_sol_whale_alert_realtime:
-                metrics_sol_whale_alert_realtime.show_sol_whale_alert_realtime()
-            # Whale Alert cho LINK: overlay markers, slider, box (thực hiện TRƯỚC khi vẽ chart)
-            if coin[1] == "LINK" and fig_ohlcv and not df_ohlcv.empty:
-                from overlay_whale_alert import overlay_whale_alert_chart
-                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime, load_recent_whale_events, resolve_token_min_threshold_units
-                link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
-                whale_txs = []
-                try:
-                    import json
-                    with open(link_token['history_file'], 'r') as f:
-                        whale_txs = json.load(f)
-                except:
-                    pass
-                # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
-                if df_ohlcv is not None and not df_ohlcv.empty and "datetime" in df_ohlcv.columns:
-                    if not isinstance(df_ohlcv["datetime"].dtype, pd.DatetimeTZDtype):
-                        df_ohlcv["datetime"] = pd.to_datetime(df_ohlcv["datetime"]).dt.tz_localize("UTC")
-                st.session_state[f"fig_ohlcv_LINK"] = fig_ohlcv
-                overlay_whale_alert_chart(
-                    whale_txs=whale_txs,
-                    df_ohlcv=df_ohlcv,
-                    coin_symbol="LINK",
-                    slider_label="Lọc theo độ lớn giao dịch Whale (LINK)",
-                    slider_step=100.0,
-                    value_unit="LINK",
-                    type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                    color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#fbc02d"},
-                    default_show=True,
-                    key_prefix="link_"
-                )
-            if coin[1] == "LINK":
-                from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
-                link_token = [t for t in ERC20_TOKENS if t['name'] == 'LINK'][0]
-                show_erc20_whale_alert_realtime(link_token)
-
-            # Hiển thị box Whale Alert cho các token ERC20 mở rộng
-            erc20_box_tokens = ["ETHFI", "ENA", "EIGEN", "WLD", "ONDO", "RENDER"]
-            if coin[1] in erc20_box_tokens:
-                try:
-                    from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, show_erc20_whale_alert_realtime
-                    token_cfg_list = [t for t in ERC20_TOKENS if t['name'] == coin[1]]
-                    if token_cfg_list:
-                        show_erc20_whale_alert_realtime(token_cfg_list[0])
-                except Exception as _erc_box_ex:
-                    st.warning(f"Không thể hiển thị Whale Alert box cho {coin[1]}: {_erc_box_ex}")
-
-            # --- Generic overlay for other ERC20 tokens (ETHFI, ENA, EIGEN, WLD, ONDO, RENDER) ---
-            erc20_extra = ["ETHFI", "ENA", "EIGEN", "WLD", "ONDO", "RENDER"]
-            if coin[1] in erc20_extra and fig_ohlcv and df_ohlcv is not None and not df_ohlcv.empty:
-                try:
-                    from overlay_whale_alert import overlay_whale_alert_chart
-                    from ERC20.metrics_erc20_whale_alert_realtime import ERC20_TOKENS, load_recent_whale_events, resolve_token_min_threshold_units
-                    token_cfg_list = [t for t in ERC20_TOKENS if t['name'] == coin[1]]
-                    if token_cfg_list:
-                        token_cfg = token_cfg_list[0]
-                        whale_txs = []
-                        try:
-                            import json
-                            with open(token_cfg['history_file'], 'r') as f:
-                                whale_txs = json.load(f)
-                                #st.warning(f"[Debug] Đã tải lịch sử giao dịch cá voi cho {coin[1]}: {len(whale_txs)} giao dịch.")
-                        except Exception as e:
-                            whale_txs = []
-                            #st.warning(f"[Debug] Không thể tải lịch sử giao dịch cá voi cho {coin[1]}: {e}")
-                        # Chuẩn hóa cột thời gian của df_ohlcv sang UTC nếu chưa có tz
-                        if 'datetime' in df_ohlcv.columns and not isinstance(df_ohlcv['datetime'].dtype, pd.DatetimeTZDtype):
-                            df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime']).dt.tz_localize('UTC')
-                        
-                        base_step = 1.0
-                        # Heuristic slider step based on avg threshold
-                        threshold_used = resolve_token_min_threshold_units(token_cfg)
-                        if threshold_used > 0:
-                            base_step = max(threshold_used / 50, 0.1)
-                        st.session_state[f"fig_ohlcv_{coin[1]}"] = fig_ohlcv
-                        #st.warning(f"[DEBUG]: Overlay Whale cho {coin[1]} với slider step {base_step}.")
-                        overlay_whale_alert_chart(
-                            whale_txs=whale_txs,
-                            df_ohlcv=df_ohlcv,
-                            coin_symbol=coin[1],
-                            slider_label=f"Lọc Whale ({coin[1]})",
-                            slider_step=base_step,
-                            value_unit=coin[1],
-                            type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
-                            color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#949086"},
-                            default_show=True,
-                            key_prefix=f"{coin[1].lower()}_"
+                df_liq = fetch_okx_liq_cached(symbol=f"{coin_symbol}-USDT-SWAP", limit=120)
+                if df_liq is not None and not (hasattr(df_liq, 'empty') and df_liq.empty):
+                    try:
+                        fig_liq = metrics_liquidation_okx.plot_liquidation_heatmap(df_liq)
+                        st.plotly_chart(
+                            fig_liq,
+                            width='stretch',
+                            key=f"liq_{coin_symbol}",
+                            config={'displaylogo': False, 'responsive': True}
                         )
-                    else :
-                        st.warning(f"[DEBUG]: Không tìm thấy cấu hình token ERC20 cho {coin[1]}.")
-                except Exception as _erc20_ex:
-                    st.warning(f"[DEBUG]: Không thể overlay Whale cho {coin[1]}: {_erc20_ex}")
-            else:
-                st.warning(f"[DEBUG]: Không tìm thấy coin để overlay Whale cho {coin[1]} do thiếu dữ liệu df_ohlcv.")
-            # Hiển thị box Whale Alert BNB
-            if coin[1] == "BNB":
-                from BNB import metrics_bnb_whale_alert_realtime
-                metrics_bnb_whale_alert_realtime.show_bnb_whale_alert_realtime()
-            # Vẽ chart SAU khi đã overlay để đảm bảo marker hiển thị
-            if fig_ohlcv:
-                st.plotly_chart(fig_ohlcv, use_container_width=True, key=f"plotly_chart_{coin[1]}")
-            else:
-                st.info(f"Không có dữ liệu giá/volume từ OKX cho khung {bar_label}.")
+                    except Exception as _liq_ex:
+                        st.caption(f"Không vẽ được heatmap: {_liq_ex}")
+                else:
+                    st.caption("Không có dữ liệu liquidation.")
+            except Exception as _liq_mod_ex:
+                st.caption(f"Module liquidation không khả dụng: {_liq_mod_ex}")
 
+        # === Portfolio history for this coin ===
+        with st.expander("Lịch sử Portfolio Coin", expanded=False):
+            try:
+                hist_all = load_portfolio_history_cached(HISTORY_FILE)
+                coin_hist = [h for h in hist_all if h.get('coin') == coin_id]
+                if coin_hist:
+                    import pandas as _pd
+                    df_ch = _pd.DataFrame(coin_hist)
+                    df_ch['Date'] = _pd.to_datetime(df_ch['timestamp'], unit='s', utc=True)
+                    df_ch.sort_values('Date', inplace=True)
+                    df_ch['PNL'] = df_ch['value'] - (df_ch.get('invested') if 'invested' in df_ch.columns else 0)
+                    # Chart value & PNL dual-axis
+                    import plotly.graph_objects as _go
+                    fig_coin = _go.Figure()
+                    fig_coin.add_trace(_go.Scatter(x=df_ch['Date'], y=df_ch['value'], mode='lines', name='Value'))
+                    if 'PNL' in df_ch.columns:
+                        fig_coin.add_trace(_go.Scatter(x=df_ch['Date'], y=df_ch['PNL'], mode='lines', name='PNL', yaxis='y2'))
+                        fig_coin.update_layout(
+                            yaxis=dict(title='Value USD'),
+                            yaxis2=dict(title='PNL', overlaying='y', side='right', showgrid=False)
+                        )
+                    fig_coin.update_layout(margin=dict(l=10,r=10,t=30,b=10), title=f"Portfolio History {coin_symbol}")
+                    st.plotly_chart(
+                        fig_coin,
+                        width='stretch',
+                        key=f"hist_{coin_symbol}",
+                        config={'displaylogo': False, 'responsive': True}
+                    )
+                else:
+                    st.caption("Chưa có lịch sử cho coin này.")
+            except Exception as _ch_ex:
+                st.caption(f"Không load được lịch sử: {_ch_ex}")
+
+        # === Save fig to session for overlay ===
+        if fig_ohlcv:
+            st.session_state[f"fig_ohlcv_{coin_symbol}"] = fig_ohlcv
+
+        # === Whale overlay (unified) ===
+        phase0_overlay_whales(coin_symbol, df_ohlcv, fig_ohlcv)
+
+        # === Whale Large Transactions box (restored feature) ===
+        with st.expander(f"🐳 {coin_symbol} Large Transactions", expanded=False):
+            try:
+                from services.whale.whale_loader import load_whales_for_symbol as _lwf, to_dataframe as _wh_df
+                events = _lwf(coin_symbol) if load_whales_for_symbol else []
+                if not events:
+                    st.caption("Chưa có whale events cho coin này.")
+                else:
+                    dfw = _wh_df(events)
+                    # Fallback: nếu không có cột amount_token hoặc toàn 0 thử dựng từ các cột khác (value, value_token, amount, qty)
+                    def _derive_amount_token(df):
+                        alt_cols = [c for c in ['amount_token','value','value_token','amount','qty'] if c in df.columns]
+                        # Nếu đã có amount_token có giá trị dương -> giữ nguyên
+                        if 'amount_token' in df.columns and df['amount_token'].fillna(0).gt(0).any():
+                            return df
+                        for c in alt_cols:
+                            try:
+                                series = pd.to_numeric(df[c], errors='coerce')
+                                if series.fillna(0).gt(0).any():
+                                    df['amount_token'] = series
+                                    break
+                            except Exception:
+                                continue
+                        return df
+                    dfw = _derive_amount_token(dfw)
+                    # Derive USD value if possible (fallback estimate via current price)
+                    if 'amount_usd' not in dfw.columns or dfw['amount_usd'].isna().all():
+                        cur_price = None
+                        try:
+                            cur_price = st.session_state.get('_last_prices', {}).get(coin_id, None)
+                        except Exception:
+                            cur_price = None
+                        if cur_price:
+                            try:
+                                dfw['amount_usd'] = dfw.get('amount_token', 0) * float(cur_price)
+                            except Exception:
+                                pass
+                    # Filter threshold slider (token units)
+                    max_amt = 0.0
+                    if 'amount_token' in dfw.columns:
+                        try:
+                            max_amt = float(pd.to_numeric(dfw['amount_token'], errors='coerce').fillna(0).max())
+                        except Exception:
+                            max_amt = 0.0
+                    # Nếu vẫn 0 nhưng có cột 'value' dương thì dùng 'value' làm amount_token
+                    if max_amt <= 0 and 'value' in dfw.columns:
+                        try:
+                            value_max = float(pd.to_numeric(dfw['value'], errors='coerce').fillna(0).max())
+                            if value_max > 0:
+                                dfw['amount_token'] = pd.to_numeric(dfw['value'], errors='coerce').fillna(0)
+                                max_amt = value_max
+                        except Exception:
+                            pass
+                    if max_amt <= 0:
+                        st.caption("Không tìm thấy giá trị giao dịch dương (amount_token/value). Hiển thị toàn bộ.")
+                        thr = 0.0
+                    else:
+                        default_thr = round(max_amt * 0.1, 8)
+                        # Ensure default within bounds
+                        if default_thr <= 0:
+                            default_thr = 0.0
+                        thr = st.slider(
+                            "Ngưỡng lọc (theo số token)",
+                            min_value=0.0,
+                            max_value=float(max_amt),
+                            value=float(default_thr),
+                            step=round(max_amt/100, 8) if max_amt/100 > 0 else max_amt,
+                            key=f"whale_filter_slider_{coin_symbol}"
+                        )
+                    view = dfw
+                    if 'amount_token' in view.columns:
+                        view = view[ view['amount_token'] >= thr ]
+                    # Format time
+                    if 'ts' in view.columns:
+                        try:
+                            view = view.sort_values('ts', ascending=False)
+                        except Exception:
+                            pass
+                        view['time'] = view['ts'].astype(str)
+                    cols_show = [c for c in ['time','direction','amount_token','amount_usd','tx_hash','token'] if c in view.columns]
+                    # Đảm bảo cột amount_token luôn có nếu tồn tại trong dataframe
+                    if 'amount_token' in view.columns and 'amount_token' not in cols_show:
+                        cols_show.append('amount_token')
+                    if not cols_show:
+                        cols_show = list(view.columns)[:6]
+                    # --- Whale transactions table enhancements (Phase 1 polish) ---
+                    # Add directional color styling and reorder columns with addresses emphasized if present.
+                    # We build a styled dataframe (fallback to normal if styling fails).
+                    display_df = view[cols_show].head(100).copy()
+                    # Insert address columns if available but not selected
+                    for addr_col in ['from_address','to_address','from','to']:
+                        if addr_col in view.columns and addr_col not in display_df.columns:
+                            display_df[addr_col] = view[addr_col]
+                    # Rename common columns for clarity
+                    rename_map = {
+                        'amount_token': f'Amount ({coin_symbol})',
+                        'amount_usd': 'Amount USD',
+                        'direction': 'Side',
+                        'tx_hash': 'Tx Hash'
+                    }
+                    display_df.rename(columns=rename_map, inplace=True)
+                    # Nếu sau rename mà thiếu cột Amount (coin) (do rename logic), bổ sung lại
+                    amt_col_name = f'Amount ({coin_symbol})'
+                    if amt_col_name not in display_df.columns and 'amount_token' in view.columns:
+                        display_df[amt_col_name] = view['amount_token'].head(len(display_df)).values
+                    # Ensure Amount (coin) column is immediately left of Amount USD if both exist
+                    desired_order = []
+                    existing_cols = list(display_df.columns)
+                    # Build order preference
+                    for col in ['time','Side',f'Amount ({coin_symbol})','Amount USD','from_address','to_address','from','to','tx_hash','Tx Hash','token']:
+                        if col in existing_cols and col not in desired_order:
+                            desired_order.append(col)
+                    # Append any remaining columns not already included
+                    for col in existing_cols:
+                        if col not in desired_order:
+                            desired_order.append(col)
+                    display_df = display_df[desired_order]
+                    # Direction color map
+                    side_color = {'BUY': '#1b5e20', 'SELL': '#b71c1c'}
+                    def _color_row(row):
+                        side = row.get('Side') or row.get('direction')
+                        if side in side_color:
+                            return [f'background-color: {side_color[side]}; color: white' for _ in row]
+                        return ['' for _ in row]
+                    try:
+                        styled = display_df.style.apply(_color_row, axis=1)
+                        st.dataframe(styled, hide_index=True, width='stretch')
+                    except Exception:
+                        st.dataframe(display_df, hide_index=True, width='stretch')
+                    st.caption(f"TỐI ĐA 100 SỰ KIỆN (MAXIMUM) | Tổng sự kiện: {len(dfw)} | Qua lọc: {len(view)} | Ngưỡng >= {thr}")
+            except Exception as _wbox_ex:
+                st.caption(f"Whale box error: {_wbox_ex}")
+
+        # === Timezone Debug ===
+        with st.expander("Timezone Debug", expanded=False):
+            try:
+                tz_info = None
+                sample_times = []
+                if df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
+                    col = df_ohlcv['datetime']
+                    tz_info = str(getattr(col.dt.tz, 'zone', col.dt.tz)) if hasattr(col, 'dt') else 'n/a'
+                    sample_times = col.head(3).astype(str).tolist() + col.tail(3).astype(str).tolist()
+                from services.whale.whale_loader import load_whales_for_symbol as _lwf
+                raw_events = _lwf(coin_symbol)
+                evt_time_samples = []
+                for e in raw_events[:3]:
+                    evt_time_samples.append(str(e.get('ts') or e.get('time')))
+                st.json({
+                    'ohlcv_datetime_dtype': str(df_ohlcv['datetime'].dtype) if (df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns) else 'missing',
+                    'ohlcv_tz': tz_info,
+                    'ohlcv_sample_times': sample_times,
+                    'whale_event_time_samples': evt_time_samples,
+                    'whale_event_count': len(raw_events)
+                })
+            except Exception as _tz_ex:
+                st.caption(f"Timezone debug error: {_tz_ex}")
+
+        # === Render final price chart ===
+        if fig_ohlcv:
+            st.plotly_chart(
+                fig_ohlcv,
+                width='stretch',
+                key=f"plotly_chart_ret_{coin_symbol}",
+                config={'displaylogo': False, 'responsive': True}
+            )
+        else:
+            st.info("Chưa có dữ liệu OHLCV.")
+
+        st.caption("(Phase 0) Coin tab: OHLCV prefetch + liquidation + portfolio history + whale overlay + timezone debug.")
 
 # Tự động refresh mỗi 60 giây
 st.experimental_rerun = getattr(st, "experimental_rerun", None)  # compatibility
 st_autorefresh = getattr(st, "autorefresh", None)
 if st_autorefresh:
     st_autorefresh(interval=60 * 1000, key="refresh")  # 1 phút
-
-# Hàm load lịch sử portfolio
-def load_portfolio_history():
-    if os.path.exists(HISTORY_FILE):
-        try:
-            with open(HISTORY_FILE, "r") as f:
-                return json.load(f)
-        except Exception:
-            pass
-    return []
-
-# Hàm lưu lịch sử portfolio
-def save_portfolio_history(history):
-    try:
-        with open(HISTORY_FILE, "w") as f:
-            json.dump(history, f)
-    except Exception as e:
-        st.warning(f"Không thể lưu lịch sử portfolio: {e}")
-
-# Hàm load holdings từ file
-def load_holdings():
-    if os.path.exists(DATA_FILE):
-        try:
-            with open(DATA_FILE, "r") as f:
-                data = json.load(f)
-            for c in coin_ids:
-                if c not in data:
-                    data[c] = 0.0
-            return data
-        except Exception:
-            pass
-    return {c: 0.0 for c in coin_ids}
-
-# Hàm load giá mua trung bình từ file
-def load_avg_price():
-    if os.path.exists(AVG_PRICE_FILE):
-        try:
-            with open(AVG_PRICE_FILE, "r") as f:
-                data = json.load(f)
-            for c in coin_ids:
-                if c not in data:
-                    data[c] = 0.0
-            return data
-        except Exception:
-            pass
-    return {c: 0.0 for c in coin_ids}
-
-# Hàm lưu giá mua trung bình vào file
-def save_avg_price(avg_price):
-    try:
-        with open(AVG_PRICE_FILE, "w") as f:
-            json.dump(avg_price, f)
-        _db_set_portfolio_meta(avg_price=avg_price)
-    except Exception as e:
-        st.warning(f"Không thể lưu giá mua trung bình: {e}")
-
-# Hàm lưu holdings vào file
-def save_holdings(holdings):
-    try:
-        with open(DATA_FILE, "w") as f:
-            json.dump(holdings, f)
-        _db_set_portfolio_meta(holdings=holdings)
-    except Exception as e:
-        st.warning(f"Không thể lưu dữ liệu: {e}")
-    # --- BẢNG NHẬP DỮ LIỆU KIỂU EXCEL ---
-    st.subheader("Bảng quản lý Portfolio")
-
-    # Load dữ liệu holdings và giá mua trung bình
-    if "holdings" not in st.session_state:
-        st.session_state["holdings"] = load_holdings()
-    if "avg_price" not in st.session_state:
-        st.session_state["avg_price"] = load_avg_price()
-    holdings = st.session_state["holdings"]
-    avg_price = st.session_state["avg_price"]
-
-    # Lấy giá và % thay đổi (cache 60s)
-    if "coingecko_429" not in st.session_state:
-        st.session_state["coingecko_429"] = False
-    price_data = get_prices_and_changes(coins)
-    if st.session_state["coingecko_429"]:
-        st.warning("Bạn đã gửi quá nhiều yêu cầu tới CoinGecko. Vui lòng thử lại sau 1 phút hoặc giảm tần suất làm mới trang.")
-        st.session_state["coingecko_429"] = False
-    prices = {c: price_data.get(c, {}).get("price", 0) for c in coins}
-
-    # --- Lưu lịch sử giá trị portfolio và PNL mỗi phút ---
-    now = int(time.time())
-    portfolio_value = sum(prices[c] * st.session_state["holdings"].get(c, 0.0) for c in coins)
-    total_invested_now = sum(st.session_state["avg_price"].get(c, 0.0) * st.session_state["holdings"].get(c, 0.0) for c in coins)
-    current_pnl = portfolio_value - total_invested_now
-    history = load_portfolio_history()
-    # Lưu mỗi phút 1 lần (theo timestamp phút)
-    if len(history) == 0 or now // 60 > history[-1]["timestamp"] // 60:
-        # Nếu đã có PNL trong dict thì giữ, nếu chưa thì thêm
-        entry = {"timestamp": now, "value": portfolio_value, "PNL": current_pnl}
-        history.append(entry)
-        save_portfolio_history(history)
-
-    # Chuẩn bị dataframe cho bảng
-    data = []
-    for coin in coins:
-        d = {
-            "Coin": coin_id_to_name[coin],
-            "Số token nắm giữ": holdings.get(coin, 0.0),
-            "Giá mua trung bình": avg_price.get(coin, 0.0),
-            "Giá hiện tại": prices.get(coin, 0.0),
-            "% 1D": price_data.get(coin, {}).get("change_1d", 0),
-            "% 7D": price_data.get(coin, {}).get("change_7d", 0),
-            "% 30D": price_data.get(coin, {}).get("change_30d", 0),
-        }
-        data.append(d)
-    df = pd.DataFrame(data)
-
-    # Tính lại các cột sau khi nhập
-    df_input = df.copy()
-    for idx, row in df_input.iterrows():
-        coin = coins[idx]
-        # Lấy dữ liệu mới nhất từ session nếu có
-        df_input.at[idx, "Số token nắm giữ"] = st.session_state["holdings"].get(coin, 0.0)
-        df_input.at[idx, "Giá mua trung bình"] = st.session_state["avg_price"].get(coin, 0.0)
-    df_input["Tổng giá trị"] = df_input["Số token nắm giữ"] * df_input["Giá hiện tại"]
-    df_input["Profit & Loss"] = df_input["Tổng giá trị"] - df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"]
-    df_input["% Profit/Loss"] = np.where(
-        df_input["Giá mua trung bình"] > 0,
-        100 * df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9),
-        0.0
-    )
-    df_input["% Hòa vốn"] = np.where(df_input["Profit & Loss"] >= 0, 0.0, 100 * -df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9))
-
-    # Chỉ hiển thị 1 bảng duy nhất: nhập liệu và có màu cho các cột tính toán
-    def color_profit(val):
-        if val > 0:
-            return 'color: green;'
-        elif val < 0:
-            return 'color: red;'
-        else:
-            return ''
-
-    # Cho phép nhập liệu trực tiếp trong expander
-    with st.expander("Nhập liệu Portfolio (có thể thu nhỏ)", expanded=False):
-        edited_df = st.data_editor(
-            df_input[[
-                "Coin",
-                "Số token nắm giữ",
-                "Giá mua trung bình"
-            ]],
-            column_config={
-                # Cho phép nhập số âm để thể hiện vay
-                "Số token nắm giữ": st.column_config.NumberColumn("Số token nắm giữ", min_value=-1e12, step=0.0000000001, format="%.10f"),
-                "Giá mua trung bình": st.column_config.NumberColumn("Giá mua trung bình", min_value=0.0, step=0.01, format="%.4f"),
-            },
-            hide_index=True,
-            key="portfolio_table"
-        )
-
-        st.markdown("#### Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
-        coin_options = [coin_id_to_name[c] for c in coins]
-        selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
-        selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
-        buy_cols = st.columns([2,2,2,1])
-        with buy_cols[0]:
-            st.markdown(f"**{selected_buy_coin_name}**")
-        with buy_cols[1]:
-            buy_amount = st.number_input(f"Số lượng mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.00000001, format="%.8f", key=f"buy_amt_{selected_buy_coin}")
-        with buy_cols[2]:
-            buy_price = st.number_input(f"Giá mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.01, format="%.4f", key=f"buy_price_{selected_buy_coin}")
-        update_avg = st.button("Cập nhật AVG & Số lượng", key="update_avg_btn")
-        if update_avg:
-            amt_new = buy_amount
-            price_new = buy_price
-            if amt_new > 0:
-                amt_old = st.session_state["holdings"].get(selected_buy_coin, 0.0)
-                avg_old = st.session_state["avg_price"].get(selected_buy_coin, 0.0)
-                total_amt = amt_old + amt_new
-                if total_amt > 0:
-                    avg_new = (amt_old * avg_old + amt_new * price_new) / total_amt
-                else:
-                    avg_new = 0.0
-                st.session_state["holdings"][selected_buy_coin] = total_amt
-                st.session_state["avg_price"][selected_buy_coin] = avg_new
-                save_holdings(st.session_state["holdings"])
-                save_avg_price(st.session_state["avg_price"])
-                st.success(f"Đã cập nhật giá mua trung bình và số lượng cho {selected_buy_coin_name}!")
-
-    # Tính toán lại các cột sau khi nhập
-    for idx, row in edited_df.iterrows():
-        coin = coins[idx]
-        holdings[coin] = row["Số token nắm giữ"]
-        avg_price[coin] = row["Giá mua trung bình"]
-    st.session_state["holdings"] = holdings
-    st.session_state["avg_price"] = avg_price
-    save_holdings(holdings)
-    save_avg_price(avg_price)
-
-    # Tạo bảng kết quả với các cột tính toán và màu sắc
-    result_df = edited_df.copy()
-    result_df["Giá hiện tại"] = [prices.get(c, 0) for c in coins]
-    result_df["% 1D"] = [price_data.get(c, {}).get("change_1d", 0) for c in coins]
-    result_df["% 7D"] = [price_data.get(c, {}).get("change_7d", 0) for c in coins]
-    result_df["% 30D"] = [price_data.get(c, {}).get("change_30d", 0) for c in coins]
-    result_df["Tổng giá trị"] = result_df["Số token nắm giữ"] * result_df["Giá hiện tại"]
-    result_df["Profit & Loss"] = result_df["Tổng giá trị"] - result_df["Giá mua trung bình"] * result_df["Số token nắm giữ"]
-    result_df["% Profit/Loss"] = np.where(
-        result_df["Giá mua trung bình"] > 0,
-        100 * result_df["Profit & Loss"] / (result_df["Giá mua trung bình"] * result_df["Số token nắm giữ"] + 1e-9),
-        0.0
-    )
-    result_df["% Hòa vốn"] = np.where(
-        result_df["Profit & Loss"] >= 0,
-        0.0,
-        100 * abs(result_df["Profit & Loss"]) / (result_df["Tổng giá trị"] + 1e-9)
-    )
-
-    styled_result = result_df[[
-        "Coin",
-        "Số token nắm giữ",
-        "Giá mua trung bình",
-        "Giá hiện tại",
-        "% 1D",
-        "% 7D",
-        "% 30D",
-        "Tổng giá trị",
-        "Profit & Loss",
-        "% Profit/Loss",
-        "% Hòa vốn"
-    ]].style.format({
-        "Số token nắm giữ": "{:.10f}",
-        "Giá mua trung bình": "{:.4f}",
-        "Giá hiện tại": "{:.4f}",
-        "% 1D": "{:.2f}",
-        "% 7D": "{:.2f}",
-        "% 30D": "{:.2f}",
-        "Tổng giá trị": "{:.2f}",
-        "Profit & Loss": "{:.2f}",
-        "% Profit/Loss": "{:.2f}",
-        "% Hòa vốn": "{:.2f}"
-    }).map(color_profit, subset=["Profit & Loss", "% Profit/Loss", "% 1D", "% 7D", "% 30D"])
-
-    st.dataframe(styled_result, hide_index=True)
-    if coins:
-        profits = [prices.get(c, 0) * holdings.get(c, 0.0) - avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins]
-        if any(profits):
-            max_pnl_idx = int(np.argmax(profits))
-            min_pnl_idx = int(np.argmin(profits))
-            st.metric("Coin lãi nhiều nhất", f"{coin_id_to_name[coins[max_pnl_idx]]} ({profits[max_pnl_idx]:,.2f} USD)")
-            st.metric("Coin lỗ nhiều nhất", f"{coin_id_to_name[coins[min_pnl_idx]]} ({profits[min_pnl_idx]:,.2f} USD)")
 
 
 

@@ -46,4 +46,4 @@ overlay_whale_alert_chart(
 )
 
 # Explicitly render the chart
-st.plotly_chart(st.session_state[f"fig_ohlcv_ERC20_TEST"], use_container_width=True)
+st.plotly_chart(st.session_state[f"fig_ohlcv_ERC20_TEST"], width='stretch')

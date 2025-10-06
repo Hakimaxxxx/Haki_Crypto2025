@@ -1,7 +1,37 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import os
+import os, time
+
+_MC_CACHE = {"data": None, "ts": 0}
+
+def load_global_marketcap_cached(ttl: int = 180):
+    """Return latest total market cap & volume from marketcap_history.csv if available."""
+    now = time.time()
+    if _MC_CACHE["data"] and now - _MC_CACHE["ts"] < ttl:
+        return _MC_CACHE["data"]
+    market_file = "marketcap_history.csv"
+    if not os.path.exists(market_file):
+        return None
+    try:
+        df_market = pd.read_csv(market_file)
+        if df_market.empty:
+            return None
+        # Expect columns: timestamp, market_cap, volume_1d (existing format in project)
+        if 'timestamp' in df_market.columns:
+            df_market['timestamp'] = pd.to_datetime(df_market['timestamp'], errors='coerce')
+            df_market = df_market.dropna(subset=['timestamp']).sort_values('timestamp')
+        last = df_market.iloc[-1]
+        rec = {
+            'total_market_cap_usd': float(last.get('market_cap', 0)),
+            'volume_1d': float(last.get('volume_1d', 0)),
+            'timestamp': str(last.get('timestamp'))
+        }
+        _MC_CACHE['data'] = rec
+        _MC_CACHE['ts'] = now
+        return rec
+    except Exception:
+        return None
 
 def show_marketcap_volume_chart(key_suffix=None):
     with st.expander("Total Market Cap (USD) & Volume 1D (USD, scaled)", expanded=True):
@@ -85,6 +115,6 @@ def show_marketcap_volume_chart(key_suffix=None):
                                showticklabels=False),
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                 )
-                st.plotly_chart(fig, use_container_width=True, key="marketcap_volume_combined")
+                st.plotly_chart(fig, width='stretch', key="marketcap_volume_combined", config={'displaylogo': False, 'responsive': True})
             except Exception as e:
                 st.warning(f"Không thể đọc dữ liệu marketcap/volume: {e}")
