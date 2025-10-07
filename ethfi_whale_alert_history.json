@@ -2066,5 +2066,126 @@
     "to_label": "0x1157a207...",
     "type": "N/A",
     "value": 412698.3372
+  },
+  {
+    "hash": "0xbadf8422d7806d4ae0e9d6ec3e959d4e467dfa4e34de6248ab14c6ae707c3dca",
+    "blockNumber": "23518188",
+    "from": "0x611f7bf868a6212f871e89f7e44684045ddfb09d",
+    "from_label": "0x611f7bf8...",
+    "time": "2025-10-06 10:39:23+00:00",
+    "to": "0x91d40e4818f4d4c57b4578d9eca6afc92ac8debe",
+    "to_label": "0x91d40e48...",
+    "type": "N/A",
+    "value": 323114.78
+  },
+  {
+    "hash": "0xb929a8b2927520de3b04376c92c88fefefef803d2c264ebd79576ee64bb3f3f9",
+    "blockNumber": "23519114",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-06 13:45:47+00:00",
+    "to": "0x98adef6f2ac8572ec48965509d69a8dd5e8bba9d",
+    "to_label": "0x98adef6f...",
+    "type": "BUY",
+    "value": 97690.583373
+  },
+  {
+    "hash": "0x1dadb6e46ac8e42bfa87e35ba72d3a2d58d734a726ab0dcb4d68e114848a4e51",
+    "blockNumber": "23519604",
+    "from": "0x76ec5a0d3632b2133d9f1980903305b62678fbd3",
+    "from_label": "0x76ec5a0d...",
+    "time": "2025-10-06 15:24:47+00:00",
+    "to": "0xb334a61a6209f14b5fa5f1684a4ed7621f66e1ef",
+    "to_label": "0xb334a61a...",
+    "type": "N/A",
+    "value": 53313.429653
+  },
+  {
+    "hash": "0x791be026412e915ef4a6b034d77f7a515944531253ce7c86b06760790d7fb5b4",
+    "blockNumber": "23520948",
+    "from": "0x3af6b9754b9719252f6f580bfb8041f226566d19",
+    "from_label": "0x3af6b975...",
+    "time": "2025-10-06 19:55:35+00:00",
+    "to": "0x9602c1e8e8796c3428784229aeec7db80f609217",
+    "to_label": "0x9602c1e8...",
+    "type": "N/A",
+    "value": 999990.0
+  },
+  {
+    "hash": "0x7179a1618a7ec1e2f7296d89e174c7a3cc84439650687b969d8e38ec2f620612",
+    "blockNumber": "23520976",
+    "from": "0x9602c1e8e8796c3428784229aeec7db80f609217",
+    "from_label": "0x9602c1e8...",
+    "time": "2025-10-06 20:01:11+00:00",
+    "to": "0x66be97a14ca1b8ee1a71c17053b79954e36883da",
+    "to_label": "0x66be97a1...",
+    "type": "N/A",
+    "value": 1000000.0
+  },
+  {
+    "hash": "0x19e3f10631c71551f4aac72af4e5e2eaa668cdee39e5c23412547c99a19e39ea",
+    "blockNumber": "23521826",
+    "from": "0x86b5780b606940eb59a062aa85a07959518c0161",
+    "from_label": "0x86b5780b...",
+    "time": "2025-10-06 22:52:35+00:00",
+    "to": "0xf8553c8552f906c19286f21711721e206ee4909e",
+    "to_label": "0xf8553c85...",
+    "type": "N/A",
+    "value": 159035.5410007945
+  },
+  {
+    "hash": "0xb84f64789beb7dfaf00591d7d52c739cb183dcffcae6a5adff8e5b766ffae51d",
+    "blockNumber": "23522422",
+    "from": "0x66be97a14ca1b8ee1a71c17053b79954e36883da",
+    "from_label": "0x66be97a1...",
+    "time": "2025-10-07 00:52:11+00:00",
+    "to": "0x16f6d15381bee4a25b25f0d1c4161b78f7f21fde",
+    "to_label": "0x16f6d153...",
+    "type": "N/A",
+    "value": 1000000.0
+  },
+  {
+    "hash": "0xd71506a5d4f1206e2add9b1f6ae10ef6fdaa76372e1c49d4307982a9cdf234f7",
+    "blockNumber": "23522441",
+    "from": "0x16f6d15381bee4a25b25f0d1c4161b78f7f21fde",
+    "from_label": "0x16f6d153...",
+    "time": "2025-10-07 00:55:59+00:00",
+    "to": "0x3284ac109eb04f070b40ea2bdc644d3a00de7bdb",
+    "to_label": "0x3284ac10...",
+    "type": "N/A",
+    "value": 1536619.0
+  },
+  {
+    "hash": "0xb621013f3ad40721e9d784cea7e0d8ca4d8f362607f2864d0263d883e52b98bb",
+    "blockNumber": "23522462",
+    "from": "0x3284ac109eb04f070b40ea2bdc644d3a00de7bdb",
+    "from_label": "0x3284ac10...",
+    "time": "2025-10-07 01:00:11+00:00",
+    "to": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "to_label": "Binance",
+    "type": "SELL",
+    "value": 1536619.0
+  },
+  {
+    "hash": "0x977edc89e06633aedabeb2a2bd3c6c5a2e1f3ddf9cec3e8e92edebe4eaa83e5f",
+    "blockNumber": "23522985",
+    "from": "0xb0a27099582833c0cb8c7a0565759ff145113d64",
+    "from_label": "0xb0a27099...",
+    "time": "2025-10-07 02:46:11+00:00",
+    "to": "0x4a4aaa0155237881fbd5c34bfae16e985a7b068d",
+    "to_label": "0x4a4aaa01...",
+    "type": "N/A",
+    "value": 95333.02532700001
+  },
+  {
+    "hash": "0xda1ab3a670cae72cb1c7d38284bf86d032b019e6ab6ebd182f9107bbd3bc5b84",
+    "blockNumber": "23522996",
+    "from": "0x4a4aaa0155237881fbd5c34bfae16e985a7b068d",
+    "from_label": "0x4a4aaa01...",
+    "time": "2025-10-07 02:48:23+00:00",
+    "to": "0x91d40e4818f4d4c57b4578d9eca6afc92ac8debe",
+    "to_label": "0x91d40e48...",
+    "type": "N/A",
+    "value": 87229.0
   }
 ]

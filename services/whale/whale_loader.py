@@ -146,7 +146,7 @@ def load_erc20_whales(token_symbol: str, history_file: Optional[str] = None) -> 
 					break
 
 		try:
-			df_recent = load_recent_whale_events(token_symbol, limit=150)
+			df_recent = load_recent_whale_events(token_symbol, limit=500)  # Tăng giới hạn từ 150 lên 500
 			if df_recent is not None and not df_recent.empty:
 				events = df_recent.to_dict(orient='records')
 		except Exception:

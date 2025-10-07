@@ -1,5 +1,4 @@
 value,value_classification,timestamp,time_until_update
-26,Fear,2024-09-01,
 26,Fear,2024-09-02,
 26,Fear,2024-09-03,
 27,Fear,2024-09-04,
@@ -398,4 +397,5 @@ value,value_classification,timestamp,time_until_update
 63,Greed,2025-10-03,
 71,Greed,2025-10-04,
 74,Greed,2025-10-05,
-71,Greed,2025-10-06,54600
+71,Greed,2025-10-06,
+70,Greed,2025-10-07,31251

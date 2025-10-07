@@ -34,7 +34,8 @@ _DATA_CACHE = {
     "avg_prices": {},
     "history": [],
     "prices": {},
-    "price_changes": {}
+    "price_changes": {},
+    "last_write_ts": 0  # track freshest portfolio commit to prevent rollback
 }
 
 # Thread locks for data safety
@@ -43,7 +44,13 @@ _init_lock = threading.Lock()
 
 def get_app_state() -> Dict[str, Any]:
     """Get current application state for diagnostics."""
-    return dict(_APP_STATE)
+    state = dict(_APP_STATE)
+    # Bổ sung last_write_ts để UI hiển thị nguồn dữ liệu & kiểm tra commit
+    try:
+        state["last_write_ts"] = _DATA_CACHE.get("last_write_ts", 0)
+    except Exception:
+        state["last_write_ts"] = 0
+    return state
 
 def get_cached_data() -> Dict[str, Any]:
     """Get cached data safely."""
@@ -71,6 +78,18 @@ def _load_local_files() -> bool:
             with open("avg_price.json", "r") as f:
                 _DATA_CACHE["avg_prices"] = json.load(f)
             local_data_loaded = True
+
+        # Last write timestamp (optional file)
+        if os.path.exists("portfolio_meta_ts.json"):
+            try:
+                with open("portfolio_meta_ts.json", "r") as f:
+                    ts_data = json.load(f)
+                    if isinstance(ts_data, dict):
+                        ts_val = int(ts_data.get("last_write_ts", 0))
+                        if ts_val > _DATA_CACHE.get("last_write_ts", 0):
+                            _DATA_CACHE["last_write_ts"] = ts_val
+            except Exception:
+                pass
         
         # History
         if os.path.exists("portfolio_history.json"):
@@ -111,34 +130,43 @@ def _bootstrap_from_db() -> bool:
     """Bootstrap data from database with error handling."""
     try:
         from cloud_db import db
-        
+
         if not db.available():
             print("[DEBUG] DB not available, attempting reconnect...")
             if not db.force_reconnect():
                 _APP_STATE["errors"].append("DB reconnect failed.")
                 return False
-        
-        # Load portfolio metadata
+
+        # Load portfolio metadata & last_write_ts
         holdings = db.get_kv("portfolio_meta", "holdings") or {}
         avg_prices = db.get_kv("portfolio_meta", "avg_price") or {}
-        
+        last_write_ts = db.get_kv("portfolio_meta", "last_write_ts") or 0
+
         if holdings:
             _DATA_CACHE["portfolio"] = holdings
             with open("data.json", "w") as f:
                 json.dump(holdings, f)
-        
+
         if avg_prices:
             _DATA_CACHE["avg_prices"] = avg_prices
             with open("avg_price.json", "w") as f:
                 json.dump(avg_prices, f)
-        
+
+        if isinstance(last_write_ts, (int, float)) and last_write_ts > _DATA_CACHE.get("last_write_ts", 0):
+            _DATA_CACHE["last_write_ts"] = int(last_write_ts)
+            try:
+                with open("portfolio_meta_ts.json", "w") as f:
+                    json.dump({"last_write_ts": int(last_write_ts)}, f)
+            except Exception:
+                pass
+
         # Load portfolio history
         history = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
         if history:
             _DATA_CACHE["history"] = history
             with open("portfolio_history.json", "w") as f:
                 json.dump(history, f)
-        
+
         _APP_STATE["db_available"] = True
         _APP_STATE["last_db_sync"] = time.time()
         print("[DEBUG] DB bootstrap completed successfully.")
@@ -345,29 +373,43 @@ def get_history_data() -> list:
         return list(_DATA_CACHE["history"])
 
 def update_portfolio_data(portfolio: Dict, avg_prices: Dict):
-    """Update portfolio data safely."""
+    """Update portfolio data safely (replace semantics) and stamp last_write_ts."""
+    now_ts = int(time.time())
     with _data_lock:
-        _DATA_CACHE["portfolio"].update(portfolio)
-        _DATA_CACHE["avg_prices"].update(avg_prices)
-    
-    # Persist to local files
+        # Replace rather than partial update to avoid stale keys
+        _DATA_CACHE["portfolio"] = dict(portfolio)
+        _DATA_CACHE["avg_prices"] = dict(avg_prices)
+        _DATA_CACHE["last_write_ts"] = now_ts
+    # Persist to local files (atomic-ish best effort)
     try:
         with open("data.json", "w") as f:
             json.dump(_DATA_CACHE["portfolio"], f)
         with open("avg_price.json", "w") as f:
             json.dump(_DATA_CACHE["avg_prices"], f)
+        with open("portfolio_meta_ts.json", "w") as f:
+            json.dump({"last_write_ts": now_ts}, f)
     except Exception as e:
         _APP_STATE["errors"].append(f"Local save error: {e}")
-    
     # Update DB if available
     if _APP_STATE["db_available"]:
         try:
             from cloud_db import db
-            if db.available():
-                db.set_kv("portfolio_meta", "holdings", _DATA_CACHE["portfolio"])
-                db.set_kv("portfolio_meta", "avg_price", _DATA_CACHE["avg_prices"])
+            from db_utils import db_set_kv_with_retry, db_retry_queue
+            if db.available():  # vẫn thử ghi (hàm helper sẽ queue nếu fail)
+                db_set_kv_with_retry(db, "portfolio_meta", "holdings", _DATA_CACHE["portfolio"])
+                db_set_kv_with_retry(db, "portfolio_meta", "avg_price", _DATA_CACHE["avg_prices"])
+                db_set_kv_with_retry(db, "portfolio_meta", "last_write_ts", now_ts)
+                # Cố gắng xử lý queue ngay nếu có thể
+                db_retry_queue(db)
         except Exception as e:
             _APP_STATE["errors"].append(f"DB portfolio update error: {e}")
+
+def rehydrate_from_db() -> bool:
+    """Explicitly re-bootstrap from DB without re-running full init (used after reconnect or manual push)."""
+    ok = _bootstrap_from_db()
+    if ok:
+        _APP_STATE["last_db_sync"] = time.time()
+    return ok
 
 def stop_background_sync():
     """Stop background synchronization."""

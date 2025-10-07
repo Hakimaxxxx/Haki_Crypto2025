@@ -299,7 +299,7 @@ def background_erc20_whale_alert_scanner(api_key='2I9RJZUQK7CGS6C3G5SPXIUCTCK3VX
 
 # Helper to load recent whale events for overlay
 
-def load_recent_whale_events(token_name: str, limit: int = 50):
+def load_recent_whale_events(token_name: str, limit: int = 500):
     token_name_upper = token_name.upper()
     for t in ERC20_TOKENS:
         if t["name"].upper() == token_name_upper:

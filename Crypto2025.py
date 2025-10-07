@@ -102,12 +102,13 @@ def _db_upsert_portfolio_docs(docs: list):
 
 def _db_set_portfolio_meta(holdings: dict | None = None, avg_price: dict | None = None):
     try:
-        if not db.available():
-            return
+        from db_utils import db_set_kv_with_retry, db_retry_queue
         if holdings is not None:
-            db.set_kv("portfolio_meta", "holdings", holdings)
+            db_set_kv_with_retry(db, "portfolio_meta", "holdings", holdings)
         if avg_price is not None:
-            db.set_kv("portfolio_meta", "avg_price", avg_price)
+            db_set_kv_with_retry(db, "portfolio_meta", "avg_price", avg_price)
+        # Process queue opportunistically
+        db_retry_queue(db)
     except Exception:
         pass
 
@@ -663,10 +664,21 @@ with tab1:
                 
                 # Try manual reconnect
                 if st.button("🔄 Force DB Reconnect"):
-                    with st.spinner("Reconnecting to database..."):
+                    with st.spinner("Reconnecting to database & hydrating..."):
                         success = db.force_reconnect()
                         if success:
-                            st.success("✅ Database reconnected successfully!")
+                            # Rehydrate caches from DB to avoid rollback to stale local files
+                            try:
+                                from app_init import rehydrate_from_db, get_portfolio_data
+                                hyd_ok = rehydrate_from_db()
+                                port_new, avg_new = get_portfolio_data()
+                                st.session_state["holdings"] = port_new or st.session_state.get("holdings", {})
+                                st.session_state["avg_price"] = avg_new or st.session_state.get("avg_price", {})
+                                # Mark boot source for transparency
+                                st.session_state["_bootstrap_source"] = "db_rehydrate"
+                                st.success("✅ Reconnected & hydrated from DB" if hyd_ok else "⚠️ Reconnected nhưng không hydrate được DB")
+                            except Exception as _rh_ex:
+                                st.warning(f"Reconnect ok nhưng hydrate lỗi: {_rh_ex}")
                         else:
                             st.error(f"❌ Reconnect failed. Error: {db.last_error()}")
             except Exception as e:
@@ -1032,6 +1044,18 @@ with tab1:
 
     # Cho phép nhập liệu trực tiếp trong expander
     with st.expander("Nhập liệu Portfolio (có thể thu nhỏ)", expanded=False):
+        # Hiển thị thông tin lần ghi cuối & nguồn dữ liệu
+        try:
+            from app_init import get_app_state
+            _state = get_app_state()
+            ts = _state.get("last_write_ts")
+            src = st.session_state.get("_bootstrap_source", "unknown")
+            if ts:
+                import datetime
+                ts_readable = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                st.caption(f"Nguồn: {src} • Last write: {ts_readable} (epoch {int(ts)})")
+        except Exception:
+            pass
         edited_df = st.data_editor(
             df_input[[
                 "Coin",
@@ -1046,8 +1070,61 @@ with tab1:
             hide_index=True,
             key="portfolio_table"
         )
+        # Thêm nút đẩy dữ liệu lên DB (đảm bảo đồng bộ edited_df trước khi push)
+        if st.button("Đẩy dữ liệu lên DB", key="push_to_db"):
+            try:
+                from app_init import update_portfolio_data, rehydrate_from_db, get_portfolio_data, get_app_state
+                # Thu thập dữ liệu mới từ bảng (chỉ giữ coin xuất hiện)
+                new_hold = {}
+                new_avg = {}
+                for idx, row in edited_df.iterrows():
+                    if idx < len(coins):
+                        coin = coins[idx]
+                        try:
+                            new_hold[coin] = float(row.get("Số token nắm giữ", 0.0) or 0.0)
+                        except Exception:
+                            new_hold[coin] = 0.0
+                        try:
+                            new_avg[coin] = float(row.get("Giá mua trung bình", 0.0) or 0.0)
+                        except Exception:
+                            new_avg[coin] = 0.0
 
-        st.markdown("#### Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
+                # Kiểm tra xung đột: nếu DB có last_write_ts mới hơn local trước khi ghi
+                state_before = get_app_state()
+                last_before = state_before.get("last_write_ts", 0)
+                # Rehydrate nhẹ để lấy DB snapshot mới nhất trước khi quyết định (không ghi)
+                rehydrate_from_db()
+                state_after_hydrate = get_app_state()
+                db_ts = state_after_hydrate.get("last_write_ts", 0)
+                conflict = db_ts > last_before
+                if conflict:
+                    st.warning("⚠️ Phát hiện DB đã có cập nhật mới hơn. Đang dùng snapshot DB mới nhất để tránh ghi đè.")
+                    # Lấy lại dữ liệu hiện tại sau hydrate để người dùng xác nhận
+                    port_current, avg_current = get_portfolio_data()
+                    # So sánh khác biệt số lượng coin để giúp quyết định
+                    added = {k:v for k,v in port_current.items() if k not in new_hold or v!=new_hold[k]}
+                    if added:
+                        st.caption(f"(Debug khác biệt) Số lượng khác so với bảng: {list(added.items())[:5]}")
+                    if not st.checkbox("Tôi muốn GHI ĐÈ DB bằng dữ liệu bảng (bỏ qua snapshot mới)", key="override_conflict"):
+                        st.info("Hủy thao tác ghi. Bạn có thể tick checkbox để ghi đè nếu chắc chắn.")
+                        # Refresh hiển thị holdings/avg_price từ DB snapshot mới
+                        st.session_state["holdings"], st.session_state["avg_price"] = port_current, avg_current
+                        st.stop()
+
+                # Không có xung đột hoặc người dùng chấp nhận ghi đè
+                update_portfolio_data(new_hold, new_avg)
+                # Rehydrate from DB to confirm persist path
+                rehydrate_from_db()
+                port_after, avg_after = get_portfolio_data()
+                st.session_state["holdings"] = port_after
+                st.session_state["avg_price"] = avg_after
+                st.session_state["_bootstrap_source"] = "manual_commit"
+                st.success("✅ Đã cập nhật & đồng bộ DB (kèm rehydrate)")
+            except Exception as e:
+                st.error(f"Lỗi khi đẩy dữ liệu lên DB: {e}")
+
+        # Dòng 'Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình'
+        st.write("Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
         coin_options = [coin_id_to_name[c] for c in coins]
         selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
         selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
@@ -1076,30 +1153,7 @@ with tab1:
                 save_avg_price(st.session_state["avg_price"])
                 st.success(f"Đã cập nhật giá mua trung bình và số lượng cho {selected_buy_coin_name}!")
 
-    # Tính toán lại các cột sau khi nhập
-    for idx, row in edited_df.iterrows():
-        coin = coins[idx]
-        holdings[coin] = row["Số token nắm giữ"]
-        avg_price[coin] = row["Giá mua trung bình"]
-    # Debounce saving: only persist if changed checksum
-    import json, hashlib
-    def _checksum(obj):
-        try:
-            return hashlib.md5(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()
-        except Exception:
-            return str(obj)
-    new_holdings_sum = _checksum(holdings)
-    new_avg_sum = _checksum(avg_price)
-    prev_holdings_sum = st.session_state.get("_holdings_checksum")
-    prev_avg_sum = st.session_state.get("_avg_price_checksum")
-    st.session_state["holdings"] = holdings
-    st.session_state["avg_price"] = avg_price
-    if new_holdings_sum != prev_holdings_sum:
-        save_holdings(holdings)
-        st.session_state["_holdings_checksum"] = new_holdings_sum
-    if new_avg_sum != prev_avg_sum:
-        save_avg_price(avg_price)
-        st.session_state["_avg_price_checksum"] = new_avg_sum
+    # (Không auto-sync bảng vào holdings/avg_price. Chỉ cập nhật khi bấm nút 'Đẩy dữ liệu lên DB'.)
 
     # Tạo bảng kết quả với các cột tính toán và màu sắc
     result_df = edited_df.copy()
@@ -1184,6 +1238,8 @@ with tab1:
         </style>
     """, unsafe_allow_html=True)
     st.dataframe(styled_result, hide_index=True)
+
+    # (Đã bỏ nút 'Nhâp liệu mới' trùng key để tránh StreamlitDuplicateElementKey)
 
     # --- TÍNH VÀ HIỂN THỊ CHART, METRIC, PIE/BAR CHART ---
     # Lọc chỉ các entry tổng portfolio (không có key 'coin') cho chart tổng
@@ -1433,7 +1489,12 @@ with tab1:
                         st.info("⚠️ Không thể vẽ chart do thiếu dữ liệu hợp lệ.")
                     else:
                         ts_loaded = stats.get('timestamp')
-                        loaded_at = datetime.utcfromtimestamp(ts_loaded).strftime('%H:%M:%S UTC') if ts_loaded else ''
+                        # datetime here may refer to class imported via 'from datetime import datetime'
+                        try:
+                            loaded_at = datetime.utcfromtimestamp(ts_loaded).strftime('%H:%M:%S UTC') if ts_loaded else ''
+                        except AttributeError:
+                            import datetime as _dt_mod
+                            loaded_at = _dt_mod.datetime.utcfromtimestamp(ts_loaded).strftime('%H:%M:%S UTC') if ts_loaded else ''
                         suffix = "(snapshot file)" if stats.get('used_cache_file') else ""
                         fig.update_layout(
                             title=f"Tăng trưởng (%) tất cả coin (OKX 30m - snapshot) {suffix} | Loaded {loaded_at}",
@@ -1488,15 +1549,6 @@ def phase0_overlay_whales(coin_symbol: str, df_ohlcv, fig_ohlcv):
         )
     except Exception as _ph0_ex:
         st.warning(f"[Phase0 unified overlay lỗi {coin_symbol}]: {_ph0_ex}")
-# Phase 0 unified overlay refactor end
-
-"""Phase 0 NOTE:
-Unified whale overlay helper `phase0_overlay_whales` is defined.
-Next step (still Phase 0) is to integrate calls inside the per-coin tab rendering loop
-right after OHLCV figure creation for each coin instead of duplicated logic.
-This placeholder remains until that loop section is migrated (original whale overlay
-code was removed/trimmed earlier in this branch).
-"""
 
 # ===================== TAB 2 (Metrics) & PER-COIN TABS (RESTORED Phase 0) =====================
 # Tab2: hiển thị các metric tổng hợp (có thể mở rộng thêm sau)
@@ -1526,7 +1578,9 @@ with tab2:
             st.caption(f"FG n/a: {e}")
     with cols[2]:
         try:
+
             import metrics_marketcap_volume as _mv
+           
             mv = _mv.load_global_marketcap_cached()
             if mv:
                 st.metric("Total MktCap (T)", f"{mv.get('total_market_cap_usd',0)/1e12:.2f}")
@@ -1539,8 +1593,27 @@ with tab2:
         show_health_panel()
     except Exception:
         pass
+    # ================== BỔ SUNG CHART LỊCH SỬ (PHASE 4 RESTORE) ==================
     st.markdown("---")
-    st.caption("(Phase 0) Đây là bản gọn của tab Metrics. Có thể mở rộng trong Phase 1.")
+    with st.expander("BTC / ETH / Others Dominance (History)", expanded=False):
+        try:
+            import metrics_dominance as _md
+            _md.show_dominance_metric()
+        except Exception as _dom_ex:
+            st.caption(f"Không hiển thị được dominance chart: {_dom_ex}")
+    with st.expander("Fear & Greed Index (History)", expanded=False):
+        try:
+            import metrics_fear_greed as _fg
+            _fg.show_fear_greed_metric()
+        except Exception as _fg_ex:
+            st.caption(f"Không hiển thị được Fear & Greed chart: {_fg_ex}")
+    with st.expander("Total Market Cap & Volume (History)", expanded=False):
+        try:
+            import metrics_marketcap_volume as _mv
+            _mv.show_marketcap_volume_chart()
+        except Exception as _mc_ex:
+            st.caption(f"Không hiển thị được Market Cap chart: {_mc_ex}")
+    st.caption("(Phase 4) Metrics tab đã khôi phục đầy đủ biểu đồ lịch sử.")
 
 # Per-coin tabs: tái tạo loop hiển thị OHLCV + overlay whale (unified)
 for idx, coin_tuple in enumerate(COIN_LIST):
@@ -1641,6 +1714,53 @@ for idx, coin_tuple in enumerate(COIN_LIST):
 
         # === Whale overlay (unified) ===
         phase0_overlay_whales(coin_symbol, df_ohlcv, fig_ohlcv)
+
+        # === On-chain & Derived Metrics ===
+        with st.expander("On-chain & MVRV Metrics", expanded=False):
+            try:
+                # Map display symbol back to CoinGecko id (coin_id)
+                asset_id = coin_id  # coin_id already is coingecko id per config
+                df_on = load_onchain_metrics_cached(asset_id)
+                if df_on is None:
+                    st.caption("Chưa có dữ liệu on-chain (Coin Metrics community API).")
+                else:
+                    import pandas as _pd
+                    import plotly.graph_objects as _go
+                    # Hiển thị các cột phổ biến nếu tồn tại
+                    show_cols = [c for c in ["PriceUSD","AdrActCnt","TxCnt","FeeTotUSD","HashRate"] if c in df_on.columns]
+                    # Chỉ lấy 180 ngày gần nhất cho nhẹ
+                    try:
+                        if 'date' in df_on.columns:
+                            df_on['date'] = _pd.to_datetime(df_on['date'], errors='coerce')
+                            df_on = df_on.dropna(subset=['date']).sort_values('date')
+                            cutoff = df_on['date'].max() - _pd.Timedelta(days=180)
+                            df_on = df_on[df_on['date'] >= cutoff]
+                    except Exception:
+                        pass
+                    if show_cols:
+                        fig_on = _go.Figure()
+                        for c in show_cols:
+                            try:
+                                series = _pd.to_numeric(df_on[c], errors='coerce')
+                                if series.notna().sum() == 0:
+                                    continue
+                                fig_on.add_trace(_go.Scatter(x=df_on['date'], y=series, mode='lines', name=c))
+                            except Exception:
+                                continue
+                        fig_on.update_layout(title=f"On-chain Metrics (sample) - {coin_symbol}", height=320, hovermode='x unified')
+                        st.plotly_chart(fig_on, use_container_width=True, config={'displaylogo': False, 'responsive': True})
+                    else:
+                        st.caption("Không có cột on-chain hiển thị được.")
+                # MVRV (sử dụng file sample nếu có)
+                try:
+                    import metrics_mvrv_z as _mvrv
+                    mvrv_fig = _mvrv.plot_mvrv_z_score(coin_id=coin_id)
+                    if mvrv_fig:
+                        st.plotly_chart(mvrv_fig, use_container_width=True, config={'displaylogo': False, 'responsive': True})
+                except Exception:
+                    pass
+            except Exception as _on_ex:
+                st.caption(f"On-chain metrics error: {_on_ex}")
 
         # === Whale Large Transactions box (restored feature) ===
         with st.expander(f"🐳 {coin_symbol} Large Transactions", expanded=False):
@@ -1771,7 +1891,10 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                         st.dataframe(styled, hide_index=True, width='stretch')
                     except Exception:
                         st.dataframe(display_df, hide_index=True, width='stretch')
-                    st.caption(f"TỐI ĐA 100 SỰ KIỆN (MAXIMUM) | Tổng sự kiện: {len(dfw)} | Qua lọc: {len(view)} | Ngưỡng >= {thr}")
+                    # Thay đổi giới hạn hiển thị sự kiện
+                    st.caption(f"HIỂN THỊ TOÀN BỘ SỰ KIỆN | Tổng sự kiện: {len(dfw)} | Qua lọc: {len(view)}")
+                    # Loại bỏ giới hạn 100 sự kiện
+                    view = view.copy()  # Đảm bảo không bị giới hạn số lượng sự kiện
             except Exception as _wbox_ex:
                 st.caption(f"Whale box error: {_wbox_ex}")
 
@@ -1780,7 +1903,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             try:
                 tz_info = None
                 sample_times = []
-                if df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
+                if df_ohlcv is not None and df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
                     col = df_ohlcv['datetime']
                     tz_info = str(getattr(col.dt.tz, 'zone', col.dt.tz)) if hasattr(col, 'dt') else 'n/a'
                     sample_times = col.head(3).astype(str).tolist() + col.tail(3).astype(str).tolist()
@@ -1790,7 +1913,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                 for e in raw_events[:3]:
                     evt_time_samples.append(str(e.get('ts') or e.get('time')))
                 st.json({
-                    'ohlcv_datetime_dtype': str(df_ohlcv['datetime'].dtype) if (df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns) else 'missing',
+                    'ohlcv_datetime_dtype': str(df_ohlcv['datetime'].dtype) if (df_ohlcv is not None and df_ohlcv.empty and 'datetime' in df_ohlcv.columns) else 'missing',
                     'ohlcv_tz': tz_info,
                     'ohlcv_sample_times': sample_times,
                     'whale_event_time_samples': evt_time_samples,
@@ -1811,12 +1934,6 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             st.info("Chưa có dữ liệu OHLCV.")
 
         st.caption("(Phase 0) Coin tab: OHLCV prefetch + liquidation + portfolio history + whale overlay + timezone debug.")
-
-# Tự động refresh mỗi 60 giây
-st.experimental_rerun = getattr(st, "experimental_rerun", None)  # compatibility
-st_autorefresh = getattr(st, "autorefresh", None)
-if st_autorefresh:
-    st_autorefresh(interval=60 * 1000, key="refresh")  # 1 phút
 
 
 
