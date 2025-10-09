@@ -4,7 +4,8 @@ import os
 import json
 
 # Kết nối Redis
-redis_uri = os.getenv("REDIS_URI", "redis://localhost:6379/0")
+#redis_uri = os.getenv("REDIS_URI", "redis://localhost:6379/0")
+redis_uri = os.getenv("REDIS_URI", "redis://default:PvZSMDAl6D3u15KivdssvL0loauCk9y4@redis-10075.c257.us-east-1-3.ec2.redns.redis-cloud.com:10075")
 redis_client = Redis.from_url(redis_uri)
 
 # Định nghĩa các biến toàn cục

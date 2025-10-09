@@ -30,7 +30,8 @@ except ModuleNotFoundError as _e:  # user might run with wrong python (global vs
     print("[WARN] redis module not found – cache layer disabled. (Activate venv?)")
 
 # Kết nối Redis (only if redis module available)
-redis_uri = os.getenv("REDIS_URI", "redis://localhost:6379/0")
+#redis_uri = os.getenv("REDIS_URI", "redis://localhost:6379/0")
+redis_uri = os.getenv("REDIS_URI", "redis://default:PvZSMDAl6D3u15KivdssvL0loauCk9y4@redis-10075.c257.us-east-1-3.ec2.redns.redis-cloud.com:10075")
 if redis is not None:
     try:
         redis_client = redis.Redis.from_url(redis_uri)
