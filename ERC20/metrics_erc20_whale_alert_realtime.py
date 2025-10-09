@@ -37,7 +37,7 @@ ERC20_TOKENS = [
         "contract": LINK_CONTRACT,
         "history_file": "link_whale_alert_history.json",
         "block_file": "link_whale_last_block.json",
-        "min_value_token": 20000,
+        "min_value_token": 50000,
         "threshold_mode": "token",
         "coingecko_id": "chainlink",
         "max_results": 2000
@@ -48,7 +48,7 @@ ERC20_TOKENS = [
         "contract": ETHFI_CONTRACT,
         "history_file": "ethfi_whale_alert_history.json",
         "block_file": "ethfi_whale_last_block.json",
-        "min_value_token": 50000,
+        "min_value_token": 1000000,
         "threshold_mode": "token",
         "coingecko_id": "ether-fi",  # CoinGecko ID cần xác minh
         "max_results": 1500
@@ -58,7 +58,7 @@ ERC20_TOKENS = [
         "contract": ENA_CONTRACT,
         "history_file": "ena_whale_alert_history.json",
         "block_file": "ena_whale_last_block.json",
-        "min_value_token": 100000,
+        "min_value_token": 12000000,
         "threshold_mode": "token",
         "coingecko_id": "ethena",  # cần xác minh
         "max_results": 1500
@@ -68,7 +68,7 @@ ERC20_TOKENS = [
         "contract": EIGEN_CONTRACT,
         "history_file": "eigen_whale_alert_history.json",
         "block_file": "eigen_whale_last_block.json",
-        "min_value_token": 50000,
+        "min_value_token": 1000000,
         "threshold_mode": "token",
         "coingecko_id": "eigenlayer",  # placeholder
         "max_results": 1500

@@ -35,4 +35,4 @@ def show_flow_metric(symbol, name):
     fig.add_trace(go.Scatter(x=df['date'], y=df['outflow'], mode='lines', name='Outflow', line=dict(color='#e67e22')))
     fig.add_trace(go.Bar(x=df['date'], y=df['netflow'], name='Netflow', marker_color='#2ecc71'))
     fig.update_layout(title=f"{name} Exchange Inflow/Outflow/Netflow", xaxis_title="Ngày", yaxis_title="Số lượng coin", height=350)
-    st.plotly_chart(fig, width='stretch', config={'displaylogo': False, 'responsive': True})
+    st.plotly_chart(fig, use_container_width=True, config={'displaylogo': False, 'responsive': True})

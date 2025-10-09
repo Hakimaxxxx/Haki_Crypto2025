@@ -32,7 +32,7 @@ def append_snapshot(docs: List[Dict]):
     """Append new snapshot docs (already validated externally)."""
     if not docs:
         return
-    hist = load_history(force=True)
+    hist = load_history(force=False)
     # Avoid duplication by (timestamp, coin/null)
     existing_keys = {(d.get('timestamp'), d.get('coin')) for d in hist}
     new_clean = [d for d in docs if (d.get('timestamp'), d.get('coin')) not in existing_keys]

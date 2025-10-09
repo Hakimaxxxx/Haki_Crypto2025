@@ -83,11 +83,30 @@ def get_current_prices():
     except Exception as e:
         return {}, {}, False, f"Price fetch error: {e}"
 
-def load_portfolio_holdings():
-    """Load portfolio holdings using the new initialization system."""
+_PORT_HOLDINGS_CACHE = {"data": (None, None), "ts": 0}
+_PORT_HOLDINGS_TTL = int(os.getenv("PORTFOLIO_REFRESH_INTERVAL", "300"))  # default 5 minutes
+
+def load_portfolio_holdings(force: bool = False):
+    """Load portfolio holdings (debounced/TTL cached).
+
+    Parameters
+    ----------
+    force : bool
+        If True, bypass local TTL cache.
+    """
     try:
+        now = time.time()
+        cached_port, cached_avg = _PORT_HOLDINGS_CACHE["data"]
+        if (not force and cached_port is not None and (now - _PORT_HOLDINGS_CACHE["ts"]) < _PORT_HOLDINGS_TTL):
+            # Silent fast path (avoid log spam); only log every 60s for visibility
+            if int(now) % 60 == 0:  # coarse periodic heartbeat
+                print(f"[DEBUG] load_portfolio_holdings() cached - age={int(now-_PORT_HOLDINGS_CACHE['ts'])}s size={len(cached_port)}")
+            return dict(cached_port), dict(cached_avg)
+
         portfolio, avg_prices = get_portfolio_data()
-        print(f"[DEBUG] load_portfolio_holdings() called - Portfolio: {len(portfolio)} items, Avg prices: {len(avg_prices)} items")
+        _PORT_HOLDINGS_CACHE["data"] = (dict(portfolio), dict(avg_prices))
+        _PORT_HOLDINGS_CACHE["ts"] = now
+        print(f"[DEBUG] load_portfolio_holdings() REFRESH size={len(portfolio)} ttl={_PORT_HOLDINGS_TTL}s")
         return portfolio, avg_prices
     except Exception as e:
         st.error(f"Error loading portfolio: {e}")
@@ -630,9 +649,8 @@ with tab1:
     # === Application Health Panel ===
     with st.expander("🏥 System Health & Status", expanded=False):
         app_state = get_app_state()
-        
         # Status indicators
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             db_status = "🟢 Connected" if app_state["db_available"] else "🔴 Disconnected"
             st.metric("Database", db_status)
@@ -642,6 +660,12 @@ with tab1:
         with col3:
             init_status = "✅ Complete" if app_state["init_complete"] else "⏳ In Progress"
             st.metric("Initialization", init_status)
+        # Redis status: only green if cache is working (hit>0, error==0)
+        cache_stats = app_state.get("cache_stats") or {}
+        redis_ok = bool(app_state.get("redis_available")) and cache_stats.get('hit', 0) > 0 and cache_stats.get('error', 0) == 0
+        with col4:
+            redis_status = "🟢" if redis_ok else "🔴"
+            st.metric("Redis", redis_status)
         
         # Sync information
         if app_state["last_db_sync"] > 0:
@@ -654,6 +678,56 @@ with tab1:
         # Background sync status
         sync_status = "🟢 Active" if app_state["background_sync_active"] else "🔴 Inactive"
         st.text(f"Background Sync: {sync_status}")
+
+        # Action buttons row
+        act_col1, act_col2, act_col3, act_col4 = st.columns(4)
+        with act_col1:
+            if st.button("⚡ Force Price Refresh", help="Bỏ qua interval / Redis cache và fetch giá mới"):
+                try:
+                    from config import COIN_LIST as _CL
+                    from price_utils import fetch_prices_and_changes
+                    from app_init import update_price_cache
+                    coins_force = [cid for cid, _ in _CL]
+                    with st.spinner("Đang fetch giá (force)..."):
+                        prices_new, changes_new, success_new, msg_new = fetch_prices_and_changes(coins_force, force=True)
+                    if success_new and prices_new:
+                        update_price_cache(prices_new, changes_new)
+                        st.success("Đã refresh giá (force)")
+                    else:
+                        st.warning(f"Không refresh được giá (force) -> {msg_new}")
+                except Exception as fe:
+                    st.error(f"Force price refresh error: {fe}")
+        with act_col2:
+            if st.button("♻️ Force Re-Init", help="Dừng background sync & khởi tạo lại toàn bộ pipeline"):
+                try:
+                    from app_init import force_reinitialize
+                    with st.spinner("Đang re-init ứng dụng..."):
+                        ok_re, msg_re = force_reinitialize()
+                    if ok_re:
+                        st.success(msg_re)
+                    else:
+                        st.error(msg_re)
+                except Exception as rie:
+                    st.error(f"Force re-init error: {rie}")
+        with act_col3:
+            if st.button("🔁 Refresh Portfolio (TTL bypass)", help="Load lại holdings/avg_price bỏ qua TTL cache"):
+                try:
+                    # Bypass TTL cache we added earlier
+                    from app_init import get_portfolio_data
+                    port, avgp = get_portfolio_data()  # already latest in memory
+                    st.session_state["holdings"] = port
+                    st.session_state["avg_price"] = avgp
+                    st.success("Portfolio refreshed từ cache trong bộ nhớ.")
+                except Exception as pe:
+                    st.error(f"Portfolio refresh error: {pe}")
+        with act_col4:
+            if st.button("🧪 Show Price Snapshot"):
+                try:
+                    from app_init import get_price_data
+                    p_snap, ch_snap = get_price_data()
+                    st.json({"prices": list(p_snap.items())[:8], "changes_keys": list(ch_snap.keys())[:8]})
+                except Exception as se:
+                    st.error(f"Snapshot error: {se}")
         
         # DB Connection Details
         if st.button("🔍 Show DB Connection Details"):
@@ -689,6 +763,17 @@ with tab1:
             st.warning("⚠️ Recent errors:")
             for error in app_state["errors"][-5:]:  # Show last 5 errors
                 st.text(f"• {error}")
+        # Cache stats (optional)
+        cache_stats = app_state.get("cache_stats") or {}
+        if cache_stats:
+            st.caption(f"Cache stats: hit={cache_stats.get('hit',0)} miss={cache_stats.get('miss',0)} error={cache_stats.get('error',0)}")
+            if cache_stats.get('hit',0) == 1:
+                st.info("💡 Cache hit rate is low, consider increasing TTL or optimizing cache usage.")
+            if cache_stats.get('error',0) > 0:
+                st.warning("⚠️ Cache errors detected, check logs for details.")
+            if cache_stats.get('miss',0) > cache_stats.get('hit',0)*2:
+                st.info("💡 Cache miss rate is high, consider reviewing caching strategy.")
+
 
     # --- BẢNG NHẬP DỮ LIỆU KIỂU EXCEL ---
     st.subheader("Bảng quản lý Portfolio")

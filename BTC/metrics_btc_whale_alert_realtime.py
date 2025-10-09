@@ -78,7 +78,7 @@ def save_last_block(block_num):
     if db.available():
         try:
             db.set_kv("btc_meta", "last_block", {"last_block": int(block_num)})
-            print(f"Saved last block: {block_num}")
+            print(f"Saved last block BTC: {block_num}")
         except Exception as e:
             print(f"Error saving last block: {e}")
 

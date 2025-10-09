@@ -50,6 +50,14 @@ def get_app_state() -> Dict[str, Any]:
         state["last_write_ts"] = _DATA_CACHE.get("last_write_ts", 0)
     except Exception:
         state["last_write_ts"] = 0
+    # Cache stats (redis) best-effort
+    try:
+        from redis_cache import get_cache_stats, redis_available
+        state["redis_available"] = redis_available()
+        state["cache_stats"] = get_cache_stats()
+    except Exception:
+        state["redis_available"] = False
+        state["cache_stats"] = {}
     return state
 
 def get_cached_data() -> Dict[str, Any]:
@@ -178,28 +186,42 @@ def _bootstrap_from_db() -> bool:
 def _init_api_services() -> bool:
     """Initialize API services with fallback handling."""
     try:
+        print("[DEBUG] Initializing API services...")
+
         # Initialize price cache
         from price_utils import init_price_cache
+        print("[DEBUG] Imported init_price_cache successfully.")
         init_price_cache()
-        
+        print("[DEBUG] Price cache initialized.")
+
         # Try to fetch initial prices
         from price_utils import fetch_prices_and_changes
         from config import COIN_LIST
-        
+        print("[DEBUG] Imported fetch_prices_and_changes and COIN_LIST successfully.")
+
         coins = [coin_id for coin_id, _ in COIN_LIST]
-        prices, changes, success, msg = fetch_prices_and_changes(coins, force=True)
-        
-        if success:
+        prices, changes, success, msg = fetch_prices_and_changes(coins, force=False)
+        print("[DEBUG] Fetched initial prices.")
+
+        # Treat existing cached prices (interval) as a successful initialization if data present
+        if (not success) and prices and ("Dùng cache" in str(msg) or "cache" in str(msg)):
+            print("[DEBUG] Using existing cached prices for API init (interval skip).")
+            success = True
+
+        if success and prices:
             _DATA_CACHE["prices"] = prices
             _DATA_CACHE["price_changes"] = changes
             _APP_STATE["api_available"] = True
             _APP_STATE["last_api_sync"] = time.time()
+            print("[DEBUG] API services initialized successfully.")
             return True
         else:
             _APP_STATE["errors"].append(f"Initial API fetch failed: {msg}")
+            print(f"[DEBUG] Initial API fetch failed: {msg}")
             return False
-            
+
     except Exception as e:
+        print(f"[DEBUG] Exception occurred during API initialization: {e}")
         _APP_STATE["errors"].append(f"API init error: {e}")
         return False
 
@@ -339,7 +361,10 @@ def initialize_app(refresh: bool = False) -> Tuple[bool, str]:
             
             # Step 5: Start background sync if any service is available
             if db_loaded or api_loaded:
-                sync_thread = threading.Thread(target=_background_sync, daemon=True)
+                def _delayed_start():
+                    time.sleep(1)  # Wait 1 second before starting background sync
+                    _background_sync()
+                sync_thread = threading.Thread(target=_delayed_start, daemon=True)
                 sync_thread.start()
             
             _APP_STATE["init_complete"] = True
@@ -390,6 +415,12 @@ def update_portfolio_data(portfolio: Dict, avg_prices: Dict):
             json.dump({"last_write_ts": now_ts}, f)
     except Exception as e:
         _APP_STATE["errors"].append(f"Local save error: {e}")
+    # Invalidate / bump portfolio version in Redis (read-through dependent caches can use version)
+    try:
+        from redis_cache import bump_portfolio_version
+        bump_portfolio_version()
+    except Exception:
+        pass
     # Update DB if available
     if _APP_STATE["db_available"]:
         try:
@@ -403,6 +434,30 @@ def update_portfolio_data(portfolio: Dict, avg_prices: Dict):
                 db_retry_queue(db)
         except Exception as e:
             _APP_STATE["errors"].append(f"DB portfolio update error: {e}")
+
+def update_price_cache(prices: Dict[str, Any], changes: Dict[str, Any]):
+    """Update price caches (used by force refresh button)."""
+    with _data_lock:
+        _DATA_CACHE["prices"] = dict(prices)
+        _DATA_CACHE["price_changes"] = dict(changes)
+    _APP_STATE["last_api_sync"] = time.time()
+    _APP_STATE["api_available"] = True
+
+def force_reinitialize() -> Tuple[bool, str]:
+    """Force a full re-initialization (stop background sync, reset state, re-run init)."""
+    try:
+        stop_background_sync()
+        with _init_lock:
+            # Reset essential state flags (preserve existing cached data for quick UI continuity)
+            _APP_STATE["init_complete"] = False
+            _APP_STATE["api_available"] = False
+            _APP_STATE["db_available"] = False
+        ok, msg = initialize_app(refresh=True)
+        return ok, f"Force re-init: {msg}"
+    except Exception as e:
+        err = f"Force re-init error: {e}"
+        _APP_STATE["errors"].append(err)
+        return False, err
 
 def rehydrate_from_db() -> bool:
     """Explicitly re-bootstrap from DB without re-running full init (used after reconnect or manual push)."""

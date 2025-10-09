@@ -27,7 +27,7 @@ def show_portfolio_over_time_chart(history, tz_display="Asia/Bangkok", key="main
         yaxis=dict(title="Value / PNL (USD)", side="left"),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
-    st.plotly_chart(fig, width='stretch', key=key, config={'displaylogo': False, 'responsive': True})
+    st.plotly_chart(fig, use_container_width=True, key=key, config={'displaylogo': False, 'responsive': True})
 
 
 def show_pie_distribution(df_result):
@@ -36,7 +36,7 @@ def show_pie_distribution(df_result):
     if pie_df.empty:
         return
     fig = px.pie(pie_df, names="Coin", values="Tổng giá trị", title="Tỉ lệ từng coin trong Portfolio", hole=0.3)
-    st.plotly_chart(fig, width='stretch', config={'displaylogo': False, 'responsive': True})
+    st.plotly_chart(fig, use_container_width=True, config={'displaylogo': False, 'responsive': True})
 
 
 def show_bar_pnl(df_result):
@@ -46,7 +46,7 @@ def show_bar_pnl(df_result):
     fig_bar = px.bar(bar_df, x="Coin", y=["Profit & Loss", "% Profit/Loss"], barmode="group",
                      title="PNL và % Profit/Loss theo coin",
                      labels={"value": "Giá trị", "variable": "Chỉ số"})
-    st.plotly_chart(fig_bar, width='stretch', config={'displaylogo': False, 'responsive': True})
+    st.plotly_chart(fig_bar, use_container_width=True, config={'displaylogo': False, 'responsive': True})
 
 
 def show_health_panel(db, queue_length: int, last_price_ts: int, last_price_update_message: str = ""):

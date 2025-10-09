@@ -115,6 +115,6 @@ def show_marketcap_volume_chart(key_suffix=None):
                                showticklabels=False),
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
                 )
-                st.plotly_chart(fig, width='stretch', key="marketcap_volume_combined", config={'displaylogo': False, 'responsive': True})
+                st.plotly_chart(fig, use_container_width=True, key="marketcap_volume_combined", config={'displaylogo': False, 'responsive': True})
             except Exception as e:
                 st.warning(f"Không thể đọc dữ liệu marketcap/volume: {e}")

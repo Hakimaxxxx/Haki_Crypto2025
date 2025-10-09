@@ -131,4 +131,4 @@ def show_dominance_metric():
     fig.add_trace(go.Scatter(x=df["timestamp"], y=df["ETH_rel"], mode="lines+markers", name="ETH", line=dict(color="#627eea")))
     fig.add_trace(go.Scatter(x=df["timestamp"], y=df["Others_rel"], mode="lines+markers", name="Others", line=dict(color="#95a5a6")))
     fig.update_layout(title="Bitcoin/Ethereum/Others Dominance - Relative Change (%)", xaxis_title=x_title, yaxis_title="Δ% Dominance (so với điểm đầu)", height=300, xaxis_tickformat='%d-%m-%Y %H:%M')
-    st.plotly_chart(fig, width='stretch', config={'displaylogo': False, 'responsive': True})
+    st.plotly_chart(fig, use_container_width=True, config={'displaylogo': False, 'responsive': True})

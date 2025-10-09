@@ -11,6 +11,8 @@ import time
 import random
 import requests
 from typing import Dict, List, Tuple
+from redis_cache import cache_prices, redis_diagnostics  # added diagnostics import
+
 
 LAST_PRICE_FILE = "last_prices.json"
 _LAST_PRICES: Dict[str, float] = {}
@@ -65,6 +67,15 @@ def _persist_last_prices():
 
 def init_price_cache():
     _load_last_prices_from_file()
+    # Debug redis diagnostics once at init (non-fatal)
+    try:
+        diag = redis_diagnostics()
+        if not diag.get("import_ok"):
+            print(f"[DEBUG] Redis diagnostics (import missing): {diag}")
+        else:
+            print(f"[DEBUG] Redis diagnostics: {diag}")
+    except Exception as e:
+        print(f"[DEBUG] Redis diagnostics fetch failed: {e}")
 
 def get_last_prices():
     return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA)
@@ -195,49 +206,84 @@ def _provider_order():
 def fetch_prices_and_changes(coins: List[str], force: bool = False) -> tuple[Dict[str, float], Dict[str, dict], bool, str]:
     global _LAST_PRICES, _LAST_PRICE_DATA, _LAST_FETCH_TS
     now = time.time()
+
+    # Sanitize legacy/corrupted in-memory state if a prior run stored the 4-element list
+    # structure (prices, meta, updated_local, errors) into _LAST_PRICES by mistake.
+    if isinstance(_LAST_PRICES, list) and len(_LAST_PRICES) == 4 \
+            and isinstance(_LAST_PRICES[0], dict) and isinstance(_LAST_PRICES[1], dict):
+        try:
+            prices_part, meta_part, _upd, _errs = _LAST_PRICES
+            _LAST_PRICES = prices_part  # fix shape
+            if not _LAST_PRICE_DATA:
+                _LAST_PRICE_DATA = meta_part
+        except Exception:
+            pass
     if not coins:
         return {}, {}, False, "Không có coin để fetch"
     if not force and _LAST_PRICES and (now - _LAST_FETCH_TS) < _MIN_FETCH_INTERVAL:
         return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA), False, "Dùng cache (interval)"
 
-    merged_prices: Dict[str, float] = {}
-    merged_meta: Dict[str, dict] = {}
-    errors = []
-    updated = False
-    for provider in _provider_order():
-        if not _provider_allowed(provider):
-            continue
-        try:
-            if provider == 'coingecko':
-                p, m = _fetch_from_coingecko(coins)
-            elif provider == 'okx':
-                p, m = _fetch_from_okx(coins)
-            elif provider == 'cmc':
-                p, m = _fetch_from_cmc(coins)
-            else:
+    def _loader_core():
+        merged_prices: Dict[str, float] = {}
+        merged_meta: Dict[str, dict] = {}
+        errors = []
+        updated_local = False
+        for provider in _provider_order():
+            if not _provider_allowed(provider):
                 continue
-            # Merge; prefer earlier providers, fill missing coins from later ones
-            for c in coins:
-                if c in p and c not in merged_prices:
-                    merged_prices[c] = p[c]
-                    merged_meta[c] = m.get(c, {'price': p[c], 'change_1d':0,'change_7d':0,'change_30d':0,'image':'','source':provider})
-            updated = True
-            # If we already have all coins, break
-            if len(merged_prices) == len(coins):
-                break
-        except Exception as e:  # Continue to next provider
-            errors.append(f"{provider}:{e}")
-            continue
+            try:
+                if provider == 'coingecko':
+                    p, m = _fetch_from_coingecko(coins)
+                elif provider == 'okx':
+                    p, m = _fetch_from_okx(coins)
+                elif provider == 'cmc':
+                    p, m = _fetch_from_cmc(coins)
+                else:
+                    continue
+                for c in coins:
+                    if c in p and c not in merged_prices:
+                        merged_prices[c] = p[c]
+                        merged_meta[c] = m.get(c, {'price': p[c], 'change_1d':0,'change_7d':0,'change_30d':0,'image':'','source':provider})
+                updated_local = True
+                if len(merged_prices) == len(coins):
+                    break
+            except Exception as e:  # Continue to next provider
+                errors.append(f"{provider}:{e}")
+                continue
+        if not merged_prices:
+            if _LAST_PRICES:
+                return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA), False, f"Providers fail ({'; '.join(errors)}) – dùng cache"
+            return {}, {}, False, f"Providers fail, không có cache ({'; '.join(errors)})"
+        return merged_prices, merged_meta, updated_local, errors
+
+    # Apply redis read-through if available (key per coin set) - TTL 60s
+    if cache_prices and not force:
+        result = cache_prices(coins, lambda: _loader_core(), ttl=60)
+        # result can be tuple (original) OR list (JSON roundtrip of tuple) OR legacy prices-only.
+        structured = False
+        if isinstance(result, (tuple, list)) and len(result) == 4 \
+                and isinstance(result[0], dict) and isinstance(result[1], dict):
+            merged_prices, merged_meta, updated_local, errors = result  # type: ignore
+            structured = True
+            print("[DEBUG][prices] cache structured result (tuple/list of 4)")
+        elif isinstance(result, dict):
+            merged_prices, merged_meta, updated_local, errors = result, {}, True, []
+            print("[DEBUG][prices] cache simple dict result (prices only)")
+        else:
+            # Unexpected shape – fall back to loader core directly (force rebuild)
+            print(f"[DEBUG][prices] unexpected cached shape: {type(result)} -> fallback reload")
+            merged_prices, merged_meta, updated_local, errors = _loader_core()
+    else:
+        merged_prices, merged_meta, updated_local, errors = _loader_core()
+        print("[DEBUG] fetched prices directly without redis")
 
     if not merged_prices:
-        # fallback to cache
-        if _LAST_PRICES:
-            return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA), False, f"Providers fail ({'; '.join(errors)}) – dùng cache"
-        return {}, {}, False, f"Providers fail, không có cache ({'; '.join(errors)})"
+        print("[DEBUG] No prices fetched")
+        return merged_prices, merged_meta, False, errors if isinstance(errors, str) else "; ".join(errors)
 
     _LAST_PRICES = merged_prices
     _LAST_PRICE_DATA = merged_meta
     _LAST_FETCH_TS = now
     _persist_last_prices()
     srcs = sorted({meta.get('source','?') for meta in merged_meta.values()})
-    return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA), updated, "Nguồn: " + ",".join(srcs)
+    return dict(_LAST_PRICES), dict(_LAST_PRICE_DATA), updated_local, "Nguồn: " + ",".join(srcs)

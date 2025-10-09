@@ -155,7 +155,7 @@ def _log(msg: str):
     except Exception:
         pass
 
-def show_bnb_whale_alert_realtime(min_value_bnb=250, num_blocks=100):
+def show_bnb_whale_alert_realtime(min_value_bnb=1500, num_blocks=100):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
     🐳 Whale Alert - BNB Large Transactions
@@ -179,7 +179,7 @@ def save_last_block(block_num):
     if db.available():
         try:
             db.set_kv("bnb_meta", "last_block", {"last_block": int(block_num)})
-            print(f"Saved last block: {block_num}")
+            print(f"Saved last block BNB: {block_num}")
         except Exception as e:
             print(f"Error saving last block: {e}")
     # Always save to local file as a backup
@@ -197,7 +197,7 @@ def save_whale_history(history):
         json.dump(history, f)
 
 # Updated background_whale_alert_scanner to continue scanning even if an error occurs
-def background_whale_alert_scanner(min_value_bnb=250, num_blocks=100, interval_sec=300):
+def background_whale_alert_scanner(min_value_bnb=1500, num_blocks=100, interval_sec=300):
     while True:
         try:
             logging.info("Starting block scan...")
@@ -251,6 +251,6 @@ def background_whale_alert_scanner(min_value_bnb=250, num_blocks=100, interval_s
         time.sleep(interval_sec)
 
 if "_bnb_whale_bg_thread" not in globals():
-    t = threading.Thread(target=background_whale_alert_scanner, args=(250, 100, 300), daemon=True)
+    t = threading.Thread(target=background_whale_alert_scanner, args=(1500, 100, 300), daemon=True)
     t.start()
     _bnb_whale_bg_thread = True

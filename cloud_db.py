@@ -171,22 +171,34 @@ class CloudDB:
         except PyMongoError:
             return []
 
-    def get_kv(self, collection: str, key: str) -> Optional[Dict[str, Any]]:
-        """Get a key-value pair from the specified collection."""
+    def get_kv(self, collection: str, key: str) -> Any:
+        """Get a key-value pair. If stored as primitive -> returns primitive else dict without _id."""
         if not self.available():
             return None
         try:
             doc = self._db[collection].find_one({"_id": key})
-            return self._strip_id(doc) if doc else None
+            if not doc:
+                return None
+            d = self._strip_id(doc)
+            # If it was stored as primitive wrapper {'value': primitive}
+            if isinstance(d, dict) and set(d.keys()) == {"value"}:
+                return d.get("value")
+            return d
         except PyMongoError:
             return None
 
-    def set_kv(self, collection: str, key: str, value: Dict[str, Any]) -> bool:
-        """Set a key-value pair in the specified collection."""
+    def set_kv(self, collection: str, key: str, value: Any) -> bool:
+        """Set a key-value pair in the specified collection.
+
+        Accepts dict or primitive (int/float/str). Non-dict values stored under field 'value'.
+        """
         if not self.available():
             return False
         try:
-            doc = dict(value)
+            if isinstance(value, dict):
+                doc = dict(value)
+            else:
+                doc = {"value": value}
             doc["_id"] = key
             self._db[collection].update_one({"_id": key}, {"$set": doc}, upsert=True)
             return True
