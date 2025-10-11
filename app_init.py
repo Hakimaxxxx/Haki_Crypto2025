@@ -80,12 +80,14 @@ def _load_local_files() -> bool:
             with open("data.json", "r") as f:
                 _DATA_CACHE["portfolio"] = json.load(f)
             local_data_loaded = True
+            print(f"[DEBUG] Loaded portfolio: {len(_DATA_CACHE['portfolio'])} coins")
         
         # Average prices
         if os.path.exists("avg_price.json"):
             with open("avg_price.json", "r") as f:
                 _DATA_CACHE["avg_prices"] = json.load(f)
             local_data_loaded = True
+            print(f"[DEBUG] Loaded avg prices: {len(_DATA_CACHE['avg_prices'])} coins")
 
         # Last write timestamp (optional file)
         if os.path.exists("portfolio_meta_ts.json"):
@@ -101,9 +103,15 @@ def _load_local_files() -> bool:
         
         # History
         if os.path.exists("portfolio_history.json"):
-            with open("portfolio_history.json", "r") as f:
-                _DATA_CACHE["history"] = json.load(f)
-            local_data_loaded = True
+            try:
+                # Use safe loader from portfolio_history to avoid corrupt reads
+                from portfolio_history import load_history as _safe_load_hist
+                _DATA_CACHE["history"] = _safe_load_hist(force=True)
+                local_data_loaded = True
+                print(f"[DEBUG] Loaded history: {len(_DATA_CACHE['history'])} entries")
+            except Exception as e:
+                print(f"[DEBUG] Error loading portfolio_history.json (skipping): {e}")
+                _DATA_CACHE["history"] = []  # Set empty default
         
         # Last prices
         if os.path.exists("last_prices.json"):
@@ -125,12 +133,37 @@ def _load_local_files() -> bool:
                             _DATA_CACHE["price_changes"] = {}
                 local_data_loaded = True
         
-        if local_data_loaded:
-            print("[DEBUG] Local files loaded successfully.")
+        # Last prices
+        if os.path.exists("last_prices.json"):
+            try:
+                with open("last_prices.json", "r") as f:
+                    data = json.load(f)
+                if isinstance(data, dict):
+                    # Support legacy formats:
+                    # 1) {"prices": {...}, "price_data": {...}}
+                    # 2) {"BTC": {"price":123}, ...}
+                    # 3) {"BTC": 123.45, ...}
+                    if "prices" in data:
+                        _DATA_CACHE["prices"] = data.get("prices", {})
+                        _DATA_CACHE["price_changes"] = data.get("price_data", {})
+                        print(f"[DEBUG] Loaded prices from structure 1: {len(_DATA_CACHE['prices'])} coins")
+                    else:
+                        # Assume direct mapping of symbol->obj/float
+                        _DATA_CACHE["prices"] = data
+                        # Do not overwrite existing price_changes if already loaded earlier
+                        if not _DATA_CACHE["price_changes"]:
+                            _DATA_CACHE["price_changes"] = {}
+                        print(f"[DEBUG] Loaded prices from structure 2/3: {len(_DATA_CACHE['prices'])} coins")
+                    local_data_loaded = True
+            except Exception as e:
+                print(f"[DEBUG] Error loading last_prices.json: {e}")
         else:
-            print("[DEBUG] No local files found.")
+            print("[DEBUG] last_prices.json not found")
+        
+        print(f"[DEBUG] About to return from _load_local_files: {local_data_loaded}")
         return local_data_loaded
     except Exception as e:
+        print(f"[DEBUG] Exception in _load_local_files: {e}")
         _APP_STATE["errors"].append(f"Local file load error: {e}")
         return False
 
@@ -172,8 +205,16 @@ def _bootstrap_from_db() -> bool:
         history = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
         if history:
             _DATA_CACHE["history"] = history
-            with open("portfolio_history.json", "w") as f:
-                json.dump(history, f)
+            try:
+                from portfolio_history import write_full_history as _write_hist
+                _write_hist(history)
+            except Exception:
+                # Fallback (not preferred)
+                try:
+                    with open("portfolio_history.json", "w", encoding="utf-8") as f:
+                        json.dump(history, f)
+                except Exception:
+                    pass
 
         _APP_STATE["db_available"] = True
         _APP_STATE["last_db_sync"] = time.time()
@@ -184,9 +225,9 @@ def _bootstrap_from_db() -> bool:
         return False
 
 def _init_api_services() -> bool:
-    """Initialize API services with fallback handling."""
+    """Initialize API services with CoinGecko only (backend disabled)."""
     try:
-        print("[DEBUG] Initializing API services...")
+        print("[DEBUG] Initializing CoinGecko API services...")
 
         # Initialize price cache
         from price_utils import init_price_cache
@@ -194,44 +235,52 @@ def _init_api_services() -> bool:
         init_price_cache()
         print("[DEBUG] Price cache initialized.")
 
-        # Try to fetch initial prices
+        # Fetch initial prices from CoinGecko only
         from price_utils import fetch_prices_and_changes
         from config import COIN_LIST
         print("[DEBUG] Imported fetch_prices_and_changes and COIN_LIST successfully.")
 
         coins = [coin_id for coin_id, _ in COIN_LIST]
-        prices, changes, success, msg = fetch_prices_and_changes(coins, force=False)
-        print("[DEBUG] Fetched initial prices.")
-
-        # Treat existing cached prices (interval) as a successful initialization if data present
-        if (not success) and prices and ("Dùng cache" in str(msg) or "cache" in str(msg)):
-            print("[DEBUG] Using existing cached prices for API init (interval skip).")
-            success = True
+        # Force fresh fetch on init to get latest market prices
+        prices, changes, success, msg = fetch_prices_and_changes(coins, force=True)
+        print(f"[DEBUG] Fetched initial prices with force=True. Success: {success}")
 
         if success and prices:
             _DATA_CACHE["prices"] = prices
             _DATA_CACHE["price_changes"] = changes
             _APP_STATE["api_available"] = True
             _APP_STATE["last_api_sync"] = time.time()
-            print("[DEBUG] API services initialized successfully.")
+            print("[DEBUG] CoinGecko API services initialized successfully with fresh prices.")
             return True
         else:
-            _APP_STATE["errors"].append(f"Initial API fetch failed: {msg}")
-            print(f"[DEBUG] Initial API fetch failed: {msg}")
-            return False
+            # Fallback to cached prices if force fetch fails
+            prices, changes, success_cache, msg_cache = fetch_prices_and_changes(coins, force=False)
+            if success_cache and prices:
+                _DATA_CACHE["prices"] = prices
+                _DATA_CACHE["price_changes"] = changes
+                _APP_STATE["api_available"] = True
+                _APP_STATE["last_api_sync"] = time.time()
+                print(f"[DEBUG] CoinGecko API services initialized with cached prices. Reason: {msg}")
+                return True
+            else:
+                _APP_STATE["errors"].append(f"CoinGecko API fetch failed: {msg}")
+                print(f"[DEBUG] Both fresh and cached CoinGecko fetch failed: {msg}")
+                return False
 
     except Exception as e:
-        print(f"[DEBUG] Exception occurred during API initialization: {e}")
+        print(f"[DEBUG] Exception occurred during CoinGecko API initialization: {e}")
         _APP_STATE["errors"].append(f"API init error: {e}")
         return False
 
 def _background_sync():
     """Background thread for continuous data synchronization."""
     _APP_STATE["background_sync_active"] = True
+    sync_counter = 0
     
     while _APP_STATE["background_sync_active"]:
         try:
             time.sleep(60)  # Sync every minute
+            sync_counter += 1
             
             # API sync
             if _APP_STATE["api_available"]:
@@ -240,13 +289,17 @@ def _background_sync():
                     from config import COIN_LIST
                     
                     coins = [coin_id for coin_id, _ in COIN_LIST]
-                    prices, changes, success, msg = fetch_prices_and_changes(coins, force=False)
+                    # Force refresh every 10 minutes (10 cycles) to get fresh market data
+                    force_refresh = (sync_counter % 10 == 0)
+                    prices, changes, success, msg = fetch_prices_and_changes(coins, force=force_refresh)
                     
                     if success:
                         with _data_lock:
                             _DATA_CACHE["prices"] = prices
                             _DATA_CACHE["price_changes"] = changes
                         _APP_STATE["last_api_sync"] = time.time()
+                        if force_refresh:
+                            print(f"[DEBUG] Background sync: forced price refresh successful")
                     else:
                         _APP_STATE["api_available"] = False
                         _APP_STATE["errors"].append(f"Background API sync failed: {msg}")
@@ -469,3 +522,115 @@ def rehydrate_from_db() -> bool:
 def stop_background_sync():
     """Stop background synchronization."""
     _APP_STATE["background_sync_active"] = False
+
+def force_price_refresh():
+    """Force an immediate CoinGecko price refresh outside of the regular sync cycle."""
+    global _DATA_CACHE, _APP_STATE
+    
+    try:
+        # Use CoinGecko only (backend disabled)
+        from price_utils import fetch_prices_and_changes
+        from config import COIN_LIST
+        
+        coins = [coin_id for coin_id, _ in COIN_LIST]
+        prices, changes, success, msg = fetch_prices_and_changes(coins, force=True)
+        
+        if success:
+            with _data_lock:
+                _DATA_CACHE["prices"] = prices
+                _DATA_CACHE["price_changes"] = changes
+            _APP_STATE["last_api_sync"] = time.time()
+            return True, f"CoinGecko refresh successful: {len(prices)} prices"
+        else:
+            return False, f"CoinGecko refresh failed: {msg}"
+    
+    except Exception as e:
+        return False, f"Force refresh error: {e}"
+
+
+def compute_portfolio_summary(use_symbols=False):
+    """
+    Compute portfolio summary compatible with frontend expectations.
+    
+    Args:
+        use_symbols: If True, use display symbols instead of coin_ids
+    
+    Returns:
+        Dict with 'rows' (list of positions) and 'totals' (aggregated metrics)
+    """
+    try:
+        from config import COIN_LIST
+        
+        # Get current portfolio data
+        holdings, avg_prices = get_portfolio_data()
+        
+        # Get current prices
+        prices, price_changes = get_price_data()
+        
+        rows = []
+        total_value = 0.0
+        total_invested = 0.0
+        total_pnl = 0.0
+        
+        # Create coin_id to symbol mapping if needed
+        id_to_symbol = {coin_id: symbol for coin_id, symbol in COIN_LIST}
+        
+        for coin_id, amount in holdings.items():
+            if amount == 0:
+                continue
+                
+            current_price = prices.get(coin_id, 0.0)
+            avg_price = avg_prices.get(coin_id, 0.0)
+            value = current_price * amount
+            invested = avg_price * amount
+            pnl = value - invested
+            pnl_pct = (pnl / invested * 100) if invested > 0 else 0.0
+            
+            # Get price changes
+            changes = price_changes.get(coin_id, {})
+            change_1d = changes.get('change_1d', 0.0)
+            change_7d = changes.get('change_7d', 0.0) 
+            change_30d = changes.get('change_30d', 0.0)
+            
+            # Use symbol or coin_id for display
+            display_name = id_to_symbol.get(coin_id, coin_id.upper()) if use_symbols else coin_id
+            
+            row = {
+                'coin': display_name,
+                'amount': amount,
+                'price': current_price,
+                'value': value,
+                'avg_price': avg_price,
+                'invested': invested,
+                'pnl': pnl,
+                'pnl_pct': pnl_pct,
+                'change_1d': change_1d,
+                'change_7d': change_7d,
+                'change_30d': change_30d
+            }
+            rows.append(row)
+            
+            total_value += value
+            total_invested += invested
+            total_pnl += pnl
+        
+        total_pnl_pct = (total_pnl / total_invested * 100) if total_invested > 0 else 0.0
+        
+        totals = {
+            'value': total_value,
+            'invested': total_invested,
+            'pnl': total_pnl,
+            'pnl_pct': total_pnl_pct
+        }
+        
+        return {
+            'rows': rows,
+            'totals': totals
+        }
+        
+    except Exception as e:
+        # Return empty structure on error
+        return {
+            'rows': [],
+            'totals': {'value': 0.0, 'invested': 0.0, 'pnl': 0.0, 'pnl_pct': 0.0}
+        }

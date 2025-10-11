@@ -132,15 +132,20 @@ def save_portfolio_history_optimized(history, file_path="portfolio_history.json"
     old = []
     if os.path.exists(file_path):
         try:
-            with open(file_path, "r") as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 old = json.load(f)
         except Exception:
             old = []
     new_entries = [h for h in history if h not in old]
     if new_entries:
         all_entries = old + new_entries
-        with open(file_path, "w") as f:
-            json.dump(all_entries, f)
+        try:
+            # Prefer atomic write via portfolio_history helper
+            from portfolio_history import write_full_history as _write_hist
+            _write_hist(all_entries)
+        except Exception:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(all_entries, f)
         print(f"[File] Đã ghi {len(new_entries)} bản ghi mới vào {file_path}")
     else:
         print(f"[File] Không có bản ghi mới để ghi vào {file_path}")

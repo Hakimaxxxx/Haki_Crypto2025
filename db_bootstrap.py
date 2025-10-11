@@ -32,11 +32,16 @@ def bootstrap_from_cloud():
         hist_docs = db.find_all("portfolio_history", sort_field="timestamp", ascending=True)
         if hist_docs:
             try:
-                with open(PORTFOLIO_HISTORY_FILE, 'w', encoding='utf-8') as f:
-                    json.dump(hist_docs, f)
+                from portfolio_history import write_full_history as _write_hist
+                _write_hist(hist_docs)
                 changed = True
             except Exception:
-                return False, "Lỗi ghi file portfolio_history"
+                try:
+                    with open(PORTFOLIO_HISTORY_FILE, 'w', encoding='utf-8') as f:
+                        json.dump(hist_docs, f)
+                    changed = True
+                except Exception:
+                    return False, "Lỗi ghi file portfolio_history"
         return changed, "Bootstrap thành công" if changed else "Không có thay đổi khi bootstrap"
     except Exception as e:
         return False, f"Lỗi bootstrap: {e}"

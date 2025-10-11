@@ -40,8 +40,8 @@ def show_marketcap_volume_chart(key_suffix=None):
         if os.path.exists(market_file):
             try:
                 df_market = pd.read_csv(market_file)
-                df_market["timestamp"] = pd.to_datetime(df_market["timestamp"])
-                df_market = df_market.sort_values("timestamp")
+                df_market["timestamp"] = pd.to_datetime(df_market["timestamp"], errors='coerce')
+                df_market = df_market.dropna(subset=["timestamp"]).sort_values("timestamp")
                 # Chỉ lấy 30 ngày gần nhất nếu quá dài
                 if len(df_market) > 0:
                     last_time = df_market["timestamp"].iloc[-1]

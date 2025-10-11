@@ -106,6 +106,9 @@ def _fetch_from_coingecko(coins: List[str]) -> Tuple[Dict[str, float], Dict[str,
         raise ProviderError("coingecko rate limited (429)")
     r.raise_for_status()
     data = r.json()
+    if not isinstance(data, list):
+        # Some error schemas return dict with 'status' etc.
+        raise ProviderError(f"coingecko unexpected schema: {type(data).__name__}")
     prices = {}
     meta = {}
     for item in data:
@@ -280,6 +283,26 @@ def fetch_prices_and_changes(coins: List[str], force: bool = False) -> tuple[Dic
     if not merged_prices:
         print("[DEBUG] No prices fetched")
         return merged_prices, merged_meta, False, errors if isinstance(errors, str) else "; ".join(errors)
+
+    # Backfill missing or zero prices from last known snapshot to avoid zeros in UI
+    try:
+        for cid in coins:
+            last_price = _LAST_PRICES.get(cid, 0.0) if isinstance(_LAST_PRICES, dict) else 0.0
+            if cid not in merged_prices:
+                if last_price and last_price > 0:
+                    merged_prices[cid] = float(last_price)
+                    merged_meta[cid] = merged_meta.get(cid, {
+                        'price': float(last_price), 'change_1d': 0, 'change_7d': 0, 'change_30d': 0, 'image': '', 'source': 'cache'
+                    })
+            else:
+                if float(merged_prices.get(cid, 0.0) or 0.0) <= 0 and last_price and last_price > 0:
+                    merged_prices[cid] = float(last_price)
+                    m = merged_meta.get(cid) or {}
+                    m['price'] = float(last_price)
+                    m['source'] = m.get('source', 'cache')
+                    merged_meta[cid] = m
+    except Exception:
+        pass
 
     _LAST_PRICES = merged_prices
     _LAST_PRICE_DATA = merged_meta

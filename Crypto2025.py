@@ -14,7 +14,8 @@ from app_init import (
     get_history_data, 
     update_portfolio_data,
     get_app_state,
-    get_cached_data
+    get_cached_data,
+    force_price_refresh
 )
 
 from config import COIN_LIST, DATA_FILE, AVG_PRICE_FILE, HISTORY_FILE
@@ -70,6 +71,209 @@ if "app_initialized" not in st.session_state:
                 pass
             st.error(f"❌ {message}")
             st.info("💡 App will run with limited functionality using available data sources.")
+
+        # Configure backend price API from environment (avoid 127.0.0.1 in cloud)
+        backend_api_env = os.getenv("BACKEND_PRICE_API", "").strip()
+        if backend_api_env:
+            st.session_state.setdefault("_backend_price_api", backend_api_env)
+        else:
+            # Default to cloud backend (Render) if not provided via env
+            st.session_state.setdefault("_backend_price_api", "https://hakicrypto2025.onrender.com/prices/spot")
+
+# --- Backend API helpers ---
+def _resolve_backend_price_api() -> str:
+    """Return a normalized backend prices endpoint (always ending with /prices/spot).
+    Prefers session state; falls back to env; finally to localhost (dev).
+    """
+    raw = (st.session_state.get("_backend_price_api") or os.getenv("BACKEND_PRICE_API", "")).strip()
+    if not raw:
+        raw = "http://127.0.0.1:8000/prices/spot"
+    lower = raw.lower().rstrip('/')
+    if "/prices/spot" in lower:
+        return raw.rstrip('/')
+    # Treat as base URL and append the endpoint path
+    return raw.rstrip('/') + "/prices/spot"
+
+def _backend_base_from_endpoint(endpoint: str) -> str:
+    if "/prices/spot" in endpoint:
+        return endpoint.split("/prices/spot")[0]
+    return endpoint.rstrip('/')
+
+def _ping_backend_status(ttl: int = 60) -> dict:
+    """Ping backend /health and /prices/spot (BTC,ETH) with a short TTL cache.
+    Returns a dict { base, endpoint, health: {ok,status,latency}, prices: {ok,status,latency,count}, ts }
+    """
+    try:
+        snap = st.session_state.get("_backend_ping_snap") or {}
+        now = time.time()
+        if snap and (now - float(snap.get("ts", 0))) < ttl:
+            return snap
+    except Exception:
+        pass
+    endpoint = _resolve_backend_price_api()
+    base = _backend_base_from_endpoint(endpoint)
+    out = {"base": base, "endpoint": endpoint, "health": {}, "prices": {}, "ts": time.time()}
+    # Health ping
+    try:
+        t0 = time.perf_counter()
+        r = requests.get(base.rstrip('/') + "/health", timeout=3.5)
+        lat = time.perf_counter() - t0
+        out["health"] = {"ok": (200 <= r.status_code < 300), "status": r.status_code, "latency": round(lat, 3)}
+    except Exception as e:
+        out["health"] = {"ok": False, "status": 0, "latency": None, "error": str(e)}
+    # Prices ping (minimal)
+    try:
+        # Use 2 symbols to keep payload small; fallback to BTC,ETH if config missing
+        syms = ",".join([sym for _, sym in COIN_LIST[:2]]) if COIN_LIST else "BTC,ETH"
+        t0 = time.perf_counter()
+        r = requests.get(endpoint, params={"symbols": syms}, timeout=4.0)
+        lat = time.perf_counter() - t0
+        count = 0
+        gen_at = None
+        try:
+            js = r.json() if hasattr(r, 'json') else {}
+            count = int((js or {}).get("count") or 0)
+            gen_at = (js or {}).get("generated_at")
+        except Exception:
+            count = 0
+        out["prices"] = {"ok": (200 <= r.status_code < 300), "status": r.status_code, "latency": round(lat, 3), "count": count, "generated_at": gen_at}
+    except Exception as e:
+        out["prices"] = {"ok": False, "status": 0, "latency": None, "error": str(e)}
+    try:
+        st.session_state["_backend_ping_snap"] = out
+    except Exception:
+        pass
+    return out
+
+def _fetch_backend_tasks(ttl: int = 60) -> dict:
+    """Fetch backend /tasks to inspect scheduler last_run times. Cached by TTL.
+    Returns: { ok, status, latency, tasks: {name: {interval,last_run,failures,age_s}} }
+    """
+    try:
+        snap = st.session_state.get("_backend_tasks_snap") or {}
+        now = time.time()
+        if snap and (now - float(snap.get("ts", 0))) < ttl:
+            return snap
+    except Exception:
+        pass
+    endpoint = _resolve_backend_price_api()
+    base = _backend_base_from_endpoint(endpoint)
+    out = {"ok": False, "status": 0, "latency": None, "tasks": {}, "ts": time.time()}
+    try:
+        t0 = time.perf_counter()
+        r = requests.get(base.rstrip('/') + "/tasks", timeout=3.5)
+        lat = time.perf_counter() - t0
+        out["status"] = r.status_code
+        out["latency"] = round(lat, 3)
+        if 200 <= r.status_code < 300:
+            js = r.json() or {}
+            tasks = (js or {}).get("tasks", {}) or {}
+            enriched = {}
+            now = time.time()
+            for name, info in tasks.items():
+                try:
+                    last_run = float(info.get('last_run', 0) or 0)
+                    age_s = int(now - last_run) if last_run > 0 else None
+                    enriched[name] = {**info, "age_s": age_s}
+                except Exception:
+                    enriched[name] = info
+            out["ok"] = True
+            out["tasks"] = enriched
+    except Exception as _:
+        pass
+    try:
+        st.session_state["_backend_tasks_snap"] = out
+    except Exception:
+        pass
+    return out
+
+# Helper functions for history filtering
+def filter_reliable_history(history: list) -> list:
+    """Filter history to only include entries from successful API calls.
+    
+    This prevents chart noise from API errors, rate limits, or fallback data.
+    Only shows portfolio snapshots when CoinGecko API was completely successful.
+    """
+    if not history:
+        return []
+    
+    # Filter for entries marked as api_success or legacy entries that look reliable
+    reliable_entries = []
+    
+    for entry in history:
+        # New format: explicitly marked as api_success
+        if entry.get("source") == "api_success":
+            reliable_entries.append(entry)
+            continue
+            
+        # Legacy format: apply heuristics to detect reliable entries
+        # Skip entries that are likely from API failures:
+        
+        # 1. Skip entries with suspicious zero values when there should be holdings
+        if "coin" not in entry:  # Total portfolio entry
+            value = entry.get("value", 0)
+            # Skip zero portfolio values (likely API failure)
+            if value <= 0:
+                continue
+            # Skip suspiciously high values (> $10M, likely API error)
+            if value > 10_000_000:
+                continue
+                
+        # 2. For coin entries, check for reasonable values
+        elif "coin" in entry:
+            value = entry.get("value", 0)
+            amount = entry.get("amount", 0)
+            # Skip if coin has amount but zero value (price fetch failed)
+            if amount > 0 and value <= 0:
+                continue
+                
+        # If it passes all filters, include it
+        reliable_entries.append(entry)
+    
+    # Additional filtering: remove entries that are statistical outliers
+    # (sudden jumps that don't make sense)
+    if len(reliable_entries) <= 3:
+        return reliable_entries
+        
+    # Get total portfolio entries only for outlier detection
+    total_entries = [e for e in reliable_entries if "coin" not in e]
+    if len(total_entries) <= 3:
+        return reliable_entries
+    
+    # Sort by timestamp for outlier detection
+    total_entries.sort(key=lambda x: x.get("timestamp", 0))
+    
+    # Remove entries that have unrealistic jumps (>50% in single step)
+    filtered_totals = [total_entries[0]]  # Keep first entry
+    
+    for i in range(1, len(total_entries)):
+        current = total_entries[i]
+        previous = filtered_totals[-1]
+        
+        current_value = current.get("value", 0)
+        previous_value = previous.get("value", 0)
+        
+        if previous_value <= 0:
+            filtered_totals.append(current)
+            continue
+            
+        # Check for unrealistic jumps
+        change_pct = abs((current_value - previous_value) / previous_value)
+        
+        # Allow up to 50% change in 5 minutes (very generous for crypto)
+        time_diff = current.get("timestamp", 0) - previous.get("timestamp", 0)
+        max_change = min(0.5, time_diff / 300 * 0.1)  # 10% per 5min, capped at 50%
+        
+        if change_pct <= max_change or time_diff > 3600:  # Or >1hour gap
+            filtered_totals.append(current)
+        # else: skip this entry as likely API error
+    
+    # Rebuild final list with both total and coin entries, keeping only timestamps
+    # that survived the total portfolio filtering
+    valid_timestamps = {e.get("timestamp") for e in filtered_totals}
+    final_entries = [e for e in reliable_entries if e.get("timestamp") in valid_timestamps]
+    
+    return final_entries
 
 # Helper functions for price fetching with new init system
 def get_current_prices():
@@ -196,6 +400,21 @@ def crawl_dominance_background():
     import pandas as pd
     import time as _t
     file = "dominance_history.csv"
+    def _atomic_write_csv(df: 'pd.DataFrame', path: str):
+        import tempfile, os
+        dir_name = os.path.dirname(os.path.abspath(path)) or "."
+        fd, tmp_path = tempfile.mkstemp(prefix=".tmp_", suffix=".csv", dir=dir_name)
+        os.close(fd)
+        try:
+            df.to_csv(tmp_path, index=False)
+            os.replace(tmp_path, path)
+        except Exception:
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+            except Exception:
+                pass
+            raise
     try:
         _db_bootstrap_sync_once()
     except Exception:
@@ -209,55 +428,213 @@ def crawl_dominance_background():
             eth = dom.get("eth", 0.0)
             others = 100 - btc - eth
             ts = int(_t.time())
-            row = {"timestamp": ts, "btc": btc, "eth": eth, "others": others}
-            # Append to CSV
+            # Create row with proper format to match existing CSV
+            from datetime import datetime
+            ts_str = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            row = {"timestamp": ts_str, "BTC": btc, "ETH": eth, "Others": others}
+            
+            # Append to CSV (atomic)
             try:
                 if os.path.exists(file):
                     df = pd.read_csv(file)
+                    # Check if timestamp column exists and parse it
+                    if 'timestamp' in df.columns:
+                        df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+                        df = df.dropna(subset=['timestamp'])
                 else:
-                    df = pd.DataFrame(columns=["timestamp","btc","eth","others"])
-                df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-                df.to_csv(file, index=False)
+                    df = pd.DataFrame(columns=["timestamp","BTC","ETH","Others"])
+                
+                # Check for duplicate entries (avoid same minute)
+                if not df.empty:
+                    last_ts = pd.to_datetime(df.iloc[-1]['timestamp'])
+                    current_ts = pd.to_datetime(ts_str)
+                    if abs((current_ts - last_ts).total_seconds()) < 60:
+                        pass  # Skip duplicate minute
+                    else:
+                        new_row = pd.DataFrame([row])
+                        df = pd.concat([df, new_row], ignore_index=True)
+                        _atomic_write_csv(df, file)
+                        print(f"[DOMINANCE] Saved: BTC={btc:.2f}%, ETH={eth:.2f}%, Others={others:.2f}%")
+                else:
+                    new_row = pd.DataFrame([row])
+                    df = pd.concat([df, new_row], ignore_index=True)
+                    _atomic_write_csv(df, file)
+                    print(f"[DOMINANCE] First entry saved: BTC={btc:.2f}%, ETH={eth:.2f}%, Others={others:.2f}%")
+            except Exception as e:
+                print(f"[DOMINANCE ERROR] Failed to save: {e}")
+            _db_upsert_dominance_row({"timestamp": ts, "btc": btc, "eth": eth, "others": others})
+        except Exception as e:
+            print(f"[DOMINANCE API ERROR] Failed to fetch data: {e}")
+        _t.sleep(300)  # Changed from 300 to 60 seconds for faster updates
+
+
+def crawl_marketcap_background():
+    """Fetch global total market cap and 24h volume periodically and append to CSV."""
+    import requests
+    import pandas as pd
+    import time as _t
+    file = "marketcap_history.csv"
+    def _atomic_write_csv(df: 'pd.DataFrame', path: str):
+        import tempfile, os
+        dir_name = os.path.dirname(os.path.abspath(path)) or "."
+        fd, tmp_path = tempfile.mkstemp(prefix=".tmp_", suffix=".csv", dir=dir_name)
+        os.close(fd)
+        try:
+            df.to_csv(tmp_path, index=False)
+            os.replace(tmp_path, path)
+        except Exception:
+            try:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
             except Exception:
                 pass
-            _db_upsert_dominance_row(row)
+            raise
+    while True:
+        try:
+            resp = requests.get("https://api.coingecko.com/api/v3/global", timeout=15)
+            g = resp.json().get("data", {})
+            mcap = float((g.get("total_market_cap") or {}).get("usd", 0.0))
+            vol = float((g.get("total_volume") or {}).get("usd", 0.0))
+            ts = int(_t.time())
+            # Create row with proper format
+            from datetime import datetime
+            ts_str = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            row = {"timestamp": ts_str, "market_cap": mcap, "volume_1d": vol}
+            
+            # Append to CSV (atomic)
+            try:
+                import os
+                if os.path.exists(file):
+                    df = pd.read_csv(file)
+                    # Check if timestamp column exists and parse it
+                    if 'timestamp' in df.columns:
+                        df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+                        df = df.dropna(subset=['timestamp'])
+                else:
+                    df = pd.DataFrame(columns=["timestamp","market_cap","volume_1d"])
+                
+                # Check for duplicate entries (avoid same minute)
+                if not df.empty:
+                    last_ts = pd.to_datetime(df.iloc[-1]['timestamp'])
+                    current_ts = pd.to_datetime(ts_str)
+                    if abs((current_ts - last_ts).total_seconds()) < 60:
+                        pass  # Skip duplicate minute
+                    else:
+                        new_row = pd.DataFrame([row])
+                        df = pd.concat([df, new_row], ignore_index=True)
+                        _atomic_write_csv(df, file)
+                        print(f"[MARKETCAP] Saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+                else:
+                    new_row = pd.DataFrame([row])
+                    df = pd.concat([df, new_row], ignore_index=True)
+                    _atomic_write_csv(df, file)
+                    print(f"[MARKETCAP] First entry saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+            except Exception as e:
+                print(f"[MARKETCAP ERROR] Failed to save: {e}")
         except Exception:
-            pass
-        _t.sleep(300)
+            _db_upsert_marketcap_row({"timestamp": ts, "market_cap": mcap, "volume_1d": vol})
+        except Exception as e:
+            print(f"[MARKETCAP API ERROR] Failed to fetch data: {e}")
+        _t.sleep(300)  # Changed  
 # để tránh NameError trong các hàm background.
 # Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
 # (Đã lấy từ config)
 
 
 # --- Nền: Ghi nhận Portfolio (Value/PNL/% P&L) theo phút, đồng bộ DB liên tục ---
-def _fetch_prices_raw(coins_list: list[str]) -> dict:
-    """Fetch current prices for given CoinGecko ids without Streamlit cache (for background thread)."""
+def _fetch_prices_raw(coins_list: list[str]) -> tuple[dict, bool, str]:
+    """Fetch current prices for given CoinGecko ids without Streamlit cache (for background thread).
+    
+    Returns:
+        tuple[dict, bool, str]: (prices, success, error_message)
+        - Only returns success=True when API call is completely successful with all valid prices
+        - Stricter validation to prevent chart noise from API errors/rate limits
+    """
     if not coins_list:
-        return {}
+        return {}, False, "Empty coins list"
+    
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
         "vs_currency": "usd",
         "ids": ",".join(coins_list),
         "price_change_percentage": "1h,24h,7d,30d"
     }
+    
     try:
         r = requests.get(url, params=params, timeout=15)
+        
+        # Strict status code checking
+        if r.status_code == 429:
+            return {}, False, "CoinGecko rate limit (429)"
+        
         r.raise_for_status()
         data = r.json()
-    except Exception:
-        data = []
-    prices = {}
-    for item in data:
-        try:
-            prices[item.get("id")] = float(item.get("current_price", 0) or 0)
-        except Exception:
-            prices[item.get("id")] = 0.0
-    return prices
+        
+        # Validate response structure
+        if not isinstance(data, list):
+            return {}, False, "Invalid API response format"
+        
+        # Validate we got data for most/all requested coins
+        if len(data) < len(coins_list) * 0.8:  # At least 80% of coins should be present
+            return {}, False, f"Incomplete data: got {len(data)} of {len(coins_list)} coins"
+        
+        prices = {}
+        invalid_prices = 0
+        
+        for item in data:
+            try:
+                coin_id = item.get("id")
+                price = item.get("current_price")
+                
+                # Strict price validation
+                if not coin_id or price is None:
+                    invalid_prices += 1
+                    continue
+                    
+                price_float = float(price)
+                
+                # Price sanity checks
+                if price_float <= 0:
+                    invalid_prices += 1
+                    continue
+                
+                # Additional sanity check: prices shouldn't be extremely high (potential API error)
+                if price_float > 1000000:  # > $1M per coin is likely an error
+                    invalid_prices += 1
+                    continue
+                    
+                prices[coin_id] = price_float
+                
+            except (ValueError, TypeError):
+                invalid_prices += 1
+                continue
+        
+        # Final validation: should have valid prices for most coins
+        if invalid_prices > len(coins_list) * 0.2:  # More than 20% invalid is suspicious
+            return {}, False, f"Too many invalid prices: {invalid_prices} of {len(data)} responses"
+        
+        if len(prices) < len(coins_list) * 0.8:  # Need at least 80% valid prices
+            return {}, False, f"Insufficient valid prices: {len(prices)} of {len(coins_list)} coins"
+        
+        return prices, True, "Success"
+        
+    except requests.exceptions.Timeout:
+        return {}, False, "API timeout"
+    except requests.exceptions.ConnectionError:
+        return {}, False, "Connection error"
+    except requests.exceptions.HTTPError as e:
+        return {}, False, f"HTTP error: {e}"
+    except Exception as e:
+        return {}, False, f"Unexpected error: {e}"
 
 
 def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
     """Load holdings and avg_price using the new initialization system."""
     holdings, avg_price_local = load_portfolio_holdings()
+    
+    # Get coin_ids from config to avoid NameError in background thread
+    from config import COIN_LIST
+    coin_ids = [c[0] for c in COIN_LIST]
     
     # Ensure all coin keys exist
     for c in coin_ids:
@@ -270,48 +647,92 @@ def _load_portfolio_meta_from_local() -> tuple[dict, dict]:
 def portfolio_recorder_background(interval_sec: int = 300):
     """Background loop to record portfolio totals and per-coin PNL every minute and upsert to DB.
 
+    STRICT MODE: Only records to history when CoinGecko API is completely successful.
+    This prevents chart noise from API errors, rate limits, or partial data.
+    
     - Reads holdings/avg_price from local files (already synced to DB on edits)
-    - Fetches prices from CoinGecko
-    - Appends to portfolio_history.json (local) and upserts to MongoDB
+    - Fetches prices from CoinGecko with strict validation
+    - Only appends to portfolio_history.json and MongoDB when API is 100% successful
     """
     history_file = HISTORY_FILE
+    consecutive_failures = 0
+    last_success_time = time.time()
+    
     while True:
         try:
             holdings, avg_price_local = _load_portfolio_meta_from_local()
+            # Get coin_ids from config to avoid NameError in background thread
+            from config import COIN_LIST
+            coin_ids = [c[0] for c in COIN_LIST]
+            
             # Consider coins with non-zero amount or avg to reduce API load
             active_coins = [c for c in coin_ids if (holdings.get(c, 0) != 0 or avg_price_local.get(c, 0) != 0)]
             if not active_coins:
                 time.sleep(interval_sec)
                 continue
-            prices = _fetch_prices_raw(active_coins)
-            # Guard: if API failed (no prices), skip this round
-            if not prices:
+
+            # STRICT API CALL: Only proceed if completely successful (fetch all coins for consistency)
+            prices, api_success, error_msg = _fetch_prices_raw(coin_ids)
+            
+            if not api_success:
+                consecutive_failures += 1
+                print(f"[PORTFOLIO_RECORDER] API failed (#{consecutive_failures}): {error_msg}")
+                
+                # Log extended failures
+                if consecutive_failures >= 5:
+                    hours_since_success = (time.time() - last_success_time) / 3600
+                    print(f"[PORTFOLIO_RECORDER] WARNING: {consecutive_failures} consecutive failures, {hours_since_success:.1f}h since last success")
+                
                 time.sleep(interval_sec)
                 continue
+                
+            # Reset failure counter on success
+            if consecutive_failures > 0:
+                print(f"[PORTFOLIO_RECORDER] API recovered after {consecutive_failures} failures")
+                consecutive_failures = 0
+            last_success_time = time.time()
+
             now = int(time.time())
             minute_ts = (now // 60) * 60
 
-            # Compute totals
-            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
-            total_invested = sum(float(avg_price_local.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
+            # Compute totals with validated prices (use all coins for consistency with UI)
+            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coin_ids)
+            total_invested = sum(float(avg_price_local.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coin_ids)
             current_pnl = portfolio_value - total_invested
 
-            # Noise filter: skip invalid snapshots
-            # - portfolio_value < 0 (invalid)
-            # - portfolio_value == 0 with non-zero holdings indicates price fetch failure
+            # Debug: Compare with active coins calculation for reference
+            portfolio_value_active_only = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in active_coins)
+            print(f"[PORTFOLIO_RECORDER] Active coins ({len(active_coins)}): {active_coins}")
+            print(f"[PORTFOLIO_RECORDER] Portfolio value (all coins): ${portfolio_value:,.2f}")
+            print(f"[PORTFOLIO_RECORDER] Portfolio value (active only): ${portfolio_value_active_only:,.2f}")
+            print(f"[PORTFOLIO_RECORDER] Difference: ${abs(portfolio_value - portfolio_value_active_only):,.2f}")
+
+            # Additional sanity checks on computed values
             has_holdings = any(float(holdings.get(c, 0.0)) != 0 for c in active_coins)
+            
+            # Skip obviously invalid portfolio calculations
             if portfolio_value < 0:
+                print(f"[PORTFOLIO_RECORDER] Skipping negative portfolio value: {portfolio_value}")
                 time.sleep(interval_sec)
                 continue
+                
             if has_holdings and portfolio_value == 0:
+                print(f"[PORTFOLIO_RECORDER] Skipping zero portfolio with holdings (prices likely failed)")
                 time.sleep(interval_sec)
                 continue
 
-            # Build docs for DB and local history
+            # Build docs for DB and local history (mark as API_SUCCESS for chart filtering)
             docs = []
-            total_entry = {"timestamp": minute_ts, "value": portfolio_value, "PNL": current_pnl}
+            total_entry = {
+                "timestamp": minute_ts, 
+                "value": portfolio_value, 
+                "PNL": current_pnl,
+                "source": "api_success",  # Mark as reliable data point
+                "api_version": "strict_validation"
+            }
             docs.append(total_entry)
-            for c in active_coins:
+            
+            for c in coin_ids:
                 amount = float(holdings.get(c, 0.0))
                 if amount == 0 and float(avg_price_local.get(c, 0.0)) == 0:
                     continue
@@ -327,32 +748,29 @@ def portfolio_recorder_background(interval_sec: int = 300):
                     "invested": invested,
                     "PNL": val - invested,
                     "amount": amount,
-                    "avg_price": float(avg_price_local.get(c, 0.0))
+                    "avg_price": float(avg_price_local.get(c, 0.0)),
+                    "source": "api_success",  # Mark as reliable
+                    "api_version": "strict_validation"
                 }
                 docs.append(coin_doc)
 
-            # Local file: append if newer than last minute recorded
+            # Local file: append safely using append_snapshot (atomic + locked)
             try:
-                existing = []
-                if os.path.exists(history_file):
-                    with open(history_file, "r") as f:
-                        existing = json.load(f)
-                # Avoid duplicate total record for the same minute
-                has_same_minute = any((d.get("timestamp") == minute_ts and "coin" not in d) for d in existing)
-                if not has_same_minute:
-                    existing.extend(docs)
-                    with open(history_file, "w") as f:
-                        json.dump(existing, f)
-            except Exception:
-                pass
+                append_snapshot(docs)
+                print(f"[PORTFOLIO_RECORDER] Recorded portfolio: ${portfolio_value:,.2f} (PNL: ${current_pnl:,.2f})")
+            except Exception as e:
+                print(f"[PORTFOLIO_RECORDER] Failed to save local history: {e}")
 
             # DB upsert
             try:
                 _db_upsert_portfolio_docs(docs)
-            except Exception:
-                pass
-        except Exception:
-            pass
+            except Exception as e:
+                print(f"[PORTFOLIO_RECORDER] Failed to save to DB: {e}")
+                
+        except Exception as e:
+            consecutive_failures += 1
+            print(f"[PORTFOLIO_RECORDER] Unexpected error (#{consecutive_failures}): {e}")
+            
         time.sleep(interval_sec)
 
 
@@ -364,6 +782,20 @@ if "_portfolio_recorder" not in st.session_state:
     except Exception:
         pass
     st.session_state["_portfolio_recorder"] = True
+
+# Start dominance & marketcap crawlers once
+if "_metrics_crawlers" not in st.session_state:
+    try:
+        t1 = threading.Thread(target=crawl_dominance_background, daemon=True)
+        t1.start()
+    except Exception:
+        pass
+    try:
+        t2 = threading.Thread(target=crawl_marketcap_background, daemon=True)
+        t2.start()
+    except Exception:
+        pass
+    st.session_state["_metrics_crawlers"] = True
 
 
 
@@ -675,11 +1107,79 @@ with tab1:
             last_api = datetime.fromtimestamp(app_state["last_api_sync"]).strftime("%H:%M:%S")
             st.info(f"🔄 Last API sync: {last_api}")
         
-        # Background sync status
+        # Background sync status with force refresh indicator
         sync_status = "🟢 Active" if app_state["background_sync_active"] else "🔴 Inactive"
-        st.text(f"Background Sync: {sync_status}")
+        
+        # Calculate next force refresh
+        last_api_time = app_state.get("last_api_sync", 0)
+        if last_api_time > 0:
+            time_since_sync = time.time() - last_api_time
+            minutes_since = int(time_since_sync / 60)
+            next_force_in = 10 - (minutes_since % 10)
+            force_indicator = f" (Next force refresh in {next_force_in}min)" if next_force_in < 10 else " (Force refresh due!)"
+        else:
+            force_indicator = ""
+        
+        col_sync, col_refresh = st.columns([3, 1])
+        with col_sync:
+            st.text(f"Background Sync: {sync_status}{force_indicator}")
+        with col_refresh:
+            if st.button("🔄 Force Refresh", help="Force immediate price refresh"):
+                with st.spinner("Refreshing prices..."):
+                    success, msg = force_price_refresh()
+                    if success:
+                        st.success(msg)
+                        time.sleep(1)
+                        st.rerun()
+                    else:
+                        st.error(msg)
 
-        # Action buttons row
+        # Backend API connectivity details (Render)
+        # try:
+        #     backend_snap = _ping_backend_status(ttl=60)
+        #     base = backend_snap.get("base", "?")
+        #     endpoint = backend_snap.get("endpoint", "?")
+        #     h = backend_snap.get("health", {})
+        #     p = backend_snap.get("prices", {})
+        #     st.caption(f"Backend API base: {base}")
+        #     st.caption(f"Prices endpoint: {endpoint}")
+        #     st.text("Backend /health: " + ("OK" if h.get("ok") else "FAIL") + f" | status={h.get('status')} | latency={h.get('latency')}s")
+        #     # Show generated_at age if available
+        #     gen_at = p.get('generated_at')
+        #     age_s = None
+        #     if isinstance(gen_at, (int, float)):
+        #         try:
+        #             age_s = max(0, int(time.time() - float(gen_at)))
+        #         except Exception:
+        #             age_s = None
+        #     age_str = f" | age={age_s}s" if age_s is not None else ""
+        #     st.text("Backend /prices/spot: " + ("OK" if p.get("ok") else "FAIL") + f" | status={p.get('status')} | latency={p.get('latency')}s | count={p.get('count')}" + age_str)
+        #     if age_s is not None and age_s > 180:
+        #         st.warning(f"⚠️ Giá backend có vẻ cũ (age ~{age_s}s). Kiểm tra backend scheduler hoặc provider rate limit.")
+        #     # Warn if endpoint resolves to localhost while running in cloud
+        #     if "127.0.0.1" in endpoint or "localhost" in endpoint:
+        #         st.warning("BACKEND_PRICE_API đang trỏ localhost. Trên cloud cần dùng URL Render (ví dụ: https://hakicrypto2025.onrender.com/prices/spot)")
+        # except Exception as _bh:
+        #     st.caption(f"Backend API check error: {_bh}")
+
+        # # Backend scheduler tasks (to diagnose staleness)
+        # try:
+        #     tasks_snap = _fetch_backend_tasks(ttl=60)
+        #     if tasks_snap.get('ok'):
+        #         tasks = tasks_snap.get('tasks', {})
+        #         if tasks:
+        #             st.caption("Backend scheduler tasks:")
+        #             for name, info in tasks.items():
+        #                 age = info.get('age_s')
+        #                 st.text(f" - {name}: interval={info.get('interval')}s last_run_age={age}s failures={info.get('failures')}")
+        #                 if isinstance(age, int) and age > max(180, int(info.get('interval', 0))*3):
+        #                     st.warning(f"Task '{name}' có vẻ không chạy gần đây (age ~{age}s).")
+        #     else:
+        #         st.caption(f"/tasks not available: status={tasks_snap.get('status')} latency={tasks_snap.get('latency')}")
+        # except Exception as _ts_ex:
+        #     st.caption(f"Backend tasks fetch error: {_ts_ex}")
+
+    # Action buttons row
         act_col1, act_col2, act_col3, act_col4 = st.columns(4)
         with act_col1:
             if st.button("⚡ Force Price Refresh", help="Bỏ qua interval / Redis cache và fetch giá mới"):
@@ -757,22 +1257,116 @@ with tab1:
                             st.error(f"❌ Reconnect failed. Error: {db.last_error()}")
             except Exception as e:
                 st.error(f"Error getting DB info: {e}")
+
+    # --- Backend-style portfolio summary (server-side computation to reduce front-end logic) ---
+    # Hidden from user view - for internal reference only
+    server_summary_available = False
+    try:
+        from app_init import compute_portfolio_summary, get_portfolio_data
+        # Use local compute with backend prices (more reliable than missing /portfolio/summary endpoint)
+        summary = compute_portfolio_summary(use_symbols=True)
         
-        # Recent errors
-        if app_state["errors"]:
-            st.warning("⚠️ Recent errors:")
-            for error in app_state["errors"][-5:]:  # Show last 5 errors
-                st.text(f"• {error}")
-        # Cache stats (optional)
-        cache_stats = app_state.get("cache_stats") or {}
-        if cache_stats:
-            st.caption(f"Cache stats: hit={cache_stats.get('hit',0)} miss={cache_stats.get('miss',0)} error={cache_stats.get('error',0)}")
-            if cache_stats.get('hit',0) == 1:
-                st.info("💡 Cache hit rate is low, consider increasing TTL or optimizing cache usage.")
-            if cache_stats.get('error',0) > 0:
-                st.warning("⚠️ Cache errors detected, check logs for details.")
-            if cache_stats.get('miss',0) > cache_stats.get('hit',0)*2:
-                st.info("💡 Cache miss rate is high, consider reviewing caching strategy.")
+        rows = summary.get('rows', [])
+        totals = summary.get('totals', {})
+        # Expose totals for later KPI section to avoid double-compute drift
+        try:
+            st.session_state['_server_summary_totals'] = totals
+            server_summary_available = True
+        except Exception:
+            pass
+        
+        # Hide server-side table from user view - only keep for internal calculations
+        if False:  # Disabled - hide server-side table as requested
+            if rows:
+                df = pd.DataFrame(rows)
+                # Reorder columns for readability
+                cols = ['coin','amount','price','value','avg_price','invested','pnl','pnl_pct','change_1d','change_7d','change_30d']
+                df = df[[c for c in cols if c in df.columns]]
+                st.subheader("Bảng Portfolio (tính server-side)")
+                st.caption("📊 Reference table - tính toán server-side để kiểm tra độ chính xác")
+                st.dataframe(df.style.format({
+                    'amount': '{:,.6f}',
+                    'price': '{:,.4f}',
+                    'value': '{:,.2f}',
+                    'avg_price': '{:,.4f}',
+                    'invested': '{:,.2f}',
+                    'pnl': '{:,.2f}',
+                    'pnl_pct': '{:,.2f}%',
+                    'change_1d': '{:,.2f}%',
+                    'change_7d': '{:,.2f}%',
+                    'change_30d': '{:,.2f}%'
+                }), width="stretch")
+                col_tot1, col_tot2, col_tot3, col_tot4 = st.columns(4)
+                col_tot1.metric("Tổng giá trị", f"${totals.get('value',0):,.2f}")
+                col_tot2.metric("Tổng vốn", f"${totals.get('invested',0):,.2f}")
+                col_tot3.metric("PNL", f"${totals.get('pnl',0):,.2f}")
+                col_tot4.metric("PNL %", f"{totals.get('pnl_pct',0):,.2f}%")
+        
+        # Mark server reference as available for internal use
+        st.session_state['_server_reference_available'] = server_summary_available
+        
+    except Exception as srv_ex:
+        # Only show error if debug mode - hide from normal users
+        if st.session_state.get('debug_mode', False):
+            st.warning(f"Không thể render bảng portfolio server-side: {srv_ex}")
+
+    # Recent errors
+    if app_state["errors"]:
+        st.warning("⚠️ Recent errors:")
+        for error in app_state["errors"][-5:]:  # Show last 5 errors
+            st.text(f"• {error}")
+    
+    # # Backend monitoring section
+    # with st.expander("🔧 Backend API Status", expanded=False):
+    #     try:
+    #         backend_status = _ping_backend_status()
+    #         backend_tasks = _fetch_backend_tasks()
+            
+    #         col1, col2 = st.columns(2)
+    #         with col1:
+    #             st.subheader("Health Check")
+    #             health = backend_status.get("health", {})
+    #             if health.get("ok"):
+    #                 st.success(f"✅ Backend online ({health.get('latency', 0):.0f}ms)")
+    #             else:
+    #                 st.error(f"❌ Backend offline: {health.get('status', 'Unknown')}")
+                
+    #             prices_check = backend_status.get("prices", {})
+    #             if prices_check.get("ok"):
+    #                 st.success(f"✅ Prices API working ({prices_check.get('count', 0)} coins)")
+    #             else:
+    #                 st.error(f"❌ Prices API failed: {prices_check.get('status', 'Unknown')}")
+            
+    #         with col2:
+    #             st.subheader("Background Tasks")
+    #             tasks = backend_tasks.get("tasks", {})
+    #             if tasks:
+    #                 for task_name, task_info in tasks.items():
+    #                     age_s = task_info.get("age_s", 0)
+    #                     failures = task_info.get("failures", 0)
+    #                     if age_s < 300:  # < 5 minutes
+    #                         st.success(f"✅ {task_name}: {age_s}s ago")
+    #                     elif age_s < 900:  # < 15 minutes  
+    #                         st.warning(f"⚠️ {task_name}: {age_s}s ago")
+    #                     else:
+    #                         st.error(f"❌ {task_name}: {age_s}s ago")
+                        
+    #                     if failures > 0:
+    #                         st.text(f"   Failures: {failures}")
+    #             else:
+    #                 st.warning("No task status available")
+    #     except Exception as e:
+    #         st.error(f"Backend monitoring error: {e}")
+    # Cache stats (optional)
+    # cache_stats = app_state.get("cache_stats") or {}
+    # if cache_stats:
+    #     st.caption(f"Cache stats: hit={cache_stats.get('hit',0)} miss={cache_stats.get('miss',0)} error={cache_stats.get('error',0)}")
+    #     if cache_stats.get('hit',0) == 1:
+    #         st.info("💡 Cache hit rate is low, consider increasing TTL or optimizing cache usage.")
+    #     if cache_stats.get('error',0) > 0:
+    #         st.warning("⚠️ Cache errors detected, check logs for details.")
+    #     if cache_stats.get('miss',0) > cache_stats.get('hit',0)*2:
+    #         st.info("💡 Cache miss rate is high, consider reviewing caching strategy.")
 
 
     # --- BẢNG NHẬP DỮ LIỆU KIỂU EXCEL ---
@@ -846,7 +1440,28 @@ with tab1:
     if "coingecko_last_error_time" not in st.session_state:
         st.session_state["coingecko_last_error_time"] = 0
     # Nút làm mới giá để bỏ qua cache ngay lập tức
-    refresh_now = st.button("Làm mới giá (bỏ qua cache)", key="refresh_prices")
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        refresh_now = st.button("🔄 Làm mới giá (CoinGecko)", key="refresh_prices")
+    #with col2:
+        #st.caption("💡 Backend price integration disabled due to inflated prices (BTC $122K vs market $112K)")
+    
+    if refresh_now:
+        # Clear all cached data to force fresh fetch
+        st.session_state["_last_prices"] = {}
+        st.session_state["_price_source"] = "force_refresh_coingecko"
+        st.info("🔄 Đã xóa cache, đang tải dữ liệu mới từ CoinGecko...")
+        time.sleep(1)  # Give user feedback
+        st.rerun()
+    
+    # Debug Panel - Price Source Status  
+    # Ensure a sane default price source label
+    if "_price_source" not in st.session_state:
+        st.session_state["_price_source"] = "coingecko_primary"
+    price_source = st.session_state.get("_price_source", "coingecko_primary")
+    debug_info = f"📊 **Price Source:** `{price_source}` (CoinGecko Primary)"
+    st.markdown(debug_info)
+    
     now_time = int(time.time())
     # Nếu vừa gặp lỗi API, chỉ cho phép request lại sau 70 giây
     can_request = True
@@ -878,93 +1493,56 @@ with tab1:
     update_success = False
     prev_portfolio_value = portfolio_value
     if can_request:
-        backend_ok = False
-        # Pilot: thử gọi backend FastAPI /prices/spot trước, nếu lỗi fallback sang logic cũ
-        try:
-            import httpx
-            api_url = st.session_state.get("_backend_price_api", "http://127.0.0.1:8000/prices/spot")
-            # Gửi danh sách SYMBOL (BTC, ETH, ...) thay vì coin id (bitcoin, ethereum)
-            symbols_param = ",".join([sym for _, sym in COIN_LIST])
-            with httpx.Client(timeout=3.5) as client:
-                resp = client.get(api_url, params={"symbols": symbols_param})
-            if resp.status_code == 200:
-                js = resp.json()
-                backend_prices_block = js.get("prices") or {}
-                prices_new = {}
-                pdata_new = {}
-                for symbol_key, v in backend_prices_block.items():
-                    if not isinstance(v, dict):
-                        continue  # backend luôn trả dict PriceSnapshot
-                    coin_id_match = v.get("coin_id") or v.get("symbol")
-                    if not coin_id_match:
-                        continue
-                    raw_price = v.get("price") or v.get("last") or v.get("value")
-                    c1 = v.get("change_1d", 0)
-                    c7 = v.get("change_7d", 0)
-                    c30 = v.get("change_30d", 0)
-                    try:
-                        prices_new[coin_id_match] = float(raw_price)
-                    except Exception:
-                        prices_new[coin_id_match] = 0.0
-                    pdata_new[coin_id_match] = {
-                        "change_1d": c1 or 0,
-                        "change_7d": c7 or 0,
-                        "change_30d": c30 or 0
-                    }
-                if prices_new:
-                    prices = {c: prices_new.get(c, prices.get(c, 0.0)) for c in coins}
-                    price_data = {**price_data, **pdata_new}
-                    now = int(time.time())
-                    portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
-                    if portfolio_value > 0:
-                        st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
-                    total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
-                    current_pnl = portfolio_value - total_invested_now
-                    st.session_state["_last_price_data"] = price_data
-                    st.session_state["_last_prices"] = prices
-                    st.session_state["_last_portfolio_value"] = portfolio_value
-                    st.session_state["_last_total_invested_now"] = total_invested_now
-                    st.session_state["_last_current_pnl"] = current_pnl
-                    st.session_state["_price_source"] = "api"
-                    update_success = True
-                    backend_ok = True
-        except Exception as be:
-            st.session_state["_last_backend_error"] = str(be)
-
-        if not backend_ok:  # fallback original function
-            prices_new, pdata_new, updated, msg = get_current_prices()
-            if updated:
-                price_data = pdata_new
-                prices = {c: prices_new.get(c, 0.0) for c in coins}
-                now = int(time.time())
-                portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
-                if portfolio_value > 0:
-                    st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
-                total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
-                current_pnl = portfolio_value - total_invested_now
-                st.session_state["_last_price_data"] = price_data
-                st.session_state["_last_prices"] = prices
-                st.session_state["_last_portfolio_value"] = portfolio_value
-                st.session_state["_last_total_invested_now"] = total_invested_now
-                st.session_state["_last_current_pnl"] = current_pnl
-                update_success = True
+        # Backend price integration disabled due to persistent data reliability issues
+        # Issue: Backend returns inflated prices (BTC $122K vs market $112K)
+        # Decision: Use CoinGecko API only for reliable portfolio calculations
+        print("[DEBUG] Backend price integration disabled - using CoinGecko only")
+        
+        # Direct CoinGecko price fetch
+        prices_new, pdata_new, updated, msg = get_current_prices()
+        if updated:
+            price_data = pdata_new
+            # Merge new prices and carry-forward last non-zero for any missing/zero coins
+            prices = {c: float(prices_new.get(c, 0.0) or 0.0) for c in coins}
+            last_prices_snap = st.session_state.get("_last_prices", {})
+            for c in coins:
+                if float(prices.get(c, 0.0)) <= 0 and float(last_prices_snap.get(c, 0.0)) > 0:
+                    prices[c] = float(last_prices_snap[c])
+            now = int(time.time())
+            portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
+            if portfolio_value > 0:
+                st.session_state["_last_nonzero_portfolio_value"] = portfolio_value
+            total_invested_now = sum(avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins)
+            current_pnl = portfolio_value - total_invested_now
+            st.session_state["_last_price_data"] = price_data
+            st.session_state["_last_prices"] = prices
+            st.session_state["_last_portfolio_value"] = portfolio_value
+            st.session_state["_last_total_invested_now"] = total_invested_now
+            st.session_state["_last_current_pnl"] = current_pnl
+            # Label source: coingecko_primary; if we backfilled any zeros from cache, show suffix
+            if any(float(prices_new.get(c, 0.0) or 0.0) <= 0 and float(last_prices_snap.get(c, 0.0)) > 0 for c in coins):
+                st.session_state["_price_source"] = "coingecko_primary+cache_backfill"
             else:
-                if msg:
-                    st.info(msg)
-                # If API rate limit and computed value becomes 0 but we have previous non-zero -> keep previous snapshot
-                if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
-                    portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
-                    prices = st.session_state["_last_prices"]
-                    price_data = st.session_state["_last_price_data"]
-                    total_invested_now = st.session_state["_last_total_invested_now"]
-                    current_pnl = portfolio_value - total_invested_now
-            # Debug list of zero-priced coins
-            try:
-                zero_coins = [c for c in coins if float(prices.get(c,0.0))==0.0 and float(holdings.get(c,0.0))!=0]
-                if zero_coins:
-                    st.caption(f"[DEBUG] Zero-priced coins (fallback path): {', '.join(zero_coins)} | source={st.session_state.get('_price_source','legacy')} backend_err={st.session_state.get('_last_backend_error')}")
-            except Exception:
-                pass
+                st.session_state["_price_source"] = "coingecko_primary"
+            update_success = True
+        else:
+            if msg:
+                st.info(msg)
+            # If API rate limit and computed value becomes 0 but we have previous non-zero -> keep previous snapshot
+            if portfolio_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
+                portfolio_value = st.session_state["_last_nonzero_portfolio_value"]
+                prices = st.session_state["_last_prices"]
+                price_data = st.session_state["_last_price_data"]
+                total_invested_now = st.session_state["_last_total_invested_now"]
+                current_pnl = portfolio_value - total_invested_now
+        
+        # Debug list of zero-priced coins
+        try:
+            zero_coins = [c for c in coins if float(prices.get(c,0.0))==0.0 and float(holdings.get(c,0.0))!=0]
+            if zero_coins:
+                st.caption(f"[DEBUG] Zero-priced coins: {', '.join(zero_coins)} | source={st.session_state.get('_price_source','coingecko')}")
+        except Exception:
+            pass
     else:
         st.warning("Đang chờ hết thời gian delay sau lỗi API CoinGecko...")
 
@@ -973,7 +1551,12 @@ with tab1:
         prices_new, pdata_new, updated, msg = get_current_prices()
         if updated:
             price_data = pdata_new
-            prices = {c: prices_new.get(c, 0.0) for c in coins}
+            # Merge new prices and carry-forward last non-zero for any missing/zero coins
+            prices = {c: float(prices_new.get(c, 0.0) or 0.0) for c in coins}
+            last_prices_snap = st.session_state.get("_last_prices", {})
+            for c in coins:
+                if float(prices.get(c, 0.0)) <= 0 and float(last_prices_snap.get(c, 0.0)) > 0:
+                    prices[c] = float(last_prices_snap[c])
             now = int(time.time())
             portfolio_value = sum(float(prices.get(c, 0.0)) * float(holdings.get(c, 0.0)) for c in coins)
             if portfolio_value > 0:
@@ -1033,12 +1616,15 @@ with tab1:
             pass
 
 
-    # --- Hiển thị tổng giá trị portfolio và thay đổi so với hôm qua ---
+    # Đặt mặc định KPI để tránh NameError nếu nhảy qua block legacy
     metric_delta = "N/A"
     value_change = "N/A"
     value_yesterday = None
+
+
+    # --- Hiển thị tổng giá trị portfolio và thay đổi so với hôm qua ---
     if history:
-        # Lọc chỉ các entry tổng portfolio (không có key 'coin')
+    # Lọc chỉ các entry tổng portfolio (không có key 'coin')
         df_hist_metric = pd.DataFrame([h for h in history if 'coin' not in h])
         if not df_hist_metric.empty:
             # Chỉ chuyển sang GMT+7 khi hiển thị, dữ liệu gốc vẫn giữ UTC
@@ -1052,18 +1638,71 @@ with tab1:
                 metric_delta = f"{(portfolio_value - value_yesterday) / (value_yesterday + 1e-9) * 100:.2f}%"
                 value_change = portfolio_value - value_yesterday
 
-    # Display portfolio metric (never show 0 if holdings exist and we have prior non-zero)
-    display_value = portfolio_value
+    # Display portfolio metric (prefer server-side summary totals to avoid drift)
+    server_totals = st.session_state.get('_server_summary_totals') or {}
+    server_value = float(server_totals.get('value', 0) or 0)
+    
+    # Debug: Compare values to understand discrepancy
+    if server_value > 0 and abs(portfolio_value - server_value) > 50:  # Significant difference
+        print(f"[DEBUG] Portfolio value discrepancy detected:")
+        print(f"  UI calculated: ${portfolio_value:,.2f}")
+        print(f"  Server calculated: ${server_value:,.2f}")
+        print(f"  Difference: ${abs(portfolio_value - server_value):,.2f}")
+        print(f"  Price source: {st.session_state.get('_price_source', 'unknown')}")
+        print(f"  Holdings count: {len([c for c in coins if holdings.get(c, 0.0) != 0])}")
+        print(f"  Prices available: {len([c for c in coins if prices.get(c, 0.0) > 0])}")
+    
+    if isinstance(server_totals, dict) and server_value > 0:
+        display_value = server_value
+        value_source = "server-side"
+    else:
+        display_value = portfolio_value
+        value_source = "ui-calculated"
+        
     if display_value == 0 and st.session_state.get("_last_nonzero_portfolio_value", 0) > 0 and any(holdings.get(c, 0.0) > 0 for c in coins):
         display_value = st.session_state["_last_nonzero_portfolio_value"]
+        value_source = "cached"
+
+    # Debug portfolio value calculation comparison
+    try:
+        from app_init import compute_portfolio_summary
+        import logging
+        logger = logging.getLogger(__name__)
+        #server_summary = compute_portfolio_summary()
+        #server_calc_value = server_summary.get("total_value", 0)
+        print(f"[DEBUG] UI calculated portfolio: ${portfolio_value:,.2f}")
+        #print(f"[DEBUG] Server calculated portfolio: ${server_calc_value:,.2f}")
+        print(f"[DEBUG] Display value: ${display_value:,.2f} ({value_source})")
+        #print(f"[DEBUG] Value difference: ${abs(portfolio_value - server_calc_value):,.2f}")
+        print(f"[DEBUG] Price source UI: {st.session_state.get('_price_source', 'unknown')}")
+        
+        # Check for significant difference
+        # if abs(portfolio_value - server_calc_value) > 50:
+        #     print(f"[DEBUG] Significant portfolio value discrepancy detected!")
+        #     print(f"[DEBUG] UI Holdings: {dict(holdings)}")
+        #     print(f"[DEBUG] UI Avg Prices: {dict(avg_price)}")
+        #     print(f"[DEBUG] Server Holdings: {server_summary.get('holdings', {})}")
+        #     print(f"[DEBUG] Server Avg Prices: {server_summary.get('avg_prices', {})}")
+            
+        #     # Check a few specific prices to see differences
+        #     ui_sample = {k: prices.get(k, 0) for k in list(holdings.keys())[:5] if holdings.get(k, 0) > 0}
+        #     server_prices = server_summary.get('prices', {})
+        #     server_sample = {k: server_prices.get(k, 0) for k in list(holdings.keys())[:5] if holdings.get(k, 0) > 0}
+        #     print(f"[DEBUG] UI price sample: {ui_sample}")
+        #     print(f"[DEBUG] Server price sample: {server_sample}")
+            
+    except Exception as debug_ex:
+        print(f"[DEBUG] Could not compare portfolio calculations: {debug_ex}")
 
     cached_note = ""
     if st.session_state.get("_bootstrap_source") == "db" and display_value > 0 and not update_success:
-        cached_note = " (db cached)"
+        cached_note = f" (db cached, {value_source})"
     elif not update_success and prices is st.session_state.get("_last_prices") and any(holdings.get(c, 0.0) > 0 for c in coins):
-        cached_note = " (cached)"
+        cached_note = f" (cached, {value_source})"
     elif st.session_state.get("_price_source") == "api" and update_success:
-        cached_note = " (API)"
+        cached_note = f" (API, {value_source})"
+    else:
+        cached_note = f" ({value_source})"
     if metric_delta != "N/A" and value_change != "N/A" and value_yesterday is not None:
         st.metric(
             f"💰 Tổng giá trị Portfolio (USD){cached_note}",
@@ -1074,6 +1713,41 @@ with tab1:
     else:
         st.metric(f"💰 Tổng giá trị Portfolio (USD){cached_note}", f"{display_value:,.2f}", delta="N/A | N/A")
 
+    # Calculate total invested capital
+    invested_capital = sum(holdings.get(coin, 0.0) * avg_price.get(coin, 0.0) for coin in coins)
+
+    # Calculate PNL
+    pnl = display_value - invested_capital
+
+    # Display additional metrics (two side-by-side as requested)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("💸 Tổng số vốn đầu tư (USD)", f"{invested_capital:,.2f}")
+    with col2:
+        st.metric("📈 PNL (USD)", f"{pnl:,.2f}")
+    with col3:
+        pnl_pct = (pnl / invested_capital * 100) if invested_capital != 0 else 0.0
+        st.metric("📊 PNL (%)", f"{pnl_pct:.2f}%")
+    # Initialize df_input to avoid NameError - always create basic structure
+    data = []
+    for coin in coins:
+        d = {
+            "Coin": coin_id_to_name[coin],
+            "Số token nắm giữ": holdings.get(coin, 0.0),
+            "Giá mua trung bình": avg_price.get(coin, 0.0),
+            "Giá hiện tại": prices.get(coin, 0.0),
+            "% 1D": price_data.get(coin, {}).get("change_1d", 0),
+            "% 7D": price_data.get(coin, {}).get("change_7d", 0),
+            "% 30D": price_data.get(coin, {}).get("change_30d", 0),
+        }
+        data.append(d)
+    df_input = pd.DataFrame(data)
+
+    # Nếu đã có bảng server-side, hiển thị note nhưng vẫn cho phép legacy table
+    if st.session_state.get('_server_reference_available'):
+        st.caption("💡 Bảng server-side reference ở trên để so sánh. Bảng chính để quản lý ở dưới.")
+    
+    # Always show legacy portfolio table for management
     # Chuẩn bị dataframe cho bảng
     data = []
     for coin in coins:
@@ -1087,16 +1761,21 @@ with tab1:
             "% 30D": price_data.get(coin, {}).get("change_30d", 0),
         }
         data.append(d)
-    df = pd.DataFrame(data)
-
+    df_input = pd.DataFrame(data)
     # Tính lại các cột sau khi nhập
-    df_input = df.copy()
     for idx, row in df_input.iterrows():
         coin = coins[idx]
         # Lấy dữ liệu mới nhất từ session nếu có
         df_input.at[idx, "Số token nắm giữ"] = st.session_state["holdings"].get(coin, 0.0)
         df_input.at[idx, "Giá mua trung bình"] = st.session_state["avg_price"].get(coin, 0.0)
-    df_input["Tổng giá trị"] = df_input["Số token nắm giữ"] * df_input["Giá hiện tại"]
+    
+    # Only add computed columns if we have the base data
+    if "Giá hiện tại" in df_input.columns:
+        df_input["Tổng giá trị"] = df_input["Số token nắm giữ"] * df_input["Giá hiện tại"]
+    else:
+        df_input["Tổng giá trị"] = 0.0
+
+    # PnL calculation functions
     def _pnl_row(row):
         amt = row["Số token nắm giữ"]
         avgc = row["Giá mua trung bình"]
@@ -1105,7 +1784,10 @@ with tab1:
             return price_now * amt - avgc * amt
         # position âm: coi như short => PNL = (avg_cost - current_price)*abs(amt)
         return (avgc - price_now) * abs(amt)
-    df_input["Profit & Loss"] = df_input.apply(_pnl_row, axis=1)
+    
+    if not df_input.empty:
+        df_input["Profit & Loss"] = df_input.apply(_pnl_row, axis=1)
+    
     def _pct_pl(row):
         amt = row["Số token nắm giữ"]
         avgc = row["Giá mua trung bình"]
@@ -1115,10 +1797,138 @@ with tab1:
         if invested <= 0:
             return 0.0
         return 100 * row["Profit & Loss"] / (invested + 1e-9)
-    df_input["% Profit/Loss"] = df_input.apply(_pct_pl, axis=1)
-    df_input["% Hòa vốn"] = np.where(df_input["Profit & Loss"] >= 0, 0.0, 100 * -df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9))
+    
+    if not df_input.empty:
+        df_input["% Profit/Loss"] = df_input.apply(_pct_pl, axis=1)
+    
+    if not df_input.empty:
+        df_input["% Hòa vốn"] = np.where(df_input["Profit & Loss"] >= 0, 0.0, 100 * -df_input["Profit & Loss"] / (df_input["Giá mua trung bình"] * df_input["Số token nắm giữ"] + 1e-9))
 
-    # Chỉ hiển thị 1 bảng duy nhất: nhập liệu và có màu cho các cột tính toán
+    # Only process legacy portfolio editor if not empty
+    if not df_input.empty:
+            # Cho phép nhập liệu trực tiếp trong expander
+            with st.expander("Nhập liệu Portfolio (có thể thu nhỏ)", expanded=False):
+                # Hiển thị thông tin lần ghi cuối & nguồn dữ liệu
+                try:
+                    from app_init import get_app_state
+                    _state = get_app_state()
+                    ts = _state.get("last_write_ts")
+                    src = st.session_state.get("_bootstrap_source", "unknown")
+                    if ts:
+                        import datetime
+                        ts_readable = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+                        st.caption(f"Nguồn: {src} • Last write: {ts_readable} (epoch {int(ts)})")
+                except Exception:
+                    pass
+                
+                # Check if required columns exist
+                if all(col in df_input.columns for col in ["Coin", "Số token nắm giữ", "Giá mua trung bình"]):
+                    edited_df = st.data_editor(
+                        df_input[[
+                            "Coin",
+                            "Số token nắm giữ",
+                            "Giá mua trung bình"
+                        ]],
+                        column_config={
+                            # Cho phép nhập số âm để thể hiện vay
+                            "Số token nắm giữ": st.column_config.NumberColumn("Số token nắm giữ", min_value=-1e12, step=0.0000000001, format="%.10f"),
+                            "Giá mua trung bình": st.column_config.NumberColumn("Giá mua trung bình", min_value=0.0, step=0.01, format="%.4f"),
+                        },
+                        hide_index=True,
+                        key="portfolio_table"
+                    )
+                else:
+                    st.error(f"Missing required columns. Available: {list(df_input.columns)}")
+                    edited_df = pd.DataFrame(columns=["Coin", "Số token nắm giữ", "Giá mua trung bình"])
+                
+                # Thêm nút đẩy dữ liệu lên DB (đảm bảo đồng bộ edited_df trước khi push)
+                if st.button("Đẩy dữ liệu lên DB", key="push_to_db"):
+                    try:
+                        from app_init import update_portfolio_data, rehydrate_from_db, get_portfolio_data, get_app_state
+                        # Thu thập dữ liệu mới từ bảng (chỉ giữ coin xuất hiện)
+                        new_hold = {}
+                        new_avg = {}
+                        for idx, row in edited_df.iterrows():
+                            if idx < len(coins):
+                                coin = coins[idx]
+                                try:
+                                    new_hold[coin] = float(row.get("Số token nắm giữ", 0.0) or 0.0)
+                                except Exception:
+                                    new_hold[coin] = 0.0
+                                try:
+                                    new_avg[coin] = float(row.get("Giá mua trung bình", 0.0) or 0.0)
+                                except Exception:
+                                    new_avg[coin] = 0.0
+
+                        # Kiểm tra xung đột: nếu DB có last_write_ts mới hơn local trước khi ghi
+                        state_before = get_app_state()
+                        last_before = state_before.get("last_write_ts", 0)
+                        # Rehydrate nhẹ để lấy DB snapshot mới nhất trước khi quyết định (không ghi)
+                        rehydrate_from_db()
+                        state_after_hydrate = get_app_state()
+                        db_ts = state_after_hydrate.get("last_write_ts", 0)
+                        conflict = db_ts > last_before
+                        if conflict:
+                            st.warning("⚠️ Phát hiện DB đã có cập nhật mới hơn. Đang dùng snapshot DB mới nhất để tránh ghi đè.")
+                            # Lấy lại dữ liệu hiện tại sau hydrate để người dùng xác nhận
+                            port_current, avg_current = get_portfolio_data()
+                            # So sánh khác biệt số lượng coin để giúp quyết định
+                            added = {k:v for k,v in port_current.items() if k not in new_hold or v!=new_hold[k]}
+                            if added:
+                                st.caption(f"(Debug khác biệt) Số lượng khác so với bảng: {list(added.items())[:5]}")
+                            if not st.checkbox("Tôi muốn GHI ĐÈ DB bằng dữ liệu bảng (bỏ qua snapshot mới)", key="override_conflict"):
+                                st.info("Hủy thao tác ghi. Bạn có thể tick checkbox để ghi đè nếu chắc chắn.")
+                                # Refresh hiển thị holdings/avg_price từ DB snapshot mới
+                                st.session_state["holdings"], st.session_state["avg_price"] = port_current, avg_current
+                                st.stop()
+
+                        # Không có xung đột hoặc người dùng chấp nhận ghi đè
+                        update_portfolio_data(new_hold, new_avg)
+                        # Rehydrate from DB to confirm persist path
+                        rehydrate_from_db()
+                        port_after, avg_after = get_portfolio_data()
+                        st.session_state["holdings"] = port_after
+                        st.session_state["avg_price"] = avg_after
+                        st.session_state["_bootstrap_source"] = "manual_commit"
+                        st.success("✅ Đã cập nhật & đồng bộ DB (kèm rehydrate)")
+                    except Exception as e:
+                        st.error(f"Lỗi khi đẩy dữ liệu lên DB: {e}")
+
+                # Legacy transaction and portfolio display sections (wrapped in conditional)
+                # Dòng 'Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình'
+                st.write("Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
+                coin_options = [coin_id_to_name[c] for c in coins]
+                selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
+                selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
+                buy_cols = st.columns([2,2,2,1])
+                with buy_cols[0]:
+                    st.markdown(f"**{selected_buy_coin_name}**")
+                with buy_cols[1]:
+                    buy_amount = st.number_input(f"Số lượng mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.00000001, format="%.8f", key=f"buy_amt_{selected_buy_coin}")
+                with buy_cols[2]:
+                    buy_price = st.number_input(f"Giá mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.01, format="%.4f", key=f"buy_price_{selected_buy_coin}")
+                update_avg = st.button("Cập nhật AVG & Số lượng", key="update_avg_btn")
+                if update_avg:
+                    amt_new = buy_amount
+                    price_new = buy_price
+                    if amt_new > 0:
+                        amt_old = st.session_state["holdings"].get(selected_buy_coin, 0.0)
+                        avg_old = st.session_state["avg_price"].get(selected_buy_coin, 0.0)
+                        total_amt = amt_old + amt_new
+                        if total_amt > 0:
+                            avg_new = (amt_old * avg_old + amt_new * price_new) / total_amt
+                        else:
+                            avg_new = 0.0
+                        st.session_state["holdings"][selected_buy_coin] = total_amt
+                        st.session_state["avg_price"][selected_buy_coin] = avg_new
+                        save_holdings(st.session_state["holdings"])
+                        save_avg_price(st.session_state["avg_price"])
+                        st.success(f"Đã cập nhật giá mua trung bình và số lượng cho {selected_buy_coin_name}!")
+
+            # Initialize edited_df for legacy mode  
+            edited_df = df_input.copy()
+
+    # Portfolio display and styling logic (always available)
     def color_profit(val):
         if val > 0:
             return 'color: green;'
@@ -1127,120 +1937,9 @@ with tab1:
         else:
             return ''
 
-    # Cho phép nhập liệu trực tiếp trong expander
-    with st.expander("Nhập liệu Portfolio (có thể thu nhỏ)", expanded=False):
-        # Hiển thị thông tin lần ghi cuối & nguồn dữ liệu
-        try:
-            from app_init import get_app_state
-            _state = get_app_state()
-            ts = _state.get("last_write_ts")
-            src = st.session_state.get("_bootstrap_source", "unknown")
-            if ts:
-                import datetime
-                ts_readable = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-                st.caption(f"Nguồn: {src} • Last write: {ts_readable} (epoch {int(ts)})")
-        except Exception:
-            pass
-        edited_df = st.data_editor(
-            df_input[[
-                "Coin",
-                "Số token nắm giữ",
-                "Giá mua trung bình"
-            ]],
-            column_config={
-                # Cho phép nhập số âm để thể hiện vay
-                "Số token nắm giữ": st.column_config.NumberColumn("Số token nắm giữ", min_value=-1e12, step=0.0000000001, format="%.10f"),
-                "Giá mua trung bình": st.column_config.NumberColumn("Giá mua trung bình", min_value=0.0, step=0.01, format="%.4f"),
-            },
-            hide_index=True,
-            key="portfolio_table"
-        )
-        # Thêm nút đẩy dữ liệu lên DB (đảm bảo đồng bộ edited_df trước khi push)
-        if st.button("Đẩy dữ liệu lên DB", key="push_to_db"):
-            try:
-                from app_init import update_portfolio_data, rehydrate_from_db, get_portfolio_data, get_app_state
-                # Thu thập dữ liệu mới từ bảng (chỉ giữ coin xuất hiện)
-                new_hold = {}
-                new_avg = {}
-                for idx, row in edited_df.iterrows():
-                    if idx < len(coins):
-                        coin = coins[idx]
-                        try:
-                            new_hold[coin] = float(row.get("Số token nắm giữ", 0.0) or 0.0)
-                        except Exception:
-                            new_hold[coin] = 0.0
-                        try:
-                            new_avg[coin] = float(row.get("Giá mua trung bình", 0.0) or 0.0)
-                        except Exception:
-                            new_avg[coin] = 0.0
-
-                # Kiểm tra xung đột: nếu DB có last_write_ts mới hơn local trước khi ghi
-                state_before = get_app_state()
-                last_before = state_before.get("last_write_ts", 0)
-                # Rehydrate nhẹ để lấy DB snapshot mới nhất trước khi quyết định (không ghi)
-                rehydrate_from_db()
-                state_after_hydrate = get_app_state()
-                db_ts = state_after_hydrate.get("last_write_ts", 0)
-                conflict = db_ts > last_before
-                if conflict:
-                    st.warning("⚠️ Phát hiện DB đã có cập nhật mới hơn. Đang dùng snapshot DB mới nhất để tránh ghi đè.")
-                    # Lấy lại dữ liệu hiện tại sau hydrate để người dùng xác nhận
-                    port_current, avg_current = get_portfolio_data()
-                    # So sánh khác biệt số lượng coin để giúp quyết định
-                    added = {k:v for k,v in port_current.items() if k not in new_hold or v!=new_hold[k]}
-                    if added:
-                        st.caption(f"(Debug khác biệt) Số lượng khác so với bảng: {list(added.items())[:5]}")
-                    if not st.checkbox("Tôi muốn GHI ĐÈ DB bằng dữ liệu bảng (bỏ qua snapshot mới)", key="override_conflict"):
-                        st.info("Hủy thao tác ghi. Bạn có thể tick checkbox để ghi đè nếu chắc chắn.")
-                        # Refresh hiển thị holdings/avg_price từ DB snapshot mới
-                        st.session_state["holdings"], st.session_state["avg_price"] = port_current, avg_current
-                        st.stop()
-
-                # Không có xung đột hoặc người dùng chấp nhận ghi đè
-                update_portfolio_data(new_hold, new_avg)
-                # Rehydrate from DB to confirm persist path
-                rehydrate_from_db()
-                port_after, avg_after = get_portfolio_data()
-                st.session_state["holdings"] = port_after
-                st.session_state["avg_price"] = avg_after
-                st.session_state["_bootstrap_source"] = "manual_commit"
-                st.success("✅ Đã cập nhật & đồng bộ DB (kèm rehydrate)")
-            except Exception as e:
-                st.error(f"Lỗi khi đẩy dữ liệu lên DB: {e}")
-
-        # Dòng 'Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình'
-        st.write("Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
-        coin_options = [coin_id_to_name[c] for c in coins]
-        selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
-        selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
-        buy_cols = st.columns([2,2,2,1])
-        with buy_cols[0]:
-            st.markdown(f"**{selected_buy_coin_name}**")
-        with buy_cols[1]:
-            buy_amount = st.number_input(f"Số lượng mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.00000001, format="%.8f", key=f"buy_amt_{selected_buy_coin}")
-        with buy_cols[2]:
-            buy_price = st.number_input(f"Giá mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.01, format="%.4f", key=f"buy_price_{selected_buy_coin}")
-        update_avg = st.button("Cập nhật AVG & Số lượng", key="update_avg_btn")
-        if update_avg:
-            amt_new = buy_amount
-            price_new = buy_price
-            if amt_new > 0:
-                amt_old = st.session_state["holdings"].get(selected_buy_coin, 0.0)
-                avg_old = st.session_state["avg_price"].get(selected_buy_coin, 0.0)
-                total_amt = amt_old + amt_new
-                if total_amt > 0:
-                    avg_new = (amt_old * avg_old + amt_new * price_new) / total_amt
-                else:
-                    avg_new = 0.0
-                st.session_state["holdings"][selected_buy_coin] = total_amt
-                st.session_state["avg_price"][selected_buy_coin] = avg_new
-                save_holdings(st.session_state["holdings"])
-                save_avg_price(st.session_state["avg_price"])
-                st.success(f"Đã cập nhật giá mua trung bình và số lượng cho {selected_buy_coin_name}!")
-
     # (Không auto-sync bảng vào holdings/avg_price. Chỉ cập nhật khi bấm nút 'Đẩy dữ liệu lên DB'.)
 
-    # Tạo bảng kết quả với các cột tính toán và màu sắc
+    # Tạo bảng kết quả với các cột tính toán và màu sắc (always available now)
     result_df = edited_df.copy()
     import pandas as pd
     if hasattr(result_df, 'to_pandas'):
@@ -1332,6 +2031,8 @@ with tab1:
     metric_delta = ""
     metric_delta_pnl = ""
     metric_delta_profit = ""
+    
+    # Calculate metrics if we have history data
     if not df_hist.empty:
         # Chỉ chuyển sang GMT+7 khi hiển thị, dữ liệu gốc vẫn giữ UTC
         df_hist["Date"] = pd.to_datetime(df_hist["timestamp"], unit="s").dt.tz_localize("UTC")
@@ -1372,33 +2073,31 @@ with tab1:
             df_hist = df_hist[df_hist["Date"] >= now_dt - pd.Timedelta(days=7)]
         elif range_option == "1 ngày":
             df_hist = df_hist[df_hist["Date"] >= now_dt - pd.Timedelta(days=1)]
+    else:
+        # No history data available - set defaults
+        metric_delta = "N/A"
+        metric_delta_pnl = "N/A"
+        metric_delta_profit = "N/A"
+        st.warning("⚠️ Chưa có dữ liệu lịch sử portfolio. Charts sẽ hiển thị khi có đủ dữ liệu.")
+        print("[DEBUG] No historical data available for charts.")
 
-        show_portfolio_over_time_chart(history, key="main_line_chart")
+    # Always show charts regardless of history data (they will handle empty data gracefully)
+    try:
+        show_portfolio_over_time_chart(filter_reliable_history(history), key="main_line_chart")
+    except Exception as e:
+        st.error(f"Error displaying portfolio chart: {e}")
+        
+    try:
         show_pie_distribution(result_df)
+    except Exception as e:
+        st.error(f"Error displaying pie chart: {e}")
+        
+    try:
         show_bar_pnl(result_df)
-        st.session_state["portfolio_value"] = portfolio_value
-        st.session_state["total_invested_now"] = total_invested_now
-        st.session_state["current_pnl"] = current_pnl
-        st.session_state["metric_delta"] = metric_delta
-        st.session_state["metric_delta_pnl"] = metric_delta_pnl
-        st.session_state["metric_delta_profit"] = metric_delta_profit
-        st.session_state["num_coins"] = sum(1 for c in coins if holdings.get(c, 0.0) != 0)
-        if coins:
-            values = [prices.get(c, 0) * holdings.get(c, 0.0) for c in coins]
-            if any(values):
-                max_idx = int(np.argmax(values))
-                st.session_state["max_coin"] = coin_id_to_name[coins[max_idx]]
-                st.session_state["max_coin_value"] = values[max_idx]
-            profits = [prices.get(c, 0) * holdings.get(c, 0.0) - avg_price.get(c, 0.0) * holdings.get(c, 0.0) for c in coins]
-            if any(profits):
-                max_pnl_idx = int(np.argmax(profits))
-                min_pnl_idx = int(np.argmin(profits))
-                st.session_state["max_pnl_coin"] = coin_id_to_name[coins[max_pnl_idx]]
-                st.session_state["max_pnl_value"] = profits[max_pnl_idx]
-                st.session_state["min_pnl_coin"] = coin_id_to_name[coins[min_pnl_idx]]
-                st.session_state["min_pnl_value"] = profits[min_pnl_idx]
-
-    # Lưu các metric tổng hợp vào session_state để tab2 dùng
+    except Exception as e:
+        st.error(f"Error displaying bar chart: {e}")
+        
+    # Update session state with calculated metrics
     st.session_state["portfolio_value"] = portfolio_value
     st.session_state["total_invested_now"] = total_invested_now
     st.session_state["current_pnl"] = current_pnl
@@ -1406,6 +2105,7 @@ with tab1:
     st.session_state["metric_delta_pnl"] = metric_delta_pnl
     st.session_state["metric_delta_profit"] = metric_delta_profit
     st.session_state["num_coins"] = sum(1 for c in coins if holdings.get(c, 0.0) != 0)
+    
     if coins:
         values = [prices.get(c, 0) * holdings.get(c, 0.0) for c in coins]
         if any(values):
@@ -1420,6 +2120,7 @@ with tab1:
             st.session_state["max_pnl_value"] = profits[max_pnl_idx]
             st.session_state["min_pnl_coin"] = coin_id_to_name[coins[min_pnl_idx]]
             st.session_state["min_pnl_value"] = profits[min_pnl_idx]
+            
             # --- Growth Chart (resilient snapshot) ---
             import pandas as _pd
 
@@ -1468,12 +2169,14 @@ with tab1:
 
             def _prefetch_okx_ohlcv_all(bar: str = "30m"):
                 snap = st.session_state.get('_ohlcv_snapshot_all')
-                if snap and snap.get('bar') == bar and set(snap.get('coins', [])) == set(coins):
+                # Exclude stablecoins from OKX OHLCV as they don't have meaningful trading pairs
+                tradeable_coins = [c for c in coins if c not in ['tether']]  # USDT doesn't trade against itself
+                if snap and snap.get('bar') == bar and set(snap.get('coins', [])) == set(tradeable_coins):
                     return snap['data'], st.session_state.get('_okx_prefetch_stats', {})
                 success = 0
                 failed = []
                 data_map: dict[str, pd.DataFrame] = {}
-                for c in coins:
+                for c in tradeable_coins:
                     base_disp = coin_id_to_name[c]
                     base = _okx_symbol_for_coin(base_disp)
                     symbol = f"{base}-USDT-SWAP"
@@ -1499,11 +2202,11 @@ with tab1:
                         data_map = file_map
                         used_cache_file = True
                         success = len(data_map)
-                        failed = [coin_id_to_name[c] for c in coins if c not in data_map]
+                        failed = [coin_id_to_name[c] for c in tradeable_coins if c not in data_map]
                 stats = {
                     'bar': bar,
                     'success': success,
-                    'total': len(coins),
+                    'total': len(tradeable_coins),
                     'failed_symbols': failed,
                     'used_cache_file': used_cache_file,
                     'timestamp': time.time()
@@ -1511,7 +2214,7 @@ with tab1:
                 st.session_state['_ohlcv_snapshot_all'] = {
                     'data': data_map,
                     'bar': bar,
-                    'coins': list(coins),
+                    'coins': list(tradeable_coins),
                     'ts': stats['timestamp']
                 }
                 st.session_state['_okx_prefetch_stats'] = stats
@@ -1645,6 +2348,7 @@ with tab2:
         try:
             import metrics_dominance as _md
             dom = _md.load_dominance_cached()
+            print("[DEBUG] DOM: ",dom)
             if dom:
                 st.metric("BTC Dominance (%)", f"{dom.get('btc',0):.2f}")
             else:
@@ -1722,6 +2426,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
         # === Prefetch (first coin triggers) ===
         prefetch_ohlcv_all(bar, [c[1] for c in COIN_LIST])  # use display symbols
         df_ohlcv = get_prefetched_ohlcv(bar, coin_symbol)
+        fig_ohlcv = None
         if df_ohlcv is None:
             # fallback single fetch
             try:
@@ -1833,7 +2538,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                             except Exception:
                                 continue
                         fig_on.update_layout(title=f"On-chain Metrics (sample) - {coin_symbol}", height=320, hovermode='x unified')
-                        st.plotly_chart(fig_on, use_container_width=True, config={'displaylogo': False, 'responsive': True})
+                        st.plotly_chart(fig_on, width="stretch", config={'displaylogo': False, 'responsive': True})
                     else:
                         st.caption("Không có cột on-chain hiển thị được.")
                 # MVRV (sử dụng file sample nếu có)
@@ -1841,7 +2546,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                     import metrics_mvrv_z as _mvrv
                     mvrv_fig = _mvrv.plot_mvrv_z_score(coin_id=coin_id)
                     if mvrv_fig:
-                        st.plotly_chart(mvrv_fig, use_container_width=True, config={'displaylogo': False, 'responsive': True})
+                        st.plotly_chart(mvrv_fig, width="stretch", config={'displaylogo': False, 'responsive': True})
                 except Exception:
                     pass
             except Exception as _on_ex:

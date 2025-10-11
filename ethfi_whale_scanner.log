@@ -95,3 +95,21 @@
 [2025-10-09 00:39:30.273227] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23536585 to 23536656
 [2025-10-09 00:53:03.043143] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23536657 to 23536724
 [2025-10-09 01:29:57.956369] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23536807 to 23536908
+[2025-10-10 19:28:50.456740] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23549286 to 23549408
+[2025-10-10 19:38:33.649864] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23549409 to 23549462
+[2025-10-10 19:41:55.610841] Error scanning token ETHFI: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-11 07:01:12.949730] Token: ETHFI | Whale txs found: 3 | Blocks scanned: 23549463 to 23552855
+[2025-10-11 07:44:42.203083] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23552856 to 23553068
+[2025-10-11 08:45:16.497160] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553069 to 23553371
+[2025-10-11 09:02:18.541064] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553372 to 23553456
+[2025-10-11 09:28:37.585441] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553457 to 23553588
+[2025-10-11 09:48:38.964145] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553589 to 23553688
+[2025-10-11 09:52:31.556556] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553689 to 23553707
+[2025-10-11 10:26:30.592129] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553708 to 23553877
+[2025-10-11 10:45:50.237952] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553878 to 23553972
+[2025-10-11 11:20:18.342161] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23553973 to 23554144
+[2025-10-11 12:05:31.757061] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23554145 to 23554369
+[2025-10-11 12:16:59.641171] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23554370 to 23554427
+[2025-10-11 12:30:06.499872] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23554428 to 23554492
+[2025-10-11 13:19:16.774895] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23554493 to 23554736
+[2025-10-11 14:28:25.780653] Token: ETHFI | Whale txs found: 0 | Blocks scanned: 23554737 to 23555079

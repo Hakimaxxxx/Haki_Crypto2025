@@ -74,3 +74,18 @@
 [2025-10-09 00:13:24.591287] Token: WLD | Whale txs found: 0 | Blocks scanned: 23536503 to 23536525
 [2025-10-09 00:41:13.142448] Token: WLD | Whale txs found: 0 | Blocks scanned: 23536526 to 23536663
 [2025-10-09 01:33:00.245392] Token: WLD | Whale txs found: 1 | Blocks scanned: 23536858 to 23536922
+[2025-10-10 19:31:56.637330] Token: WLD | Whale txs found: 0 | Blocks scanned: 23549299 to 23549428
+[2025-10-10 19:44:32.878530] Token: WLD | Whale txs found: 0 | Blocks scanned: 23549429 to 23549491
+[2025-10-11 07:47:18.233544] Error scanning token WLD: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-11 08:48:07.247013] Token: WLD | Whale txs found: 67 | Blocks scanned: 23549492 to 23553383
+[2025-10-11 09:05:29.232849] Token: WLD | Whale txs found: 0 | Blocks scanned: 23553384 to 23553470
+[2025-10-11 09:31:37.813237] Token: WLD | Whale txs found: 0 | Blocks scanned: 23553471 to 23553601
+[2025-10-11 09:51:35.149207] Token: WLD | Whale txs found: 3 | Blocks scanned: 23553602 to 23553701
+[2025-10-11 10:30:00.784630] Token: WLD | Whale txs found: 1 | Blocks scanned: 23553702 to 23553891
+[2025-10-11 10:48:31.854249] Token: WLD | Whale txs found: 0 | Blocks scanned: 23553892 to 23553985
+[2025-10-11 11:23:23.650995] Token: WLD | Whale txs found: 2 | Blocks scanned: 23553986 to 23554157
+[2025-10-11 12:08:27.782064] Token: WLD | Whale txs found: 9 | Blocks scanned: 23554158 to 23554383
+[2025-10-11 12:20:37.373059] Token: WLD | Whale txs found: 2 | Blocks scanned: 23554384 to 23554443
+[2025-10-11 12:33:58.666423] Token: WLD | Whale txs found: 5 | Blocks scanned: 23554444 to 23554508
+[2025-10-11 13:22:20.740852] Token: WLD | Whale txs found: 1 | Blocks scanned: 23554509 to 23554750
+[2025-10-11 14:30:54.029464] Token: WLD | Whale txs found: 0 | Blocks scanned: 23554751 to 23555091

@@ -24,14 +24,20 @@ def load_dominance_cached(ttl: int = 120):
     return None
 
 def get_dominance_data():
-    # Lấy dữ liệu dominance từ CoinGecko
+    # Lấy dữ liệu dominance từ CoinGecko (schema may change)
     url = "https://api.coingecko.com/api/v3/global"
     try:
-        response = requests.get(url, timeout=10)
-        data = response.json()["data"]["market_cap_percentage"]
-        btc = data.get("btc", 0)
-        eth = data.get("eth", 0)
-        others = 100 - btc - eth
+        response = requests.get(url, timeout=15)
+        js = response.json()
+        data = js.get("data") if isinstance(js, dict) else None
+        if not isinstance(data, dict):
+            raise KeyError("data")
+        mcap_pct = data.get("market_cap_percentage") or data.get("market_cap_percentage_usd") or {}
+        if not isinstance(mcap_pct, dict):
+            raise KeyError("market_cap_percentage")
+        btc = float(mcap_pct.get("btc", 0) or 0)
+        eth = float(mcap_pct.get("eth", 0) or 0)
+        others = max(0.0, 100.0 - btc - eth)
         now = pd.Timestamp.now()
         return pd.DataFrame({
             "timestamp": [now],

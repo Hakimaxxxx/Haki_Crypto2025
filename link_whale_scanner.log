@@ -142,3 +142,22 @@
 [2025-10-09 00:39:16.089203] Token: LINK | Whale txs found: 0 | Blocks scanned: 23536583 to 23536654
 [2025-10-09 00:52:50.629820] Token: LINK | Whale txs found: 0 | Blocks scanned: 23536655 to 23536722
 [2025-10-09 01:29:43.014604] Token: LINK | Whale txs found: 0 | Blocks scanned: 23536800 to 23536906
+[2025-10-10 19:28:32.479087] Token: LINK | Whale txs found: 21 | Blocks scanned: 23549284 to 23549401
+[2025-10-10 19:38:19.328209] Token: LINK | Whale txs found: 0 | Blocks scanned: 23549402 to 23549460
+[2025-10-10 19:41:41.370567] Error scanning token LINK: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-11 07:00:53.070573] Token: LINK | Whale txs found: 34 | Blocks scanned: 23549461 to 23552852
+[2025-10-11 07:44:26.617357] Token: LINK | Whale txs found: 0 | Blocks scanned: 23552853 to 23553066
+[2025-10-11 08:45:01.590833] Token: LINK | Whale txs found: 3 | Blocks scanned: 23553067 to 23553367
+[2025-10-11 09:02:00.135343] Token: LINK | Whale txs found: 0 | Blocks scanned: 23553368 to 23553452
+[2025-10-11 09:23:17.731074] Token: LINK | Whale txs found: 3 | Blocks scanned: 23553453 to 23553559
+[2025-10-11 09:28:22.396679] Token: LINK | Whale txs found: 0 | Blocks scanned: 23553560 to 23553585
+[2025-10-11 09:48:24.167654] Token: LINK | Whale txs found: 0 | Blocks scanned: 23553586 to 23553685
+[2025-10-11 09:52:18.416049] Token: LINK | Whale txs found: 1 | Blocks scanned: 23553686 to 23553704
+[2025-10-11 10:26:17.380254] Token: LINK | Whale txs found: 0 | Blocks scanned: 23553705 to 23553875
+[2025-10-11 10:45:37.901659] Token: LINK | Whale txs found: 0 | Blocks scanned: 23553876 to 23553971
+[2025-10-11 11:20:00.335460] Error scanning token LINK: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-11 12:05:10.397874] Token: LINK | Whale txs found: 1 | Blocks scanned: 23553972 to 23554366
+[2025-10-11 12:16:44.937460] Token: LINK | Whale txs found: 3 | Blocks scanned: 23554367 to 23554425
+[2025-10-11 12:29:53.951064] Token: LINK | Whale txs found: 2 | Blocks scanned: 23554426 to 23554490
+[2025-10-11 13:19:02.480980] Token: LINK | Whale txs found: 2 | Blocks scanned: 23554491 to 23554734
+[2025-10-11 14:28:13.712830] Token: LINK | Whale txs found: 3 | Blocks scanned: 23554735 to 23555077
