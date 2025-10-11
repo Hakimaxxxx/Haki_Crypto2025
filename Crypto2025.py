@@ -50,6 +50,15 @@ from cloud_db import db
 from SOL import load_metrics_realtime
 metrics_sol_whale_alert_realtime = load_metrics_realtime()
 
+# Import AVAX module to start its background scanner
+try:
+    from AVAX import load_metrics_realtime as load_avax_metrics
+    metrics_avax_whale_alert_realtime = load_avax_metrics()
+    print("[DEBUG] AVAX module imported and background scanner started")
+except Exception as e:
+    print(f"[ERROR] Failed to import AVAX module: {e}")
+    metrics_avax_whale_alert_realtime = None
+
 # Initialize app with robust error handling
 if "app_initialized" not in st.session_state:
     with st.spinner("🚀 Initializing application..."):
@@ -2021,7 +2030,7 @@ with tab1:
         }
         </style>
     """, unsafe_allow_html=True)
-    st.dataframe(styled_result, hide_index=True)
+    st.dataframe(styled_result, hide_index=True, width='stretch')
 
     # (Đã bỏ nút 'Nhâp liệu mới' trùng key để tránh StreamlitDuplicateElementKey)
 
@@ -2289,7 +2298,13 @@ with tab1:
                             xaxis_title="Thời gian",
                             yaxis_title="% Tăng trưởng",
                             hovermode='x unified',
-                            legend=dict(orientation='h', yanchor='bottom', y=1.02, xanchor='right', x=1)
+                            legend=dict(
+                                orientation='h', 
+                                yanchor='bottom', 
+                                y=-10,  # Adjusted to move the legend below the chart
+                                xanchor='right', 
+                                x=1
+                            )
                         )
                         # Updated deprecation: use width='stretch' instead of use_container_width
                         st.plotly_chart(

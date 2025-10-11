@@ -7566,5 +7566,60 @@
     "to_label": "0xe404369e...",
     "type": "N/A",
     "value": 147409.75617994103
+  },
+  {
+    "hash": "0xe1e0bfdb574a691948841ed25a28d81824eacf1ef6024df221787a268ef274f8",
+    "blockNumber": "23555202",
+    "from": "0xbaf223c231b100ec1025f3ea285847a53ea8724c",
+    "from_label": "0xbaf223c2...",
+    "time": "2025-10-11 14:52:47+00:00",
+    "to": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "to_label": "Binance",
+    "type": "SELL",
+    "value": 894855.5525018399
+  },
+  {
+    "hash": "0x48a3b6c75bee965898b154725408318fabb27c89b26684551a36b791893545d6",
+    "blockNumber": "23555143",
+    "from": "0x27a3ff3fc01b04369448b601a88d7ddc2cf9fb5f",
+    "from_label": "0x27a3ff3f...",
+    "time": "2025-10-11 14:40:59+00:00",
+    "to": "0xbaf223c231b100ec1025f3ea285847a53ea8724c",
+    "to_label": "0xbaf223c2...",
+    "type": "N/A",
+    "value": 894855.5525018399
+  },
+  {
+    "hash": "0x703c2e4d03d8abcd8e2e83e279bbf87740b1741551e58aadc2c0268230d2e77a",
+    "blockNumber": "23555376",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-11 15:27:47+00:00",
+    "to": "0x0384a5fc9807475f191118e3a88889f6a4ca7115",
+    "to_label": "0x0384a5fc...",
+    "type": "BUY",
+    "value": 500006.55
+  },
+  {
+    "hash": "0x26e4d7154dd5272cf688bee375198938f51f90c4f45c6af7f09af6cc346cc498",
+    "blockNumber": "23555348",
+    "from": "0x478271c960137418c9d90082dddbf68aa72e4367",
+    "from_label": "0x478271c9...",
+    "time": "2025-10-11 15:22:11+00:00",
+    "to": "0x0d0707963952f2fba59dd06f2b425ace40b492fe",
+    "to_label": "0x0d070796...",
+    "type": "N/A",
+    "value": 160302.2
+  },
+  {
+    "hash": "0xf5ef7f3b6bb5877ac4eabe54c6a3ac0e4895624b331010b951ae5dee871c9043",
+    "blockNumber": "23555612",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-11 16:15:35+00:00",
+    "to": "0x0384a5fc9807475f191118e3a88889f6a4ca7115",
+    "to_label": "0x0384a5fc...",
+    "type": "BUY",
+    "value": 100006.54999999999
   }
 ]

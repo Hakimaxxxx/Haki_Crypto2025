@@ -172,12 +172,22 @@ def load_sol_whales() -> List[Dict[str, Any]]:
 		return []
 
 
+def load_avax_whales() -> List[Dict[str, Any]]:
+	try:
+		from AVAX import metrics_avax_whale_alert_realtime as avax_mod  # type: ignore
+		events = avax_mod.load_whale_history()
+		return normalize_events(events, token='AVAX') if events else []
+	except Exception:
+		return []
+
+
 # ---------- Aggregated / Generic API ---------- #
 
 LOADERS: Dict[str, Callable[[], List[Dict[str, Any]]]] = {
 	'BTC': load_btc_whales,
 	'BNB': load_bnb_whales,
 	'SOL': load_sol_whales,
+	'AVAX': load_avax_whales,
 }
 
 
