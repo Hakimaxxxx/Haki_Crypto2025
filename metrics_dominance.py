@@ -22,33 +22,65 @@ def load_dominance_cached(ttl: int = 120):
         _DOM_CACHE["ts"] = now
         return rec
     return None
-
+#old code
+# def get_dominance_data():
+#     # Lấy dữ liệu dominance từ CoinGecko (schema may change)
+#     url = "https://api.coingecko.com/api/v3/global"
+#     try:
+#         response = requests.get(url, timeout=30)
+#         js = response.json()
+#         data = js.get("data") if isinstance(js, dict) else None
+#         if not isinstance(data, dict):
+#             raise KeyError("data")
+#         mcap_pct = data.get("market_cap_percentage") or data.get("market_cap_percentage_usd") or {}
+#         if not isinstance(mcap_pct, dict):
+#             raise KeyError("market_cap_percentage")
+#         btc = float(mcap_pct.get("btc", 0) or 0)
+#         eth = float(mcap_pct.get("eth", 0) or 0)
+#         others = max(0.0, 100.0 - btc - eth)
+#         now = pd.Timestamp.now()
+#         return pd.DataFrame({
+#             "timestamp": [now],
+#             "BTC": [btc],
+#             "ETH": [eth],
+#             "Others": [others]
+#         })
+#     except Exception as e:
+#         st.error(f"Không lấy được dữ liệu Dominance: {e}")
+#         return pd.DataFrame()
 def get_dominance_data():
     # Lấy dữ liệu dominance từ CoinGecko (schema may change)
     url = "https://api.coingecko.com/api/v3/global"
     try:
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=30)
         js = response.json()
         data = js.get("data") if isinstance(js, dict) else None
         if not isinstance(data, dict):
-            raise KeyError("data")
+            return pd.DataFrame()  # Nếu lỗi, bỏ qua luôn
         mcap_pct = data.get("market_cap_percentage") or data.get("market_cap_percentage_usd") or {}
         if not isinstance(mcap_pct, dict):
-            raise KeyError("market_cap_percentage")
-        btc = float(mcap_pct.get("btc", 0) or 0)
-        eth = float(mcap_pct.get("eth", 0) or 0)
-        others = max(0.0, 100.0 - btc - eth)
-        now = pd.Timestamp.now()
-        return pd.DataFrame({
-            "timestamp": [now],
-            "BTC": [btc],
-            "ETH": [eth],
-            "Others": [others]
+            return pd.DataFrame()
+        btc = mcap_pct.get("btc")
+        eth = mcap_pct.get("eth")
+        # Nếu thiếu dữ liệu thì bỏ qua luôn
+        if btc is None or eth is None:
+            return pd.DataFrame()
+        else:
+            btc = float(btc)
+            eth = float(eth)
+            others = max(0.0, 100.0 - btc - eth)
+            now = pd.Timestamp.now()
+            return pd.DataFrame({
+                "timestamp": [now],
+                "BTC": [btc],
+                "ETH": [eth],
+                "Others": [others]
         })
     except Exception as e:
-        st.error(f"Không lấy được dữ liệu Dominance: {e}")
+        # Có thể log ra lỗi nếu muốn debug, nhưng KHÔNG trả về dữ liệu 0.0
+        # st.error(f"Không lấy được dữ liệu Dominance: {e}")  # Có thể comment dòng này đi nếu không muốn log
         return pd.DataFrame()
-
+    
 import requests
 import pandas as pd
 import streamlit as st

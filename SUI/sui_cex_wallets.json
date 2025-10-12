@@ -1,0 +1,12 @@
+{
+    "CEX_WALLETS": [
+        "0xac5bceec1b789ff840d7d4e6ce4ce61c90d190a7f8c4f4ddf0bff6ee2413c33c",
+        "0x60dd01bc037e2c1ea2aaf02187701f9f4453ba323338d2f2f521957065b0984d",
+        "0x443cf42b0da43c230bff7a64e69ce25d24d65f49e7c9db6adecc0bd176dba79a",
+        "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+    ],
+    "DEX_WALLETS": [
+        "0x789dexwallet1",
+        "0xabcdewallet2"
+    ]
+}

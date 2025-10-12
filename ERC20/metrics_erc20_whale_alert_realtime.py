@@ -27,10 +27,10 @@ ERC20_TOKENS = [
         "contract": WETH_CONTRACT,
         "history_file": "eth_whale_alert_history.json",
         "block_file": "eth_whale_last_block.json",
-        "min_value_token": 3000,
+        "min_value_token": 5000,
         "threshold_mode": "token",
         "coingecko_id": "ethereum",
-        "max_results": 2000
+        "max_results": 1000
     },
     {
         "name": "LINK",
@@ -58,7 +58,7 @@ ERC20_TOKENS = [
         "contract": ENA_CONTRACT,
         "history_file": "ena_whale_alert_history.json",
         "block_file": "ena_whale_last_block.json",
-        "min_value_token": 12000000,
+        "min_value_token": 8000000,
         "threshold_mode": "token",
         "coingecko_id": "ethena",  # cần xác minh
         "max_results": 1500
@@ -68,7 +68,7 @@ ERC20_TOKENS = [
         "contract": EIGEN_CONTRACT,
         "history_file": "eigen_whale_alert_history.json",
         "block_file": "eigen_whale_last_block.json",
-        "min_value_token": 1000000,
+        "min_value_token": 300000,
         "threshold_mode": "token",
         "coingecko_id": "eigenlayer",  # placeholder
         "max_results": 1500

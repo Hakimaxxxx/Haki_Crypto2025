@@ -49,15 +49,10 @@ os.environ["CLOUD_DB_NAME"] = "Crypto2025"
 from cloud_db import db
 from SOL import load_metrics_realtime
 metrics_sol_whale_alert_realtime = load_metrics_realtime()
+from AVAX import load_metrics_realtime as load_avax_metrics
+metrics_avax_whale_alert_realtime = load_avax_metrics()
 
-# Import AVAX module to start its background scanner
-try:
-    from AVAX import load_metrics_realtime as load_avax_metrics
-    metrics_avax_whale_alert_realtime = load_avax_metrics()
-    print("[DEBUG] AVAX module imported and background scanner started")
-except Exception as e:
-    print(f"[ERROR] Failed to import AVAX module: {e}")
-    metrics_avax_whale_alert_realtime = None
+
 
 # Initialize app with robust error handling
 if "app_initialized" not in st.session_state:
@@ -502,8 +497,16 @@ def crawl_marketcap_background():
         try:
             resp = requests.get("https://api.coingecko.com/api/v3/global", timeout=15)
             g = resp.json().get("data", {})
-            mcap = float((g.get("total_market_cap") or {}).get("usd", 0.0))
-            vol = float((g.get("total_volume") or {}).get("usd", 0.0))
+            mcap = (g.get("total_market_cap") or {}).get("usd")
+            vol = (g.get("total_volume") or {}).get("usd")
+            
+            # Nếu không lấy được dữ liệu hoặc dữ liệu = 0 thì bỏ qua luôn, không ghi file/log
+            if mcap is None or vol is None or float(mcap) == 0.0 or float(vol) == 0.0:
+                print("[MARKETCAP] Skip: API returned invalid data (None or 0.0)")
+                continue
+            
+            mcap = float(mcap)
+            vol = float(vol)
             ts = int(_t.time())
             # Create row with proper format
             from datetime import datetime

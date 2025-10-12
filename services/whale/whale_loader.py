@@ -72,6 +72,26 @@ def _normalize_event(evt: Dict[str, Any], token: Optional[str] = None) -> Dict[s
 				pass
 			break
 
+	# Ensure a normalized positive 'value' field for overlays (use absolute of amount_token/value)
+	val = None
+	if 'amount_token' in out:
+		try:
+			val = float(out.get('amount_token') or 0)
+		except Exception:
+			val = None
+	# fallback to raw 'value' if present
+	if val is None and 'value' in out:
+		try:
+			val = float(out.get('value') or 0)
+		except Exception:
+			val = None
+	if val is not None:
+		# store absolute (positive) for display/overlay sizing
+		out['value'] = abs(val)
+	else:
+		# ensure key exists for downstream code
+		out['value'] = None
+
 	# USD amount (optional)
 	for usd_candidate in ["amount_usd", "usd_value", "value_usd"]:
 		if usd_candidate in out:
@@ -81,22 +101,52 @@ def _normalize_event(evt: Dict[str, Any], token: Optional[str] = None) -> Dict[s
 				pass
 			break
 
-	# Standardize timestamp -> prefer numeric epoch
+	# Standardize timestamp -> ONLY convert SUI timestamps to UTC datetime & ISO string.
+	# Many chains already share a common time format; only SUI historically used
+	# raw numeric epochs that required conversion. Keep non-SUI events untouched.
 	ts_val = out.get('ts') or out.get('timestamp') or out.get('time')
-	if isinstance(ts_val, (int, float)):
+	parsed_dt = None
+
+	# Detect SUI by provided token param, normalized token field, or chain indicator
+	token_field = (token or out.get('token') or '').lower()
+	chain_field = (out.get('chain') or '').lower()
+	is_sui = token_field == 'sui' or token_field == 'suichain' or ('sui' in chain_field and chain_field != '') or ('suichain' in chain_field)
+
+	if is_sui:
 		try:
-			out['ts'] = datetime.fromtimestamp(float(ts_val), tz=timezone.utc)
+			if isinstance(ts_val, (int, float)):
+				# Heuristic: if value looks like milliseconds (>=1e12), convert to seconds
+				n = float(ts_val)
+				if n > 1e12:
+					n = n / 1000.0
+				parsed_dt = datetime.fromtimestamp(n, tz=timezone.utc)
+			elif isinstance(ts_val, str):
+				s = ts_val.strip()
+				if s.isdigit():
+					n = float(s)
+					if n > 1e12:
+						n = n / 1000.0
+					parsed_dt = datetime.fromtimestamp(n, tz=timezone.utc)
+				else:
+					try:
+						parsed_dt = datetime.fromisoformat(s.replace('Z', '+00:00')).astimezone(timezone.utc)
+					except Exception:
+						parsed_dt = None
 		except Exception:
-			pass
-	elif isinstance(ts_val, str):
-		# Try parse ISO or number-in-string
-		try:
-			if ts_val.isdigit():
-				out['ts'] = datetime.fromtimestamp(float(ts_val), tz=timezone.utc)
-			else:
-				out['ts'] = datetime.fromisoformat(ts_val.replace('Z', '+00:00')).astimezone(timezone.utc)
-		except Exception:
-			pass
+			parsed_dt = None
+
+		if parsed_dt is not None:
+			out['ts'] = parsed_dt
+			# also set ISO time string for overlay code which expects e.get('time') or ts
+			try:
+				out['time'] = parsed_dt.isoformat()
+			except Exception:
+				out['time'] = None
+	else:
+		# Non-SUI: preserve existing ts/time values; do not coerce numeric epochs here.
+		# Downstream code that expects datetimes will continue to handle non-SUI values
+		# via their shared standard; avoid touching them to prevent regressions.
+		pass
 
 	return out
 
@@ -181,6 +231,15 @@ def load_avax_whales() -> List[Dict[str, Any]]:
 		return []
 
 
+def load_sui_whales() -> List[Dict[str, Any]]:
+    try:
+        from SUI import metrics_sui_whale_alert_realtime as sui_mod  # type: ignore
+        events = sui_mod.load_whale_history()
+        return normalize_events(events, token='SUI') if events else []
+    except Exception:
+        return []
+
+
 # ---------- Aggregated / Generic API ---------- #
 
 LOADERS: Dict[str, Callable[[], List[Dict[str, Any]]]] = {
@@ -188,6 +247,7 @@ LOADERS: Dict[str, Callable[[], List[Dict[str, Any]]]] = {
 	'BNB': load_bnb_whales,
 	'SOL': load_sol_whales,
 	'AVAX': load_avax_whales,
+	'SUI': load_sui_whales,
 }
 
 
