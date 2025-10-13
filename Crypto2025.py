@@ -945,6 +945,20 @@ def fetch_okx_liq_cached(symbol: str, limit: int = 100):
     except Exception:
         return None
 
+@st.cache_data(ttl=300, show_spinner=False)
+def fetch_okx_liq_range_cached(symbol: str, start_ts: int, end_ts: int):
+    """Cached range fetcher for OKX liquidation details.
+    Inputs are epoch seconds for stable caching.
+    """
+    try:
+        import metrics_liquidation_okx as _mlo
+        from datetime import datetime
+        start_dt = datetime.utcfromtimestamp(start_ts)
+        end_dt = datetime.utcfromtimestamp(end_ts)
+        return _mlo.fetch_okx_liquidation_range(symbol, start_dt, end_dt)
+    except Exception:
+        return None
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_onchain_metrics_cached(asset: str, days: int = 365):
     try:
@@ -2541,24 +2555,84 @@ for idx, coin_tuple in enumerate(COIN_LIST):
 
         # === Liquidation Heatmap (if available) ===
         with st.expander("Liquidation Heatmap", expanded=False):
-            try:
-                import metrics_liquidation_okx
-                df_liq = fetch_okx_liq_cached(symbol=f"{coin_symbol}-USDT-SWAP", limit=120)
-                if df_liq is not None and not (hasattr(df_liq, 'empty') and df_liq.empty):
-                    try:
-                        fig_liq = metrics_liquidation_okx.plot_liquidation_heatmap(df_liq)
-                        st.plotly_chart(
-                            fig_liq,
-                            width='stretch',
-                            key=f"liq_{coin_symbol}",
-                            config={'displaylogo': False, 'responsive': True}
-                        )
-                    except Exception as _liq_ex:
-                        st.caption(f"Không vẽ được heatmap: {_liq_ex}")
-                else:
-                    st.caption("Không có dữ liệu liquidation.")
-            except Exception as _liq_mod_ex:
-                st.caption(f"Module liquidation không khả dụng: {_liq_mod_ex}")
+            enable_liq = st.checkbox(
+                f"Bật heatmap cho {coin_symbol}",
+                value=False,
+                key=f"liq_enable_{coin_symbol}"
+            )
+            if not enable_liq:
+                st.caption("Tắt theo mặc định để tăng tốc trang. Bật để tải dữ liệu (có thể mất vài giây).")
+            else:
+                try:
+                    import metrics_liquidation_okx as _mlo
+                    # Controls
+                    tframe = st.selectbox(
+                        f"Khung thời gian (OKX) - {coin_symbol}",
+                        options=["3M","1M","7D","1D"],
+                        index=0,
+                        key=f"liq_tf_{coin_symbol}"
+                    )
+                    thr = st.slider(
+                        "Ngưỡng lọc (tổng size mỗi ô)",
+                        min_value=1,
+                        max_value=100,
+                        value=1,
+                        step=1,
+                        key=f"liq_thr_{coin_symbol}"
+                    )
+                    # Optional advanced binning
+                    with st.expander("Tùy chọn nâng cao", expanded=False):
+                        time_bins = st.slider("Số ô thời gian", 12, 200, 72, key=f"liq_tb_{coin_symbol}")
+                        price_bins = st.slider("Số ô giá", 20, 300, 80, key=f"liq_pb_{coin_symbol}")
+                    # Determine timeframe
+                    from datetime import datetime, timedelta
+                    now_dt = datetime.utcnow()
+                    tf_map = {
+                        "3M": now_dt - timedelta(days=90),
+                        "1M": now_dt - timedelta(days=30),
+                        "7D": now_dt - timedelta(days=7),
+                        "1D": now_dt - timedelta(days=1),
+                    }
+                    start_dt = tf_map.get(tframe, now_dt - timedelta(days=90))
+                    symbol_okx = f"{coin_symbol}-USDT-SWAP"
+                    # Cached range fetch (non-blocking tuned in the metrics module)
+                    df_liq = fetch_okx_liq_range_cached(symbol_okx, int(start_dt.timestamp()), int(now_dt.timestamp()))
+                    # Auto-fallback to shorter ranges if empty
+                    fallback_used = None
+                    if df_liq is None or (hasattr(df_liq, 'empty') and df_liq.empty):
+                        for alt in ("1M","7D","1D"):
+                            alt_start = tf_map[alt]
+                            df_alt = fetch_okx_liq_range_cached(symbol_okx, int(alt_start.timestamp()), int(now_dt.timestamp()))
+                            if df_alt is not None and not (hasattr(df_alt,'empty') and df_alt.empty):
+                                df_liq = df_alt
+                                fallback_used = alt
+                                break
+                    if df_liq is not None and not (hasattr(df_liq,'empty') and df_liq.empty):
+                        try:
+                            fig_liq = _mlo.build_liquidation_heatmap(
+                                df_liq, symbol_okx,
+                                time_bins=time_bins,
+                                price_bins=price_bins,
+                                threshold=thr,
+                                timeframe_label=fallback_used or tframe
+                            )
+                            if fig_liq is not None:
+                                st.plotly_chart(
+                                    fig_liq,
+                                    width='stretch',
+                                    key=f"liq_{coin_symbol}",
+                                    config={'displaylogo': False, 'responsive': True}
+                                )
+                                if fallback_used:
+                                    st.caption(f"Không có dữ liệu đủ cho {tframe}. Đang hiển thị {fallback_used}.")
+                            else:
+                                st.caption("Không thể tạo heatmap từ dữ liệu hiện tại.")
+                        except Exception as _liq_ex:
+                            st.caption(f"Không vẽ được heatmap: {_liq_ex}")
+                    else:
+                        st.caption("Không có dữ liệu liquidation từ OKX cho khung đã chọn.")
+                except Exception as _liq_mod_ex:
+                    st.caption(f"Module liquidation không khả dụng: {_liq_mod_ex}")
 
         # === Portfolio history for this coin ===
         with st.expander("Lịch sử Portfolio Coin", expanded=False):
