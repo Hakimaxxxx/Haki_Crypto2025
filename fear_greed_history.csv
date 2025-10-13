@@ -1,5 +1,4 @@
 value,value_classification,timestamp,time_until_update
-23,Extreme Fear,2024-09-07,
 29,Fear,2024-09-08,
 26,Fear,2024-09-09,
 33,Fear,2024-09-10,
@@ -398,4 +397,5 @@ value,value_classification,timestamp,time_until_update
 70,Greed,2025-10-09,
 64,Greed,2025-10-10,
 27,Fear,2025-10-11,
-24,Extreme Fear,2025-10-12,24057
+24,Extreme Fear,2025-10-12,
+38,Fear,2025-10-13,28761

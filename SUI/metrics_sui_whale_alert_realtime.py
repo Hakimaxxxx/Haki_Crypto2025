@@ -86,7 +86,7 @@ def _blockberry_request_with_backoff(method: str, url: str, headers: dict | None
                 r = requests.post(url, headers=headers, json=json_body, timeout=timeout)
         except Exception as e:
             last_exc = e
-            _log(f"BlockBerry request error (attempt {attempt+1}/{max_retries}) for {url}: {e}")
+            #_log(f"BlockBerry request error (attempt {attempt+1}/{max_retries}) for {url}: {e}")
             time.sleep(1 * (2 ** attempt))
             continue
 
@@ -94,7 +94,7 @@ def _blockberry_request_with_backoff(method: str, url: str, headers: dict | None
             return r
         # If rate-limited, backoff and retry
         if r.status_code == 429:
-            _log(f"BlockBerry rate-limited (429) for {url} (attempt {attempt+1}/{max_retries}); backing off")
+            #_log(f"BlockBerry rate-limited (429) for {url} (attempt {attempt+1}/{max_retries}); backing off")
             last_exc = RuntimeError("HTTP 429")
             time.sleep(1 * (2 ** attempt))
             continue
@@ -136,7 +136,7 @@ def _http_get_with_retries(url: str, timeout: int = 12, attempts: int = 3, backo
         # log non-200
         if r.status_code != 200:
             snippet = (r.text or "")[:400]
-            _log(f"Non-200 HTTP response {r.status_code} for {url} (attempt {i+1}/{attempts}). Snippet: {snippet}")
+            #_log(f"Non-200 HTTP response {r.status_code} for {url} (attempt {i+1}/{attempts}). Snippet: {snippet}")
             last_exc = RuntimeError(f"HTTP {r.status_code}")
             time.sleep(backoff_sec * (2 ** i))
             continue
@@ -439,6 +439,10 @@ def _format_indexer_txs(data_list: list) -> list:
 def _rpc_post(url: str, payload: dict, timeout: int = 10):
     headers = {"Content-Type": "application/json"}
     try:
+        # If BlockBerry key is present, prefer BlockBerry-only flow and avoid RPC calls
+        if BLOCKBERRY_API_KEY:
+            _log("RPC calls disabled because BLOCKBERRY_API_KEY is set; skipping _rpc_post")
+            raise RuntimeError("RPC disabled when BLOCKBERRY_API_KEY is present")
         return requests.post(url, json=payload, headers=headers, timeout=timeout)
     except Exception as e:
         _log(f"RPC post error to {url}: {e}")
@@ -741,6 +745,11 @@ def fetch_recent_blockberry_transactions(limit: int = 200, page_size: int = 50):
 
 def _detect_working_rpc() -> str | None:
     global SUI_RPC_URL
+    # When BlockBerry is the chosen indexer, skip RPC detection to avoid
+    # contacting unrelated fullnodes. This keeps behavior deterministic.
+    if BLOCKBERRY_API_KEY:
+        _log("Skipping RPC detection because BLOCKBERRY_API_KEY is set")
+        return None
     if SUI_RPC_URL:
         return SUI_RPC_URL
     for candidate in _RPC_CANDIDATES:
@@ -814,6 +823,10 @@ def scan_recent_transactions_by_sequence(num_sequences: int = 500, min_value_sui
     `sui_getTransactionBlock`. We group results by a block-like key (checkpoint when
     available, otherwise the sequence number).
     """
+    # If BlockBerry mode is enabled, we avoid RPC-based scanning entirely.
+    if BLOCKBERRY_API_KEY:
+        _log("scan_recent_transactions_by_sequence skipped because BLOCKBERRY_API_KEY is set")
+        return {}
     rpc = _detect_working_rpc()
     if not rpc:
         raise RuntimeError("No working RPC detected")
@@ -922,6 +935,10 @@ def scan_recent_events_via_suix(limit: int = 500, min_value_sui: float = 1500000
       - min_value_sui: threshold for SUI amount to consider a whale
       - time_range_ms: optional (start_ms, end_ms) to restrict the query
     """
+    # When using BlockBerry indexer, don't run suix RPC event scans.
+    if BLOCKBERRY_API_KEY:
+        _log("scan_recent_events_via_suix skipped because BLOCKBERRY_API_KEY is set")
+        return {}
     rpc = _detect_working_rpc()
     if not rpc:
         raise RuntimeError("No working RPC detected")
@@ -1137,9 +1154,37 @@ def background_whale_alert_scanner(min_value_sui: float = 1500000, num_blocks: i
                 start_block = None
             _log(f"Starting scan with start_block={start_block}")
 
+            # Initialize per-scan accumulators for reporting
+            scan_total_tx_count = 0
+            scan_total_sui = 0.0
+
             for blk in checkpoints:
                 try:
-                    txs = fetch_block_transactions(blk)
+                    txs = fetch_block_transactions(blk) or []
+
+                    # Compute per-block scanned metrics (sum of absolute SUI values and tx count)
+                    try:
+                        blk_tx_count = len(txs)
+                    except Exception:
+                        blk_tx_count = 0
+                    blk_sui_total = 0.0
+                    for _t in txs:
+                        try:
+                            blk_sui_total += abs(float(_t.get("value", 0) or 0))
+                        except Exception:
+                            continue
+
+                    _log(f"Scanned block {blk}: tx_count={blk_tx_count}, total_sui={blk_sui_total}")
+
+                    # accumulate per-scan totals
+                    try:
+                        scan_total_tx_count += blk_tx_count
+                        scan_total_sui += blk_sui_total
+                    except NameError:
+                        # initialize if not present in this run
+                        scan_total_tx_count = blk_tx_count
+                        scan_total_sui = blk_sui_total
+
                     for tx in txs:
                         value_sui = float(tx.get("value", 0) or 0)
                         if abs(value_sui) < min_value_sui:
@@ -1177,6 +1222,12 @@ def background_whale_alert_scanner(min_value_sui: float = 1500000, num_blocks: i
                     start_block = int(fetch_latest_block_number())
                 except Exception:
                     start_block = 0
+
+            # Log per-scan summary of what we scanned (total txs and total SUI observed)
+            try:
+                _log(f"Scan summary: scanned_blocks={len(checkpoints)}, total_tx_count={scan_total_tx_count}, total_sui={scan_total_sui}")
+            except Exception:
+                pass
 
             # Trim history to keep only entries meeting the threshold and avoid unbounded growth.
             history = [tx for tx in history if abs(float(tx.get("value", 0) or 0)) >= min_value_sui]

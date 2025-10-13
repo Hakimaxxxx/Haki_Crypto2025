@@ -2363,5 +2363,16 @@
     "to_label": "Binance",
     "type": "SELL",
     "value": 9016080.0
+  },
+  {
+    "hash": "0x2196d87a9b297a175149fd2c535f7d90a78c659d40540f5f7c72f91a6332da20",
+    "blockNumber": "23566100",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-13 03:24:47+00:00",
+    "to": "0xf977814e90da44bfa03b6295a0616a897441acec",
+    "to_label": "Binance",
+    "type": "SELL",
+    "value": 2648056.0
   }
 ]

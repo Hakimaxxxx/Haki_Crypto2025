@@ -471,9 +471,8 @@ def crawl_dominance_background():
             print(f"[DOMINANCE API ERROR] Failed to fetch data: {e}")
         _t.sleep(300)  # Changed from 300 to 60 seconds for faster updates
 
-
 def crawl_marketcap_background():
-    """Fetch global total market cap and 24h volume periodically and append to CSV."""
+    """Fetch global total market cap and 24h volume periodically and append to CSV if valid."""
     import requests
     import pandas as pd
     import time as _t
@@ -494,63 +493,141 @@ def crawl_marketcap_background():
                 pass
             raise
     while True:
+        mcap = None
+        vol = None
+        ts = int(_t.time())
         try:
             resp = requests.get("https://api.coingecko.com/api/v3/global", timeout=15)
             g = resp.json().get("data", {})
             mcap = (g.get("total_market_cap") or {}).get("usd")
             vol = (g.get("total_volume") or {}).get("usd")
-            
-            # Nếu không lấy được dữ liệu hoặc dữ liệu = 0 thì bỏ qua luôn, không ghi file/log
+        except Exception as e:
+            print(f"[MARKETCAP API ERROR] Failed to fetch data: {e}")
+            _t.sleep(300)
+            continue
+
+        # Nếu không lấy được dữ liệu hoặc dữ liệu = 0 thì bỏ qua luôn, không ghi file/log/gọi db
+        try:
             if mcap is None or vol is None or float(mcap) == 0.0 or float(vol) == 0.0:
-                print("[MARKETCAP] Skip: API returned invalid data (None or 0.0)")
+                #print("[MARKETCAP] Skip: API returned invalid data (None or 0.0)")
+                _t.sleep(300)
                 continue
-            
+
             mcap = float(mcap)
             vol = float(vol)
-            ts = int(_t.time())
-            # Create row with proper format
             from datetime import datetime
             ts_str = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
             row = {"timestamp": ts_str, "market_cap": mcap, "volume_1d": vol}
-            
+
             # Append to CSV (atomic)
-            try:
-                import os
-                if os.path.exists(file):
-                    df = pd.read_csv(file)
-                    # Check if timestamp column exists and parse it
-                    if 'timestamp' in df.columns:
-                        df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
-                        df = df.dropna(subset=['timestamp'])
-                else:
-                    df = pd.DataFrame(columns=["timestamp","market_cap","volume_1d"])
-                
-                # Check for duplicate entries (avoid same minute)
-                if not df.empty:
-                    last_ts = pd.to_datetime(df.iloc[-1]['timestamp'])
-                    current_ts = pd.to_datetime(ts_str)
-                    if abs((current_ts - last_ts).total_seconds()) < 60:
-                        pass  # Skip duplicate minute
-                    else:
-                        new_row = pd.DataFrame([row])
-                        df = pd.concat([df, new_row], ignore_index=True)
-                        _atomic_write_csv(df, file)
-                        print(f"[MARKETCAP] Saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+            import os
+            if os.path.exists(file):
+                df = pd.read_csv(file)
+                if 'timestamp' in df.columns:
+                    df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+                    df = df.dropna(subset=['timestamp'])
+            else:
+                df = pd.DataFrame(columns=["timestamp","market_cap","volume_1d"])
+            
+            # Check for duplicate entries (avoid same minute)
+            if not df.empty:
+                last_ts = pd.to_datetime(df.iloc[-1]['timestamp'])
+                current_ts = pd.to_datetime(ts_str)
+                if abs((current_ts - last_ts).total_seconds()) < 60:
+                    pass  # Skip duplicate minute
                 else:
                     new_row = pd.DataFrame([row])
                     df = pd.concat([df, new_row], ignore_index=True)
                     _atomic_write_csv(df, file)
-                    print(f"[MARKETCAP] First entry saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
-            except Exception as e:
-                print(f"[MARKETCAP ERROR] Failed to save: {e}")
-        except Exception:
-            _db_upsert_marketcap_row({"timestamp": ts, "market_cap": mcap, "volume_1d": vol})
+                    print(f"[MARKETCAP] Saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+            else:
+                new_row = pd.DataFrame([row])
+                df = pd.concat([df, new_row], ignore_index=True)
+                _atomic_write_csv(df, file)
+                print(f"[MARKETCAP] First entry saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
         except Exception as e:
-            print(f"[MARKETCAP API ERROR] Failed to fetch data: {e}")
-        _t.sleep(300)  # Changed  
-# để tránh NameError trong các hàm background.
-# Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
-# (Đã lấy từ config)
+            print(f"[MARKETCAP ERROR] Failed to save: {e}")
+
+        _t.sleep(300)
+# def crawl_marketcap_background():
+#     """Fetch global total market cap and 24h volume periodically and append to CSV."""
+#     import requests
+#     import pandas as pd
+#     import time as _t
+#     file = "marketcap_history.csv"
+#     def _atomic_write_csv(df: 'pd.DataFrame', path: str):
+#         import tempfile, os
+#         dir_name = os.path.dirname(os.path.abspath(path)) or "."
+#         fd, tmp_path = tempfile.mkstemp(prefix=".tmp_", suffix=".csv", dir=dir_name)
+#         os.close(fd)
+#         try:
+#             df.to_csv(tmp_path, index=False)
+#             os.replace(tmp_path, path)
+#         except Exception:
+#             try:
+#                 if os.path.exists(tmp_path):
+#                     os.remove(tmp_path)
+#             except Exception:
+#                 pass
+#             raise
+#     while True:
+#         try:
+#             resp = requests.get("https://api.coingecko.com/api/v3/global", timeout=15)
+#             g = resp.json().get("data", {})
+#             mcap = (g.get("total_market_cap") or {}).get("usd")
+#             vol = (g.get("total_volume") or {}).get("usd")
+            
+#             # Nếu không lấy được dữ liệu hoặc dữ liệu = 0 thì bỏ qua luôn, không ghi file/log
+#             if mcap is None or vol is None or float(mcap) == 0.0 or float(vol) == 0.0:
+#                 #print("[MARKETCAP] Skip: API returned invalid data (None or 0.0)")
+#                 continue
+            
+#             mcap = float(mcap)
+#             vol = float(vol)
+#             ts = int(_t.time())
+#             # Create row with proper format
+#             from datetime import datetime
+#             ts_str = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+#             row = {"timestamp": ts_str, "market_cap": mcap, "volume_1d": vol}
+            
+#             # Append to CSV (atomic)
+#             try:
+#                 import os
+#                 if os.path.exists(file):
+#                     df = pd.read_csv(file)
+#                     # Check if timestamp column exists and parse it
+#                     if 'timestamp' in df.columns:
+#                         df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+#                         df = df.dropna(subset=['timestamp'])
+#                 else:
+#                     df = pd.DataFrame(columns=["timestamp","market_cap","volume_1d"])
+                
+#                 # Check for duplicate entries (avoid same minute)
+#                 if not df.empty:
+#                     last_ts = pd.to_datetime(df.iloc[-1]['timestamp'])
+#                     current_ts = pd.to_datetime(ts_str)
+#                     if abs((current_ts - last_ts).total_seconds()) < 60:
+#                         pass  # Skip duplicate minute
+#                     else:
+#                         new_row = pd.DataFrame([row])
+#                         df = pd.concat([df, new_row], ignore_index=True)
+#                         _atomic_write_csv(df, file)
+#                         print(f"[MARKETCAP] Saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+#                 else:
+#                     new_row = pd.DataFrame([row])
+#                     df = pd.concat([df, new_row], ignore_index=True)
+#                     _atomic_write_csv(df, file)
+#                     print(f"[MARKETCAP] First entry saved: Cap=${mcap/1e12:.2f}T, Vol=${vol/1e9:.2f}B")
+#             except Exception as e:
+#                 print(f"[MARKETCAP ERROR] Failed to save: {e}")
+#         except Exception:
+#             _db_upsert_marketcap_row({"timestamp": ts, "market_cap": mcap, "volume_1d": vol})
+#         except Exception as e:
+#             print(f"[MARKETCAP API ERROR] Failed to fetch data: {e}")
+#         _t.sleep(300)  # Changed  
+# # để tránh NameError trong các hàm background.
+# # Đường dẫn file lưu holdings, giá mua trung bình, lịch sử portfolio
+# # (Đã lấy từ config)
 
 
 # --- Nền: Ghi nhận Portfolio (Value/PNL/% P&L) theo phút, đồng bộ DB liên tục ---
@@ -573,7 +650,7 @@ def _fetch_prices_raw(coins_list: list[str]) -> tuple[dict, bool, str]:
     }
     
     try:
-        r = requests.get(url, params=params, timeout=15)
+        r = requests.get(url, params=params, timeout=20)
         
         # Strict status code checking
         if r.status_code == 429:
