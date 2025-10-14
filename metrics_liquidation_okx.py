@@ -1,5 +1,6 @@
 import time
 import math
+import os
 from datetime import datetime, timedelta
 import requests
 import pandas as pd
@@ -14,7 +15,7 @@ def fetch_okx_liquidation(symbol="BTC-USDT-SWAP", limit=100):
     """
     base = symbol.split('-')[0]
     url = f"https://www.okx.com/api/v5/public/liquidation-orders?instType=SWAP&uly={base}-USDT&instId={symbol}&state=filled&limit={limit}"
-    resp = requests.get(url, timeout=10)
+    resp = requests.get(url, timeout=10, headers=_PUBLIC_GET_HEADERS)
     data = resp.json()
     if data.get("code") != "0" or "data" not in data:
         return pd.DataFrame()
@@ -30,7 +31,7 @@ def fetch_okx_liquidation(symbol="BTC-USDT-SWAP", limit=100):
     return df
 
 
-def fetch_okx_liquidation_range(symbol, start_dt, end_dt, page_limit=100, max_pages=12, sleep=0.15, overall_timeout: float | None = 8.0):
+def fetch_okx_liquidation_range(symbol, start_dt, end_dt, page_limit=100, max_pages=50, sleep=0.15, overall_timeout: float | None = 8.0):
     """Fetch liquidation details from OKX paginating backwards until start_dt.
 
     Args:
@@ -66,7 +67,7 @@ def fetch_okx_liquidation_range(symbol, start_dt, end_dt, page_limit=100, max_pa
             # Fit request timeout into remaining overall budget
             remaining = (deadline - time.time()) if deadline is not None else None
             req_to = 7 if remaining is None else max(1.5, min(7.0, remaining - 0.2))
-            resp = requests.get(url, params=params, timeout=req_to)
+            resp = requests.get(url, params=params, timeout=req_to, headers=_PUBLIC_GET_HEADERS)
             data = resp.json()
         except Exception:
             break
@@ -134,7 +135,7 @@ def _map_bar_for_duration(days: float) -> str:
 
 
 def fetch_okx_candles_range(symbol: str, start_dt: datetime, end_dt: datetime, bar: str | None = None,
-                             limit_per: int = 300, max_pages: int = 12, sleep: float = 0.15, overall_timeout: float | None = 6.0) -> pd.DataFrame:
+                             limit_per: int = 300, max_pages: int = 50, sleep: float = 0.15, overall_timeout: float | None = 6.0) -> pd.DataFrame:
     """Fetch OKX candles for instId between start_dt..end_dt with pagination.
 
     Returns DataFrame with columns [ts, open, high, low, close, volume, datetime].
@@ -162,7 +163,7 @@ def fetch_okx_candles_range(symbol: str, start_dt: datetime, end_dt: datetime, b
         try:
             remaining = (deadline - time.time()) if deadline is not None else None
             req_to = 6 if remaining is None else max(1.5, min(6.0, remaining - 0.2))
-            r = requests.get(url, params=q, timeout=req_to)
+            r = requests.get(url, params=q, timeout=req_to, headers=_PUBLIC_GET_HEADERS)
             js = r.json()
         except Exception:
             break
@@ -213,7 +214,230 @@ def fetch_okx_candles_range(symbol: str, start_dt: datetime, end_dt: datetime, b
     return cdf
 
 
-def build_liquidation_heatmap(df, symbol, time_bins=72, price_bins=80, price_step=None, threshold=1, timeframe_label="3M", overlay_price=True):
+# ==================== Additional Exchange Providers (Optional) ==================== #
+def _safe_to_float(x, default=None):
+    try:
+        return float(x)
+    except Exception:
+        return default
+
+# Generic headers to reduce 403 from CDNs for public endpoints
+_PUBLIC_GET_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 HakiCrypto/1.0"
+}
+
+# Allow overriding API base URLs via environment variables (for proxy/relay use cases)
+BINANCE_API_BASE = os.getenv("BINANCE_API_BASE", "https://fapi.binance.com")
+BITMEX_API_BASE = os.getenv("BITMEX_API_BASE", "https://www.bitmex.com")
+
+# Lightweight diagnostics to surface fetch issues to the UI
+_LAST_SOURCE_WARNINGS: dict[str, str] = {}
+
+def _set_source_warning(source: str, message: str):
+    try:
+        _LAST_SOURCE_WARNINGS[source.upper()] = (message or "").strip()[:300]
+    except Exception:
+        pass
+
+def get_source_warnings() -> dict:
+    """Return a shallow copy of last known warnings per source (for UI diagnostics)."""
+    try:
+        return dict(_LAST_SOURCE_WARNINGS)
+    except Exception:
+        return {}
+
+
+def fetch_binance_liquidation_range(symbol: str, start_dt: datetime, end_dt: datetime,
+                                    limit: int = 1000, max_pages: int = 10, overall_timeout: float | None = 8.0) -> pd.DataFrame:
+    """Fetch Binance Futures forced liquidation orders (if accessible).
+
+    Endpoint (public market data): GET https://fapi.binance.com/fapi/v1/allForceOrders
+    Params: symbol (e.g., BTCUSDT), startTime, endTime (ms), limit (<= 1000)
+    Note: Some deployments may face restrictions; function fails fast and returns empty DataFrame if blocked.
+    """
+    base_url = f"{BINANCE_API_BASE.rstrip('/')}/fapi/v1/allForceOrders"
+    rows = []
+    deadline = (time.time() + float(overall_timeout)) if overall_timeout else None
+    start_ms = int(start_dt.timestamp() * 1000)
+    end_ms = int(end_dt.timestamp() * 1000)
+    current_start = start_ms
+    pages = 0
+    while pages < max_pages and current_start < end_ms:
+        if deadline is not None and time.time() >= deadline:
+            break
+        params = {
+            "symbol": symbol,
+            "startTime": current_start,
+            "endTime": end_ms,
+            "limit": min(1000, limit),
+        }
+        try:
+            remaining = (deadline - time.time()) if deadline is not None else None
+            req_to = 6 if remaining is None else max(1.2, min(6.0, remaining - 0.2))
+            r = requests.get(base_url, params=params, timeout=req_to, headers=_PUBLIC_GET_HEADERS)
+            if r.status_code != 200:
+                _set_source_warning("BINANCE", f"HTTP {r.status_code} from Binance allForceOrders")
+                break
+            data = r.json()
+            # Handle geo-restricted or unexpected payloads
+            if isinstance(data, dict):
+                msg = (data or {}).get("msg", "")
+                if msg:
+                    _set_source_warning("BINANCE", msg)
+                break
+            if not isinstance(data, list) or not data:
+                _set_source_warning("BINANCE", "Empty or non-list response from allForceOrders")
+                break
+            # Records typically sorted ascending by time
+            for d in data:
+                ts = int(d.get("time") or d.get("updatedTime") or 0)
+                dt = datetime.utcfromtimestamp(ts / 1000.0)
+                if dt < start_dt or dt > end_dt:
+                    continue
+                price = _safe_to_float(d.get("price") or d.get("avgPrice"))
+                qty = _safe_to_float(d.get("qty") or d.get("executedQty"))
+                if price is None or qty is None:
+                    continue
+                rows.append({
+                    "datetime": dt,
+                    "price": price,
+                    "size": qty,
+                    "exchange": "BINANCE"
+                })
+            # Advance start to last ts + 1 ms to avoid duplicates
+            last_ts = int(data[-1].get("time") or data[-1].get("updatedTime") or current_start)
+            if last_ts <= current_start:
+                break
+            current_start = last_ts + 1
+            pages += 1
+        except Exception:
+            break
+    if not rows:
+        return pd.DataFrame()
+    return pd.DataFrame(rows)
+
+
+def fetch_bitmex_liquidation_range(symbol: str, start_dt: datetime, end_dt: datetime,
+                                   count: int = 1000, max_pages: int = 10, overall_timeout: float | None = 8.0) -> pd.DataFrame:
+    """Fetch BitMEX liquidation events (public endpoint).
+
+    Endpoint: GET https://www.bitmex.com/api/v1/liquidation
+    Params: symbol, count, reverse=false, startTime, endTime
+    """
+    base_url = f"{BITMEX_API_BASE.rstrip('/')}/api/v1/liquidation"
+    rows = []
+    deadline = (time.time() + float(overall_timeout)) if overall_timeout else None
+    # BitMEX supports ISO8601 times
+    cur_start = start_dt
+    pages = 0
+    while pages < max_pages and cur_start < end_dt:
+        if deadline is not None and time.time() >= deadline:
+            break
+        params = {
+            "symbol": symbol,
+            "count": count,
+            "reverse": "false",
+            "startTime": cur_start.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+            "endTime": end_dt.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+        }
+        try:
+            remaining = (deadline - time.time()) if deadline is not None else None
+            req_to = 6 if remaining is None else max(1.2, min(6.0, remaining - 0.2))
+            r = requests.get(base_url, params=params, timeout=req_to, headers=_PUBLIC_GET_HEADERS)
+            if r.status_code != 200:
+                _set_source_warning("BITMEX", f"HTTP {r.status_code} from BitMEX liquidation")
+                break
+            data = r.json()
+            if not isinstance(data, list) or not data:
+                _set_source_warning("BITMEX", "Empty or non-list response from liquidation")
+                break
+            for d in data:
+                try:
+                    ts = d.get("timestamp")
+                    dt = datetime.fromisoformat(ts.replace('Z', '+00:00')).replace(tzinfo=None)
+                    price = _safe_to_float(d.get("price"))
+                    qty = _safe_to_float(d.get("qty"))
+                    if price is None or qty is None:
+                        continue
+                    rows.append({
+                        "datetime": dt,
+                        "price": price,
+                        "size": qty,
+                        "exchange": "BITMEX"
+                    })
+                except Exception:
+                    continue
+            last_time = rows[-1]["datetime"] if rows else cur_start
+            if last_time <= cur_start:
+                break
+            cur_start = last_time
+            pages += 1
+        except Exception:
+            break
+    if not rows:
+        return pd.DataFrame()
+    return pd.DataFrame(rows)
+
+
+def fetch_liquidations_multi(asset_symbol: str, start_dt: datetime, end_dt: datetime,
+                             sources: list[str], okx_inst: str | None = None) -> pd.DataFrame:
+    """Aggregate liquidation events from multiple exchanges into a unified DataFrame.
+
+    sources: any of ["OKX","BINANCE","BITMEX"]
+    asset_symbol: e.g., "BTC", "ETH" (used to map exchange symbols)
+    okx_inst: explicit OKX instId if available (e.g., BTC-USDT-SWAP)
+    """
+    frames = []
+    sym = asset_symbol.upper()
+    # OKX
+    if "OKX" in sources:
+        inst = okx_inst or f"{sym}-USDT-SWAP"
+        try:
+            df_okx = fetch_okx_liquidation_range(inst, start_dt, end_dt, overall_timeout=6.5)
+            if df_okx is not None and not df_okx.empty:
+                df2 = df_okx[["datetime","price","size"]].copy()
+                df2["exchange"] = "OKX"
+                frames.append(df2)
+        except Exception:
+            pass
+    # Binance
+    if "BINANCE" in sources:
+        # Map asset to Binance symbol
+        b_symbol = f"{sym}USDT"
+        try:
+            df_bi = fetch_binance_liquidation_range(b_symbol, start_dt, end_dt, overall_timeout=6.5)
+            if df_bi is not None and not df_bi.empty:
+                frames.append(df_bi[["datetime","price","size","exchange"]])
+        except Exception:
+            pass
+    # BitMEX
+    if "BITMEX" in sources and sym in ("BTC","XBT","ETH"):
+        mx_sym = "XBTUSD" if sym in ("BTC","XBT") else "ETHUSD"
+        try:
+            df_mx = fetch_bitmex_liquidation_range(mx_sym, start_dt, end_dt, overall_timeout=6.0)
+            if df_mx is not None and not df_mx.empty:
+                frames.append(df_mx[["datetime","price","size","exchange"]])
+        except Exception:
+            pass
+    if not frames:
+        return pd.DataFrame()
+    df = pd.concat(frames, ignore_index=True)
+    df.sort_values("datetime", inplace=True)
+    return df
+
+
+def build_liquidation_heatmap(
+    df,
+    symbol,
+    time_bins=72,
+    price_bins=80,
+    price_step=None,
+    threshold=1,
+    timeframe_label="3M",
+    overlay_price=True,
+    colorscale: str = "Reds",
+    yaxis_reverse: bool = True,
+):
     """Build a 2D heatmap (time × price) aggregated by size.
 
     Args:
@@ -277,7 +501,7 @@ def build_liquidation_heatmap(df, symbol, time_bins=72, price_bins=80, price_ste
         z=z,
         x=x_times,
         y=y_prices,
-        colorscale="Reds",
+        colorscale=colorscale,
         colorbar=dict(title="Liquidation size"),
         showscale=True,
         zsmooth=False,
@@ -308,7 +532,7 @@ def build_liquidation_heatmap(df, symbol, time_bins=72, price_bins=80, price_ste
     try:
         inst_id = symbol
         url = f"https://www.okx.com/api/v5/market/ticker?instId={inst_id}"
-        resp = requests.get(url, timeout=3)
+        resp = requests.get(url, timeout=5, headers=_PUBLIC_GET_HEADERS)
         data = resp.json()
         px_now = float(data["data"][0]["last"])
         fig.add_hline(y=px_now, line_dash="dash", line_color="#00bcd4", annotation_text=f"Now: {px_now:,.2f}", annotation_position="top right")
@@ -319,7 +543,7 @@ def build_liquidation_heatmap(df, symbol, time_bins=72, price_bins=80, price_ste
         title=f"Liquidation Heatmap {symbol} ({timeframe_label})",
         xaxis_title="Time",
         yaxis_title="Price",
-        yaxis_autorange='reversed',
+        yaxis_autorange='reversed' if yaxis_reverse else True,
         template='plotly_dark',
         hovermode='x unified'
     )
@@ -335,10 +559,10 @@ def streamlit_liquidation_heatmap_ui():
 
     st.header("OKX Liquidation Heatmap")
     symbol = st.text_input("Symbol (instId)", value="BTC-USDT-SWAP")
-    timeframe = st.selectbox("Timeframe", options=["3M", "1M", "7D", "1D"], index=0)
-    threshold = st.slider("Threshold (min aggregated size)", min_value=1, max_value=1000000, value=1, step=1)
-    price_bins = st.slider("Price bins", 20, 300, 80)
-    time_bins = st.slider("Time bins", 8, 200, 72)
+    timeframe = st.selectbox("Timeframe", options=["3M", "1M", "7D", "1D"], index=3)
+    threshold = st.slider("Threshold (min aggregated size)", min_value=1, max_value=1000000, value=8, step=1)
+    price_bins = st.slider("Price bins", 20, 300, 45)
+    time_bins = st.slider("Time bins", 8, 200, 50)
 
     now = datetime.utcnow()
     if timeframe == "3M":
@@ -357,7 +581,7 @@ def streamlit_liquidation_heatmap_ui():
         st.warning("Không có dữ liệu liquidation trong khoảng thời gian đã chọn.")
         return
 
-    fig = build_liquidation_heatmap(df, symbol, time_bins=time_bins, price_bins=price_bins, threshold=threshold, timeframe_label=timeframe, overlay_price=True)
+    fig = build_liquidation_heatmap(df, symbol, time_bins=time_bins, price_bins=price_bins, threshold=threshold, timeframe_label=timeframe, overlay_price=True, colorscale="Plasma", yaxis_reverse=False)
     if fig is None:
         st.warning("Không thể tạo heatmap với dữ liệu hiện tại.")
         return

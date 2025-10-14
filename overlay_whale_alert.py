@@ -12,7 +12,7 @@ def overlay_whale_alert_chart(
     value_unit: str = "",
     type_map=None,
     color_map=None,
-    default_show=True,
+    default_show=False,
     key_prefix=""
 ):
     """

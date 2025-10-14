@@ -1,7 +1,8 @@
 import json, os, glob, time
 from pathlib import Path
 
-ROOT = Path(r"d:/Crypto")
+# Lấy thư mục chứa file script hiện tại
+ROOT = Path(__file__).parent.resolve()
 MAIN = ROOT / "portfolio_history.json"
 
 # Gather candidate files: main + backups/corrupt variants

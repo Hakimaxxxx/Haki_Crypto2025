@@ -49,3 +49,224 @@ tarted successfully
 [2025-10-13 16:00:08.268227] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200423453&page=0&size=50: 404
 [2025-10-13 16:00:09.785379] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200423453/transactions?page=0&size=50: 404
 [2025-10-13 16:00:20.934669] Scanned block 200423453: tx_count=0, total_sui=0.0
+[2025-10-14 18:24:24.021350] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 18:24:24.021453] SUI whale alert module imported
+[2025-10-14 18:24:24.021524] Starting SUI whale background scanner thread...
+[2025-10-14 18:24:24.023530] Starting SUI whale alert scan loop.
+[2025-10-14 18:24:24.026894] SUI whale background scanner thread started successfully
+[2025-10-14 18:24:24.645607] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760466264572,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 18:41:40.999603] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 18:41:41.711042] SUI whale alert module imported
+[2025-10-14 18:41:42.399013] Starting SUI whale background scanner thread...
+[2025-10-14 18:41:43.087610] Starting SUI whale alert scan loop.
+[2025-10-14 18:41:43.087651] SUI whale background scanner thread started successfully
+[2025-10-14 18:41:45.253824] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760467305181,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 18:41:47.008117] Checkpoints to scan (count=6): [200841100, 200841099, 200841098, 200841097, 200841096, 200841095]
+[2025-10-14 18:41:49.075808] Starting scan with start_block=200841100
+[2025-10-14 18:41:59.698112] Scanned block 200841100: tx_count=3, total_sui=0.0
+[2025-10-14 18:42:47.878693] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 18:42:47.878810] SUI whale alert module imported
+[2025-10-14 18:42:47.878876] Starting SUI whale background scanner thread...
+[2025-10-14 18:42:47.880088] Starting SUI whale alert scan loop.
+[2025-10-14 18:42:47.880421] SUI whale background scanner thread started successfully
+[2025-10-14 18:44:00.790922] Probe non-200 for https://suivision.xyz/api/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:00.928922] Probe non-200 for https://suivision.xyz/api/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:01.105472] Probe non-200 for https://suivision.xyz/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:01.271714] Probe returned non-JSON for https://suivision.xyz/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq; snippet: <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="viewport" content="width=device-width, initial-scale=1.0, m
+[2025-10-14 18:44:01.392970] Probe non-200 for https://suivision.xyz/transactions/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:01.608489] Probe non-200 for https://suivision.xyz/transactions/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:01.900631] Probe non-200 for https://rpc-mainnet.suiscan.xyz/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:02.171837] Probe non-200 for https://rpc-mainnet.suiscan.xyz/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:02.386818] Probe non-200 for https://api.blockberry.one/sui/v1/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:02.625920] Probe non-200 for https://api.blockberry.one/sui/v1/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 405
+[2025-10-14 18:44:02.921230] Probe non-200 for https://api.blockvision.org/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:03.214397] Probe non-200 for https://api.blockvision.org/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:04.434618] Probe non-200 for https://blockvision.org/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:05.659795] Probe non-200 for https://blockvision.org/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:05.662344] No working SUI API base detected from candidates; will keep default and rely on retries
+[2025-10-14 18:44:05.669128] SUI whale alert module imported
+[2025-10-14 18:44:05.669308] Starting SUI whale background scanner thread...
+[2025-10-14 18:44:05.672436] Starting SUI whale alert scan loop.
+[2025-10-14 18:44:05.676492] SUI whale background scanner thread started successfully
+[2025-10-14 18:44:30.043092] Probe non-200 for https://suivision.xyz/api/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:30.173357] Probe non-200 for https://suivision.xyz/api/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:30.323211] Probe non-200 for https://suivision.xyz/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:30.484886] Probe returned non-JSON for https://suivision.xyz/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq; snippet: <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="viewport" content="width=device-width, initial-scale=1.0, m
+[2025-10-14 18:44:30.654899] Probe non-200 for https://suivision.xyz/transactions/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:30.856785] Probe non-200 for https://suivision.xyz/transactions/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:31.061311] Probe non-200 for https://rpc-mainnet.suiscan.xyz/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:31.279904] Probe non-200 for https://rpc-mainnet.suiscan.xyz/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:31.537523] Probe non-200 for https://api.blockberry.one/sui/v1/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:31.783328] Probe non-200 for https://api.blockberry.one/sui/v1/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 405
+[2025-10-14 18:44:32.114235] Probe non-200 for https://api.blockvision.org/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:32.439411] Probe non-200 for https://api.blockvision.org/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:33.586238] Probe non-200 for https://blockvision.org/block/latest?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:34.182166] Probe non-200 for https://blockvision.org/transactions?apikey=33vnlk9jCMgCqthYy7IrhDWvJDq: 404
+[2025-10-14 18:44:34.182833] No working SUI API base detected from candidates; will keep default and rely on retries
+[2025-10-14 18:44:34.184607] SUI whale alert module imported
+[2025-10-14 18:44:34.184715] Starting SUI whale background scanner thread...
+[2025-10-14 18:44:34.185127] Starting SUI whale alert scan loop.
+[2025-10-14 18:44:34.185213] SUI whale background scanner thread started successfully
+[2025-10-14 18:45:03.896577] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200841099/transactions?page=0&size=50: 404
+[2025-10-14 18:45:09.360464] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200841099&page=0&size=50: 404
+[2025-10-14 18:45:10.550055] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200841099/transactions?page=0&size=50: 404
+[2025-10-14 18:45:34.182387] Scanned block 200841099: tx_count=0, total_sui=0.0
+[2025-10-14 18:48:55.166099] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 18:48:55.849063] SUI whale alert module imported
+[2025-10-14 18:48:56.533728] Starting SUI whale background scanner thread...
+[2025-10-14 18:48:57.217638] Starting SUI whale alert scan loop.
+[2025-10-14 18:48:57.218075] SUI whale background scanner thread started successfully
+[2025-10-14 18:48:58.552866] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760467738484,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 18:49:00.649698] Checkpoints to scan (count=4): [200843047, 200843046, 200843045, 200843044]
+[2025-10-14 18:49:02.675318] Starting scan with start_block=200843047
+[2025-10-14 18:49:20.883046] Scanned block 200843047: tx_count=1, total_sui=0.0
+[2025-10-14 18:52:19.215589] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200843046/transactions?page=0&size=50: 404
+[2025-10-14 18:52:20.632061] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200843046&page=0&size=50: 404
+[2025-10-14 18:52:21.813416] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200843046/transactions?page=0&size=50: 404
+[2025-10-14 18:52:34.629799] Scanned block 200843046: tx_count=0, total_sui=0.0
+[2025-10-14 18:54:31.663008] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 18:54:32.370879] SUI whale alert module imported
+[2025-10-14 18:54:33.094904] Starting SUI whale background scanner thread...
+[2025-10-14 18:54:33.779520] SUI whale background scanner thread started successfully
+[2025-10-14 18:54:33.779483] Starting SUI whale alert scan loop.
+[2025-10-14 18:54:34.840552] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760468074769,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 18:54:37.902002] Checkpoints to scan (count=8): [200844529, 200844528, 200844527, 200844526, 200844525, 200844524, 200844523, 200844522]
+[2025-10-14 18:54:40.074197] Starting scan with start_block=200844529
+[2025-10-14 18:54:43.291235] Scanned block 200844529: tx_count=2, total_sui=0.0
+[2025-10-14 18:55:35.730915] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200843045/transactions?page=0&size=50: 404
+[2025-10-14 18:55:38.438903] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200843045&page=0&size=50: 404
+[2025-10-14 18:55:39.610755] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200843045/transactions?page=0&size=50: 404
+[2025-10-14 18:55:46.154037] Scanned block 200844528: tx_count=3, total_sui=0.0
+[2025-10-14 18:55:57.453582] Scanned block 200843045: tx_count=0, total_sui=0.0
+[2025-10-14 18:59:12.129325] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844527/transactions?page=0&size=50: 404
+[2025-10-14 18:59:13.276407] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844527&page=0&size=50: 404
+[2025-10-14 18:59:14.447481] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844527/transactions?page=0&size=50: 404
+[2025-10-14 18:59:23.360022] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200843044/transactions?page=0&size=50: 404
+[2025-10-14 18:59:24.523869] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200843044&page=0&size=50: 404
+[2025-10-14 18:59:25.697245] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200843044/transactions?page=0&size=50: 404
+[2025-10-14 18:59:35.954374] Scanned block 200844527: tx_count=0, total_sui=0.0
+[2025-10-14 18:59:42.351500] Scanned block 200843044: tx_count=0, total_sui=0.0
+[2025-10-14 18:59:43.039595] Scan summary: scanned_blocks=4, total_tx_count=1, total_sui=0.0
+[2025-10-14 18:59:44.733394] Saved last_block=200843047
+[2025-10-14 18:59:56.776603] Scanner persisted 46 whale history entries; last_block=200843047
+[2025-10-14 19:02:28.444684] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844526/transactions?page=0&size=50: 404
+[2025-10-14 19:02:29.607571] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844526&page=0&size=50: 404
+[2025-10-14 19:02:30.809613] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844526/transactions?page=0&size=50: 404
+[2025-10-14 19:02:46.096327] Scanned block 200844526: tx_count=0, total_sui=0.0
+[2025-10-14 19:02:53.833929] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 19:02:54.510885] SUI whale alert module imported
+[2025-10-14 19:02:55.188038] Starting SUI whale background scanner thread...
+[2025-10-14 19:02:55.864425] SUI whale background scanner thread started successfully
+[2025-10-14 19:02:55.864383] Starting SUI whale alert scan loop.
+[2025-10-14 19:02:57.503820] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760468577426,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 19:03:03.099923] Checkpoints to scan (count=6): [200846766, 200846765, 200846764, 200846763, 200846762, 200846761]
+[2025-10-14 19:03:05.583249] Starting scan with start_block=200846766
+[2025-10-14 19:03:17.254155] Scanned block 200846766: tx_count=3, total_sui=0.0
+[2025-10-14 19:04:57.463829] Starting SUI whale alert scan loop.
+[2025-10-14 19:04:58.790124] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760468698722,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 19:05:01.473299] Checkpoints to scan (count=7): [200847286, 200847285, 200847284, 200847283, 200847282, 200847281, 200847280]
+[2025-10-14 19:05:03.516540] Starting scan with start_block=200847286
+[2025-10-14 19:05:44.466626] Scanned block 200847286: tx_count=3, total_sui=0.0
+[2025-10-14 19:06:24.074229] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844525/transactions?page=0&size=50: 404
+[2025-10-14 19:06:25.239351] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844525&page=0&size=50: 404
+[2025-10-14 19:06:26.478588] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844525/transactions?page=0&size=50: 404
+[2025-10-14 19:06:35.806940] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200846765/transactions?page=0&size=50: 404
+[2025-10-14 19:06:36.991590] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200846765&page=0&size=50: 404
+[2025-10-14 19:06:38.647101] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200846765/transactions?page=0&size=50: 404
+[2025-10-14 19:06:52.635238] Scanned block 200844525: tx_count=0, total_sui=0.0
+[2025-10-14 19:07:06.163550] Scanned block 200846765: tx_count=0, total_sui=0.0
+[2025-10-14 19:08:13.256537] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 19:08:13.933679] SUI whale alert module imported
+[2025-10-14 19:08:14.611054] Starting SUI whale background scanner thread...
+[2025-10-14 19:08:15.459185] Starting SUI whale alert scan loop.
+[2025-10-14 19:08:15.460597] SUI whale background scanner thread started successfully
+[2025-10-14 19:08:16.644716] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760468896574,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 19:08:18.435529] Checkpoints to scan (count=7): [200848155, 200848154, 200848153, 200848152, 200848151, 200848150, 200848149]
+[2025-10-14 19:08:21.087856] Starting scan with start_block=200848155
+[2025-10-14 19:09:09.477930] BlockBerry probe error for https://api.blockberry.one/sui/v1/transactions?checkpoint=200844524&page=38&size=50&orderBy=DESC&sortBy=AGE: HTTP 429
+[2025-10-14 19:10:01.571706] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200847285/transactions?page=0&size=50: 404
+[2025-10-14 19:10:02.753183] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200847285&page=0&size=50: 404
+[2025-10-14 19:10:05.447855] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200847285/transactions?page=0&size=50: 404
+[2025-10-14 19:10:14.104499] Scanned block 200847285: tx_count=0, total_sui=0.0
+[2025-10-14 19:10:40.305120] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844524/transactions?page=0&size=50: 404
+[2025-10-14 19:10:42.951024] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844524&page=0&size=50: 404
+[2025-10-14 19:10:44.168399] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844524/transactions?page=0&size=50: 404
+[2025-10-14 19:11:05.631535] Scanned block 200844524: tx_count=0, total_sui=0.0
+[2025-10-14 19:11:09.754029] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200846764/transactions?page=0&size=50: 404
+[2025-10-14 19:11:11.016592] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200846764&page=0&size=50: 404
+[2025-10-14 19:11:12.313970] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200846764/transactions?page=0&size=50: 404
+[2025-10-14 19:11:40.762028] Scanned block 200846764: tx_count=0, total_sui=0.0
+[2025-10-14 19:11:57.261240] BlockBerry documented POST /transactions error (page 48): HTTP 429
+[2025-10-14 19:12:21.183737] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 19:12:21.866954] SUI whale alert module imported
+[2025-10-14 19:12:22.547850] Starting SUI whale background scanner thread...
+[2025-10-14 19:12:23.228750] Starting SUI whale alert scan loop.
+[2025-10-14 19:12:23.228802] SUI whale background scanner thread started successfully
+[2025-10-14 19:12:24.815752] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760469144744,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 19:12:26.348500] Checkpoints to scan (count=5): [200849255, 200849254, 200849253, 200849252, 200849251]
+[2025-10-14 19:12:28.363729] Starting scan with start_block=200849255
+[2025-10-14 19:12:29.468709] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200848155/transactions?page=0&size=50: 404
+[2025-10-14 19:12:31.060759] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200848155&page=0&size=50: 404
+[2025-10-14 19:12:32.255127] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200848155/transactions?page=0&size=50: 404
+[2025-10-14 19:12:52.913050] Scanned block 200848155: tx_count=0, total_sui=0.0
+[2025-10-14 19:13:20.326841] BlockBerry documented POST /transactions error (page 7): HTTP 429
+[2025-10-14 19:13:57.680867] BlockBerry documented POST /transactions error (page 23): HTTP 429
+[2025-10-14 19:14:58.648541] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200847284/transactions?page=0&size=50: 404
+[2025-10-14 19:15:03.874481] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200847284&page=0&size=50: 404
+[2025-10-14 19:15:05.340138] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200847284/transactions?page=0&size=50: 404
+[2025-10-14 19:15:16.546987] Scanned block 200847284: tx_count=0, total_sui=0.0
+[2025-10-14 19:15:24.602400] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844523/transactions?page=0&size=50: 404
+[2025-10-14 19:15:28.492748] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844523&page=0&size=50: 404
+[2025-10-14 19:15:29.712172] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844523/transactions?page=0&size=50: 404
+[2025-10-14 19:15:41.021523] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200846763/transactions?page=0&size=50: 404
+[2025-10-14 19:15:44.297974] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200846763&page=0&size=50: 404
+[2025-10-14 19:15:46.991357] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200846763/transactions?page=0&size=50: 404
+[2025-10-14 19:15:58.239888] Scanned block 200844523: tx_count=0, total_sui=0.0
+[2025-10-14 19:16:04.101444] BlockBerry probe error for https://api.blockberry.one/sui/v1/transactions?page=31&size=50&checkpoint=200849255&orderBy=DESC&sortBy=AGE: HTTP 429
+[2025-10-14 19:16:05.272316] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200849255/transactions?page=0&size=50: 404
+[2025-10-14 19:16:06.514121] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200849255&page=0&size=50: 404
+[2025-10-14 19:16:07.672453] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200849255/transactions?page=0&size=50: 404
+[2025-10-14 19:16:11.165573] Scanned block 200846763: tx_count=0, total_sui=0.0
+[2025-10-14 19:16:29.147733] Scanned block 200849255: tx_count=0, total_sui=0.0
+[2025-10-14 19:16:48.387834] BlockBerry documented POST /transactions error (page 2): HTTP 429
+[2025-10-14 19:17:39.268315] BlockBerry probe error for https://api.blockberry.one/sui/v1/transactions?checkpoint=200844522&page=8&size=50&orderBy=DESC&sortBy=AGE: HTTP 429
+[2025-10-14 19:18:01.513239] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200848154/transactions?page=0&size=50: 404
+[2025-10-14 19:18:02.897233] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200848154&page=0&size=50: 404
+[2025-10-14 19:18:04.512890] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200848154/transactions?page=0&size=50: 404
+[2025-10-14 19:18:05.468543] BlockBerry probe error for https://api.blockberry.one/sui/v1/transactions?page=6&size=50&checkpoint=200844522&orderBy=DESC&sortBy=AGE: HTTP 429
+[2025-10-14 19:18:08.114698] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200844522/transactions?page=0&size=50: 404
+[2025-10-14 19:18:13.670262] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200844522&page=0&size=50: 404
+[2025-10-14 19:18:14.920033] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200844522/transactions?page=0&size=50: 404
+[2025-10-14 19:18:18.565859] Scanned block 200848154: tx_count=0, total_sui=0.0
+[2025-10-14 19:18:33.794200] Scanned block 200844522: tx_count=0, total_sui=0.0
+[2025-10-14 19:18:34.482024] Scan summary: scanned_blocks=8, total_tx_count=5, total_sui=0.0
+[2025-10-14 19:18:35.854157] Saved last_block=200844529
+[2025-10-14 19:18:47.754990] Scanner persisted 46 whale history entries; last_block=200844529
+[2025-10-14 19:18:50.339241] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 19:18:51.012740] SUI whale alert module imported
+[2025-10-14 19:18:51.693350] Starting SUI whale background scanner thread...
+[2025-10-14 19:18:52.375753] Starting SUI whale alert scan loop.
+[2025-10-14 19:18:52.376068] SUI whale background scanner thread started successfully
+[2025-10-14 19:18:53.361560] BlockBerry checkpoints non-200: 429. Snippet: Too many requests
+[2025-10-14 19:18:55.010474] Checkpoints to scan (count=6): [200850962, 200850961, 200850960, 200850959, 200850958, 200850957]
+[2025-10-14 19:18:57.065740] Starting scan with start_block=200850962
+[2025-10-14 19:19:25.340919] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200847283/transactions?page=0&size=50: 404
+[2025-10-14 19:19:26.549870] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200847283&page=0&size=50: 404
+[2025-10-14 19:19:27.701839] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200847283/transactions?page=0&size=50: 404
+[2025-10-14 19:19:46.358564] Scanned block 200847283: tx_count=0, total_sui=0.0
+[2025-10-14 19:20:28.018208] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200846762/transactions?page=0&size=50: 404
+[2025-10-14 19:20:29.196439] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200846762&page=0&size=50: 404
+[2025-10-14 19:20:30.349021] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200846762/transactions?page=0&size=50: 404
+[2025-10-14 19:20:57.768720] Error processing checkpoint 200846762: HTTP 429
+[2025-10-14 19:20:59.658988] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks/200849254/transactions?page=0&size=50: 404
+[2025-10-14 19:21:09.307022] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/transaction-blocks?checkpoint=200849254&page=0&size=50: 404
+[2025-10-14 19:21:10.489612] BlockBerry probe non-200 for https://api.blockberry.one/sui/v1/blocks/200849254/transactions?page=0&size=50: 404
+[2025-10-14 19:21:20.779378] Scanned block 200849254: tx_count=0, total_sui=0.0
+[2025-10-14 19:23:04.871466] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-14 19:23:05.558045] SUI whale alert module imported
+[2025-10-14 19:23:06.244208] Starting SUI whale background scanner thread...
+[2025-10-14 19:23:06.943320] Starting SUI whale alert scan loop.
+[2025-10-14 19:23:06.944779] SUI whale background scanner thread started successfully
+[2025-10-14 19:23:07.982590] BlockBerry checkpoints non-200: 400. Snippet: {"timestamp":1760469787911,"status":400,"error":"Bad Request","path":"/sui/v1/checkpoints"}
+[2025-10-14 19:23:09.995154] Checkpoints to scan (count=9): [200852081, 200852080, 200852079, 200852078, 200852077, 200852076, 200852075, 200852074, 200852073]
+[2025-10-14 19:23:12.021546] Starting scan with start_block=200852081
