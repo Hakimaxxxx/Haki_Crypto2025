@@ -2558,7 +2558,7 @@ def phase0_overlay_whales(coin_symbol: str, df_ohlcv, fig_ohlcv):
             value_unit=coin_symbol,
             type_map={"BUY": "MUA", "SELL": "BÁN", "N/A": "Khác"},
             color_map={"BUY": "#43a047", "SELL": "#e53935", "N/A": "#949086"},
-            default_show=False,
+            default_show=True,
             key_prefix=f"unified_{coin_symbol.lower()}_"
         )
     except Exception as _ph0_ex:
@@ -2679,7 +2679,7 @@ for idx, coin_tuple in enumerate(COIN_LIST):
         with st.expander("Liquidation Heatmap", expanded=False):
             enable_liq = st.checkbox(
                 f"Bật heatmap cho {coin_symbol}",
-                value=False,
+                value=True,
                 key=f"liq_enable_{coin_symbol}"
             )
             if not enable_liq:
@@ -2697,30 +2697,30 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                     tframe = st.selectbox(
                         f"Khung thời gian (OKX) - {coin_symbol}",
                         options=["3M","1M","7D","1D"],
-                        index=0,
+                        index=3,  # default to 1D
                         key=f"liq_tf_{coin_symbol}"
                     )
                     thr = st.slider(
                         "Ngưỡng lọc (tổng size mỗi ô)",
                         min_value=1,
                         max_value=100,
-                        value=1,
+                        value=8,
                         step=1,
                         key=f"liq_thr_{coin_symbol}"
                     )
                     # Optional advanced binning
                     with st.expander("Tùy chọn nâng cao", expanded=False):
-                        time_bins = st.slider("Số ô thời gian", 12, 200, 72, key=f"liq_tb_{coin_symbol}")
-                        price_bins = st.slider("Số ô giá", 20, 300, 80, key=f"liq_pb_{coin_symbol}")
+                        time_bins = st.slider("Số ô thời gian", 12, 200, 50, key=f"liq_tb_{coin_symbol}")
+                        price_bins = st.slider("Số ô giá", 20, 300, 45, key=f"liq_pb_{coin_symbol}")
                         colorscale = st.selectbox(
                             "Màu Heatmap",
                             options=["Reds","Viridis","Plasma","Cividis","Hot","Turbo"],
-                            index=0,
+                            index=2,  # Plasma
                             key=f"liq_cs_{coin_symbol}"
                         )
                         reverse_y = st.checkbox(
                             "Đảo trục giá (giá cao ở trên)",
-                            value=True,
+                            value=False,
                             key=f"liq_rev_{coin_symbol}"
                         )
                         overlay_price = st.checkbox(

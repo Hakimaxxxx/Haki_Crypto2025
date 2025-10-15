@@ -165,7 +165,7 @@ def save_whale_history(history):
     with open(HISTORY_FILE, "w") as f:
         json.dump(history, f)
 
-def show_sol_whale_alert_realtime(min_value_sol=3000, num_blocks=750):
+def show_sol_whale_alert_realtime(min_value_sol=9000, num_blocks=750):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
     🐳 Whale Alert - SOL Large Transactions
@@ -198,7 +198,7 @@ def show_sol_whale_alert_realtime(min_value_sol=3000, num_blocks=750):
             box_content += f"<div style='margin-bottom:8px;'>{new_badge}{type_badge}<span style='color:#1e88e5;font-weight:bold;'>🐳 {tx['value']:.2f} SOL</span> | Hash: <code>{tx['hash'][:12]}...</code> | Từ: <code>{tx['from']}</code> → Đến: <code>{tx['to']}</code> | <span style='color:#888;'>{tx['time']}</span></div>"
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
-def background_whale_alert_scanner(min_value_sol=3000, num_blocks=750, interval_sec=300):
+def background_whale_alert_scanner(min_value_sol=9000, num_blocks=750, interval_sec=300):
     # Load danh sách protocol address từ Solana-programs.json
     protocol_addr_to_name = {}
     try:

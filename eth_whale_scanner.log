@@ -970,3 +970,16 @@
 [2025-10-14 19:20:09.219749] [SCANNER] Thread started.
 [2025-10-14 19:20:09.219850] [SCANNER] Start scan loop.
 [2025-10-14 19:20:45.039667] Token: ETH | Whale txs found: 32 | Blocks scanned: 23577727 to 23577904
+[2025-10-14 19:24:36.260585] [SCANNER] Thread started.
+[2025-10-14 19:24:36.260764] [SCANNER] Start scan loop.
+[2025-10-15 14:47:33.118617] [SCANNER] Thread started.
+[2025-10-15 14:47:33.118773] [SCANNER] Start scan loop.
+[2025-10-15 15:03:42.589494] Token: ETH | Whale txs found: 22 | Blocks scanned: 23583697 to 23583781
+[2025-10-15 15:19:25.746024] [SCANNER] Thread started.
+[2025-10-15 15:19:25.746336] [SCANNER] Start scan loop.
+[2025-10-15 15:21:17.396291] [SCANNER] Thread started.
+[2025-10-15 15:21:17.396418] [SCANNER] Start scan loop.
+[2025-10-15 15:35:08.289571] Token: ETH | Whale txs found: 18 | Blocks scanned: 23583782 to 23583938
+[2025-10-15 15:36:59.219062] Token: ETH | Whale txs found: 18 | Blocks scanned: 23583782 to 23583948
+[2025-10-15 19:03:35.560266] [SCANNER] Thread started.
+[2025-10-15 19:03:35.580282] [SCANNER] Start scan loop.
