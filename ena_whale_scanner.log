@@ -143,3 +143,8 @@
 [2025-10-15 15:14:18.609812] Token: ENA | Whale txs found: 0 | Blocks scanned: 23583772 to 23583879
 [2025-10-15 15:45:18.113725] Token: ENA | Whale txs found: 1 | Blocks scanned: 23583880 to 23584035
 [2025-10-15 15:47:09.867826] Token: ENA | Whale txs found: 1 | Blocks scanned: 23583880 to 23584044
+[2025-10-15 19:29:13.215364] Token: ENA | Whale txs found: 0 | Blocks scanned: 23584946 to 23585147
+[2025-10-16 11:20:05.506476] Token: ENA | Whale txs found: 3 | Blocks scanned: 23589035 to 23589852
+[2025-10-16 17:54:03.070454] Token: ENA | Whale txs found: 0 | Blocks scanned: 23589853 to 23591806
+[2025-10-17 14:49:23.513995] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-17 14:49:23.740717] Bo qua ENA do latest_block=0

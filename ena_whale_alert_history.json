@@ -18525,13 +18525,46 @@
   },
   {
     "hash": "0xfa58008d51d1892ee939cedfcf9fac544f4e29c94a0d5b8fd591ce4ce73832ac",
+    "blockNumber": "23583916",
     "from": "0x8e771f7bab34a3b4491e03f22f005483e5c375f5",
-    "to": "0xd4d56a30a4a745f8ba732e8b453b7066260fbc10",
     "from_label": "0x8e771f7b...",
+    "time": "2025-10-15 15:14:47+00:00",
+    "to": "0xd4d56a30a4a745f8ba732e8b453b7066260fbc10",
     "to_label": "0xd4d56a30...",
     "type": "N/A",
-    "value": 56116712.8,
-    "time": "2025-10-15 15:14:47+00:00",
-    "blockNumber": "23583916"
+    "value": 56116712.8
+  },
+  {
+    "hash": "0x18cdd4b82ac5163e502489eaa1a340f3b60269fa543935733d07b365d004d4a5",
+    "blockNumber": "23589800",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-16 11:02:47+00:00",
+    "to": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+    "to_label": "0xdfd5293d...",
+    "type": "BUY",
+    "value": 14124782.02114479
+  },
+  {
+    "hash": "0xf81762bc0ba82fb356096b700b70527901026b494138b983fe63ce465f40c774",
+    "blockNumber": "23589754",
+    "from": "0xe67821b76985007b4cf744b0f045c8933b3e91d9",
+    "from_label": "0xe67821b7...",
+    "time": "2025-10-16 10:53:35+00:00",
+    "to": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "to_label": "Binance",
+    "type": "SELL",
+    "value": 18658500.0
+  },
+  {
+    "hash": "0x7931e67a91c7ee2e710b958ee961ff3e16bc47ebe0a268c70739aedbc9f95c47",
+    "blockNumber": "23589735",
+    "from": "0x1157a2076b9bb22a85cc2c162f20fab3898f4101",
+    "from_label": "0x1157a207...",
+    "time": "2025-10-16 10:49:47+00:00",
+    "to": "0xe67821b76985007b4cf744b0f045c8933b3e91d9",
+    "to_label": "0xe67821b7...",
+    "type": "N/A",
+    "value": 18658500.0
   }
 ]
