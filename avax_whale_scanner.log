@@ -38666,3 +38666,700 @@ tornado.websocket.WebSocketClosedError
 [2025-10-17 16:30:51.387009] Error processing block 70467870: Unexpected response for block 70467870: {'status': '0', 'message': 'NOTOK', 'result': 'Max calls per sec rate limit reached (5/sec)'}
 [2025-10-17 16:30:53.130249] Error processing block 70467864: Unexpected response for block 70467864: {'status': '0', 'message': 'NOTOK', 'result': 'Max calls per sec rate limit reached (5/sec)'}
 2025-10-17 16:31:02,849 - INFO - Block scan completed and history updated.
+[2025-10-18 09:47:25.100508] AVAX whale alert module imported
+[2025-10-18 09:47:25.524494] Starting AVAX whale background scanner thread...
+[2025-10-18 09:47:25.684496] Starting AVAX whale alert scan loop.
+[2025-10-18 09:47:25.684496] AVAX whale background scanner thread started successfully
+[2025-10-18 09:47:28.717098] Latest block number fetched: 70507013
+[2025-10-18 09:47:29.152467] Last scanned block: 70506822
+[2025-10-18 09:47:29.310125] Scanning blocks from 70507013 to 70506914
+[2025-10-18 09:48:29.276368] Error processing block 70507001: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 09:56:56.192700] Starting AVAX whale alert scan loop.
+[2025-10-18 09:56:58.761038] Latest block number fetched: 70507376
+[2025-10-18 09:56:59.162025] Last scanned block: 70507158
+[2025-10-18 09:56:59.313024] Scanning blocks from 70507376 to 70507277
+[2025-10-18 10:07:29.982670] AVAX whale alert module imported
+[2025-10-18 10:07:30.262095] Starting AVAX whale background scanner thread...
+[2025-10-18 10:07:30.369090] AVAX whale background scanner thread started successfully
+[2025-10-18 10:07:30.369090] Starting AVAX whale alert scan loop.
+[2025-10-18 10:07:33.302404] Latest block number fetched: 70507741
+[2025-10-18 10:07:33.595973] Last scanned block: 70507466
+[2025-10-18 10:07:33.700952] Scanning blocks from 70507741 to 70507642
+[2025-10-18 10:16:37.383828] Starting AVAX whale alert scan loop.
+[2025-10-18 10:16:39.876655] Latest block number fetched: 70508070
+[2025-10-18 10:16:40.292647] Last scanned block: 70507741
+[2025-10-18 10:16:40.449643] Scanning blocks from 70508070 to 70507971
+2025-10-18 17:18:33,196 - INFO - Starting block scan...
+2025-10-18 17:18:34,978 - INFO - Latest block number: 65042630
+2025-10-18 17:18:35,225 - INFO - Scanning blocks from 65042630 to 65042531
+2025-10-18 17:19:07,512 - ERROR - API returned error for block 65042619: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:19:07,512 - ERROR - Error processing block 65042619: API error: Unknown error
+2025-10-18 17:19:36,725 - ERROR - API returned error for block 65042609: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:19:36,725 - ERROR - Error processing block 65042609: API error: Unknown error
+2025-10-18 17:19:38,665 - ERROR - API returned error for block 65042608: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:19:38,665 - ERROR - Error processing block 65042608: API error: Unknown error
+2025-10-18 17:19:58,625 - ERROR - Error processing block 65042605: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 17:20:33,249 - ERROR - API returned error for block 65042596: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:20:33,250 - ERROR - Error processing block 65042596: API error: Unknown error
+2025-10-18 17:21:22,164 - ERROR - Error processing block 65042582: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 17:21:36,455 - ERROR - Error processing block 65042580: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 17:21:44,967 - ERROR - API returned error for block 65042576: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:21:44,968 - ERROR - Error processing block 65042576: API error: Unknown error
+2025-10-18 17:23:16,104 - ERROR - API returned error for block 65042533: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:23:16,104 - ERROR - Error processing block 65042533: API error: Unknown error
+2025-10-18 17:23:28,167 - INFO - Block scan completed and history updated.
+[2025-10-18 10:27:00.411779] AVAX whale alert module imported
+[2025-10-18 10:27:00.523814] Starting AVAX whale background scanner thread...
+[2025-10-18 10:27:00.732148] AVAX whale background scanner thread started successfully
+[2025-10-18 10:27:00.732148] Starting AVAX whale alert scan loop.
+[2025-10-18 10:27:06.423593] Latest block number fetched: 70508451
+[2025-10-18 10:27:06.951634] Last scanned block: 70508070
+[2025-10-18 10:27:07.066639] Scanning blocks from 70508451 to 70508352
+2025-10-18 17:31:30,302 - INFO - Starting block scan...
+2025-10-18 17:31:32,065 - INFO - Latest block number: 65043658
+2025-10-18 17:31:32,564 - INFO - Scanning blocks from 65043658 to 65043559
+2025-10-18 17:32:40,496 - ERROR - API returned error for block 65043633: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:32:40,496 - ERROR - Error processing block 65043633: API error: Unknown error
+[2025-10-18 10:32:51.885633] AVAX whale alert module imported
+[2025-10-18 10:32:52.255102] Starting AVAX whale background scanner thread...
+[2025-10-18 10:32:52.432195] AVAX whale background scanner thread started successfully
+[2025-10-18 10:32:52.432195] Starting AVAX whale alert scan loop.
+[2025-10-18 10:32:57.671288] Latest block number fetched: 70508640
+[2025-10-18 10:32:58.411332] Last scanned block: 70508451
+[2025-10-18 10:32:58.566332] Scanning blocks from 70508640 to 70508541
+2025-10-18 17:33:12,795 - ERROR - API returned error for block 65043624: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:33:12,795 - ERROR - Error processing block 65043624: API error: Unknown error
+2025-10-18 17:33:21,568 - ERROR - API returned error for block 65043621: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:33:21,568 - ERROR - Error processing block 65043621: API error: Unknown error
+2025-10-18 17:33:55,086 - ERROR - API returned error for block 65043613: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:33:55,086 - ERROR - Error processing block 65043613: API error: Unknown error
+[2025-10-18 10:43:10.186424] Starting AVAX whale alert scan loop.
+[2025-10-18 10:43:12.241736] Latest block number fetched: 70509022
+[2025-10-18 10:43:12.556445] Last scanned block: 70508796
+[2025-10-18 10:43:12.669956] Scanning blocks from 70509022 to 70508923
+2025-10-18 17:52:16,250 - INFO - Starting block scan...
+2025-10-18 17:52:29,262 - INFO - Latest block number: 65045337
+2025-10-18 17:52:29,441 - INFO - Scanning blocks from 65045337 to 65045238
+2025-10-18 17:52:52,505 - ERROR - API returned error for block 65045329: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:52:52,505 - ERROR - Error processing block 65045329: API error: Unknown error
+[2025-10-18 10:52:55.954898] Starting AVAX whale alert scan loop.
+[2025-10-18 10:52:57.777638] Latest block number fetched: 70509390
+[2025-10-18 10:52:58.163423] Last scanned block: 70509134
+[2025-10-18 10:52:58.277562] Scanning blocks from 70509390 to 70509291
+2025-10-18 17:53:00,407 - ERROR - API returned error for block 65045325: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:53:00,408 - ERROR - Error processing block 65045325: API error: Unknown error
+2025-10-18 17:53:21,980 - ERROR - API returned error for block 65045316: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:53:21,980 - ERROR - Error processing block 65045316: API error: Unknown error
+2025-10-18 17:53:25,889 - ERROR - API returned error for block 65045314: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:53:25,889 - ERROR - Error processing block 65045314: API error: Unknown error
+2025-10-18 17:54:39,357 - ERROR - API returned error for block 65045292: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:54:39,357 - ERROR - Error processing block 65045292: API error: Unknown error
+2025-10-18 17:55:12,582 - ERROR - API returned error for block 65045281: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 17:55:12,582 - ERROR - Error processing block 65045281: API error: Unknown error
+2025-10-18 17:55:55,344 - ERROR - Error processing block 65045269: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 17:57:28,252 - INFO - Block scan completed and history updated.
+2025-10-18 18:02:28,251 - INFO - Starting block scan...
+2025-10-18 18:02:29,699 - INFO - Latest block number: 65046130
+2025-10-18 18:02:29,919 - INFO - Scanning blocks from 65046130 to 65046031
+2025-10-18 18:02:43,256 - ERROR - Error processing block 65046130: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 11:02:49.191624] Starting AVAX whale alert scan loop.
+[2025-10-18 11:02:50.674626] Latest block number fetched: 70509740
+[2025-10-18 11:02:50.979774] Last scanned block: 70509390
+[2025-10-18 11:02:51.093776] Scanning blocks from 70509740 to 70509641
+2025-10-18 18:02:54,375 - ERROR - Error processing block 65046129: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:03:10,113 - ERROR - API returned error for block 65046122: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:03:10,113 - ERROR - Error processing block 65046122: API error: Unknown error
+2025-10-18 18:03:20,340 - ERROR - API returned error for block 65046117: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:03:20,340 - ERROR - Error processing block 65046117: API error: Unknown error
+2025-10-18 18:03:34,595 - ERROR - API returned error for block 65046110: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:03:34,595 - ERROR - Error processing block 65046110: API error: Unknown error
+2025-10-18 18:04:06,156 - ERROR - API returned error for block 65046095: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:04:06,157 - ERROR - Error processing block 65046095: API error: Unknown error
+2025-10-18 18:04:58,974 - ERROR - API returned error for block 65046074: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:04:58,975 - ERROR - Error processing block 65046074: API error: Unknown error
+2025-10-18 18:05:07,172 - ERROR - API returned error for block 65046070: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:05:07,172 - ERROR - Error processing block 65046070: API error: Unknown error
+2025-10-18 18:05:24,938 - ERROR - API returned error for block 65046061: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:05:24,938 - ERROR - Error processing block 65046061: API error: Unknown error
+2025-10-18 18:06:01,401 - ERROR - API returned error for block 65046043: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:06:01,401 - ERROR - Error processing block 65046043: API error: Unknown error
+2025-10-18 18:06:12,754 - ERROR - API returned error for block 65046037: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:06:12,754 - ERROR - Error processing block 65046037: API error: Unknown error
+2025-10-18 18:06:31,566 - INFO - Block scan completed and history updated.
+2025-10-18 18:11:31,566 - INFO - Starting block scan...
+2025-10-18 18:11:33,988 - INFO - Latest block number: 65046864
+2025-10-18 18:11:34,207 - INFO - Scanning blocks from 65046864 to 65046765
+[2025-10-18 11:11:37.584703] Starting AVAX whale alert scan loop.
+[2025-10-18 11:11:39.101013] Latest block number fetched: 70510111
+[2025-10-18 11:11:39.401777] Last scanned block: 70509740
+[2025-10-18 11:11:39.516089] Scanning blocks from 70510111 to 70510012
+[2025-10-18 11:12:34.285221] Error processing block 70510100: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 18:12:52,242 - ERROR - Error processing block 65046848: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:13:01,963 - ERROR - API returned error for block 65046845: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:13:01,964 - ERROR - Error processing block 65046845: API error: Unknown error
+2025-10-18 18:13:03,797 - ERROR - API returned error for block 65046844: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:13:03,797 - ERROR - Error processing block 65046844: API error: Unknown error
+2025-10-18 18:13:57,390 - ERROR - Error processing block 65046830: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:15:26,434 - ERROR - API returned error for block 65046810: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:15:26,434 - ERROR - Error processing block 65046810: API error: Unknown error
+2025-10-18 18:15:54,622 - ERROR - Error processing block 65046805: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:15:56,492 - ERROR - API returned error for block 65046804: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:15:56,492 - ERROR - Error processing block 65046804: API error: Unknown error
+2025-10-18 18:16:21,800 - ERROR - API returned error for block 65046797: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:16:21,801 - ERROR - Error processing block 65046797: API error: Unknown error
+2025-10-18 18:16:56,897 - ERROR - API returned error for block 65046788: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:16:56,898 - ERROR - Error processing block 65046788: API error: Unknown error
+2025-10-18 18:17:38,476 - ERROR - API returned error for block 65046781: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:17:38,476 - ERROR - Error processing block 65046781: API error: Unknown error
+2025-10-18 18:18:52,465 - INFO - Block scan completed and history updated.
+[2025-10-18 11:22:18.300540] Starting AVAX whale alert scan loop.
+[2025-10-18 11:22:20.273343] Latest block number fetched: 70510502
+[2025-10-18 11:22:20.598817] Last scanned block: 70510164
+[2025-10-18 11:22:20.706819] Scanning blocks from 70510502 to 70510403
+2025-10-18 18:23:52,465 - INFO - Starting block scan...
+2025-10-18 18:23:53,854 - INFO - Latest block number: 65047844
+2025-10-18 18:23:54,068 - INFO - Scanning blocks from 65047844 to 65047745
+2025-10-18 18:25:24,462 - ERROR - Error processing block 65047830: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:26:52,514 - ERROR - Error processing block 65047812: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 18:27:03,398 - ERROR - API returned error for block 65047808: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:27:03,398 - ERROR - Error processing block 65047808: API error: Unknown error
+2025-10-18 18:28:46,559 - ERROR - Error processing block 65047791: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:31:07,752 - ERROR - Error processing block 65047767: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 18:31:22,830 - ERROR - API returned error for block 65047764: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:31:22,831 - ERROR - Error processing block 65047764: API error: Unknown error
+2025-10-18 18:31:26,313 - ERROR - API returned error for block 65047762: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:31:26,313 - ERROR - Error processing block 65047762: API error: Unknown error
+2025-10-18 18:31:47,294 - ERROR - API returned error for block 65047757: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:31:47,294 - ERROR - Error processing block 65047757: API error: Unknown error
+2025-10-18 18:32:24,264 - ERROR - API returned error for block 65047749: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:32:24,264 - ERROR - Error processing block 65047749: API error: Unknown error
+[2025-10-18 11:32:46.574237] Starting AVAX whale alert scan loop.
+[2025-10-18 11:32:49.086522] Latest block number fetched: 70510896
+[2025-10-18 11:32:49.395523] Last scanned block: 70510829
+[2025-10-18 11:32:49.507527] Scanning blocks from 70510896 to 70510830
+2025-10-18 18:32:54,718 - INFO - Block scan completed and history updated.
+2025-10-18 18:37:54,719 - INFO - Starting block scan...
+2025-10-18 18:37:56,149 - ERROR - Error during block scan: invalid literal for int() with base 16: 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'
+[2025-10-18 11:41:42.073942] Starting AVAX whale alert scan loop.
+[2025-10-18 11:41:43.725782] Latest block number fetched: 70511229
+[2025-10-18 11:41:44.071558] Last scanned block: 70511177
+[2025-10-18 11:41:44.189988] Scanning blocks from 70511229 to 70511178
+2025-10-18 18:42:56,151 - INFO - Starting block scan...
+2025-10-18 18:42:58,951 - ERROR - Error during block scan: invalid literal for int() with base 16: 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'
+2025-10-18 18:47:58,953 - INFO - Starting block scan...
+2025-10-18 18:48:01,883 - INFO - Latest block number: 65049782
+2025-10-18 18:48:02,083 - INFO - Scanning blocks from 65049782 to 65049683
+2025-10-18 18:49:06,222 - ERROR - API returned error for block 65049771: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:49:06,223 - ERROR - Error processing block 65049771: API error: Unknown error
+[2025-10-18 11:49:59.253728] Starting AVAX whale alert scan loop.
+[2025-10-18 11:50:00.880533] Latest block number fetched: 70511546
+[2025-10-18 11:50:01.198399] Last scanned block: 70511229
+[2025-10-18 11:50:01.313400] Scanning blocks from 70511546 to 70511447
+2025-10-18 18:50:04,749 - ERROR - API returned error for block 65049760: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:50:04,750 - ERROR - Error processing block 65049760: API error: Unknown error
+2025-10-18 18:50:20,069 - ERROR - Error processing block 65049758: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 18:52:30,851 - ERROR - API returned error for block 65049711: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:52:30,851 - ERROR - Error processing block 65049711: API error: Unknown error
+2025-10-18 18:53:43,615 - INFO - Block scan completed and history updated.
+2025-10-18 18:58:43,616 - INFO - Starting block scan...
+2025-10-18 18:58:45,462 - INFO - Latest block number: 65050639
+2025-10-18 18:58:45,660 - INFO - Scanning blocks from 65050639 to 65050540
+[2025-10-18 11:59:21.368231] Starting AVAX whale alert scan loop.
+[2025-10-18 11:59:23.231297] Latest block number fetched: 70511882
+[2025-10-18 11:59:23.559296] Last scanned block: 70511847
+[2025-10-18 11:59:23.672298] Scanning blocks from 70511882 to 70511848
+2025-10-18 18:59:53,906 - ERROR - API returned error for block 65050619: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 18:59:53,906 - ERROR - Error processing block 65050619: API error: Unknown error
+2025-10-18 19:01:34,313 - ERROR - API returned error for block 65050597: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:01:34,313 - ERROR - Error processing block 65050597: API error: Unknown error
+2025-10-18 19:02:14,367 - ERROR - API returned error for block 65050588: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:02:14,367 - ERROR - Error processing block 65050588: API error: Unknown error
+2025-10-18 19:06:05,946 - ERROR - API returned error for block 65050541: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:06:05,946 - ERROR - Error processing block 65050541: API error: Unknown error
+2025-10-18 19:06:15,110 - INFO - Block scan completed and history updated.
+[2025-10-18 12:07:08.742298] Starting AVAX whale alert scan loop.
+[2025-10-18 12:07:11.228556] Latest block number fetched: 70512165
+[2025-10-18 12:07:11.542412] Last scanned block: 70511882
+[2025-10-18 12:07:11.658370] Scanning blocks from 70512165 to 70512066
+[2025-10-18 12:09:04.268273] Error processing block 70512135: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 19:11:15,111 - INFO - Starting block scan...
+2025-10-18 19:11:17,278 - INFO - Latest block number: 65051639
+2025-10-18 19:11:17,488 - INFO - Scanning blocks from 65051639 to 65051540
+2025-10-18 19:11:31,639 - ERROR - API returned error for block 65051637: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:11:31,640 - ERROR - Error processing block 65051637: API error: Unknown error
+2025-10-18 19:11:51,744 - ERROR - Error processing block 65051635: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 19:12:11,918 - ERROR - API returned error for block 65051630: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:12:11,919 - ERROR - Error processing block 65051630: API error: Unknown error
+2025-10-18 19:12:29,058 - ERROR - API returned error for block 65051624: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:12:29,058 - ERROR - Error processing block 65051624: API error: Unknown error
+2025-10-18 19:12:45,135 - ERROR - API returned error for block 65051618: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:12:45,135 - ERROR - Error processing block 65051618: API error: Unknown error
+2025-10-18 19:13:14,294 - ERROR - API returned error for block 65051612: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:13:14,294 - ERROR - Error processing block 65051612: API error: Unknown error
+2025-10-18 19:14:02,890 - ERROR - API returned error for block 65051595: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:14:02,890 - ERROR - Error processing block 65051595: API error: Unknown error
+2025-10-18 19:14:11,765 - ERROR - API returned error for block 65051593: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:14:11,766 - ERROR - Error processing block 65051593: API error: Unknown error
+2025-10-18 19:15:14,520 - ERROR - API returned error for block 65051581: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:15:14,521 - ERROR - Error processing block 65051581: API error: Unknown error
+2025-10-18 19:15:33,898 - ERROR - Error processing block 65051578: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 19:16:31,838 - ERROR - API returned error for block 65051567: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:16:31,838 - ERROR - Error processing block 65051567: API error: Unknown error
+2025-10-18 19:16:40,430 - ERROR - API returned error for block 65051565: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:16:40,430 - ERROR - Error processing block 65051565: API error: Unknown error
+2025-10-18 19:17:18,684 - ERROR - API returned error for block 65051557: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:17:18,690 - ERROR - Error processing block 65051557: API error: Unknown error
+[2025-10-18 12:18:04.698879] Starting AVAX whale alert scan loop.
+[2025-10-18 12:18:06.278895] Latest block number fetched: 70512577
+[2025-10-18 12:18:06.843897] Last scanned block: 70512508
+[2025-10-18 12:18:06.960607] Scanning blocks from 70512577 to 70512509
+2025-10-18 19:18:53,202 - INFO - Block scan completed and history updated.
+2025-10-18 19:23:53,203 - INFO - Starting block scan...
+2025-10-18 19:23:55,400 - INFO - Latest block number: 65052652
+2025-10-18 19:23:55,593 - INFO - Scanning blocks from 65052652 to 65052553
+2025-10-18 19:25:10,057 - ERROR - API returned error for block 65052634: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:25:10,058 - ERROR - Error processing block 65052634: API error: Unknown error
+2025-10-18 19:25:31,350 - ERROR - API returned error for block 65052627: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:25:31,350 - ERROR - Error processing block 65052627: API error: Unknown error
+2025-10-18 19:26:30,999 - ERROR - API returned error for block 65052617: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:26:30,999 - ERROR - Error processing block 65052617: API error: Unknown error
+2025-10-18 19:26:36,541 - ERROR - API returned error for block 65052615: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:26:36,541 - ERROR - Error processing block 65052615: API error: Unknown error
+[2025-10-18 12:27:14.072691] Starting AVAX whale alert scan loop.
+[2025-10-18 12:27:16.592896] Latest block number fetched: 70512938
+[2025-10-18 12:27:16.902870] Last scanned block: 70512883
+[2025-10-18 12:27:17.019346] Scanning blocks from 70512938 to 70512884
+2025-10-18 19:29:51,001 - ERROR - Error processing block 65052577: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 19:30:12,759 - ERROR - API returned error for block 65052572: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:30:12,760 - ERROR - Error processing block 65052572: API error: Unknown error
+2025-10-18 19:31:47,037 - INFO - Block scan completed and history updated.
+[2025-10-18 12:35:58.328739] Starting AVAX whale alert scan loop.
+[2025-10-18 12:36:02.081450] Latest block number fetched: 70513227
+[2025-10-18 12:36:02.639462] Last scanned block: 70513179
+[2025-10-18 12:36:02.751763] Scanning blocks from 70513227 to 70513180
+2025-10-18 19:36:47,040 - INFO - Starting block scan...
+2025-10-18 19:36:51,711 - INFO - Latest block number: 65053681
+2025-10-18 19:36:52,157 - INFO - Scanning blocks from 65053681 to 65053582
+[2025-10-18 12:37:25.084078] Error processing block 70513218: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 19:39:14,188 - ERROR - API returned error for block 65053654: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:39:14,189 - ERROR - Error processing block 65053654: API error: Unknown error
+2025-10-18 19:39:30,438 - ERROR - API returned error for block 65053650: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:39:30,438 - ERROR - Error processing block 65053650: API error: Unknown error
+2025-10-18 19:40:44,263 - ERROR - API returned error for block 65053633: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:40:44,263 - ERROR - Error processing block 65053633: API error: Unknown error
+2025-10-18 19:40:58,788 - ERROR - API returned error for block 65053629: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:40:58,788 - ERROR - Error processing block 65053629: API error: Unknown error
+2025-10-18 19:41:20,862 - ERROR - Error processing block 65053626: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 19:41:30,809 - ERROR - API returned error for block 65053624: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:41:30,809 - ERROR - Error processing block 65053624: API error: Unknown error
+2025-10-18 19:41:39,720 - ERROR - API returned error for block 65053622: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:41:39,721 - ERROR - Error processing block 65053622: API error: Unknown error
+2025-10-18 19:42:01,923 - ERROR - API returned error for block 65053618: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:42:01,924 - ERROR - Error processing block 65053618: API error: Unknown error
+2025-10-18 19:42:06,272 - ERROR - API returned error for block 65053616: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:42:06,272 - ERROR - Error processing block 65053616: API error: Unknown error
+2025-10-18 19:42:22,238 - ERROR - API returned error for block 65053610: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:42:22,238 - ERROR - Error processing block 65053610: API error: Unknown error
+2025-10-18 19:42:30,147 - ERROR - API returned error for block 65053607: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:42:30,147 - ERROR - Error processing block 65053607: API error: Unknown error
+2025-10-18 19:44:17,368 - ERROR - Error processing block 65053596: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 12:44:44.653593] Starting AVAX whale alert scan loop.
+[2025-10-18 12:44:48.635265] Latest block number fetched: 70513535
+[2025-10-18 12:44:48.960084] Last scanned block: 70513499
+[2025-10-18 12:44:49.068083] Scanning blocks from 70513535 to 70513500
+[2025-10-18 12:45:17.623538] Error processing block 70513533: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 12:45:39.478616] Error processing block 70513531: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 19:46:22,617 - INFO - Block scan completed and history updated.
+2025-10-18 19:51:22,618 - INFO - Starting block scan...
+2025-10-18 19:51:24,099 - INFO - Latest block number: 65054852
+2025-10-18 19:51:24,312 - INFO - Scanning blocks from 65054852 to 65054753
+2025-10-18 19:51:52,464 - ERROR - API returned error for block 65054848: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:51:52,464 - ERROR - Error processing block 65054848: API error: Unknown error
+2025-10-18 19:52:34,784 - ERROR - API returned error for block 65054838: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:52:34,784 - ERROR - Error processing block 65054838: API error: Unknown error
+2025-10-18 19:52:46,899 - ERROR - Error processing block 65054837: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 12:53:01.662418] Starting AVAX whale alert scan loop.
+[2025-10-18 12:53:03.130530] Latest block number fetched: 70513838
+[2025-10-18 12:53:03.432247] Last scanned block: 70513535
+[2025-10-18 12:53:03.542604] Scanning blocks from 70513838 to 70513739
+2025-10-18 19:53:48,937 - ERROR - API returned error for block 65054826: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:53:48,938 - ERROR - Error processing block 65054826: API error: Unknown error
+2025-10-18 19:53:52,362 - ERROR - API returned error for block 65054824: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:53:52,362 - ERROR - Error processing block 65054824: API error: Unknown error
+2025-10-18 19:54:03,462 - ERROR - API returned error for block 65054820: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:54:03,462 - ERROR - Error processing block 65054820: API error: Unknown error
+2025-10-18 19:57:55,499 - ERROR - API returned error for block 65054772: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:57:55,499 - ERROR - Error processing block 65054772: API error: Unknown error
+2025-10-18 19:58:30,028 - ERROR - API returned error for block 65054762: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 19:58:30,028 - ERROR - Error processing block 65054762: API error: Unknown error
+2025-10-18 19:59:19,574 - INFO - Block scan completed and history updated.
+[2025-10-18 13:03:58.691310] Starting AVAX whale alert scan loop.
+[2025-10-18 13:04:00.399714] Latest block number fetched: 70514200
+[2025-10-18 13:04:00.851393] Last scanned block: 70514122
+[2025-10-18 13:04:01.008252] Scanning blocks from 70514200 to 70514123
+2025-10-18 20:04:19,576 - INFO - Starting block scan...
+2025-10-18 20:04:22,190 - INFO - Latest block number: 65055889
+2025-10-18 20:04:22,452 - INFO - Scanning blocks from 65055889 to 65055790
+2025-10-18 20:04:52,268 - ERROR - API returned error for block 65055883: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:04:52,268 - ERROR - Error processing block 65055883: API error: Unknown error
+2025-10-18 20:05:54,777 - ERROR - Error processing block 65055875: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 20:06:01,132 - ERROR - API returned error for block 65055872: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:06:01,132 - ERROR - Error processing block 65055872: API error: Unknown error
+2025-10-18 20:07:53,943 - ERROR - API returned error for block 65055853: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:07:53,944 - ERROR - Error processing block 65055853: API error: Unknown error
+2025-10-18 20:08:14,412 - ERROR - API returned error for block 65055850: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:08:14,412 - ERROR - Error processing block 65055850: API error: Unknown error
+2025-10-18 20:09:57,955 - ERROR - API returned error for block 65055833: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:09:57,955 - ERROR - Error processing block 65055833: API error: Unknown error
+2025-10-18 20:10:06,482 - ERROR - API returned error for block 65055830: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:10:06,482 - ERROR - Error processing block 65055830: API error: Unknown error
+2025-10-18 20:11:40,598 - ERROR - Error processing block 65055809: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 20:12:32,942 - ERROR - API returned error for block 65055798: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:12:32,942 - ERROR - Error processing block 65055798: API error: Unknown error
+[2025-10-18 13:13:30.436039] Starting AVAX whale alert scan loop.
+2025-10-18 20:13:31,537 - INFO - Block scan completed and history updated.
+[2025-10-18 13:13:34.335899] Latest block number fetched: 70514542
+[2025-10-18 13:13:34.774904] Last scanned block: 70514454
+[2025-10-18 13:13:34.939103] Scanning blocks from 70514542 to 70514455
+[2025-10-18 13:15:14.599960] Error processing block 70514514: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 20:18:31,538 - INFO - Starting block scan...
+2025-10-18 20:18:33,036 - INFO - Latest block number: 65057016
+2025-10-18 20:18:33,342 - INFO - Scanning blocks from 65057016 to 65056917
+2025-10-18 20:21:30,261 - ERROR - API returned error for block 65056985: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:21:30,262 - ERROR - Error processing block 65056985: API error: Unknown error
+2025-10-18 20:21:31,744 - ERROR - API returned error for block 65056984: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:21:31,745 - ERROR - Error processing block 65056984: API error: Unknown error
+2025-10-18 20:21:54,189 - ERROR - API returned error for block 65056981: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:21:54,189 - ERROR - Error processing block 65056981: API error: Unknown error
+2025-10-18 20:22:32,001 - ERROR - Error processing block 65056977: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 20:23:53,765 - ERROR - API returned error for block 65056966: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:23:53,765 - ERROR - Error processing block 65056966: API error: Unknown error
+[2025-10-18 13:24:35.182091] Starting AVAX whale alert scan loop.
+[2025-10-18 13:24:36.683348] Latest block number fetched: 70514969
+[2025-10-18 13:24:37.137619] Last scanned block: 70514814
+[2025-10-18 13:24:37.560859] Scanning blocks from 70514969 to 70514870
+2025-10-18 20:25:53,606 - ERROR - API returned error for block 65056945: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:25:53,607 - ERROR - Error processing block 65056945: API error: Unknown error
+2025-10-18 20:26:29,648 - ERROR - Error processing block 65056938: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 20:26:37,632 - ERROR - API returned error for block 65056934: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:26:37,632 - ERROR - Error processing block 65056934: API error: Unknown error
+2025-10-18 20:27:08,663 - ERROR - API returned error for block 65056923: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:27:08,663 - ERROR - Error processing block 65056923: API error: Unknown error
+2025-10-18 20:27:30,934 - INFO - Block scan completed and history updated.
+2025-10-18 20:32:30,936 - INFO - Starting block scan...
+2025-10-18 20:32:33,410 - INFO - Latest block number: 65058136
+2025-10-18 20:32:33,738 - INFO - Scanning blocks from 65058136 to 65058037
+2025-10-18 20:33:31,711 - ERROR - API returned error for block 65058130: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:33:31,711 - ERROR - Error processing block 65058130: API error: Unknown error
+2025-10-18 20:33:55,179 - ERROR - API returned error for block 65058125: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:33:55,179 - ERROR - Error processing block 65058125: API error: Unknown error
+2025-10-18 20:34:09,395 - ERROR - Error processing block 65058123: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 13:34:18.987699] Starting AVAX whale alert scan loop.
+[2025-10-18 13:34:20.631743] Latest block number fetched: 70515310
+[2025-10-18 13:34:21.079229] Last scanned block: 70515122
+[2025-10-18 13:34:21.233229] Scanning blocks from 70515310 to 70515211
+2025-10-18 20:34:22,495 - ERROR - Error processing block 65058122: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 13:38:33.904086] Error processing block 70515233: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 20:38:37,400 - ERROR - API returned error for block 65058091: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:38:37,400 - ERROR - Error processing block 65058091: API error: Unknown error
+2025-10-18 20:38:55,728 - ERROR - API returned error for block 65058086: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:38:55,728 - ERROR - Error processing block 65058086: API error: Unknown error
+2025-10-18 20:40:34,914 - ERROR - API returned error for block 65058071: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:40:34,914 - ERROR - Error processing block 65058071: API error: Unknown error
+2025-10-18 20:41:17,394 - ERROR - API returned error for block 65058063: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:41:17,394 - ERROR - Error processing block 65058063: API error: Unknown error
+2025-10-18 20:42:11,188 - ERROR - API returned error for block 65058053: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:42:11,190 - ERROR - Error processing block 65058053: API error: Unknown error
+2025-10-18 20:43:11,298 - ERROR - API returned error for block 65058045: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:43:11,299 - ERROR - Error processing block 65058045: API error: Unknown error
+2025-10-18 20:43:42,480 - ERROR - API returned error for block 65058040: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:43:42,480 - ERROR - Error processing block 65058040: API error: Unknown error
+2025-10-18 20:43:46,052 - ERROR - API returned error for block 65058038: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:43:46,052 - ERROR - Error processing block 65058038: API error: Unknown error
+2025-10-18 20:44:16,153 - INFO - Block scan completed and history updated.
+[2025-10-18 13:47:43.148544] Starting AVAX whale alert scan loop.
+[2025-10-18 13:47:46.193081] Latest block number fetched: 70515815
+[2025-10-18 13:47:47.224898] Last scanned block: 70515463
+[2025-10-18 13:47:47.401754] Scanning blocks from 70515815 to 70515716
+2025-10-18 20:49:16,154 - INFO - Starting block scan...
+2025-10-18 20:49:17,751 - INFO - Latest block number: 65059483
+2025-10-18 20:49:18,017 - INFO - Scanning blocks from 65059483 to 65059384
+2025-10-18 20:49:57,297 - ERROR - API returned error for block 65059475: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:49:57,297 - ERROR - Error processing block 65059475: API error: Unknown error
+[2025-10-18 13:50:38.056154] Error processing block 70515798: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 20:50:51,937 - ERROR - API returned error for block 65059464: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:50:51,938 - ERROR - Error processing block 65059464: API error: Unknown error
+2025-10-18 20:52:21,783 - ERROR - API returned error for block 65059453: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:52:21,784 - ERROR - Error processing block 65059453: API error: Unknown error
+2025-10-18 20:52:37,374 - ERROR - API returned error for block 65059448: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:52:37,374 - ERROR - Error processing block 65059448: API error: Unknown error
+[2025-10-18 13:55:11.231515] Error processing block 70515720: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 20:55:36,491 - ERROR - API returned error for block 65059414: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:55:36,491 - ERROR - Error processing block 65059414: API error: Unknown error
+2025-10-18 20:56:25,577 - ERROR - API returned error for block 65059408: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:56:25,577 - ERROR - Error processing block 65059408: API error: Unknown error
+2025-10-18 20:57:22,341 - ERROR - API returned error for block 65059394: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:57:22,341 - ERROR - Error processing block 65059394: API error: Unknown error
+2025-10-18 20:58:26,852 - ERROR - API returned error for block 65059387: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 20:58:26,852 - ERROR - Error processing block 65059387: API error: Unknown error
+2025-10-18 20:58:56,932 - INFO - Block scan completed and history updated.
+[2025-10-18 14:01:23.356613] Starting AVAX whale alert scan loop.
+[2025-10-18 14:01:25.020662] Latest block number fetched: 70516319
+[2025-10-18 14:01:25.437375] Last scanned block: 70516114
+[2025-10-18 14:01:25.588606] Scanning blocks from 70516319 to 70516220
+2025-10-18 21:03:56,934 - INFO - Starting block scan...
+2025-10-18 21:03:59,811 - INFO - Latest block number: 65060660
+2025-10-18 21:04:00,067 - INFO - Scanning blocks from 65060660 to 65060561
+[2025-10-18 14:05:01.751940] Error processing block 70516243: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 21:05:28,060 - ERROR - API returned error for block 65060650: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:05:28,061 - ERROR - Error processing block 65060650: API error: Unknown error
+2025-10-18 21:07:01,307 - ERROR - Error processing block 65060639: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 21:07:35,239 - ERROR - API returned error for block 65060632: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:07:35,239 - ERROR - Error processing block 65060632: API error: Unknown error
+2025-10-18 21:08:23,840 - ERROR - API returned error for block 65060627: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:08:23,840 - ERROR - Error processing block 65060627: API error: Unknown error
+2025-10-18 21:09:25,459 - ERROR - API returned error for block 65060619: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:09:25,460 - ERROR - Error processing block 65060619: API error: Unknown error
+2025-10-18 21:09:35,604 - ERROR - API returned error for block 65060615: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:09:35,604 - ERROR - Error processing block 65060615: API error: Unknown error
+2025-10-18 21:09:56,329 - ERROR - API returned error for block 65060610: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:09:56,329 - ERROR - Error processing block 65060610: API error: Unknown error
+2025-10-18 21:11:22,492 - ERROR - API returned error for block 65060597: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:11:22,492 - ERROR - Error processing block 65060597: API error: Unknown error
+[2025-10-18 14:11:57.862313] Starting AVAX whale alert scan loop.
+[2025-10-18 14:11:59.707841] Latest block number fetched: 70516725
+[2025-10-18 14:12:00.153845] Last scanned block: 70516484
+[2025-10-18 14:12:00.323841] Scanning blocks from 70516725 to 70516626
+2025-10-18 21:12:49,031 - ERROR - API returned error for block 65060589: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:12:49,031 - ERROR - Error processing block 65060589: API error: Unknown error
+2025-10-18 21:12:50,436 - ERROR - API returned error for block 65060588: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:12:50,436 - ERROR - Error processing block 65060588: API error: Unknown error
+2025-10-18 21:13:47,950 - ERROR - API returned error for block 65060575: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:13:47,950 - ERROR - Error processing block 65060575: API error: Unknown error
+2025-10-18 21:14:44,139 - ERROR - API returned error for block 65060565: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:14:44,139 - ERROR - Error processing block 65060565: API error: Unknown error
+2025-10-18 21:15:35,877 - INFO - Block scan completed and history updated.
+2025-10-18 21:20:35,879 - INFO - Starting block scan...
+2025-10-18 21:20:37,416 - INFO - Latest block number: 65061990
+2025-10-18 21:20:38,239 - INFO - Scanning blocks from 65061990 to 65061891
+2025-10-18 21:21:10,754 - ERROR - API returned error for block 65061988: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:21:10,754 - ERROR - Error processing block 65061988: API error: Unknown error
+2025-10-18 21:21:26,632 - ERROR - Error processing block 65061987: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 14:22:15.659551] Starting AVAX whale alert scan loop.
+[2025-10-18 14:22:18.922392] Latest block number fetched: 70517097
+[2025-10-18 14:22:19.707571] Last scanned block: 70516821
+[2025-10-18 14:22:19.910569] Scanning blocks from 70517097 to 70516998
+2025-10-18 21:22:32,833 - ERROR - API returned error for block 65061976: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:22:32,833 - ERROR - Error processing block 65061976: API error: Unknown error
+2025-10-18 21:23:44,142 - ERROR - API returned error for block 65061961: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:23:44,142 - ERROR - Error processing block 65061961: API error: Unknown error
+2025-10-18 21:26:26,872 - ERROR - API returned error for block 65061936: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:26:26,872 - ERROR - Error processing block 65061936: API error: Unknown error
+2025-10-18 21:27:32,493 - ERROR - API returned error for block 65061927: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:27:32,495 - ERROR - Error processing block 65061927: API error: Unknown error
+2025-10-18 21:28:00,253 - ERROR - API returned error for block 65061923: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:28:00,253 - ERROR - Error processing block 65061923: API error: Unknown error
+2025-10-18 21:30:30,945 - ERROR - API returned error for block 65061897: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:30:30,946 - ERROR - Error processing block 65061897: API error: Unknown error
+2025-10-18 21:31:18,145 - ERROR - Error processing block 65061893: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 21:31:31,145 - ERROR - API returned error for block 65061891: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:31:31,145 - ERROR - Error processing block 65061891: API error: Unknown error
+2025-10-18 21:31:44,834 - INFO - Block scan completed and history updated.
+[2025-10-18 14:34:35.653469] Starting AVAX whale alert scan loop.
+[2025-10-18 14:34:37.776499] Latest block number fetched: 70517528
+[2025-10-18 14:34:38.834707] Last scanned block: 70517470
+[2025-10-18 14:34:39.010840] Scanning blocks from 70517528 to 70517471
+2025-10-18 21:36:44,836 - INFO - Starting block scan...
+2025-10-18 21:36:46,354 - INFO - Latest block number: 65063276
+2025-10-18 21:36:47,231 - INFO - Scanning blocks from 65063276 to 65063177
+2025-10-18 21:36:52,894 - ERROR - API returned error for block 65063276: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:36:52,895 - ERROR - Error processing block 65063276: API error: Unknown error
+2025-10-18 21:38:07,953 - ERROR - Error processing block 65063267: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 21:38:13,175 - ERROR - API returned error for block 65063265: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:38:13,175 - ERROR - Error processing block 65063265: API error: Unknown error
+2025-10-18 21:39:22,286 - ERROR - API returned error for block 65063254: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:39:22,286 - ERROR - Error processing block 65063254: API error: Unknown error
+2025-10-18 21:44:43,215 - ERROR - API returned error for block 65063214: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:44:43,216 - ERROR - Error processing block 65063214: API error: Unknown error
+2025-10-18 21:45:03,917 - ERROR - API returned error for block 65063210: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:45:03,917 - ERROR - Error processing block 65063210: API error: Unknown error
+[2025-10-18 14:45:08.233006] Starting AVAX whale alert scan loop.
+[2025-10-18 14:45:09.922721] Latest block number fetched: 70517926
+[2025-10-18 14:45:11.923344] Last scanned block: 70517811
+[2025-10-18 14:45:13.230252] Scanning blocks from 70517926 to 70517827
+2025-10-18 21:45:38,605 - ERROR - Error processing block 65063208: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 21:45:49,245 - ERROR - Error processing block 65063207: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 21:46:11,490 - ERROR - Error processing block 65063206: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 21:46:25,174 - ERROR - Error processing block 65063205: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 21:46:51,699 - ERROR - API returned error for block 65063202: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:46:51,699 - ERROR - Error processing block 65063202: API error: Unknown error
+2025-10-18 21:47:34,611 - ERROR - API returned error for block 65063194: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:47:34,611 - ERROR - Error processing block 65063194: API error: Unknown error
+2025-10-18 21:48:03,439 - ERROR - API returned error for block 65063188: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:48:03,439 - ERROR - Error processing block 65063188: API error: Unknown error
+2025-10-18 21:49:30,676 - INFO - Block scan completed and history updated.
+[2025-10-18 14:50:16.997237] Error processing block 70517876: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 14:52:57.456473] Error processing block 70517829: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 21:54:30,677 - INFO - Starting block scan...
+2025-10-18 21:54:35,249 - INFO - Latest block number: 65064704
+2025-10-18 21:54:35,568 - INFO - Scanning blocks from 65064704 to 65064605
+2025-10-18 21:55:33,364 - ERROR - API returned error for block 65064699: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:55:33,365 - ERROR - Error processing block 65064699: API error: Unknown error
+2025-10-18 21:55:51,741 - ERROR - Error processing block 65064698: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 21:55:54,346 - ERROR - API returned error for block 65064697: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:55:54,347 - ERROR - Error processing block 65064697: API error: Unknown error
+2025-10-18 21:56:08,899 - ERROR - API returned error for block 65064695: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:56:08,900 - ERROR - Error processing block 65064695: API error: Unknown error
+2025-10-18 21:57:16,363 - ERROR - API returned error for block 65064685: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:57:16,363 - ERROR - Error processing block 65064685: API error: Unknown error
+2025-10-18 21:58:16,301 - ERROR - API returned error for block 65064677: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 21:58:16,302 - ERROR - Error processing block 65064677: API error: Unknown error
+2025-10-18 22:00:00,626 - ERROR - API returned error for block 65064665: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:00:00,630 - ERROR - Error processing block 65064665: API error: Unknown error
+[2025-10-18 15:01:31.606376] Starting AVAX whale alert scan loop.
+[2025-10-18 15:01:34.457855] Latest block number fetched: 70518561
+[2025-10-18 15:01:36.891946] Last scanned block: 70518500
+[2025-10-18 15:01:37.272316] Scanning blocks from 70518561 to 70518501
+[2025-10-18 15:01:59.861781] AVAX whale alert module imported
+2025-10-18 22:02:00,119 - ERROR - API returned error for block 65064652: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:02:00,120 - ERROR - Error processing block 65064652: API error: Unknown error
+[2025-10-18 15:02:06.796406] Starting AVAX whale background scanner thread...
+[2025-10-18 15:02:06.972311] AVAX whale background scanner thread started successfully
+[2025-10-18 15:02:06.972311] Starting AVAX whale alert scan loop.
+[2025-10-18 15:02:12.078337] Latest block number fetched: 70518586
+2025-10-18 22:02:12,482 - ERROR - Error processing block 65064651: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:02:13.241595] Last scanned block: 70518500
+[2025-10-18 15:02:13.392003] Scanning blocks from 70518586 to 70518501
+2025-10-18 22:02:31,470 - ERROR - Error processing block 65064649: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:03:29.411353] Error processing block 70518577: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:04:05,724 - ERROR - API returned error for block 65064642: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:04:05,724 - ERROR - Error processing block 65064642: API error: Unknown error
+[2025-10-18 15:04:12.707545] Error processing block 70518568: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 15:07:22.865149] Error processing block 70518556: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 15:08:00.917037] Error processing block 70518516: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:08:45,592 - ERROR - Error processing block 65064619: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:09:07,143 - ERROR - Error processing block 65064617: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:09:09.619006] Error processing block 70518534: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:10:18,031 - ERROR - API returned error for block 65064610: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:10:18,032 - ERROR - Error processing block 65064610: API error: Unknown error
+2025-10-18 22:10:29,600 - ERROR - Error processing block 65064609: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:10:51,258 - ERROR - Error processing block 65064608: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:11:10,027 - ERROR - API returned error for block 65064606: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:11:10,027 - ERROR - Error processing block 65064606: API error: Unknown error
+2025-10-18 22:11:29,899 - INFO - Block scan completed and history updated.
+[2025-10-18 15:13:52.474474] AVAX whale alert module imported
+[2025-10-18 15:13:53.839412] Starting AVAX whale background scanner thread...
+[2025-10-18 15:13:54.025931] AVAX whale background scanner thread started successfully
+[2025-10-18 15:13:54.025931] Starting AVAX whale alert scan loop.
+[2025-10-18 15:13:58.488964] Latest block number fetched: 70519034
+[2025-10-18 15:14:01.414816] Last scanned block: 70518561
+[2025-10-18 15:14:01.639061] Scanning blocks from 70519034 to 70518935
+2025-10-18 22:21:45,464 - INFO - Starting block scan...
+2025-10-18 22:21:47,418 - INFO - Latest block number: 65066876
+2025-10-18 22:21:47,679 - INFO - Scanning blocks from 65066876 to 65066777
+2025-10-18 22:21:52,203 - ERROR - API returned error for block 65066876: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:21:52,204 - ERROR - Error processing block 65066876: API error: Unknown error
+2025-10-18 22:22:25,047 - ERROR - API returned error for block 65066869: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:22:25,047 - ERROR - Error processing block 65066869: API error: Unknown error
+2025-10-18 22:23:00,733 - ERROR - API returned error for block 65066864: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:23:00,733 - ERROR - Error processing block 65066864: API error: Unknown error
+2025-10-18 22:26:03,698 - ERROR - API returned error for block 65066845: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:26:03,698 - ERROR - Error processing block 65066845: API error: Unknown error
+[2025-10-18 15:26:35.461514] AVAX whale alert module imported
+[2025-10-18 15:26:35.629773] Starting AVAX whale background scanner thread...
+[2025-10-18 15:26:35.810656] Starting AVAX whale alert scan loop.
+[2025-10-18 15:26:35.810656] AVAX whale background scanner thread started successfully
+[2025-10-18 15:26:39.279772] Latest block number fetched: 70519522
+2025-10-18 22:26:39,522 - ERROR - Error processing block 65066840: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:26:39.730255] Last scanned block: 70519034
+[2025-10-18 15:26:39.896576] Scanning blocks from 70519522 to 70519423
+[2025-10-18 15:27:48.913257] Error processing block 70519512: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:29:03,802 - ERROR - API returned error for block 65066828: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:29:03,805 - ERROR - Error processing block 65066828: API error: Unknown error
+[2025-10-18 15:29:19.136207] Starting AVAX whale alert scan loop.
+[2025-10-18 15:29:21.210004] Latest block number fetched: 70519620
+[2025-10-18 15:29:21.836006] Last scanned block: 70519551
+[2025-10-18 15:29:22.267042] Scanning blocks from 70519620 to 70519552
+[2025-10-18 15:30:01.236733] Error processing block 70519619: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:30:02,007 - ERROR - Error processing block 65066822: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:30:45,457 - ERROR - API returned error for block 65066816: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:30:45,457 - ERROR - Error processing block 65066816: API error: Unknown error
+2025-10-18 22:31:15,103 - ERROR - Error processing block 65066814: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:31:59,274 - ERROR - Error processing block 65066809: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:32:11,598 - ERROR - Error processing block 65066808: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:32:40,180 - INFO - Starting block scan...
+2025-10-18 22:32:43,935 - INFO - Latest block number: 65067753
+2025-10-18 22:32:44,802 - INFO - Scanning blocks from 65067753 to 65067654
+2025-10-18 22:33:35,127 - ERROR - Error processing block 65067752: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:33:38,607 - ERROR - API returned error for block 65066798: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:33:38,608 - ERROR - Error processing block 65066798: API error: Unknown error
+[2025-10-18 15:33:55.279272] Error processing block 70519428: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 15:34:00.618254] Error processing block 70519560: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:36:52,788 - ERROR - API returned error for block 65067739: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:36:52,789 - ERROR - Error processing block 65067739: API error: Unknown error
+2025-10-18 22:37:07,699 - ERROR - API returned error for block 65067737: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:37:07,700 - ERROR - Error processing block 65067737: API error: Unknown error
+2025-10-18 22:37:09,177 - ERROR - API returned error for block 65067736: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:37:09,178 - ERROR - Error processing block 65067736: API error: Unknown error
+2025-10-18 22:37:09,570 - INFO - Block scan completed and history updated.
+2025-10-18 22:38:14,571 - ERROR - Error processing block 65067730: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:39:06,806 - ERROR - Error processing block 65067727: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:39:59,696 - ERROR - Error processing block 65067722: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 15:40:06.836562] Starting AVAX whale alert scan loop.
+[2025-10-18 15:40:09.599191] Latest block number fetched: 70520001
+[2025-10-18 15:40:09.886715] Last scanned block: 70519897
+[2025-10-18 15:40:09.990426] Scanning blocks from 70520001 to 70519902
+2025-10-18 22:40:24,879 - ERROR - Error processing block 65067720: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:41:33.323531] Starting AVAX whale alert scan loop.
+[2025-10-18 15:41:35.019525] Latest block number fetched: 70520065
+[2025-10-18 15:41:35.305918] Last scanned block: 70519897
+[2025-10-18 15:41:36.417346] Scanning blocks from 70520065 to 70519966
+2025-10-18 22:42:09,571 - INFO - Starting block scan...
+2025-10-18 22:42:12,655 - INFO - Latest block number: 65068513
+2025-10-18 22:42:13,215 - INFO - Scanning blocks from 65068513 to 65068414
+2025-10-18 22:42:24,336 - ERROR - Error processing block 65067707: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:42:34,105 - ERROR - API returned error for block 65068512: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:42:34,105 - ERROR - Error processing block 65068512: API error: Unknown error
+[2025-10-18 15:44:23.027470] Error processing block 70520028: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:44:23,227 - ERROR - Error processing block 65068496: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:45:12,616 - ERROR - API returned error for block 65068489: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:45:12,616 - ERROR - Error processing block 65068489: API error: Unknown error
+2025-10-18 22:45:29,632 - ERROR - Error processing block 65067692: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:45:31,385 - ERROR - API returned error for block 65067691: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:45:31,385 - ERROR - Error processing block 65067691: API error: Unknown error
+2025-10-18 22:47:01,239 - ERROR - Error processing block 65068482: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:47:31.408173] Error processing block 70519903: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:47:51,204 - ERROR - Error processing block 65067678: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:48:52,513 - ERROR - API returned error for block 65068468: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:48:52,513 - ERROR - Error processing block 65068468: API error: Unknown error
+2025-10-18 22:50:03,174 - ERROR - Error processing block 65068458: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:50:07,331 - ERROR - API returned error for block 65068457: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:50:07,332 - ERROR - Error processing block 65068457: API error: Unknown error
+2025-10-18 22:50:16,684 - ERROR - Error processing block 65067670: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:51:45,718 - ERROR - Error processing block 65068447: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:52:02,178 - ERROR - Error processing block 65068446: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+2025-10-18 22:53:05,579 - ERROR - Error processing block 65067660: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+2025-10-18 22:53:23,520 - ERROR - Error processing block 65068440: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-18 15:54:07.061885] Starting AVAX whale alert scan loop.
+[2025-10-18 15:54:09.757841] Latest block number fetched: 70520491
+[2025-10-18 15:54:10.059578] Last scanned block: 70520065
+[2025-10-18 15:54:10.173801] Scanning blocks from 70520491 to 70520392
+2025-10-18 22:54:11,191 - INFO - Block scan completed and history updated.
+2025-10-18 22:54:36,342 - ERROR - API returned error for block 65068431: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:54:36,342 - ERROR - Error processing block 65068431: API error: Unknown error
+[2025-10-18 15:55:28.746997] Starting AVAX whale alert scan loop.
+[2025-10-18 15:55:32.268564] Latest block number fetched: 70520545
+[2025-10-18 15:55:32.687291] Last scanned block: 70520221
+[2025-10-18 15:55:32.837095] Scanning blocks from 70520545 to 70520446
+2025-10-18 22:55:35,763 - ERROR - API returned error for block 65068424: {'status': '0', 'message': 'NOTOK', 'result': 'Free API access is temporarily unavailable due to unusually high network activity. To maintain uninterrupted service, we recommend upgrading to a paid plan: https://etherscan.io/apis'}
+2025-10-18 22:55:35,763 - ERROR - Error processing block 65068424: API error: Unknown error
+2025-10-18 22:55:57,350 - ERROR - Error processing block 65068422: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 15:56:03.298341] Error processing block 70520462: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 15:57:19.163720] Error processing block 70520448: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 15:57:36.085880] Error processing block 70520446: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+2025-10-18 22:57:47,808 - INFO - Block scan completed and history updated.
+2025-10-18 22:59:11,193 - INFO - Starting block scan...
+2025-10-18 22:59:14,740 - INFO - Latest block number: 65069874
+2025-10-18 22:59:15,029 - INFO - Scanning blocks from 65069874 to 65069775
+[2025-10-18 16:01:24.663232] Error processing block 70520482: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-18 16:02:15.724024] Error processing block 70520472: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)

@@ -18,6 +18,11 @@ from datetime import datetime, timezone
 import pandas as pd
 
 
+# Simple in-memory per-symbol cache to avoid repeated heavy IO during Streamlit renders
+_CACHE: dict = {}
+_CACHE_TTL_SECONDS = 5.0
+
+
 # ---------- Generic helpers ---------- #
 
 def _safe_read_json(path: str) -> Optional[List[Dict[str, Any]]]:
@@ -162,7 +167,13 @@ def load_btc_whales() -> List[Dict[str, Any]]:
 		from BTC import metrics_btc_whale_alert_realtime as btc_mod  # type: ignore
 		events = btc_mod.load_whale_history()
 		return normalize_events(events, token='BTC') if events else []
-	except Exception:
+	except Exception as e:
+		# Minimal logging for diagnostics (do not raise to avoid breaking UI)
+		try:
+			with open('whale_loader.log', 'a', encoding='utf-8') as lf:
+				lf.write(f"[load_btc_whales] exception: {e}\n")
+		except Exception:
+			pass
 		return []
 
 
@@ -253,10 +264,33 @@ LOADERS: Dict[str, Callable[[], List[Dict[str, Any]]]] = {
 
 def load_whales_for_symbol(symbol: str) -> List[Dict[str, Any]]:
 	sym = symbol.upper()
+	# Check simple TTL cache first
+	now = None
+	try:
+		import time
+		now = time.time()
+	except Exception:
+		now = None
+	if now is not None:
+		c = _CACHE.get(sym)
+		if c:
+			ts, data = c.get('ts'), c.get('data')
+			if ts and (now - ts) < _CACHE_TTL_SECONDS:
+				return data
+	# Resolve loader
 	if sym in LOADERS:
-		return LOADERS[sym]()
-	# Assume ERC20 fallback
-	return load_erc20_whales(sym)
+		res = LOADERS[sym]()
+	else:
+		res = load_erc20_whales(sym)
+	# Store in cache
+	try:
+		if now is None:
+			import time
+			now = time.time()
+		_CACHE[sym] = {'ts': now, 'data': res}
+	except Exception:
+		pass
+	return res
 
 
 def to_dataframe(events: List[Dict[str, Any]]) -> pd.DataFrame:

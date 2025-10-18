@@ -993,3 +993,20 @@
 [2025-10-17 14:29:13.979847] [SCANNER] Thread started.
 [2025-10-17 14:29:14.005432] [SCANNER] Start scan loop.
 [2025-10-17 14:45:16.348304] Token: ETH | Whale txs found: 12 | Blocks scanned: 23596964 to 23597984
+[2025-10-18 10:01:28.796181] [SCANNER] Thread started.
+[2025-10-18 10:01:28.820181] [SCANNER] Start scan loop.
+[2025-10-18 10:15:27.702620] [SCANNER] Thread started.
+[2025-10-18 10:15:27.702620] [SCANNER] Start scan loop.
+[2025-10-18 10:25:21.893954] Token: ETH | Whale txs found: 44 | Blocks scanned: 23602904 to 23603874
+[2025-10-18 10:28:52.947665] [SCANNER] Thread started.
+[2025-10-18 10:28:52.947665] [SCANNER] Start scan loop.
+[2025-10-18 10:34:34.416176] Error scanning token ETH: 'charmap' codec can't encode character '\u1ed9' in position 1: character maps to <undefined>
+[2025-10-18 10:35:52.071417] [SCANNER] Thread started.
+[2025-10-18 10:35:52.072417] [SCANNER] Start scan loop.
+[2025-10-18 10:44:22.926761] Token: ETH | Whale txs found: 36 | Blocks scanned: 23603875 to 23603976
+[2025-10-18 15:17:42.080747] [SCANNER] Thread started.
+[2025-10-18 15:17:42.081746] [SCANNER] Start scan loop.
+[2025-10-18 15:18:19.447605] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 15:28:50.438763] [SCANNER] Thread started.
+[2025-10-18 15:28:50.439764] [SCANNER] Start scan loop.
+[2025-10-18 15:31:28.753696] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.

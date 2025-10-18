@@ -65,6 +65,16 @@ try:
 except Exception as e:
     # Import may fail in some environments; don't crash the whole app.
     print(f"[DEBUG] SUI module import skipped/failed: {e}")
+# Ensure BTC background scanner is started (do not auto-start on import)
+try:
+    from BTC import metrics_btc_whale_alert_realtime as btc_mod  # type: ignore
+    try:
+        btc_mod.ensure_background_scanner_started()
+        print("[DEBUG] BTC scanner ensure_background_scanner_started() called")
+    except Exception as _e:
+        print(f"[DEBUG] BTC scanner start call failed: {_e}")
+except Exception as e:
+    print(f"[DEBUG] BTC module import skipped/failed: {e}")
 
 
 
@@ -2536,8 +2546,11 @@ def phase0_overlay_whales(coin_symbol: str, df_ohlcv, fig_ohlcv):
         if not fig_ohlcv or df_ohlcv is None or df_ohlcv.empty:
             return
         from overlay_whale_alert import overlay_whale_alert_chart
-        # Load generic events
-        raw_events = load_whales_for_symbol(coin_symbol)
+        # Load generic events (cached to avoid heavy IO on reruns)
+        @st.cache_data(ttl=15)
+        def _cached_load_whales_for_overlay(sym: str):
+            return load_whales_for_symbol(sym)
+        raw_events = _cached_load_whales_for_overlay(coin_symbol)
         overlay_events = as_overlay_events(raw_events)
         if not overlay_events:
             return
@@ -2915,7 +2928,15 @@ for idx, coin_tuple in enumerate(COIN_LIST):
         with st.expander(f"🐳 {coin_symbol} Large Transactions", expanded=False):
             try:
                 from services.whale.whale_loader import load_whales_for_symbol as _lwf, to_dataframe as _wh_df
-                events = _lwf(coin_symbol) if load_whales_for_symbol else []
+
+                @st.cache_data(ttl=15)
+                def _cached_box_whales(sym: str):
+                    try:
+                        return _lwf(sym)
+                    except Exception:
+                        return []
+
+                events = _cached_box_whales(coin_symbol) if load_whales_for_symbol else []
                 if not events:
                     st.caption("Chưa có whale events cho coin này.")
                 else:

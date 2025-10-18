@@ -88,22 +88,43 @@ def load_whale_history():
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r") as f:
             local_history = json.load(f)
-
     if db.available():
-        # Lấy dữ liệu từ database
-        db_history = db.find_all("btc_whale_history", sort_field="time", ascending=True)
+        # Fetch a bounded number of recent DB entries to avoid large transfers during UI render.
+        # We fetch recent-first and will reverse later to preserve ascending order.
+        try:
+            db_history = db.find_all("btc_whale_history", sort_field="time", ascending=False, limit=1000)
+        except Exception:
+            db_history = []
+
+        # Build set of known hashes from DB (recent subset)
         db_hashes = {d.get("hash") for d in db_history if isinstance(d, dict) and "hash" in d}
 
-        # Gộp dữ liệu từ file local vào database
+        # Merge any local-only entries (older or offline-captured) into DB
         new_entries = [entry for entry in local_history if entry.get("hash") not in db_hashes]
         if new_entries:
-            db.upsert_many("btc_whale_history", new_entries, unique_keys=["hash"])
-            print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+            try:
+                db.upsert_many("btc_whale_history", new_entries, unique_keys=["hash"])
+                print(f"Gộp {len(new_entries)} giao dịch từ file local vào database.")
+            except Exception:
+                pass
 
-        # Trả về dữ liệu đã gộp
-        return db.find_all("btc_whale_history", sort_field="time", ascending=True)
+        # Merge DB recent list with local-only entries and return as ascending order
+        merged = list(db_history or [])
+        # Since db_history is recent-first, reverse for ascending
+        try:
+            merged = list(reversed(merged))
+        except Exception:
+            pass
 
-    # Nếu database không khả dụng, trả về dữ liệu từ file local
+        # If local_history contains older entries not present in the merged list, append them
+        merged_hashes = {d.get("hash") for d in merged if isinstance(d, dict) and "hash" in d}
+        for e in local_history:
+            if e.get("hash") not in merged_hashes:
+                merged.append(e)
+
+        return merged
+
+    # If database not available, return local history
     return local_history
 
 def save_whale_history(history):
@@ -154,7 +175,21 @@ def fetch_recent_whales_once(min_value_btc, num_blocks=5):
             return []
         start = int(latest_block)
         end = start - max(1, int(num_blocks)) + 1
-        seen = {tx.get('hash') for tx in load_whale_history()}
+        # Avoid loading the entire DB/local history here to build the seen set (may be large).
+        seen = set()
+        try:
+            if db.available():
+                recent = db.find_all("btc_whale_history", sort_field="time", ascending=False, limit=500)
+                seen = {tx.get('hash') for tx in recent if isinstance(tx, dict) and 'hash' in tx}
+            else:
+                # Fallback to local file hashes
+                lh = []
+                if os.path.exists(HISTORY_FILE):
+                    with open(HISTORY_FILE, 'r') as f:
+                        lh = json.load(f)
+                seen = {tx.get('hash') for tx in lh if isinstance(tx, dict) and 'hash' in tx}
+        except Exception:
+            seen = set()
         results = []
         try:
             from BTC.btc_cex_dex_wallets import is_cex_wallet
@@ -200,7 +235,7 @@ def fetch_recent_whales_once(min_value_btc, num_blocks=5):
         _log(f"[ONDEMAND] fatal: {e}")
         return []
 
-def show_btc_whale_alert_realtime(min_value_btc=1000, num_blocks=5):
+def show_btc_whale_alert_realtime(min_value_btc=5000, num_blocks=5):
     st.markdown("""
 <div style='font-size:22px;font-weight:bold;margin-bottom:8px;'>
     🐳 Whale Alert - BTC Large Transactions
@@ -262,7 +297,7 @@ def show_btc_whale_alert_realtime(min_value_btc=1000, num_blocks=5):
             )
     st.markdown(f"<div style='height: 260px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 8px; background: #f9f9f9; margin-top: 16px;'>{box_content}</div>", unsafe_allow_html=True)
 
-def background_whale_alert_scanner(min_value_btc=300, num_blocks=5, interval_sec=300):
+def background_whale_alert_scanner(min_value_btc=5000, num_blocks=5, interval_sec=300):
     while True:
         try:
             latest_block = fetch_latest_block_number()
@@ -351,7 +386,23 @@ def add_overlay_marker(transaction):
 #     # Add marker to visualization or log
 #     print(f"Transaction {tx['hash']} marked as {marker['type']} with color {marker['color']}")
 
-if "_btc_whale_bg_thread" not in globals():
-    t = threading.Thread(target=background_whale_alert_scanner, args=(1000, 5, 300), daemon=True)
-    t.start()
-    _btc_whale_bg_thread = True
+_btc_whale_bg_thread = False
+
+def ensure_background_scanner_started(min_value_btc=5000, num_blocks=5, interval_sec=300):
+    """Start the background scanner thread if it isn't already running.
+
+    This is idempotent and safe to call multiple times. Historically the module
+    auto-started the thread on import which caused import-time blocking and
+    unwanted side-effects. Call this from the application init (e.g. in
+    `Crypto2025.py`) to start the scanner explicitly.
+    """
+    global _btc_whale_bg_thread
+    try:
+        if _btc_whale_bg_thread:
+            return True
+        t = threading.Thread(target=background_whale_alert_scanner, args=(min_value_btc, num_blocks, interval_sec), daemon=True)
+        t.start()
+        _btc_whale_bg_thread = True
+        return True
+    except Exception:
+        return False
