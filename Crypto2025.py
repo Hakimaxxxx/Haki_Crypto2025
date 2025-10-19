@@ -2643,6 +2643,45 @@ with tab2:
             st.caption(f"Không hiển thị được Market Cap chart: {_mc_ex}")
     st.caption("(Phase 4) Metrics tab đã khôi phục đầy đủ biểu đồ lịch sử.")
 
+    # === RSI Heatmap panel ===
+    with st.expander("RSI Heatmap (MarketCap vs RSI)", expanded=False):
+        try:
+            import metrics_rsi as _rsi
+            # timeframe selector
+            tf = st.selectbox("Chọn timeframe RSI", ["4h", "1d", "7d"], index=1, key="rsi_timeframe")
+            # universe selector
+            uni = st.selectbox("Universe", ["top30", "top50", "portfolio", "all"], index=0, key="rsi_universe")
+            st.caption("Lưu ý: RSI được tính từ nguồn OHLCV; có thể dùng CoinGecko nếu nguồn OHLCV không có.")
+            # Fetch universe metadata
+            list_meta = _rsi.get_universe_from_config(option=uni)
+            if not list_meta:
+                st.caption("Không lấy được danh sách coin từ CoinGecko.")
+            else:
+                df_meta = pd.DataFrame(list_meta)
+                symbols = df_meta['symbol'].tolist()
+                # Cache info and refresh control
+                cache_info = _rsi.rsi_cache_info()
+                last_ts = cache_info.get('last_updated')
+                last_str = pd.to_datetime(last_ts, unit='s', utc=True).strftime('%Y-%m-%d %H:%M:%S (UTC)') if last_ts else 'N/A'
+                cols_r = st.columns([1,1,2])
+                cols_r[0].caption(f"Cached: {cache_info.get('count',0)} items")
+                cols_r[1].caption(f"Last update: {last_str}")
+                if cols_r[2].button("🔄 Refresh RSI (force)"):
+                    force_refresh = True
+                else:
+                    force_refresh = False
+
+                with st.spinner("Lấy dữ liệu RSI (cache-aware)..."):
+                    rsi_map = _rsi.get_rsi_for_universe(symbols, timeframe=tf, ttl_seconds=3600, force_refresh=force_refresh)
+
+                fig = _rsi.build_rsi_scatter(df_meta, rsi_map, title=f"RSI Heatmap - {tf} - {uni}")
+                if fig is None:
+                    st.caption("Không có dữ liệu RSI để hiển thị.")
+                else:
+                    st.plotly_chart(fig, use_container_width=True)
+        except Exception as _rsi_ex:
+            st.caption(f"RSI panel error: {_rsi_ex}")
+
 # Per-coin tabs: tái tạo loop hiển thị OHLCV + overlay whale (unified)
 for idx, coin_tuple in enumerate(COIN_LIST):
     coin_id, coin_symbol = coin_tuple

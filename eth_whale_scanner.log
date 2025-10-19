@@ -1010,3 +1010,27 @@
 [2025-10-18 15:28:50.438763] [SCANNER] Thread started.
 [2025-10-18 15:28:50.439764] [SCANNER] Start scan loop.
 [2025-10-18 15:31:28.753696] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 16:50:51.145453] [SCANNER] Thread started.
+[2025-10-18 16:50:51.145453] [SCANNER] Start scan loop.
+[2025-10-18 17:02:54.908918] Token: ETH | Whale txs found: 40 | Blocks scanned: 23603977 to 23605833
+[2025-10-18 17:31:03.167166] [SCANNER] Thread started.
+[2025-10-18 17:31:03.168165] [SCANNER] Start scan loop.
+[2025-10-18 17:39:16.143421] Token: ETH | Whale txs found: 18 | Blocks scanned: 23605834 to 23606032
+[2025-10-18 17:45:26.632347] [SCANNER] Thread started.
+[2025-10-18 17:45:26.633346] [SCANNER] Start scan loop.
+[2025-10-18 17:45:42.268361] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 18:01:35.896371] [SCANNER] Thread started.
+[2025-10-18 18:01:35.896371] [SCANNER] Start scan loop.
+[2025-10-18 18:12:24.156175] Token: ETH | Whale txs found: 16 | Blocks scanned: 23606033 to 23606182
+[2025-10-18 18:18:27.005486] [SCANNER] Thread started.
+[2025-10-18 18:18:27.005486] [SCANNER] Start scan loop.
+[2025-10-18 18:20:38.960806] [SCANNER] Thread started.
+[2025-10-18 18:20:38.960806] [SCANNER] Start scan loop.
+[2025-10-18 18:20:54.790868] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-18 18:23:54.345563] Error scanning token ETH: 'charmap' codec can't encode character '\u1ed9' in position 1: character maps to <undefined>
+[2025-10-18 18:29:08.998631] [SCANNER] Thread started.
+[2025-10-18 18:29:08.998631] [SCANNER] Start scan loop.
+[2025-10-18 18:38:58.089674] Token: ETH | Whale txs found: 12 | Blocks scanned: 23606183 to 23606320
+[2025-10-18 18:43:45.290504] [SCANNER] Thread started.
+[2025-10-18 18:43:45.290504] [SCANNER] Start scan loop.
+[2025-10-18 18:53:18.065705] Token: ETH | Whale txs found: 4 | Blocks scanned: 23606321 to 23606393
