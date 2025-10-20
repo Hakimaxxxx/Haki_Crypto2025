@@ -1000,6 +1000,20 @@ def fetch_liq_multi_cached(asset_symbol: str, start_ts: int, end_ts: int, source
     except Exception:
         return None
 
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_rsi_for_universe_cached(symbols: tuple, timeframe: str = '1d', ttl_seconds: int = 3600, force_refresh: bool = False):
+    """Streamlit-level cache wrapper around metrics_rsi.get_rsi_for_universe.
+
+    Keeps results cached in Streamlit to avoid re-fetching on every rerun.
+    Returns dict mapping symbol -> RSI value or empty dict on error.
+    """
+    try:
+        import metrics_rsi as _m
+        return _m.get_rsi_for_universe(list(symbols), timeframe=timeframe, ttl_seconds=ttl_seconds, force_refresh=force_refresh)
+    except Exception:
+        return {}
+
 @st.cache_data(ttl=600, show_spinner=False)
 def load_onchain_metrics_cached(asset: str, days: int = 365):
     try:
@@ -2672,7 +2686,8 @@ with tab2:
                     force_refresh = False
 
                 with st.spinner("Lấy dữ liệu RSI (cache-aware)..."):
-                    rsi_map = _rsi.get_rsi_for_universe(symbols, timeframe=tf, ttl_seconds=3600, force_refresh=force_refresh)
+                    # Use Streamlit-level cached wrapper to avoid repeated expensive fetches on reruns
+                    rsi_map = get_rsi_for_universe_cached(tuple(symbols), timeframe=tf, ttl_seconds=3600, force_refresh=force_refresh)
 
                 fig = _rsi.build_rsi_scatter(df_meta, rsi_map, title=f"RSI Heatmap - {tf} - {uni}")
                 if fig is None:

@@ -18643,5 +18643,16 @@
     "to_label": "0xdfd5293d...",
     "type": "BUY",
     "value": 14343057.69649034
+  },
+  {
+    "hash": "0x782bb10f5ea5c5761b7065ee0ad41c5db1c0f613fe73853204b8499a7da5d1b9",
+    "blockNumber": "23606484",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-18 19:01:47+00:00",
+    "to": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+    "to_label": "Huobi",
+    "type": "SELL",
+    "value": 14291426.27050039
   }
 ]
