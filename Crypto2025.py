@@ -2754,82 +2754,92 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             else:
                 try:
                     import metrics_liquidation_okx as _mlo
-                    # Controls
-                    srcs = st.multiselect(
-                        "Nguồn dữ liệu sàn",
-                        options=["OKX","BINANCE","BITMEX"],
-                        default=["OKX"],
-                        key=f"liq_src_{coin_symbol}"
-                    )
-                    tframe = st.selectbox(
-                        f"Khung thời gian (OKX) - {coin_symbol}",
-                        options=["3M","1M","7D","1D"],
-                        index=3,  # default to 1D
-                        key=f"liq_tf_{coin_symbol}"
-                    )
-                    thr = st.slider(
-                        "Ngưỡng lọc (tổng size mỗi ô)",
-                        min_value=1,
-                        max_value=100,
-                        value=8,
-                        step=1,
-                        key=f"liq_thr_{coin_symbol}"
-                    )
-                    # Optional advanced binning
-                    with st.expander("Tùy chọn nâng cao", expanded=False):
-                        time_bins = st.slider("Số ô thời gian", 12, 200, 50, key=f"liq_tb_{coin_symbol}")
-                        price_bins = st.slider("Số ô giá", 20, 300, 45, key=f"liq_pb_{coin_symbol}")
-                        colorscale = st.selectbox(
-                            "Màu Heatmap",
-                            options=["Reds","Viridis","Plasma","Cividis","Hot","Turbo"],
-                            index=2,  # Plasma
-                            key=f"liq_cs_{coin_symbol}"
+                    # Use a non-reactive form so we only fetch when user submits
+                    form_key = f"liq_form_{coin_symbol}"
+                    with st.form(form_key):
+                        srcs = st.multiselect(
+                            "Nguồn dữ liệu sàn",
+                            options=["OKX","BINANCE","BITMEX"],
+                            default=["OKX"],
+                            key=f"liq_src_{coin_symbol}"
                         )
-                        reverse_y = st.checkbox(
-                            "Đảo trục giá (giá cao ở trên)",
-                            value=False,
-                            key=f"liq_rev_{coin_symbol}"
+                        tframe = st.selectbox(
+                            f"Khung thời gian (OKX) - {coin_symbol}",
+                            options=["3M","1M","7D","1D"],
+                            index=3,  # default to 1D
+                            key=f"liq_tf_{coin_symbol}"
                         )
-                        overlay_price = st.checkbox(
-                            "Overlay đường giá lịch sử",
-                            value=True,
-                            key=f"liq_ovp_{coin_symbol}"
+                        thr = st.slider(
+                            "Ngưỡng lọc (tổng size mỗi ô)",
+                            min_value=1,
+                            max_value=100,
+                            value=8,
+                            step=1,
+                            key=f"liq_thr_{coin_symbol}"
                         )
-                    # Determine timeframe
-                    from datetime import datetime, timedelta
-                    now_dt = datetime.utcnow()
-                    tf_map = {
-                        "3M": now_dt - timedelta(days=90),
-                        "1M": now_dt - timedelta(days=30),
-                        "7D": now_dt - timedelta(days=7),
-                        "1D": now_dt - timedelta(days=1),
-                    }
-                    start_dt = tf_map.get(tframe, now_dt - timedelta(days=90))
+                        # Optional advanced binning
+                        with st.expander("Tùy chọn nâng cao", expanded=False):
+                            time_bins = st.slider("Số ô thời gian", 12, 200, 50, key=f"liq_tb_{coin_symbol}")
+                            price_bins = st.slider("Số ô giá", 20, 300, 45, key=f"liq_pb_{coin_symbol}")
+                            colorscale = st.selectbox(
+                                "Màu Heatmap",
+                                options=["Reds","Viridis","Plasma","Cividis","Hot","Turbo"],
+                                index=2,  # Plasma
+                                key=f"liq_cs_{coin_symbol}"
+                            )
+                            reverse_y = st.checkbox(
+                                "Đảo trục giá (giá cao ở trên)",
+                                value=False,
+                                key=f"liq_rev_{coin_symbol}"
+                            )
+                            overlay_price = st.checkbox(
+                                "Overlay đường giá lịch sử",
+                                value=True,
+                                key=f"liq_ovp_{coin_symbol}"
+                            )
+                        submitted = st.form_submit_button("Tải/liên cập dữ liệu Liquidation")
 
-                    # Quick guidance for selected sources
-                    if "BITMEX" in srcs and coin_symbol not in ("BTC","XBT","ETH"):
-                        st.info("BitMEX chỉ hỗ trợ BTC/XBT/ETH trong phiên bản này — các coin khác sẽ không có dữ liệu.")
-                    if "BINANCE" in srcs and tframe in ("3M","1M"):
-                        st.info("Binance allForceOrders có thể giới hạn cửa sổ thời gian. Nếu không thấy dữ liệu, thử 7D hoặc 1D.")
-                    symbol_okx = f"{coin_symbol}-USDT-SWAP"
-                    # Fetch data depending on selected sources (non-blocking inside provider functions)
-                    if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
-                        df_liq = fetch_okx_liq_range_cached(symbol_okx, int(start_dt.timestamp()), int(now_dt.timestamp()))
+                    # Only fetch when form submitted; reuse cached df in session_state otherwise
+                    session_key = f"_df_liq_{coin_symbol}"
+                    if submitted:
+                        from datetime import datetime, timedelta
+                        now_dt = datetime.utcnow()
+                        tf_map = {
+                            "3M": now_dt - timedelta(days=90),
+                            "1M": now_dt - timedelta(days=30),
+                            "7D": now_dt - timedelta(days=7),
+                            "1D": now_dt - timedelta(days=1),
+                        }
+                        start_dt = tf_map.get(tframe, now_dt - timedelta(days=90))
+
+                        # Quick guidance for selected sources
+                        if "BITMEX" in srcs and coin_symbol not in ("BTC","XBT","ETH"):
+                            st.info("BitMEX chỉ hỗ trợ BTC/XBT/ETH trong phiên bản này — các coin khác sẽ không có dữ liệu.")
+                        if "BINANCE" in srcs and tframe in ("3M","1M"):
+                            st.info("Binance allForceOrders có thể giới hạn cửa sổ thời gian. Nếu không thấy dữ liệu, thử 7D hoặc 1D.")
+                        symbol_okx = f"{coin_symbol}-USDT-SWAP"
+                        # Fetch data depending on selected sources (non-blocking inside provider functions)
+                        if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
+                            df_liq = fetch_okx_liq_range_cached(symbol_okx, int(start_dt.timestamp()), int(now_dt.timestamp()))
+                        else:
+                            df_liq = fetch_liq_multi_cached(coin_symbol, int(start_dt.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
+                        # Auto-fallback to shorter ranges if empty
+                        fallback_used = None
+                        if df_liq is None or (hasattr(df_liq, 'empty') and df_liq.empty):
+                            for alt in ("1M","7D","1D"):
+                                alt_start = tf_map[alt]
+                                if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
+                                    df_alt = fetch_okx_liq_range_cached(symbol_okx, int(alt_start.timestamp()), int(now_dt.timestamp()))
+                                else:
+                                    df_alt = fetch_liq_multi_cached(coin_symbol, int(alt_start.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
+                                if df_alt is not None and not (hasattr(df_alt,'empty') and df_alt.empty):
+                                    df_liq = df_alt
+                                    fallback_used = alt
+                                    break
+                        # Save result to session so subsequent reruns reuse it until next submit
+                        st.session_state[session_key] = df_liq
                     else:
-                        df_liq = fetch_liq_multi_cached(coin_symbol, int(start_dt.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
-                    # Auto-fallback to shorter ranges if empty
-                    fallback_used = None
-                    if df_liq is None or (hasattr(df_liq, 'empty') and df_liq.empty):
-                        for alt in ("1M","7D","1D"):
-                            alt_start = tf_map[alt]
-                            if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
-                                df_alt = fetch_okx_liq_range_cached(symbol_okx, int(alt_start.timestamp()), int(now_dt.timestamp()))
-                            else:
-                                df_alt = fetch_liq_multi_cached(coin_symbol, int(alt_start.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
-                            if df_alt is not None and not (hasattr(df_alt,'empty') and df_alt.empty):
-                                df_liq = df_alt
-                                fallback_used = alt
-                                break
+                        df_liq = st.session_state.get(session_key)
                     if df_liq is not None and not (hasattr(df_liq,'empty') and df_liq.empty):
                         # Per-source stats & hints
                         try:
