@@ -132,3 +132,11 @@
 [2025-10-18 18:59:36.272870] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23606138 to 23606470
 [2025-10-19 05:36:15.545274] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23609427 to 23609629
 [2025-10-19 12:02:04.898223] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23610083 to 23611550
+[2025-10-22 17:37:01.691515] Token: ONDO | Whale txs found: 4 | Blocks scanned: 23634403 to 23634588
+[2025-10-23 15:39:27.273447] Token: ONDO | Whale txs found: 12 | Blocks scanned: 23638082 to 23641139
+[2025-10-23 18:10:29.015824] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23641140 to 23641892
+[2025-10-24 17:10:47.717948] Token: ONDO | Whale txs found: 87 | Blocks scanned: 23641893 to 23648722
+[2025-10-25 04:40:46.806627] Error scanning token ONDO: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-25 06:38:41.100067] Token: ONDO | Whale txs found: 99 | Blocks scanned: 23648723 to 23652734
+[2025-10-25 07:07:06.472789] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23652735 to 23652874
+[2025-10-25 07:30:33.114076] Token: ONDO | Whale txs found: 3 | Blocks scanned: 23652875 to 23652991

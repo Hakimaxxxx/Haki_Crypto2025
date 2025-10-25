@@ -143,3 +143,12 @@
 [2025-10-18 18:57:57.814689] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23606122 to 23606454
 [2025-10-19 05:34:13.348952] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23609411 to 23609610
 [2025-10-19 11:59:31.553896] Token: EIGEN | Whale txs found: 17 | Blocks scanned: 23610031 to 23611511
+[2025-10-22 17:34:23.527929] Token: EIGEN | Whale txs found: 5 | Blocks scanned: 23634377 to 23634560
+[2025-10-23 15:35:26.168178] Token: EIGEN | Whale txs found: 18 | Blocks scanned: 23638019 to 23641110
+[2025-10-23 18:08:33.748846] Token: EIGEN | Whale txs found: 18 | Blocks scanned: 23641111 to 23641872
+[2025-10-24 17:08:23.864228] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Max retries exceeded with url: /v2/api?chainid=1&module=proxy&action=eth_blockNumber&apikey=2I9RJZUQK7CGS6C3G5SPXIUCTCK3VXBRAG (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x000001DD641CD110>, 'Connection to api.etherscan.io timed out. (connect timeout=10)'))
+[2025-10-24 17:08:23.976699] Bo qua EIGEN do latest_block=0
+[2025-10-25 04:39:31.696952] Token: EIGEN | Whale txs found: 116 | Blocks scanned: 23641873 to 23652135
+[2025-10-25 06:36:21.041176] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23652136 to 23652712
+[2025-10-25 07:04:37.233567] Token: EIGEN | Whale txs found: 6 | Blocks scanned: 23652713 to 23652850
+[2025-10-25 07:28:24.023804] Token: EIGEN | Whale txs found: 0 | Blocks scanned: 23652851 to 23652972

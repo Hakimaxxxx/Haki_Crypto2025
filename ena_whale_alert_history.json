@@ -18654,5 +18654,148 @@
     "to_label": "Huobi",
     "type": "SELL",
     "value": 14291426.27050039
+  },
+  {
+    "hash": "0x8e0e73fdd8d8f74c8418e2a674edb06a6592da0582744a67d3d1572505588883",
+    "blockNumber": "23616315",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-20 04:02:35+00:00",
+    "to": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+    "to_label": "0xdfd5293d...",
+    "type": "BUY",
+    "value": 13989951.24808729
+  },
+  {
+    "hash": "0xe89fa24edd5b639f737ef50f489b8c4437ba8eb0b4f752364290413af663f245",
+    "blockNumber": "23619578",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-20 15:02:47+00:00",
+    "to": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+    "to_label": "Huobi",
+    "type": "SELL",
+    "value": 13644206.78708689
+  },
+  {
+    "hash": "0xbccdc6a58714564d9e4dca424e5504f4a90b81c8483e1b24968e03121ed9aac2",
+    "blockNumber": "23627005",
+    "from": "0xea3b7dfb150ce3dbca57e6d53cbe6b0cb7b7307c",
+    "from_label": "0xea3b7dfb...",
+    "time": "2025-10-21 16:03:47+00:00",
+    "to": "0x091d1c972cb1648537a2ba78eaba371b1ce18336",
+    "to_label": "0x091d1c97...",
+    "type": "N/A",
+    "value": 9999995.0
+  },
+  {
+    "hash": "0x588f8da88b641e4256c34138788743b5460b08ac82459d8f9e36e1cc865bd6ae",
+    "blockNumber": "23627124",
+    "from": "0x99ec198620b010b4a073bb4685399b202194a600",
+    "from_label": "0x99ec1986...",
+    "time": "2025-10-21 16:27:47+00:00",
+    "to": "0x66be97a14ca1b8ee1a71c17053b79954e36883da",
+    "to_label": "0x66be97a1...",
+    "type": "N/A",
+    "value": 8000000.0
+  },
+  {
+    "hash": "0xb1f7390bbbc2cef92825a89eab2eec29be9df9c251b38144f65f7934b16d6e09",
+    "blockNumber": "23627390",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-21 17:22:23+00:00",
+    "to": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+    "to_label": "0xdfd5293d...",
+    "type": "BUY",
+    "value": 13778944.166479409
+  },
+  {
+    "hash": "0x5bd131e6c7133946854ba371b20067f707c8507f0c71e8cca8598851dc9320f8",
+    "blockNumber": "23628185",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-21 20:02:47+00:00",
+    "to": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+    "to_label": "Huobi",
+    "type": "SELL",
+    "value": 14287607.21773993
+  },
+  {
+    "hash": "0xf44e3ec93d4939a3d34f9612034fa5611e8a726e2a11979285b448d166217d13",
+    "blockNumber": "23631797",
+    "from": "0x66be97a14ca1b8ee1a71c17053b79954e36883da",
+    "from_label": "0x66be97a1...",
+    "time": "2025-10-22 08:11:35+00:00",
+    "to": "0x16f6d15381bee4a25b25f0d1c4161b78f7f21fde",
+    "to_label": "0x16f6d153...",
+    "type": "N/A",
+    "value": 8000000.0
+  },
+  {
+    "hash": "0xc0c6515816065e011675766621b7004531e091be81120a90f9e9720b923710cd",
+    "blockNumber": "23632738",
+    "from": "0xc9ec3ad222e5026d53f15249b19448b87d621523",
+    "from_label": "0xc9ec3ad2...",
+    "time": "2025-10-22 11:21:47+00:00",
+    "to": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+    "to_label": "0xceb69f63...",
+    "type": "N/A",
+    "value": 9725064.030119406
+  },
+  {
+    "hash": "0xe77b292d0be264771b7a39ef281217ed5c5edcd5414d5d3a2f7a36af4788c812",
+    "blockNumber": "23640575",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-23 13:43:23+00:00",
+    "to": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+    "to_label": "0xdfd5293d...",
+    "type": "BUY",
+    "value": 13040711.503791511
+  },
+  {
+    "hash": "0x9f5af41d01a03e518ffb8670d95f840c04c2071d5964d0e10cd6c5c55c1c1e72",
+    "blockNumber": "23640509",
+    "from": "0x3284ac109eb04f070b40ea2bdc644d3a00de7bdb",
+    "from_label": "0x3284ac10...",
+    "time": "2025-10-23 13:30:11+00:00",
+    "to": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "to_label": "Binance",
+    "type": "SELL",
+    "value": 11713258.0
+  },
+  {
+    "hash": "0x4044437ba7302510a3684d070c73734710861bfb16ab6c04f6066a30310b6947",
+    "blockNumber": "23640483",
+    "from": "0x16f6d15381bee4a25b25f0d1c4161b78f7f21fde",
+    "from_label": "0x16f6d153...",
+    "time": "2025-10-23 13:24:59+00:00",
+    "to": "0x3284ac109eb04f070b40ea2bdc644d3a00de7bdb",
+    "to_label": "0x3284ac10...",
+    "type": "N/A",
+    "value": 11713258.0
+  },
+  {
+    "hash": "0xb6e6fc1069a9fdded8747dcdce07d1d0bf2eeaa68398c69eb5e753ed1715c799",
+    "blockNumber": "23648352",
+    "from": "0xd7a6ec166268195f5f082ce1a5483250f6eba415",
+    "from_label": "0xd7a6ec16...",
+    "time": "2025-10-24 15:55:23+00:00",
+    "to": "0xceb69f6342ece283b2f5c9088ff249b5d0ae66ea",
+    "to_label": "0xceb69f63...",
+    "type": "N/A",
+    "value": 9725064.030119406
+  },
+  {
+    "hash": "0x49615f02aaf32132730f1fb26d1a0744aff2c2d150575ca2a1564ed7da89243e",
+    "blockNumber": "23643831",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-24 00:42:47+00:00",
+    "to": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+    "to_label": "Huobi",
+    "type": "SELL",
+    "value": 12897394.03432596
   }
 ]

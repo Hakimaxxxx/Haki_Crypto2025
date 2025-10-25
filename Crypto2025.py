@@ -916,7 +916,7 @@ if "_metrics_crawlers" not in st.session_state:
 
 
 # Hàm lấy giá và % thay đổi từ CoinGecko, cache ngắn để cập nhật thường xuyên
-@st.cache_data(ttl=60, show_spinner=False)
+@st.cache_data(ttl=120, show_spinner=False)
 def get_prices_and_changes(coins):
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
@@ -1293,33 +1293,34 @@ def save_holdings(holdings):
 
 
 
-# Tabs: Portfolio & Metric & Coin
+# Navigation: load-on-demand pages (reduces initial load time)
 coin_ids = [c[0] for c in COIN_LIST]
 coin_names = [c[1] for c in COIN_LIST]
 coin_id_to_name = dict(COIN_LIST)
 coin_name_to_id = {v: k for k, v in COIN_LIST}
 
-tab_names = ["Portfolio", "Metric"] + coin_names
-tabs = st.tabs(tab_names)
-tab1 = tabs[0]
-tab2 = tabs[1]
-tab_coin_tabs = tabs[2:]
+# Main pages
+page = st.sidebar.selectbox("Đi tới trang", ["Portfolio", "Metrics", "Coins"], index=0, key="main_page")
 
 tz_gmt7 = pytz.timezone("Asia/Bangkok")
 
-# Coin selection (default all)
-with st.expander("Chọn các đồng coin muốn theo dõi", expanded=False):
-    selected_coin_names = st.multiselect(
-        "Chọn coin:", options=coin_names, default=coin_names, key="selected_coins_portfolio"
-    )
-if not selected_coin_names:
-    selected_coin_names = coin_names
-coins = [coin_name_to_id[n] for n in selected_coin_names]
+# Coin selection (used for Portfolio aggregation only)
+if page == "Portfolio":
+    with st.expander("Chọn các đồng coin muốn theo dõi", expanded=False):
+        selected_coin_names = st.multiselect(
+            "Chọn coin:", options=coin_names, default=coin_names, key="selected_coins_portfolio"
+        )
+    if not selected_coin_names:
+        selected_coin_names = coin_names
+    coins = [coin_name_to_id[n] for n in selected_coin_names]
+else:
+    # Safe default to avoid NameError in other pages
+    coins = coin_ids
 
 # Không cần update_eth_tab_label nữa
 
 
-with tab1:
+if page == "Portfolio":
     st.title("📊 Crypto Portfolio Tracker")
     
     # === Application Health Panel ===
@@ -1373,43 +1374,8 @@ with tab1:
                     success, msg = force_price_refresh()
                     if success:
                         st.success(msg)
-                        time.sleep(1)
-                        st.rerun()
                     else:
-                        st.error(msg)
-
-        # Backend API connectivity details (Render)
-        # try:
-        #     backend_snap = _ping_backend_status(ttl=60)
-        #     base = backend_snap.get("base", "?")
-        #     endpoint = backend_snap.get("endpoint", "?")
-        #     h = backend_snap.get("health", {})
-        #     p = backend_snap.get("prices", {})
-        #     st.caption(f"Backend API base: {base}")
-        #     st.caption(f"Prices endpoint: {endpoint}")
-        #     st.text("Backend /health: " + ("OK" if h.get("ok") else "FAIL") + f" | status={h.get('status')} | latency={h.get('latency')}s")
-        #     # Show generated_at age if available
-        #     gen_at = p.get('generated_at')
-        #     age_s = None
-        #     if isinstance(gen_at, (int, float)):
-        #         try:
-        #             age_s = max(0, int(time.time() - float(gen_at)))
-        #         except Exception:
-        #             age_s = None
-        #     age_str = f" | age={age_s}s" if age_s is not None else ""
-        #     st.text("Backend /prices/spot: " + ("OK" if p.get("ok") else "FAIL") + f" | status={p.get('status')} | latency={p.get('latency')}s | count={p.get('count')}" + age_str)
-        #     if age_s is not None and age_s > 180:
-        #         st.warning(f"⚠️ Giá backend có vẻ cũ (age ~{age_s}s). Kiểm tra backend scheduler hoặc provider rate limit.")
-        #     # Warn if endpoint resolves to localhost while running in cloud
-        #     if "127.0.0.1" in endpoint or "localhost" in endpoint:
-        #         st.warning("BACKEND_PRICE_API đang trỏ localhost. Trên cloud cần dùng URL Render (ví dụ: https://hakicrypto2025.onrender.com/prices/spot)")
-        # except Exception as _bh:
-        #     st.caption(f"Backend API check error: {_bh}")
-
-        # # Backend scheduler tasks (to diagnose staleness)
-        # try:
-        #     tasks_snap = _fetch_backend_tasks(ttl=60)
-        #     if tasks_snap.get('ok'):
+                        st.warning(msg)
         #         tasks = tasks_snap.get('tasks', {})
         #         if tasks:
         #             st.caption("Backend scheduler tasks:")
@@ -2506,8 +2472,21 @@ with tab1:
                 if not aligned or not min_len or min_len < 5:
                     st.info("⚠️ Chưa đủ dữ liệu (>=5 nến) để vẽ chart tăng trưởng.")
                 else:
+                    # Lựa chọn coin cho biểu đồ tăng trưởng (mặc định: ETH, BTC, LINK, SOL, BNB)
+                    default_growth_names = [n for n in ["ETH","BTC","LINK","SOL","BNB"] if n in coin_names]
+                    growth_selected_names = st.multiselect(
+                        "Chọn coin cho biểu đồ tăng trưởng (%)",
+                        options=coin_names,
+                        default=default_growth_names,
+                        key="growth_chart_selection"
+                    )
+                    if not growth_selected_names:
+                        # Nếu user bỏ hết lựa chọn, fallback về mặc định
+                        growth_selected_names = default_growth_names
+                    growth_coins = [coin_name_to_id.get(n) for n in growth_selected_names if coin_name_to_id.get(n)]
+
                     fig = go.Figure()
-                    for c in coins:
+                    for c in growth_coins:
                         if c not in aligned:
                             continue
                         times, closes = aligned[c]
@@ -2592,9 +2571,16 @@ def phase0_overlay_whales(coin_symbol: str, df_ohlcv, fig_ohlcv):
         st.warning(f"[Phase0 unified overlay lỗi {coin_symbol}]: {_ph0_ex}")
 
 # ===================== TAB 2 (Metrics) & PER-COIN TABS (RESTORED Phase 0) =====================
-# Tab2: hiển thị các metric tổng hợp (có thể mở rộng thêm sau)
-with tab2:
+# Metrics page: hiển thị các metric tổng hợp (load-on-demand)
+if page == "Metrics":
     st.title("📈 Metrics tổng hợp")
+    # Chọn trang con cho Metrics
+    metrics_view = st.selectbox(
+        "Chọn trang Metrics",
+        ["Tổng quan", "Dominance History", "Fear & Greed", "Market Cap & Volume", "RSI Heatmap"],
+        index=0,
+        key="metrics_subpage"
+    )
     # Sử dụng các module metrics nếu có
     cols = st.columns(3)
     with cols[0]:
@@ -2635,30 +2621,27 @@ with tab2:
         show_health_panel()
     except Exception:
         pass
-    # ================== BỔ SUNG CHART LỊCH SỬ (PHASE 4 RESTORE) ==================
+    # ================== Metrics subpages ==================
     st.markdown("---")
-    with st.expander("BTC / ETH / Others Dominance (History)", expanded=False):
+    if metrics_view == "Dominance History":
         try:
             import metrics_dominance as _md
             _md.show_dominance_metric()
         except Exception as _dom_ex:
             st.caption(f"Không hiển thị được dominance chart: {_dom_ex}")
-    with st.expander("Fear & Greed Index (History)", expanded=False):
+    elif metrics_view == "Fear & Greed":
         try:
             import metrics_fear_greed as _fg
             _fg.show_fear_greed_metric()
         except Exception as _fg_ex:
             st.caption(f"Không hiển thị được Fear & Greed chart: {_fg_ex}")
-    with st.expander("Total Market Cap & Volume (History)", expanded=False):
+    elif metrics_view == "Market Cap & Volume":
         try:
             import metrics_marketcap_volume as _mv
             _mv.show_marketcap_volume_chart()
         except Exception as _mc_ex:
             st.caption(f"Không hiển thị được Market Cap chart: {_mc_ex}")
-    st.caption("(Phase 4) Metrics tab đã khôi phục đầy đủ biểu đồ lịch sử.")
-
-    # === RSI Heatmap panel ===
-    with st.expander("RSI Heatmap (MarketCap vs RSI)", expanded=False):
+    elif metrics_view == "RSI Heatmap":
         try:
             import metrics_rsi as _rsi
             # timeframe selector
@@ -2680,15 +2663,9 @@ with tab2:
                 cols_r = st.columns([1,1,2])
                 cols_r[0].caption(f"Cached: {cache_info.get('count',0)} items")
                 cols_r[1].caption(f"Last update: {last_str}")
-                if cols_r[2].button("🔄 Refresh RSI (force)"):
-                    force_refresh = True
-                else:
-                    force_refresh = False
-
+                force_refresh = cols_r[2].button("🔄 Refresh RSI (force)")
                 with st.spinner("Lấy dữ liệu RSI (cache-aware)..."):
-                    # Use Streamlit-level cached wrapper to avoid repeated expensive fetches on reruns
                     rsi_map = get_rsi_for_universe_cached(tuple(symbols), timeframe=tf, ttl_seconds=3600, force_refresh=force_refresh)
-
                 fig = _rsi.build_rsi_scatter(df_meta, rsi_map, title=f"RSI Heatmap - {tf} - {uni}")
                 if fig is None:
                     st.caption("Không có dữ liệu RSI để hiển thị.")
@@ -2697,53 +2674,68 @@ with tab2:
         except Exception as _rsi_ex:
             st.caption(f"RSI panel error: {_rsi_ex}")
 
-# Per-coin tabs: tái tạo loop hiển thị OHLCV + overlay whale (unified)
-for idx, coin_tuple in enumerate(COIN_LIST):
-    coin_id, coin_symbol = coin_tuple
-    # Bỏ qua nếu không tồn tại tab (phòng trường hợp user filter coin)
-    if idx >= len(tab_coin_tabs):
-        continue
-    with tab_coin_tabs[idx]:
-        st.subheader(f"📌 {coin_symbol} - Tổng quan")
-        # Compact per-coin summary metrics (value, invested, PNL USD, PNL %)
-        try:
-            render_coin_summary(coin_id, coin_symbol)
-        except Exception:
-            pass
-        # === Timeframe selection ===
-        khung_list = [("5m", "5 phút"), ("15m", "15 phút"), ("30m", "30 phút"), ("1H", "1 giờ")]
-        bar_options = {label: bar for bar, label in khung_list}
-        bar_label = st.selectbox(
-            f"Chọn khung thời gian giá/volume OKX cho {coin_symbol}",
-            list(bar_options.keys()),
-            index=2,
-            key=f"ohlcv_bar_retab_{coin_symbol}"
-        )
-        bar = bar_options[bar_label]
-
-        # === Prefetch (first coin triggers) ===
-        prefetch_ohlcv_all(bar, [c[1] for c in COIN_LIST])  # use display symbols
-        df_ohlcv = get_prefetched_ohlcv(bar, coin_symbol)
-        fig_ohlcv = None
-        if df_ohlcv is None:
-            # fallback single fetch
+# Coins page: render a single coin at a time to avoid heavy initial load
+if page == "Coins":
+    st.title("Coins")
+    coin_choice = st.selectbox("Chọn coin", coin_names, index=0, key="coin_page_choice")
+    coin_id = coin_name_to_id.get(coin_choice)
+    coin_symbol = coin_choice
+    # Header with coin logo and current price
+    img_url = None
+    cur_price = None
+    try:
+        cg_map = get_prices_and_changes([coin_id])
+        if cg_map and coin_id in cg_map:
+            img_url = (cg_map.get(coin_id) or {}).get("image")
+            cur_price = (cg_map.get(coin_id) or {}).get("price")
+    except Exception:
+        img_url = None
+        cur_price = None
+    cols_hdr = st.columns([0.08, 0.62, 0.30])
+    with cols_hdr[0]:
+        if img_url:
+            st.image(img_url, width=28)
+    with cols_hdr[1]:
+        st.subheader(f"{coin_symbol} - Tổng quan")
+    with cols_hdr[2]:
+        if cur_price is not None:
             try:
-                df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{coin_symbol}-USDT-SWAP", bar=bar, limit=200)
-            except Exception as _ex:
-                st.warning(f"Không lấy được OHLCV {coin_symbol}: {_ex}")
-                df_ohlcv = None
-        fig_ohlcv = metrics_ohlcv_okx.plot_price_volume_chart(df_ohlcv, symbol=f"{coin_symbol}-USDT-SWAP") if df_ohlcv is not None else None
+                st.metric("Giá hiện tại", f"${float(cur_price):,.4f}")
+            except Exception:
+                st.metric("Giá hiện tại", str(cur_price))
+    # Summary metrics
+    try:
+        render_coin_summary(coin_id, coin_symbol)
+    except Exception:
+        pass
+    # === Timeframe selection ===
+    khung_list = [("5m", "5 phút"), ("15m", "15 phút"), ("30m", "30 phút"), ("1H", "1 giờ")]
+    bar_options = {label: bar for bar, label in khung_list}
+    bar_label = st.selectbox(
+        f"Chọn khung thời gian giá/volume OKX cho {coin_symbol}",
+        list(bar_options.keys()),
+        index=2,
+        key=f"ohlcv_bar_single_{coin_symbol}"
+    )
+    bar = bar_options[bar_label]
+    # Fetch OHLCV for selected coin only
+    try:
+        df_ohlcv = fetch_okx_ohlcv_cached(symbol=f"{coin_symbol}-USDT-SWAP", bar=bar, limit=200)
+    except Exception as _ex:
+        st.warning(f"Không lấy được OHLCV {coin_symbol}: {_ex}")
+        df_ohlcv = None
+    fig_ohlcv = metrics_ohlcv_okx.plot_price_volume_chart(df_ohlcv, symbol=f"{coin_symbol}-USDT-SWAP") if df_ohlcv is not None else None
 
-        # === Normalize datetime to UTC ===
-        if df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
-            if not isinstance(df_ohlcv['datetime'].dtype, pd.DatetimeTZDtype):
-                try:
-                    df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime'], errors='coerce').dt.tz_localize('UTC')
-                except Exception:
-                    pass
+    # === Normalize datetime to UTC ===
+    if df_ohlcv is not None and not df_ohlcv.empty and 'datetime' in df_ohlcv.columns:
+        if not isinstance(df_ohlcv['datetime'].dtype, pd.DatetimeTZDtype):
+            try:
+                df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime'], errors='coerce').dt.tz_localize('UTC')
+            except Exception:
+                pass
 
-        # === Liquidation Heatmap (if available) ===
-        with st.expander("Liquidation Heatmap", expanded=False):
+    # === Liquidation Heatmap (if available) ===
+    with st.expander("Liquidation Heatmap", expanded=False):
             enable_liq = st.checkbox(
                 f"Bật heatmap cho {coin_symbol}",
                 value=True,
@@ -2891,8 +2883,8 @@ for idx, coin_tuple in enumerate(COIN_LIST):
                 except Exception as _liq_mod_ex:
                     st.caption(f"Module liquidation không khả dụng: {_liq_mod_ex}")
 
-        # === Portfolio history for this coin ===
-        with st.expander("Lịch sử Portfolio Coin", expanded=False):
+    # === Portfolio history for this coin ===
+    with st.expander("Lịch sử Portfolio Coin", expanded=False):
             try:
                 hist_all = load_portfolio_history_cached(HISTORY_FILE)
                 coin_hist = [h for h in hist_all if h.get('coin') == coin_id]
@@ -2924,15 +2916,15 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             except Exception as _ch_ex:
                 st.caption(f"Không load được lịch sử: {_ch_ex}")
 
-        # === Save fig to session for overlay ===
-        if fig_ohlcv:
-            st.session_state[f"fig_ohlcv_{coin_symbol}"] = fig_ohlcv
+    # === Save fig to session for overlay ===
+    if fig_ohlcv:
+        st.session_state[f"fig_ohlcv_{coin_symbol}"] = fig_ohlcv
 
-        # === Whale overlay (unified) ===
-        phase0_overlay_whales(coin_symbol, df_ohlcv, fig_ohlcv)
+    # === Whale overlay (unified) ===
+    phase0_overlay_whales(coin_symbol, df_ohlcv, fig_ohlcv)
 
-        # === On-chain & Derived Metrics ===
-        with st.expander("On-chain & MVRV Metrics", expanded=False):
+    # === On-chain & Derived Metrics ===
+    with st.expander("On-chain & MVRV Metrics", expanded=False):
             try:
                 # Map display symbol back to CoinGecko id (coin_id)
                 asset_id = coin_id  # coin_id already is coingecko id per config
@@ -2978,8 +2970,8 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             except Exception as _on_ex:
                 st.caption(f"On-chain metrics error: {_on_ex}")
 
-        # === Whale Large Transactions box (restored feature) ===
-        with st.expander(f"🐳 {coin_symbol} Large Transactions", expanded=False):
+    # === Whale Large Transactions box (restored feature) ===
+    with st.expander(f"🐳 {coin_symbol} Large Transactions", expanded=False):
             try:
                 from services.whale.whale_loader import load_whales_for_symbol as _lwf, to_dataframe as _wh_df
 
@@ -3122,8 +3114,8 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             except Exception as _wbox_ex:
                 st.caption(f"Whale box error: {_wbox_ex}")
 
-        # === Timezone Debug ===
-        with st.expander("Timezone Debug", expanded=False):
+    # === Timezone Debug ===
+    with st.expander("Timezone Debug", expanded=False):
             try:
                 tz_info = None
                 sample_times = []
@@ -3146,18 +3138,18 @@ for idx, coin_tuple in enumerate(COIN_LIST):
             except Exception as _tz_ex:
                 st.caption(f"Timezone debug error: {_tz_ex}")
 
-        # === Render final price chart ===
-        if fig_ohlcv:
-            st.plotly_chart(
-                fig_ohlcv,
-                width='stretch',
-                key=f"plotly_chart_ret_{coin_symbol}",
-                config={'displaylogo': False, 'responsive': True}
-            )
-        else:
-            st.info("Chưa có dữ liệu OHLCV.")
+    # === Render final price chart ===
+    if fig_ohlcv:
+        st.plotly_chart(
+            fig_ohlcv,
+            width='stretch',
+            key=f"plotly_chart_single_{coin_symbol}",
+            config={'displaylogo': False, 'responsive': True}
+        )
+    else:
+        st.info("Chưa có dữ liệu OHLCV.")
 
-        st.caption("(Phase 0) Coin tab: OHLCV prefetch + liquidation + portfolio history + whale overlay + timezone debug.")
+    st.caption("Coin page: load-on-demand for single coin (nhanh hơn, ít tốn tài nguyên).")
 
 
 

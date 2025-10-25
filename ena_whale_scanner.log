@@ -158,3 +158,11 @@
 [2025-10-18 18:56:04.302597] Token: ENA | Whale txs found: 0 | Blocks scanned: 23606287 to 23606447
 [2025-10-19 05:31:54.457589] Token: ENA | Whale txs found: 0 | Blocks scanned: 23609399 to 23609600
 [2025-10-19 11:53:33.154062] Token: ENA | Whale txs found: 0 | Blocks scanned: 23610004 to 23611498
+[2025-10-22 17:30:51.877545] Token: ENA | Whale txs found: 0 | Blocks scanned: 23634366 to 23634547
+[2025-10-23 15:31:40.883008] Token: ENA | Whale txs found: 3 | Blocks scanned: 23637991 to 23641095
+[2025-10-23 18:05:52.021586] Token: ENA | Whale txs found: 0 | Blocks scanned: 23641096 to 23641863
+[2025-10-24 17:07:43.491897] Error scanning token ENA: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-25 04:37:29.975236] Token: ENA | Whale txs found: 2 | Blocks scanned: 23641864 to 23652128
+[2025-10-25 06:33:44.336062] Token: ENA | Whale txs found: 0 | Blocks scanned: 23652129 to 23652703
+[2025-10-25 07:01:48.569209] Token: ENA | Whale txs found: 0 | Blocks scanned: 23652704 to 23652840
+[2025-10-25 07:26:17.856222] Token: ENA | Whale txs found: 0 | Blocks scanned: 23652841 to 23652966

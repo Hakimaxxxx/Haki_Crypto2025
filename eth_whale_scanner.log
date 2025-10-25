@@ -1045,3 +1045,29 @@
 [2025-10-19 11:39:22.603889] [SCANNER] Thread started.
 [2025-10-19 11:39:22.604886] [SCANNER] Start scan loop.
 [2025-10-19 11:50:20.860898] Token: ETH | Whale txs found: 138 | Blocks scanned: 23611241 to 23611441
+[2025-10-22 17:12:39.821952] [SCANNER] Thread started.
+[2025-10-22 17:12:39.821952] [SCANNER] Start scan loop.
+[2025-10-22 17:26:00.888251] Token: ETH | Whale txs found: 24 | Blocks scanned: 23634309 to 23634470
+[2025-10-23 15:09:46.539724] [SCANNER] Thread started.
+[2025-10-23 15:09:46.564158] [SCANNER] Start scan loop.
+[2025-10-23 15:25:42.752782] Token: ETH | Whale txs found: 40 | Blocks scanned: 23637833 to 23641004
+[2025-10-23 17:54:17.473238] [SCANNER] Thread started.
+[2025-10-23 17:54:17.480240] [SCANNER] Start scan loop.
+[2025-10-23 18:02:39.542959] Token: ETH | Whale txs found: 50 | Blocks scanned: 23641005 to 23641815
+[2025-10-24 16:59:05.334446] [SCANNER] Thread started.
+[2025-10-24 16:59:05.357446] [SCANNER] Start scan loop.
+[2025-10-24 17:05:31.340812] Token: ETH | Whale txs found: 32 | Blocks scanned: 23647582 to 23648667
+[2025-10-25 04:31:11.249280] [SCANNER] Thread started.
+[2025-10-25 04:31:11.252280] [SCANNER] Start scan loop.
+[2025-10-25 04:34:54.974246] Token: ETH | Whale txs found: 41 | Blocks scanned: 23648668 to 23652104
+[2025-10-25 06:18:39.557099] [SCANNER] Thread started.
+[2025-10-25 06:18:39.559099] [SCANNER] Start scan loop.
+[2025-10-25 06:30:30.571107] [SCANNER] Thread started.
+[2025-10-25 06:30:30.572108] [SCANNER] Start scan loop.
+[2025-10-25 06:30:38.731714] Error scanning token ETH: Expecting value: line 37874 column 13 (char 1352767)
+[2025-10-25 06:57:40.979027] [SCANNER] Thread started.
+[2025-10-25 06:57:40.980028] [SCANNER] Start scan loop.
+[2025-10-25 06:57:51.214458] Error scanning token ETH: Expecting value: line 37874 column 13 (char 1352767)
+[2025-10-25 07:23:30.884411] [SCANNER] Thread started.
+[2025-10-25 07:23:30.884411] [SCANNER] Start scan loop.
+[2025-10-25 07:23:37.543235] Error scanning token ETH: Expecting value: line 37874 column 13 (char 1352767)
