@@ -1071,3 +1071,16 @@
 [2025-10-25 07:23:30.884411] [SCANNER] Thread started.
 [2025-10-25 07:23:30.884411] [SCANNER] Start scan loop.
 [2025-10-25 07:23:37.543235] Error scanning token ETH: Expecting value: line 37874 column 13 (char 1352767)
+[2025-10-25 08:58:57.491688] [SCANNER] Thread started.
+[2025-10-25 08:58:57.492690] [SCANNER] Start scan loop.
+[2025-10-25 08:59:04.771886] Error scanning token ETH: Expecting value: line 37874 column 13 (char 1352767)
+[2025-10-25 09:39:20.900736] [SCANNER] Thread started.
+[2025-10-25 09:39:20.936740] [SCANNER] Start scan loop.
+[2025-10-25 09:41:18.551910] [SCANNER] Thread started.
+[2025-10-25 09:41:18.552909] [SCANNER] Start scan loop.
+[2025-10-25 09:41:26.322297] [SCANNER] Thread started.
+[2025-10-25 09:41:26.323296] [SCANNER] Start scan loop.
+[2025-10-25 09:43:25.832863] Token: ETH | Whale txs found: 37 | Blocks scanned: 23652105 to 23653630
+[2025-10-25 09:45:08.291350] [SCANNER] Thread started.
+[2025-10-25 09:45:08.449350] [SCANNER] Start scan loop.
+[2025-10-25 09:50:31.923752] Token: ETH | Whale txs found: 18 | Blocks scanned: 23653631 to 23653659

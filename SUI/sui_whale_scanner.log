@@ -12066,3 +12066,228 @@ tarted successfully
 [2025-10-25 08:16:01.829041] SUI whale background scanner thread started successfully
 [2025-10-25 08:16:05.932170] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761380165419,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
 [2025-10-25 08:16:32.060786] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:27:47.299338] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-25 08:27:47.437339] SUI whale alert module imported
+[2025-10-25 08:27:47.573338] Starting SUI whale background scanner thread...
+[2025-10-25 08:27:47.731341] SUI whale background scanner thread started successfully
+[2025-10-25 08:27:47.731341] Starting SUI whale alert scan loop.
+[2025-10-25 08:27:51.147912] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761380870714,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:28:13.079511] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:28:15.020962] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761380894600,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:28:38.250288] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:28:53.359081] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:28:53.537082] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:28:53.674083] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:28:53.819082] Scanner error: No working SUI RPC available
+[2025-10-25 08:33:53.968466] Starting SUI whale alert scan loop.
+[2025-10-25 08:33:55.024665] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381234855,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:34:16.688801] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:34:18.223789] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381257984,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:34:40.679706] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:34:52.664270] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:34:52.799260] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:34:52.935380] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:34:53.075379] Scanner error: No working SUI RPC available
+[2025-10-25 08:39:54.396636] Starting SUI whale alert scan loop.
+[2025-10-25 08:39:56.369888] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381596097,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:40:17.755342] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:40:19.041427] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381618877,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:40:39.471127] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:40:50.236628] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:40:50.372644] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:40:50.501011] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:40:50.631368] Scanner error: No working SUI RPC available
+[2025-10-25 08:45:50.767262] Starting SUI whale alert scan loop.
+[2025-10-25 08:45:52.847729] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381952694,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:46:13.545841] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:46:14.775960] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761381974527,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:46:38.726854] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:46:48.917784] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:46:49.055020] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:46:49.199002] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:46:49.329189] Scanner error: No working SUI RPC available
+[2025-10-25 08:51:49.463042] Starting SUI whale alert scan loop.
+[2025-10-25 08:51:51.367450] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761382310760,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:52:13.369545] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:52:14.794063] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761382334637,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:52:37.657186] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:52:49.239259] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:52:49.333262] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:52:49.426282] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:52:49.521262] Scanner error: No working SUI RPC available
+[2025-10-25 08:57:49.616630] Starting SUI whale alert scan loop.
+[2025-10-25 08:57:50.702839] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761382670538,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:58:12.519303] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:58:13.935076] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761382693711,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 08:58:35.439106] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 08:58:46.752898] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 08:58:46.855901] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 08:58:46.958904] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 08:58:47.065900] Scanner error: No working SUI RPC available
+[2025-10-25 09:03:47.171351] Starting SUI whale alert scan loop.
+[2025-10-25 09:03:48.618754] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383028422,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:04:09.621520] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:04:10.919189] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383050688,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:04:34.594756] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:04:44.770509] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:04:44.910014] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:04:45.045783] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:04:45.182928] Scanner error: No working SUI RPC available
+[2025-10-25 09:09:45.332274] Starting SUI whale alert scan loop.
+[2025-10-25 09:09:46.494783] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383386334,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:10:06.756125] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:10:08.040648] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383407880,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:10:28.169462] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:10:38.240603] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:10:38.342600] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:10:38.444597] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:10:38.557602] Scanner error: No working SUI RPC available
+[2025-10-25 09:15:38.661333] Starting SUI whale alert scan loop.
+[2025-10-25 09:15:39.879629] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383739668,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:16:00.032325] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:16:01.181625] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761383760959,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:16:23.125747] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:16:33.071436] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:16:33.211142] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:16:33.351694] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:16:33.493777] Scanner error: No working SUI RPC available
+[2025-10-25 09:21:52.732648] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-25 09:21:52.835641] SUI whale alert module imported
+[2025-10-25 09:21:52.935639] Starting SUI whale background scanner thread...
+[2025-10-25 09:21:53.042634] Starting SUI whale alert scan loop.
+tarted successfully
+[2025-10-25 09:21:57.624008] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384117453,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:22:20.332707] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:22:23.300184] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384142914,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:22:50.934574] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:23:06.620611] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:23:06.834617] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:23:06.992613] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:23:07.154637] Scanner error: No working SUI RPC available
+[2025-10-25 09:24:21.833946] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-25 09:24:21.946947] SUI whale alert module imported
+[2025-10-25 09:24:22.062948] Starting SUI whale background scanner thread...
+[2025-10-25 09:24:22.260990] SUI whale background scanner thread started successfully
+[2025-10-25 09:24:22.260990] Starting SUI whale alert scan loop.
+[2025-10-25 09:24:33.444975] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384271048,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:25:00.570404] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:25:02.880630] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384302708,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:25:30.759046] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:25:44.493611] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:25:44.635127] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:25:44.784180] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:25:44.928184] Scanner error: No working SUI RPC available
+[2025-10-25 09:28:07.331816] Starting SUI whale alert scan loop.
+[2025-10-25 09:28:08.907114] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384488755,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:28:35.329549] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:28:38.025789] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384517881,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:29:09.911159] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:29:22.576327] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:29:22.746323] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:29:22.898551] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:29:23.052205] Scanner error: No working SUI RPC available
+[2025-10-25 09:30:45.065890] Starting SUI whale alert scan loop.
+[2025-10-25 09:30:46.526338] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384646405,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:31:08.066186] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:31:09.739569] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384669595,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:31:32.177675] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:31:44.250183] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:31:44.388462] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:31:44.539245] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:31:44.687247] Scanner error: No working SUI RPC available
+[2025-10-25 09:34:23.198179] Starting SUI whale alert scan loop.
+[2025-10-25 09:34:26.312844] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384866165,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:34:54.552909] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:34:55.998201] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761384895816,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:35:17.908274] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:35:30.678998] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:35:30.807994] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:35:30.929997] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:35:31.051525] Scanner error: No working SUI RPC available
+[2025-10-25 09:36:44.832395] Starting SUI whale alert scan loop.
+[2025-10-25 09:36:46.593702] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385006455,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:37:11.788645] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:37:13.657934] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385033519,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:37:41.394837] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:37:52.115334] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:37:52.249337] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:37:52.385866] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:37:52.520866] Scanner error: No working SUI RPC available
+[2025-10-25 09:40:31.180347] Starting SUI whale alert scan loop.
+[2025-10-25 09:40:32.418020] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385232278,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:40:55.009736] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:40:56.617373] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385256482,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:41:20.766128] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:41:32.396915] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:41:32.510442] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:41:32.620441] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:41:32.743995] Scanner error: No working SUI RPC available
+[2025-10-25 09:42:52.656971] Starting SUI whale alert scan loop.
+[2025-10-25 09:42:55.438668] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385374569,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:43:17.921703] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:43:19.119906] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385398993,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:43:29.451063] Using BlockBerry as API base due to BLOCKBERRY_API_KEY: https://api.blockberry.one/sui/v1
+[2025-10-25 09:43:29.575219] SUI whale alert module imported
+[2025-10-25 09:43:29.691220] Starting SUI whale background scanner thread...
+[2025-10-25 09:43:29.815409] SUI whale background scanner thread started successfully
+[2025-10-25 09:43:37.548817] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385417214,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:43:45.549928] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:43:58.261410] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:43:58.478492] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:43:58.798351] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:43:59.473887] Scanner error: No working SUI RPC available
+[2025-10-25 09:44:02.261205] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:44:05.798046] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385445659,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:44:33.857592] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:44:48.387744] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:44:48.738783] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:44:49.491940] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:44:49.619939] Scanner error: No working SUI RPC available
+[2025-10-25 09:46:32.873275] Starting SUI whale alert scan loop.
+[2025-10-25 09:46:34.782691] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385594642,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:46:59.225418] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:47:02.250169] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385622114,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:47:27.661234] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:47:42.691257] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:47:42.801779] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:47:42.917780] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:47:43.054132] Scanner error: No working SUI RPC available
+[2025-10-25 09:48:59.906221] Starting SUI whale alert scan loop.
+[2025-10-25 09:49:01.745381] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385741626,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:49:24.644681] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:49:25.899764] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385765769,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:49:48.530737] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:49:49.750483] Starting SUI whale alert scan loop.
+[2025-10-25 09:49:53.350051] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385793207,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:50:04.292365] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:50:04.426952] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:50:04.561030] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:50:04.694570] Scanner error: No working SUI RPC available
+[2025-10-25 09:50:18.563384] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:50:21.430948] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385820778,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:50:46.777120] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:50:58.299631] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:50:58.436165] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:50:58.571157] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:50:58.705154] Scanner error: No working SUI RPC available
+[2025-10-25 09:52:43.168264] Starting SUI whale alert scan loop.
+[2025-10-25 09:52:44.803462] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385964660,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:53:07.412081] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:53:09.065867] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761385988933,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:53:31.381697] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:53:42.887764] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:53:43.031759] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:53:43.177753] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:53:43.316811] Scanner error: No working SUI RPC available
+[2025-10-25 09:55:04.828799] Starting SUI whale alert scan loop.
+[2025-10-25 09:55:06.401841] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761386106274,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:55:30.218302] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:55:31.987705] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761386131811,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:55:58.846698] Starting SUI whale alert scan loop.
+[2025-10-25 09:56:00.510940] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429
+[2025-10-25 09:56:00.990378] BlockBerry checkpoints non-200: 429. Snippet: {"timestamp":1761386160851,"status":429,"error":"Too Many Requests","path":"/sui/v1/checkpoints"}
+[2025-10-25 09:56:15.657132] Indexer latest-block attempt failed: HTTP 404
+[2025-10-25 09:56:15.829136] Skipping RPC detection because BLOCKBERRY_API_KEY is set
+[2025-10-25 09:56:16.016131] RPC latest-block attempt failed: No working SUI RPC available
+[2025-10-25 09:56:16.154692] Scanner error: No working SUI RPC available
+[2025-10-25 09:56:29.470238] Error paging BlockBerry transactions during checkpoints fallback (page 0): HTTP 429

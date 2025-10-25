@@ -11494,5 +11494,27 @@
     "to_label": "0xa9d1e08c...",
     "type": "N/A",
     "value": 57144.21195261537
+  },
+  {
+    "hash": "0xa9add80ef73e60b678ecfe14e1b272bb78654a79f76f019203c1cccb2e3cbce8",
+    "blockNumber": "23653209",
+    "from": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+    "from_label": "0xdfd5293d...",
+    "time": "2025-10-25 08:13:35+00:00",
+    "to": "0xbbf5b578a7ecce2381d8fc9cac42d6968712451e",
+    "to_label": "0xbbf5b578...",
+    "type": "N/A",
+    "value": 276031.2565
+  },
+  {
+    "hash": "0x6dbaa19110ae556b1381051e363d5676c7383967fac9052a3e37bb443751d874",
+    "blockNumber": "23653051",
+    "from": "0x28c6c06298d514db089934071355e5743bf21d60",
+    "from_label": "Binance",
+    "time": "2025-10-25 07:41:47+00:00",
+    "to": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+    "to_label": "Huobi",
+    "type": "SELL",
+    "value": 514550.88080289
   }
 ]

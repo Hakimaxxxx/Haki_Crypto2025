@@ -39,6 +39,30 @@ def _safe_read_json(path: str) -> Optional[List[Dict[str, Any]]]:
 					if k in data and isinstance(data[k], list):
 						return data[k]
 	except Exception:
+		# Fallback: attempt to salvage truncated JSON arrays (common when last write interrupted)
+		try:
+			with open(path, 'r', encoding='utf-8') as f:
+				text = f.read()
+			# Heuristic: only try to repair if it looks like an array file
+			if text.lstrip().startswith('['):
+				# Try trimming to the last complete object boundary '},' or '}' and close the array
+				pos = text.rfind('},')
+				if pos == -1:
+					pos = text.rfind('}')
+				if pos != -1 and pos > text.find('['):
+					trimmed = text[:pos+1] + '\n]'
+					try:
+						data = json.loads(trimmed)
+						if isinstance(data, list):
+							return data
+						if isinstance(data, dict):
+							for k in ("history", "data", "events"):
+								if k in data and isinstance(data[k], list):
+									return data[k]
+					except Exception:
+						pass
+		except Exception:
+			pass
 		return None
 	return None
 
@@ -251,11 +275,71 @@ def load_sui_whales() -> List[Dict[str, Any]]:
         return []
 
 
+def load_eth_whales() -> List[Dict[str, Any]]:
+	"""Load ETH native whale events from local history file.
+
+	ETH is not an ERC20 token; do not route via load_erc20_whales.
+	Reads from repo root file 'eth_whale_alert_history.json' if available.
+	"""
+	try:
+		combined: List[Dict[str, Any]] = []
+		# 1) Try DB first for freshness
+		try:
+			from cloud_db import db
+			if db.available():
+				# Attempt to fetch recent docs; sort by 'blockNumber' or 'block' or 'timestamp' if present
+				docs = db.find_all('eth_whale_history', sort_field='blockNumber', ascending=False, limit=5000)
+				if not docs:
+					docs = db.find_all('eth_whale_history', sort_field='block', ascending=False, limit=5000)
+				if not docs:
+					docs = db.find_all('eth_whale_history', sort_field='timestamp', ascending=False, limit=5000)
+				if docs:
+					combined.extend(docs)
+		except Exception:
+			pass
+
+		# 2) Merge local file
+		try:
+			base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+			hist_path = os.path.join(base_dir, 'eth_whale_alert_history.json')
+			file_events = _safe_read_json(hist_path) or []
+			if file_events:
+				combined.extend(file_events)
+		except Exception:
+			pass
+
+		# 3) Optional: merge ERC20(WETH) events to capture wrapped flows if available
+		try:
+			weth_events = load_erc20_whales('WETH')
+			if weth_events:
+				combined.extend(weth_events)
+		except Exception:
+			pass
+
+		if not combined:
+			return []
+
+		# Deduplicate by tx hash if present, else by (time, value)
+		seen = set()
+		unique: List[Dict[str, Any]] = []
+		for e in combined:
+			key = e.get('hash') or e.get('tx_hash') or (e.get('time'), e.get('value'))
+			if key in seen:
+				continue
+			seen.add(key)
+			unique.append(e)
+
+		return normalize_events(unique, token='ETH') if unique else []
+	except Exception:
+		return []
+
+
 # ---------- Aggregated / Generic API ---------- #
 
 LOADERS: Dict[str, Callable[[], List[Dict[str, Any]]]] = {
 	'BTC': load_btc_whales,
 	'BNB': load_bnb_whales,
+	'ETH': load_eth_whales,
 	'SOL': load_sol_whales,
 	'AVAX': load_avax_whales,
 	'SUI': load_sui_whales,
