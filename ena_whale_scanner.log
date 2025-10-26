@@ -169,3 +169,6 @@
 [2025-10-25 09:01:58.929855] Token: ENA | Whale txs found: 0 | Blocks scanned: 23652967 to 23653436
 [2025-10-25 09:47:17.585848] Token: ENA | Whale txs found: 0 | Blocks scanned: 23653437 to 23653659
 [2025-10-25 09:53:29.602402] Token: ENA | Whale txs found: 0 | Blocks scanned: 23653660 to 23653693
+[2025-10-25 10:20:35.986451] Token: ENA | Whale txs found: 0 | Blocks scanned: 23653694 to 23653830
+[2025-10-26 04:23:13.702165] Error scanning token ENA: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-26 11:00:15.427569] Token: ENA | Whale txs found: 0 | Blocks scanned: 23653831 to 23661185

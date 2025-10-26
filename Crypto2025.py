@@ -2577,7 +2577,9 @@ if page == "Metrics":
     # Chọn trang con cho Metrics
     metrics_view = st.selectbox(
         "Chọn trang Metrics",
-        ["Tổng quan", "Dominance History", "Fear & Greed", "Market Cap & Volume", "RSI Heatmap"],
+        ["Tổng quan", "Dominance History", "Fear & Greed", "Market Cap & Volume", 
+         "Stablecoin Market Cap", "RSI Heatmap", "Altcoin Season Index", 
+         "Category Performance", "ETF Flow (BTC & ETH)"],
         index=0,
         key="metrics_subpage"
     )
@@ -2641,6 +2643,12 @@ if page == "Metrics":
             _mv.show_marketcap_volume_chart()
         except Exception as _mc_ex:
             st.caption(f"Không hiển thị được Market Cap chart: {_mc_ex}")
+    elif metrics_view == "Stablecoin Market Cap":
+        try:
+            import metrics_stablecoin_mcap as _stb
+            _stb.show_stablecoin_mcap_metric()
+        except Exception as _stb_ex:
+            st.caption(f"Không hiển thị được Stablecoin Market Cap chart: {_stb_ex}")
     elif metrics_view == "RSI Heatmap":
         try:
             import metrics_rsi as _rsi
@@ -2673,6 +2681,24 @@ if page == "Metrics":
                     st.plotly_chart(fig, use_container_width=True)
         except Exception as _rsi_ex:
             st.caption(f"RSI panel error: {_rsi_ex}")
+    elif metrics_view == "Altcoin Season Index":
+        try:
+            import metrics_altcoin_season as _alt
+            _alt.show_altcoin_season_metric()
+        except Exception as _alt_ex:
+            st.caption(f"Không hiển thị được Altcoin Season Index: {_alt_ex}")
+    elif metrics_view == "Category Performance":
+        try:
+            import metrics_category_treemap as _cat
+            _cat.show_category_performance_metric()
+        except Exception as _cat_ex:
+            st.caption(f"Không hiển thị được Category Performance: {_cat_ex}")
+    elif metrics_view == "ETF Flow (BTC & ETH)":
+        try:
+            import metrics_etf_flow as _etf
+            _etf.show_etf_flow_metric()
+        except Exception as _etf_ex:
+            st.caption(f"Không hiển thị được ETF Flow: {_etf_ex}")
 
 # Coins page: render a single coin at a time to avoid heavy initial load
 if page == "Coins":
