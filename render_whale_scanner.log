@@ -145,3 +145,9 @@
 [2025-10-25 10:23:37.878186] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23653724 to 23653850
 [2025-10-26 04:27:01.509568] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23653851 to 23659242
 [2025-10-26 11:04:29.104004] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23659243 to 23661213
+[2025-10-26 14:13:40.361038] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23661214 to 23662158
+[2025-10-26 14:18:16.963556] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23662159 to 23662180
+[2025-10-26 17:00:38.006086] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23662181 to 23662986
+[2025-10-26 18:56:10.788217] Token: RENDER | Whale txs found: 0 | Blocks scanned: 23662987 to 23663560
+[2025-10-27 16:27:48.352818] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-27 16:27:48.483515] Bo qua RENDER do latest_block=0

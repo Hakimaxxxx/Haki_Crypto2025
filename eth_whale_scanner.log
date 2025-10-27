@@ -1095,3 +1095,16 @@
 [2025-10-26 10:57:01.177572] Token: ETH | Whale txs found: 48 | Blocks scanned: 23659200 to 23661153
 [2025-10-26 13:37:32.998634] [SCANNER] Thread started.
 [2025-10-26 13:37:32.999637] [SCANNER] Start scan loop.
+[2025-10-26 13:55:11.416599] Token: ETH | Whale txs found: 52 | Blocks scanned: 23661154 to 23661978
+[2025-10-26 14:00:32.641781] [SCANNER] Thread started.
+[2025-10-26 14:00:32.644783] [SCANNER] Start scan loop.
+[2025-10-26 14:01:29.882754] Error scanning token ETH: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out.
+[2025-10-26 16:47:12.121007] [SCANNER] Thread started.
+[2025-10-26 16:47:12.124006] [SCANNER] Start scan loop.
+[2025-10-26 16:52:32.980817] Token: ETH | Whale txs found: 108 | Blocks scanned: 23661979 to 23662921
+[2025-10-26 18:47:03.993611] [SCANNER] Thread started.
+[2025-10-26 18:47:03.994628] [SCANNER] Start scan loop.
+[2025-10-26 18:50:36.174255] Token: ETH | Whale txs found: 26 | Blocks scanned: 23662922 to 23663515
+[2025-10-27 16:07:33.943486] [SCANNER] Thread started.
+[2025-10-27 16:07:33.944489] [SCANNER] Start scan loop.
+[2025-10-27 16:18:28.105314] Token: ETH | Whale txs found: 6 | Blocks scanned: 23667265 to 23669866

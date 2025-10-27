@@ -1300,7 +1300,7 @@ coin_id_to_name = dict(COIN_LIST)
 coin_name_to_id = {v: k for k, v in COIN_LIST}
 
 # Main pages
-page = st.sidebar.selectbox("Đi tới trang", ["Portfolio", "Metrics", "Coins"], index=0, key="main_page")
+page = st.sidebar.selectbox("Đi tới trang", ["Portfolio", "Metrics", "Futures", "Coins"], index=0, key="main_page")
 
 tz_gmt7 = pytz.timezone("Asia/Bangkok")
 
@@ -2699,6 +2699,52 @@ if page == "Metrics":
             _etf.show_etf_flow_metric()
         except Exception as _etf_ex:
             st.caption(f"Không hiển thị được ETF Flow: {_etf_ex}")
+
+# Futures page: dedicated page for futures trading metrics
+if page == "Futures":
+    st.title("⚡ Futures Trading")
+    
+    futures_tab = st.selectbox(
+        "Select Futures Metric",
+        ["Long/Short Ratio", "Funding Rate", "Open Interest", "Liquidations"],
+        key="futures_metric_select"
+    )
+    
+    if futures_tab == "Long/Short Ratio":
+        try:
+            from metrics_futures_long_short import show_futures_long_short_metric
+            show_futures_long_short_metric()
+        except Exception as e:
+            st.error(f"❌ Error loading Long/Short Ratio: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Funding Rate":
+        try:
+            from metrics_futures_funding_rate import show_funding_rate_metric
+            show_funding_rate_metric()
+        except Exception as e:
+            st.error(f"❌ Error loading Funding Rate: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Open Interest":
+        try:
+            from metrics_futures_open_interest import show_open_interest_metric
+            show_open_interest_metric()
+        except Exception as e:
+            st.error(f"❌ Error loading Open Interest: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Liquidations":
+        try:
+            from metrics_futures_liquidations import show_futures_liquidations_metric
+            show_futures_liquidations_metric()
+        except Exception as e:
+            st.error(f"❌ Error loading Liquidations: {e}")
+            import traceback
+            st.code(traceback.format_exc())
 
 # Coins page: render a single coin at a time to avoid heavy initial load
 if page == "Coins":
