@@ -86,6 +86,23 @@ if "app_initialized" not in st.session_state:
         st.session_state["init_success"] = success
         st.session_state["init_message"] = message
         
+        # Start RSI background sync (15-minute interval)
+        try:
+            import rsi_sync
+            rsi_sync.start_sync()
+            print("[App] ✅ RSI background sync started")
+        except Exception as e:
+            print(f"[App] RSI sync start failed: {e}")
+        
+        # Cleanup old temp files on app startup
+        try:
+            import cleanup_temp_files
+            deleted, freed = cleanup_temp_files.cleanup_temp_files(max_age_hours=24, dry_run=False)
+            if deleted > 0:
+                print(f"[App] 🧹 Cleaned {deleted} temp files ({freed / (1024*1024):.2f} MB)")
+        except Exception as e:
+            print(f"[App] Temp file cleanup failed: {e}")
+        
         if success:
             st.success(f"✅ {message}")
         else:
@@ -2031,30 +2048,42 @@ if page == "Portfolio":
                 except Exception:
                     pass
                 
-                # Check if required columns exist
-                if all(col in df_input.columns for col in ["Coin", "Số token nắm giữ", "Giá mua trung bình"]):
-                    edited_df = st.data_editor(
-                        df_input[[
-                            "Coin",
-                            "Số token nắm giữ",
-                            "Giá mua trung bình"
-                        ]],
-                        column_config={
-                            # Cho phép nhập số âm để thể hiện vay
-                            "Số token nắm giữ": st.column_config.NumberColumn("Số token nắm giữ", min_value=-1e12, step=0.0000000001, format="%.10f"),
-                            "Giá mua trung bình": st.column_config.NumberColumn("Giá mua trung bình", min_value=0.0, step=0.01, format="%.4f"),
-                        },
-                        hide_index=True,
-                        key="portfolio_table"
-                    )
-                else:
-                    st.error(f"Missing required columns. Available: {list(df_input.columns)}")
-                    edited_df = pd.DataFrame(columns=["Coin", "Số token nắm giữ", "Giá mua trung bình"])
+                # Wrap data editor in form to prevent auto-reload on every change
+                with st.form(key="portfolio_edit_form", clear_on_submit=False):
+                    # Check if required columns exist
+                    if all(col in df_input.columns for col in ["Coin", "Số token nắm giữ", "Giá mua trung bình"]):
+                        edited_df = st.data_editor(
+                            df_input[[
+                                "Coin",
+                                "Số token nắm giữ",
+                                "Giá mua trung bình"
+                            ]],
+                            column_config={
+                                # Cho phép nhập số âm để thể hiện vay
+                                "Số token nắm giữ": st.column_config.NumberColumn("Số token nắm giữ", min_value=-1e12, step=0.0000000001, format="%.10f"),
+                                "Giá mua trung bình": st.column_config.NumberColumn("Giá mua trung bình", min_value=0.0, step=0.01, format="%.4f"),
+                            },
+                            hide_index=True,
+                            key="portfolio_table"
+                        )
+                        # Store in session_state for access after form submission
+                        st.session_state["_portfolio_edited_df"] = edited_df
+                    else:
+                        st.error(f"Missing required columns. Available: {list(df_input.columns)}")
+                        edited_df = pd.DataFrame(columns=["Coin", "Số token nắm giữ", "Giá mua trung bình"])
+                        st.session_state["_portfolio_edited_df"] = edited_df
+                    
+                    # Thêm nút đẩy dữ liệu lên DB (đảm bảo đồng bộ edited_df trước khi push)
+                    submit_to_db = st.form_submit_button("💾 Đẩy dữ liệu lên DB", type="primary")
                 
-                # Thêm nút đẩy dữ liệu lên DB (đảm bảo đồng bộ edited_df trước khi push)
-                if st.button("Đẩy dữ liệu lên DB", key="push_to_db"):
+                # Handle form submission outside the form
+                if submit_to_db:
                     try:
                         from app_init import update_portfolio_data, rehydrate_from_db, get_portfolio_data, get_app_state
+                        
+                        # Get edited data from session state
+                        edited_df = st.session_state.get("_portfolio_edited_df", df_input)
+                        
                         # Thu thập dữ liệu mới từ bảng (chỉ giữ coin xuất hiện)
                         new_hold = {}
                         new_avg = {}
@@ -2107,17 +2136,35 @@ if page == "Portfolio":
                 # Legacy transaction and portfolio display sections (wrapped in conditional)
                 # Dòng 'Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình'
                 st.write("Nhập giao dịch mua mới để tự động cập nhật giá mua trung bình")
-                coin_options = [coin_id_to_name[c] for c in coins]
-                selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
-                selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
-                buy_cols = st.columns([2,2,2,1])
-                with buy_cols[0]:
-                    st.markdown(f"**{selected_buy_coin_name}**")
-                with buy_cols[1]:
-                    buy_amount = st.number_input(f"Số lượng mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.00000001, format="%.8f", key=f"buy_amt_{selected_buy_coin}")
-                with buy_cols[2]:
-                    buy_price = st.number_input(f"Giá mua mới ({selected_buy_coin_name})", min_value=0.0, step=0.01, format="%.4f", key=f"buy_price_{selected_buy_coin}")
-                update_avg = st.button("Cập nhật AVG & Số lượng", key="update_avg_btn")
+                
+                with st.form(key="buy_transaction_form", clear_on_submit=False):
+                    coin_options = [coin_id_to_name[c] for c in coins]
+                    selected_buy_coin_name = st.selectbox("Chọn coin để nhập giao dịch mua mới", coin_options, key="buy_coin_select")
+                    selected_buy_coin = coin_name_to_id[selected_buy_coin_name]
+                    
+                    buy_cols = st.columns([2,2,2,1])
+                    with buy_cols[0]:
+                        st.markdown(f"**{selected_buy_coin_name}**")
+                    with buy_cols[1]:
+                        buy_amount = st.number_input(
+                            f"Số lượng mua mới ({selected_buy_coin_name})", 
+                            min_value=0.0, 
+                            step=0.00000001, 
+                            format="%.8f", 
+                            key=f"buy_amt_{selected_buy_coin}"
+                        )
+                    with buy_cols[2]:
+                        buy_price = st.number_input(
+                            f"Giá mua mới ({selected_buy_coin_name})", 
+                            min_value=0.0, 
+                            step=0.01, 
+                            format="%.4f", 
+                            key=f"buy_price_{selected_buy_coin}"
+                        )
+                    
+                    update_avg = st.form_submit_button("📊 Cập nhật AVG & Số lượng", type="primary")
+                
+                # Handle form submission outside the form
                 if update_avg:
                     amt_new = buy_amount
                     price_new = buy_price
@@ -2135,8 +2182,8 @@ if page == "Portfolio":
                         save_avg_price(st.session_state["avg_price"])
                         st.success(f"Đã cập nhật giá mua trung bình và số lượng cho {selected_buy_coin_name}!")
 
-            # Initialize edited_df for legacy mode  
-            edited_df = df_input.copy()
+            # Initialize edited_df for legacy mode - use session_state if available from form
+            edited_df = st.session_state.get("_portfolio_edited_df", df_input.copy())
 
     # Portfolio display and styling logic (always available)
     def color_profit(val):
@@ -2652,11 +2699,48 @@ if page == "Metrics":
     elif metrics_view == "RSI Heatmap":
         try:
             import metrics_rsi as _rsi
-            # timeframe selector
-            tf = st.selectbox("Chọn timeframe RSI", ["4h", "1d", "7d"], index=1, key="rsi_timeframe")
-            # universe selector
-            uni = st.selectbox("Universe", ["top30", "top50", "portfolio", "all"], index=0, key="rsi_universe")
-            st.caption("Lưu ý: RSI được tính từ nguồn OHLCV; có thể dùng CoinGecko nếu nguồn OHLCV không có.")
+            import rsi_sync
+            
+            st.info("💡 **RSI Heatmap với Trail Lines:** Đường nét đứt thể hiện xu hướng di chuyển RSI trong timeframe đã chọn. Data tự động sync từ DB mỗi 15 phút.")
+            
+            # timeframe selector with more options
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                tf = st.selectbox("Timeframe", ["15m", "1h", "4h", "1d", "7d"], index=2, key="rsi_timeframe")
+            with col2:
+                uni = st.selectbox("Universe", ["top30", "top50", "portfolio", "all"], index=0, key="rsi_universe")
+            with col3:
+                show_trails = st.checkbox("Trail Lines", value=True, key="rsi_trails")
+            with col4:
+                data_source = st.radio("Source", ["DB (fast)", "API (slow)"], index=0, key="rsi_source", horizontal=True)
+            
+            st.caption(f"**Timeframe {tf}:** RSI tính từ OHLCV. Trail = 10 điểm gần nhất. Auto-sync: 15 phút.")
+            
+            # Sync status display
+            sync_status = rsi_sync.get_sync_status()
+            cols_sync = st.columns([1, 1, 1, 1])
+            cols_sync[0].caption(f"🔄 Sync: {'Running' if sync_status['running'] else 'Stopped'}")
+            last_sync = sync_status['last_sync'].get(tf, 'Never')
+            if last_sync != 'Never':
+                try:
+                    from datetime import datetime
+                    dt = datetime.fromisoformat(last_sync.replace('Z', '+00:00'))
+                    mins_ago = (datetime.now(dt.tzinfo) - dt).total_seconds() / 60
+                    last_sync = f"{mins_ago:.0f}m ago"
+                except:
+                    pass
+            cols_sync[1].caption(f"🕒 Last: {last_sync}")
+            cols_sync[2].caption(f"⏱️ Interval: {sync_status['interval_minutes']:.0f}m")
+            
+            force_sync_btn = cols_sync[3].button("🔄 Force Sync Now", key="rsi_force_sync_btn")
+            if force_sync_btn:
+                with st.spinner("Syncing all timeframes to DB..."):
+                    if rsi_sync.force_sync_now():
+                        st.success("✅ RSI data synced to DB!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Sync failed. Check logs.")
+            
             # Fetch universe metadata
             list_meta = _rsi.get_universe_from_config(option=uni)
             if not list_meta:
@@ -2664,23 +2748,96 @@ if page == "Metrics":
             else:
                 df_meta = pd.DataFrame(list_meta)
                 symbols = df_meta['symbol'].tolist()
-                # Cache info and refresh control
-                cache_info = _rsi.rsi_cache_info()
-                last_ts = cache_info.get('last_updated')
-                last_str = pd.to_datetime(last_ts, unit='s', utc=True).strftime('%Y-%m-%d %H:%M:%S (UTC)') if last_ts else 'N/A'
-                cols_r = st.columns([1,1,2])
-                cols_r[0].caption(f"Cached: {cache_info.get('count',0)} items")
-                cols_r[1].caption(f"Last update: {last_str}")
-                force_refresh = cols_r[2].button("🔄 Refresh RSI (force)")
-                with st.spinner("Lấy dữ liệu RSI (cache-aware)..."):
-                    rsi_map = get_rsi_for_universe_cached(tuple(symbols), timeframe=tf, ttl_seconds=3600, force_refresh=force_refresh)
-                fig = _rsi.build_rsi_scatter(df_meta, rsi_map, title=f"RSI Heatmap - {tf} - {uni}")
+                
+                # Determine data source
+                use_db = (data_source == "DB (fast)")
+                
+                with st.spinner(f"Loading RSI data from {'DB' if use_db else 'API'}..."):
+                    if use_db:
+                        # Fetch from MongoDB
+                        db_data = rsi_sync.fetch_rsi_from_db(tf, symbols)
+                        
+                        # Build rsi_map and rsi_history_map from DB data
+                        rsi_map = {}
+                        rsi_history_map = {} if show_trails else None
+                        
+                        for sym in symbols:
+                            data = db_data.get(sym)
+                            if data:
+                                rsi_map[sym] = data.get('rsi_current')
+                                if show_trails and 'rsi_history' in data:
+                                    # Convert ISO strings back to timestamps
+                                    history = []
+                                    for h in data['rsi_history']:
+                                        try:
+                                            ts_str = h.get('timestamp')
+                                            rsi_val = h.get('rsi')
+                                            if ts_str and rsi_val is not None:
+                                                history.append({
+                                                    'timestamp': pd.to_datetime(ts_str),
+                                                    'rsi': rsi_val
+                                                })
+                                        except:
+                                            pass
+                                    rsi_history_map[sym] = history if history else None
+                        
+                        if not rsi_map:
+                            st.warning("⚠️ No data in DB. Click 'Force Sync Now' or switch to 'API' source.")
+                    
+                    else:
+                        # Fetch from API (original flow)
+                        cache_info = _rsi.rsi_cache_info()
+                        last_ts = cache_info.get('last_updated')
+                        last_str = pd.to_datetime(last_ts, unit='s', utc=True).strftime('%Y-%m-%d %H:%M:%S (UTC)') if last_ts else 'N/A'
+                        
+                        st.caption(f"📦 API Cache: {cache_info.get('count',0)} items | Last: {last_str}")
+                        force_refresh = st.button("🔄 Refresh API Cache", key="rsi_force_refresh_api")
+                        
+                        # Fetch current RSI values
+                        rsi_map = _rsi.get_rsi_for_universe(
+                            symbols, 
+                            timeframe=tf, 
+                            ttl_seconds=3600, 
+                            force_refresh=force_refresh,
+                            with_history=False
+                        )
+                        
+                        # Fetch RSI history for trail lines if enabled
+                        rsi_history_map = None
+                        if show_trails:
+                            rsi_history_map = _rsi.get_rsi_for_universe(
+                                symbols, 
+                                timeframe=tf, 
+                                ttl_seconds=3600, 
+                                force_refresh=force_refresh,
+                                with_history=True
+                            )
+                
+                # Build chart with trail lines
+                fig = _rsi.build_rsi_scatter(
+                    df_meta, 
+                    rsi_map, 
+                    title=f"RSI Heatmap - {tf.upper()} - {uni.upper()} ({'DB' if use_db else 'API'})", 
+                    rsi_history_map=rsi_history_map if show_trails else None
+                )
+                
                 if fig is None:
                     st.caption("Không có dữ liệu RSI để hiển thị.")
                 else:
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, use_container_width=True, config={'displaylogo': False})
+                    
+                    # Legend explanation
+                    st.markdown("---")
+                    st.markdown("### 📊 RSI Zones")
+                    col1, col2, col3 = st.columns(3)
+                    col1.metric("🔴 OVERBOUGHT", "RSI > 70", help="Giá có thể sắp điều chỉnh giảm")
+                    col2.metric("⚪ NEUTRAL", "30 < RSI < 70", help="Thị trường cân bằng")
+                    col3.metric("🟢 OVERSOLD", "RSI < 30", help="Giá có thể sắp phục hồi tăng")
+                    
         except Exception as _rsi_ex:
-            st.caption(f"RSI panel error: {_rsi_ex}")
+            st.error(f"RSI panel error: {_rsi_ex}")
+            import traceback
+            st.code(traceback.format_exc())
     elif metrics_view == "Altcoin Season Index":
         try:
             import metrics_altcoin_season as _alt

@@ -124,47 +124,106 @@ def _fetch_category_data(category_id: str, limit: int = 20) -> Optional[List[Dic
 
 
 def fetch_all_categories(categories: List[str] = FEATURED_CATEGORIES) -> Tuple[Dict, bool]:
-    """Fetch data for all featured categories.
+    """Fetch data for all featured categories with robust error handling.
     
     Returns:
         (data_dict, success): Dictionary of category data and success flag
     """
     cache = _load_cache()
     if cache and cache.get('categories'):
-        print(f"[Category Treemap] OK Loaded {len(cache['categories'])} categories from cache")
-        return cache['categories'], True
+        loaded_count = len(cache['categories'])
+        missing_count = len(categories) - loaded_count
+        
+        if missing_count == 0:
+            print(f"[Category Treemap] OK Loaded all {loaded_count}/{len(categories)} categories from cache")
+            return cache['categories'], True
+        else:
+            print(f"[Category Treemap] WARN Cache has only {loaded_count}/{len(categories)} categories")
+            print(f"[Category Treemap] Will attempt to fetch missing {missing_count} categories...")
+            all_data = cache['categories'].copy()
+    else:
+        all_data = {}
+        print(f"[Category Treemap] Fetching all {len(categories)} categories from CoinGecko...")
     
     try:
-        all_data = {}
-        print(f"[Category Treemap] Fetching {len(categories)} categories from CoinGecko...")
-        print(f"[Category Treemap] Estimated time: ~{len(categories) * 2} seconds (rate limited)")
+        total_categories = len(categories)
+        fetched_count = len(all_data)
+        failed_categories = []
+        
+        print(f"[Category Treemap] Estimated time: ~{total_categories * 2.5} seconds (rate limited)")
         
         for i, cat_id in enumerate(categories, 1):
+            # Skip if already in cache
+            if cat_id in all_data:
+                print(f"  [{i}/{total_categories}] CACHE {cat_id}: {len(all_data[cat_id])} coins (skipped)")
+                continue
+            
+            print(f"  [{i}/{total_categories}] Fetching {cat_id}...", end=' ')
             coins = _fetch_category_data(cat_id, limit=20)
+            
             if coins and len(coins) > 0:
                 all_data[cat_id] = coins
-                print(f"  [{i}/{len(categories)}] OK {cat_id}: {len(coins)} coins")
-            elif coins is not None:
-                print(f"  [{i}/{len(categories)}] WARN {cat_id}: No coins returned")
+                fetched_count += 1
+                print(f"OK ({len(coins)} coins)")
+            elif coins is not None and len(coins) == 0:
+                print(f"WARN (No coins)")
+                failed_categories.append(f"{cat_id} (empty)")
             else:
-                print(f"  [{i}/{len(categories)}] ERROR {cat_id}: API error (skipped)")
+                print(f"ERROR (API failed)")
+                failed_categories.append(f"{cat_id} (error)")
             
-            if i < len(categories):  # Don't sleep after last category
-                time.sleep(2.0)  # Increased delay for safety (30 calls/min)
+            # Save partial results after each fetch (resilience against rate limits)
+            if len(all_data) > 0 and (i % 5 == 0 or i == total_categories):
+                _save_cache({'categories': all_data})
+                print(f"  [Progress saved: {len(all_data)}/{total_categories} categories]")
+            
+            # Progressive delay to avoid rate limits
+            if i < total_categories:
+                if i % 10 == 0:
+                    # Every 10 requests, wait longer
+                    print(f"  [Cooldown: 15s to avoid rate limit...]")
+                    time.sleep(15)
+                else:
+                    time.sleep(2.5)  # Standard delay
         
-        if all_data:
+        # Final summary
+        success_rate = (fetched_count / total_categories) * 100
+        print(f"\n[Category Treemap] ========================================")
+        print(f"[Category Treemap] SUMMARY:")
+        print(f"  Total categories: {total_categories}")
+        print(f"  Successfully loaded: {len(all_data)} ({success_rate:.1f}%)")
+        print(f"  Failed/Empty: {len(failed_categories)}")
+        
+        if failed_categories:
+            print(f"[Category Treemap] Failed categories:")
+            for cat in failed_categories:
+                print(f"    - {cat}")
+        
+        if len(all_data) >= total_categories * 0.7:  # 70% success threshold
             _save_cache({'categories': all_data})
-            print(f"[Category Treemap] OK Successfully fetched {len(all_data)}/{len(categories)} categories")
-            print(f"[Category Treemap] Cache expires in 3 hours")
+            print(f"[Category Treemap] ✅ Cache saved (expires in 1 hour)")
+            print(f"[Category Treemap] ========================================\n")
             return all_data, True
-        
-        print(f"[Category Treemap] ERROR No categories fetched - likely rate limited")
-        print(f"[Category Treemap] Please wait 5-10 minutes before retrying")
-        return {}, False
+        elif len(all_data) > 0:
+            _save_cache({'categories': all_data})
+            print(f"[Category Treemap] ⚠️  Partial success - using {len(all_data)} categories")
+            print(f"[Category Treemap] ========================================\n")
+            return all_data, True
+        else:
+            print(f"[Category Treemap] ❌ No categories fetched - likely rate limited")
+            print(f"[Category Treemap] Please wait 5-10 minutes before retrying")
+            print(f"[Category Treemap] ========================================\n")
+            return {}, False
+            
     except Exception as e:
-        print(f"[Category Treemap] Error: {e}")
+        print(f"[Category Treemap] FATAL Error: {e}")
         import traceback
         traceback.print_exc()
+        
+        # Return partial data if available
+        if len(all_data) > 0:
+            print(f"[Category Treemap] Returning {len(all_data)} partial results")
+            return all_data, True
         return {}, False
 
 
@@ -235,9 +294,9 @@ def plot_category_treemap(df: pd.DataFrame) -> Optional[go.Figure]:
         # Use absolute % change for sizing (volatility = importance)
         df['abs_change'] = df['price_change_24h'].abs()
         
-        # Clamp color values for better visualization
+        # Clamp color values for better visualization (±10% max for better contrast)
         df['color_val'] = df['price_change_24h'].apply(
-            lambda x: max(min(x, 20), -20)  # Clamp to -20% to +20%
+            lambda x: max(min(x, 10), -10)  # Clamp to -10% to +10%
         )
         
         # Treemap with volatility-based sizing
@@ -248,13 +307,17 @@ def plot_category_treemap(df: pd.DataFrame) -> Optional[go.Figure]:
             customdata=df[['market_cap', 'coin_count']],
             marker=dict(
                 colorscale=[
-                    [0.0, '#EF4444'],   # Red (negative)
-                    [0.5, '#FEF3C7'],   # Yellow (neutral)
-                    [1.0, '#00D395']    # Green (positive)
+                    [0.0, '#DC2626'],   # Deep Red (negative)
+                    [0.3, '#EF4444'],   # Red
+                    [0.45, '#FCA5A5'], # Light Red
+                    [0.5, '#F3F4F6'],  # Neutral Gray
+                    [0.55, '#86EFAC'], # Light Green
+                    [0.7, '#22C55E'],  # Green
+                    [1.0, '#16A34A']   # Deep Green (positive)
                 ],
                 cmid=0,
-                cmin=-20,
-                cmax=20,
+                cmin=-10,
+                cmax=10,
                 colorbar=dict(
                     title="24h %",
                     ticksuffix="%",
@@ -262,10 +325,10 @@ def plot_category_treemap(df: pd.DataFrame) -> Optional[go.Figure]:
                 ),
                 line=dict(width=2, color='white')
             ),
-            text=[f"{row['price_change_24h']:+.1f}%<br>{row['coin_count']} coins" 
+            text=[f"{row['price_change_24h']:+.1f}%" 
                   for _, row in df.iterrows()],
             textposition='middle center',
-            textfont=dict(size=13, color='#1a1a1a', family='Arial Black'),
+            textfont=dict(size=14, color='#1a1a1a', family='Arial Black'),
             hovertemplate='<b>%{label}</b><br>' +
                           'Market Cap: $%{customdata[0]:,.0f}<br>' +
                           '24h Change: %{color:+.2f}%<br>' +
@@ -290,30 +353,53 @@ def show_category_performance_metric():
     """Display category performance treemap in Streamlit."""
     st.subheader("🗺️ Market Category Performance")
     
-    st.info("💡 **Treemap hiển thị các category crypto (L1, DeFi, Meme...).** Kích thước = Volatility (abs % change) → coin biến động mạnh = box lớn. Màu = Direction (+/-). Top 20 coins/category.")
+    st.info("💡 **Treemap hiển thị các category crypto (L1, DeFi, Meme...).** Kích thước = Volatility (abs % change) → category biến động mạnh = box lớn. Màu = Direction (+/-, max ±10% cho contrast cao).")
     
-    # Show cache status
+    # Show cache status and missing categories
+    total_categories = len(FEATURED_CATEGORIES)
+    loaded_categories = 0
+    missing_categories = []
+    
     if os.path.exists(_get_cache_path()):
         cache = _load_cache()
-        if cache:
+        if cache and cache.get('categories'):
+            loaded_categories = len(cache['categories'])
+            missing_categories = [cat for cat in FEATURED_CATEGORIES if cat not in cache['categories']]
+            
             cache_age_mins = (time.time() - cache.get('timestamp', 0)) / 60
-            if cache_age_mins < 60:
-                st.caption(f"📦 Data mới {cache_age_mins:.0f} phút trước (updates mỗi giờ)")
-            else:
-                st.caption(f"📦 Data {cache_age_mins/60:.1f}h trước (sắp refresh)")
+            
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                if loaded_categories == total_categories:
+                    st.success(f"✅ All {total_categories} categories loaded • Cache: {cache_age_mins:.0f}m ago")
+                else:
+                    st.warning(f"⚠️ {loaded_categories}/{total_categories} categories loaded • Missing: {len(missing_categories)}")
+                    if missing_categories:
+                        missing_names = [cat.replace('-', ' ').title() for cat in missing_categories[:5]]
+                        st.caption(f"Missing: {', '.join(missing_names)}" + (" ..." if len(missing_categories) > 5 else ""))
     else:
-        st.warning("⏳ **First load:** Fetching top 20 coins × 19 categories (~25s)...")
+        st.warning(f"⏳ **First load:** Fetching top 20 coins × {total_categories} categories (~50s)...")
     
-    col1, col2 = st.columns([3, 1])
+    col1, col2, col3 = st.columns([2, 1, 1])
     with col2:
-        force_refresh = st.button("🔄 Refresh", key="category_refresh")
+        force_refresh = st.button("🔄 Full Refresh", key="category_refresh")
+    with col3:
+        if missing_categories:
+            retry_missing = st.button(f"♻️ Retry ({len(missing_categories)})", key="retry_missing")
+        else:
+            retry_missing = False
     
     if force_refresh:
         try:
             if os.path.exists(_get_cache_path()):
                 os.remove(_get_cache_path())
+                st.info("♻️ Cache cleared, fetching all categories...")
         except Exception:
             pass
+    
+    if retry_missing and missing_categories:
+        st.info(f"♻️ Attempting to fetch {len(missing_categories)} missing categories...")
+        # Will fetch only missing ones since cache is kept
     
     with st.spinner("Loading category data..."):
         category_data, success = fetch_all_categories()
@@ -328,6 +414,11 @@ def show_category_performance_metric():
         **Metric này:** Top 20 coins × 19 categories, updates mỗi giờ, cache 1h.
         """)
         return
+    
+    # Show final status
+    loaded_count = len(category_data)
+    if loaded_count < total_categories:
+        st.warning(f"⚠️ Displaying {loaded_count}/{total_categories} categories (some failed to load)")
     
     # Prepare and plot treemap
     df = prepare_treemap_data(category_data)

@@ -17,6 +17,7 @@ def _atomic_write_json(obj, path: str):
     """Write JSON atomically to avoid partial writes.
 
     Writes to a temp file in the same directory and replaces the target file.
+    Ensures temp file is always cleaned up on error.
     """
     dir_name = os.path.dirname(os.path.abspath(path)) or "."
     fd, tmp_path = tempfile.mkstemp(prefix=".tmp_", suffix=".json", dir=dir_name)
@@ -25,14 +26,19 @@ def _atomic_write_json(obj, path: str):
             json.dump(obj, tmp_f, ensure_ascii=False)
         # os.replace is atomic on both Windows and POSIX
         os.replace(tmp_path, path)
-    except Exception:
-        # Best effort cleanup of temp file
+    except Exception as e:
+        # Always cleanup temp file on error
+        try:
+            os.close(fd)  # Close file descriptor if still open
+        except:
+            pass
         try:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
-        except Exception:
-            pass
-        raise
+                print(f"[Cleanup] Removed temp file: {tmp_path}")
+        except Exception as cleanup_err:
+            print(f"[Warning] Failed to cleanup temp file {tmp_path}: {cleanup_err}")
+        raise e  # Re-raise original exception
 
 
 def load_history(force: bool = False) -> List[Dict]:

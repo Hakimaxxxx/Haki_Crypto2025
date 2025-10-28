@@ -51,6 +51,8 @@ def show_bar_pnl(df_result):
 
 def show_health_panel(db, queue_length: int, last_price_ts: int, last_price_update_message: str = ""):
     st.subheader("⚙️ System Health")
+    
+    # First row: DB, Queue, Price Update
     cols = st.columns(4)
     with cols[0]:
         st.metric("DB Available", "Yes" if db.available() else "No")
@@ -63,3 +65,53 @@ def show_health_panel(db, queue_length: int, last_price_ts: int, last_price_upda
             st.metric("Last Price Update", "N/A")
     with cols[3]:
         st.write(last_price_update_message or "")
+    
+    # Second row: RSI Sync Status
+    try:
+        import rsi_sync
+        sync_status = rsi_sync.get_sync_status()
+        
+        st.markdown("---")
+        st.markdown("#### 📊 RSI Background Sync")
+        
+        cols2 = st.columns(4)
+        with cols2[0]:
+            status_icon = "✅" if sync_status['running'] else "❌"
+            st.metric("Sync Status", f"{status_icon} {'Running' if sync_status['running'] else 'Stopped'}")
+        with cols2[1]:
+            st.metric("Interval", f"{sync_status['interval_minutes']:.0f} min")
+        with cols2[2]:
+            # Count how many timeframes have been synced
+            synced_count = len([t for t in sync_status['last_sync'] if sync_status['last_sync'][t] != 'Never'])
+            total_count = len(sync_status['timeframes'])
+            st.metric("Timeframes Synced", f"{synced_count}/{total_count}")
+        with cols2[3]:
+            error_count = len(sync_status.get('errors', []))
+            st.metric("Recent Errors", error_count)
+        
+        # Show last sync times
+        if sync_status['last_sync']:
+            st.caption("**Last Sync Times:**")
+            sync_info = []
+            for tf in sync_status['timeframes']:
+                last = sync_status['last_sync'].get(tf, 'Never')
+                if last != 'Never':
+                    try:
+                        from datetime import datetime
+                        dt = datetime.fromisoformat(last.replace('Z', '+00:00'))
+                        mins_ago = (datetime.now(dt.tzinfo) - dt).total_seconds() / 60
+                        last = f"{mins_ago:.0f}m ago"
+                    except:
+                        pass
+                sync_info.append(f"{tf}: {last}")
+            st.caption(" | ".join(sync_info))
+        
+        # Show recent errors if any
+        if error_count > 0:
+            with st.expander(f"⚠️ Recent Errors ({error_count})"):
+                for err in sync_status['errors'][-5:]:  # Last 5 errors
+                    st.code(f"{err['timestamp']}: {err['message']}")
+    
+    except Exception as e:
+        st.caption(f"RSI sync status unavailable: {e}")
+

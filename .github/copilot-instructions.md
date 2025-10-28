@@ -3,8 +3,9 @@
 This is a Streamlit-based cryptocurrency portfolio tracker with real-time whale alert monitoring across multiple blockchains. It integrates MongoDB Atlas for cloud persistence, falls back to local JSON files, and features a robust initialization system with graceful degradation.
 
 Key docs for humans and agents
-- Development guide: see `Development.md` for local setup, environment variables, and workflows.
-- Architecture overview: see `Architecture.md` for the system architecture, data flow, and module map.
+- Development guide: see `docs/Development.md` for local setup, environment variables, and workflows.
+- Architecture overview: see `docs/Architecture.md` for the system architecture, data flow, and module map.
+- Issue resolution history: see `docs/ISSUE_RESOLUTION_2025-10-04.md` and other docs in `docs/` folder.
 - Prompt templates for automation: see `.github/prompts` for guided prompts to add coins or whale alerts.
 
 Core components

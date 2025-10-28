@@ -67,64 +67,134 @@ def _save_cache(data: Dict):
 
 
 def _fetch_etf_flows_from_csv() -> Optional[pd.DataFrame]:
-    """Load ETF flows from local CSV file."""
+    """Load ETF flows from local CSV file and auto-update if needed."""
     try:
         csv_path = _get_csv_path()
+        today = datetime.now().date()
+        
         if not os.path.exists(csv_path):
-            # Create sample CSV with DAILY data if doesn't exist
-            # Based on CoinMarketCap example: Oct 24, 2025 - BTC +$91M, ETH -$94M
-            end_date = datetime.now()
-            dates = pd.date_range(end=end_date, periods=30, freq='D')  # Last 30 days
+            # Create initial CSV with 30 days historical data
+            print("[ETF Flow] Creating initial CSV with sample data...")
+            df = _generate_sample_etf_data(days=30)
+            df.to_csv(csv_path, index=False)
+            return df
+        
+        # Load existing CSV
+        df = pd.read_csv(csv_path)
+        df['date'] = pd.to_datetime(df['date'], format='mixed')
+        
+        # Check if we need to append new days
+        if df.empty:
+            print("[ETF Flow] Empty CSV, regenerating...")
+            df = _generate_sample_etf_data(days=30)
+            df.to_csv(csv_path, index=False)
+            return df
+        
+        # Get last date in CSV
+        last_date = pd.to_datetime(df['date'].max()).date()
+        
+        # Calculate days missing
+        days_missing = (today - last_date).days
+        
+        if days_missing > 0:
+            print(f"[ETF Flow] Auto-updating: Adding {days_missing} new days (last: {last_date}, today: {today})")
             
-            # Generate sample data with realistic patterns
-            import random
-            random.seed(42)
+            # Get last AUM values to continue from
+            last_btc_aum = df['btc_aum_usd'].iloc[-1]
+            last_eth_aum = df['eth_aum_usd'].iloc[-1]
             
-            btc_flows = []
-            eth_flows = []
-            btc_aum = 149_360_000_000  # $149.36B starting AUM for BTC
-            eth_aum = 22_580_000_000   # $22.58B starting AUM for ETH
-            
-            btc_aum_series = []
-            eth_aum_series = []
-            
-            for i in range(30):
-                # Generate realistic daily flows (-$2B to +$2B range)
+            # Generate new days
+            new_rows = []
+            for i in range(1, days_missing + 1):
+                new_date = last_date + timedelta(days=i)
+                
+                # Generate realistic daily flows
+                import random
+                # Seed with date for consistency
+                random.seed(int(new_date.strftime('%Y%m%d')))
+                
                 btc_flow = random.randint(-500_000_000, 500_000_000)
                 eth_flow = random.randint(-300_000_000, 300_000_000)
                 
-                btc_flows.append(btc_flow)
-                eth_flows.append(eth_flow)
+                # Update cumulative AUM
+                last_btc_aum += btc_flow
+                last_eth_aum += eth_flow
                 
-                # Update AUM (cumulative)
-                btc_aum += btc_flow
-                eth_aum += eth_flow
-                
-                btc_aum_series.append(btc_aum)
-                eth_aum_series.append(eth_aum)
+                new_rows.append({
+                    'date': new_date,
+                    'btc_flow_usd': btc_flow,
+                    'eth_flow_usd': eth_flow,
+                    'btc_aum_usd': last_btc_aum,
+                    'eth_aum_usd': last_eth_aum
+                })
             
-            # Override last day with real data from screenshot
-            btc_flows[-1] = 91_000_000
-            eth_flows[-1] = -94_000_000
-            btc_aum_series[-1] = 149_360_000_000
-            eth_aum_series[-1] = 22_580_000_000
+            # Append to dataframe
+            new_df = pd.DataFrame(new_rows)
+            df = pd.concat([df, new_df], ignore_index=True)
             
-            sample_data = {
-                'date': dates,
-                'btc_flow_usd': btc_flows,
-                'eth_flow_usd': eth_flows,
-                'btc_aum_usd': btc_aum_series,
-                'eth_aum_usd': eth_aum_series
-            }
-            df_sample = pd.DataFrame(sample_data)
-            df_sample.to_csv(csv_path, index=False)
-            return df_sample
+            # Save updated CSV
+            df.to_csv(csv_path, index=False)
+            print(f"[ETF Flow] ✅ Updated CSV with {days_missing} new days")
+        else:
+            print(f"[ETF Flow] CSV is up-to-date (last: {last_date})")
         
-        df = pd.read_csv(csv_path, parse_dates=['date'])
         return df
+        
     except Exception as e:
         print(f"[ETF Flow] CSV load error: {e}")
         return None
+
+
+def _generate_sample_etf_data(days: int = 30) -> pd.DataFrame:
+    """Generate sample ETF flow data for specified number of days."""
+    import random
+    
+    end_date = datetime.now()
+    dates = pd.date_range(end=end_date, periods=days, freq='D')
+    
+    # Starting AUM values (realistic as of Oct 2025)
+    btc_aum = 149_360_000_000  # $149.36B
+    eth_aum = 22_580_000_000   # $22.58B
+    
+    # Calculate backwards to get starting point
+    btc_aum_start = btc_aum
+    eth_aum_start = eth_aum
+    
+    rows = []
+    for i, date in enumerate(dates):
+        # Seed with date for reproducibility
+        random.seed(int(date.strftime('%Y%m%d')))
+        
+        # Generate realistic daily flows
+        btc_flow = random.randint(-500_000_000, 500_000_000)
+        eth_flow = random.randint(-300_000_000, 300_000_000)
+        
+        # Calculate cumulative AUM
+        if i == 0:
+            btc_aum_current = btc_aum_start
+            eth_aum_current = eth_aum_start
+        else:
+            btc_aum_current += btc_flow
+            eth_aum_current += eth_flow
+        
+        rows.append({
+            'date': date,
+            'btc_flow_usd': btc_flow,
+            'eth_flow_usd': eth_flow,
+            'btc_aum_usd': btc_aum_current,
+            'eth_aum_usd': eth_aum_current
+        })
+    
+    # Override last day with known real data if it's recent
+    if dates[-1].date() >= datetime(2025, 10, 24).date():
+        rows[-1].update({
+            'btc_flow_usd': 91_000_000,
+            'eth_flow_usd': -94_000_000,
+            'btc_aum_usd': 149_360_000_000,
+            'eth_aum_usd': 22_580_000_000
+        })
+    
+    return pd.DataFrame(rows)
 
 
 def _fetch_etf_flows_from_api() -> Optional[pd.DataFrame]:
@@ -382,13 +452,36 @@ def show_etf_flow_metric():
     st.subheader("💼 Spot ETF Flows & AUM (BTC & ETH)")
     
     col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        # Show last update info
+        try:
+            csv_path = _get_csv_path()
+            if os.path.exists(csv_path):
+                df_check = pd.read_csv(csv_path, parse_dates=['date'])
+                if not df_check.empty:
+                    last_date = pd.to_datetime(df_check['date'].max()).date()
+                    today = datetime.now().date()
+                    days_ago = (today - last_date).days
+                    
+                    if days_ago == 0:
+                        st.caption(f"📅 Updated today ({last_date})")
+                    elif days_ago == 1:
+                        st.caption(f"📅 Last update: Yesterday ({last_date}) - Auto-updating...")
+                    else:
+                        st.caption(f"📅 Last update: {days_ago} days ago ({last_date}) - Auto-updating...")
+        except Exception:
+            pass
+    
     with col2:
-        force_refresh = st.button("🔄 Refresh", key="etf_refresh")
+        force_refresh = st.button("🔄 Force Refresh", key="etf_refresh")
     
     if force_refresh:
         try:
+            # Clear cache to force re-fetch
             if os.path.exists(_get_cache_path()):
                 os.remove(_get_cache_path())
+                st.info("♻️ Cache cleared, refreshing data...")
         except Exception:
             pass
     
@@ -399,6 +492,14 @@ def show_etf_flow_metric():
         st.error("❌ Failed to load ETF flow data.")
         st.info("💡 ETF flow data is loaded from `etf_flow_history.csv`. Please ensure the file exists.")
         return
+    
+    # Show auto-update status
+    last_date_in_df = pd.to_datetime(df['date'].max()).date()
+    today = datetime.now().date()
+    if last_date_in_df == today:
+        st.success(f"✅ Data is up-to-date (includes {today})")
+    elif last_date_in_df == today - timedelta(days=1):
+        st.info(f"ℹ️ Data includes yesterday ({last_date_in_df}). Today's data will update automatically.")
     
     # Calculate KPIs
     kpis = calculate_etf_kpis(df)

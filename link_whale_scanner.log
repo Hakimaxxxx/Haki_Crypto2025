@@ -242,3 +242,7 @@
 [2025-10-26 18:51:19.956330] Token: LINK | Whale txs found: 0 | Blocks scanned: 23662949 to 23663532
 [2025-10-27 16:18:40.123908] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
 [2025-10-27 16:18:40.252910] Bo qua LINK do latest_block=0
+[2025-10-27 18:56:08.306515] Token: LINK | Whale txs found: 23 | Blocks scanned: 23667341 to 23670694
+[2025-10-28 14:09:24.364040] Token: LINK | Whale txs found: 0 | Blocks scanned: 23675928 to 23676412
+[2025-10-28 15:29:46.393252] Token: LINK | Whale txs found: 2 | Blocks scanned: 23676413 to 23676813
+[2025-10-28 17:47:36.166104] Token: LINK | Whale txs found: 3 | Blocks scanned: 23676814 to 23677493
