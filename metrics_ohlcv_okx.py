@@ -39,29 +39,62 @@ def get_with_proxy_popup(url, **kwargs):
 import requests
 import pandas as pd
 
-def fetch_okx_ohlcv_oi(symbol="BTC-USDT-SWAP", bar="1h", limit=200):
+def fetch_okx_ohlcv_oi(symbol="BTC-USDT-SWAP", bar="1h", limit=200, extended_days=None):
     # Bỏ qua các cặp không hợp lệ như USDT-USDT-SWAP
     #if symbol.upper().startswith("USDT-USDT"):
         #st.warning(f"Cặp giao dịch {symbol} không hợp lệ trên OKX, sẽ bỏ qua.")
         #return pd.DataFrame()
     """
     Lấy dữ liệu nến (OHLCV), volume, open interest từ OKX cho symbol và khung thời gian bar.
-    symbol: ví dụ BTC-USDT-SWAP
-    bar: '1m','5m','15m','1h','4h','1d',...
-    limit: số lượng nến (tối đa 200)
+    
+    Args:
+        symbol: ví dụ BTC-USDT-SWAP
+        bar: '1m','5m','15m','1h','4h','1d',...
+        limit: số lượng nến (tối đa 300 cho OKX)
+        extended_days: Nếu > 0, sẽ fetch extended data từ Binance/CryptoCompare (e.g., 90 cho 3 tháng)
+        
+    Returns:
+        DataFrame với OHLCV data
     """
-    url_main = f"https://www.okx.com/api/v5/market/history-candles?instId={symbol}&bar={bar}&limit={limit}"
-    url_sg = f"https://www.okx.com/en-sg/api/v5/market/history-candles?instId={symbol}&bar={bar}&limit={limit}"
-    resp = get_with_proxy_popup(url_main, timeout=10)
-    data = resp.json()
-    if data.get("code") == "0" and "data" in data:
-        pass
-    else:
-        # Thử lại với endpoint Singapore nếu lỗi hoặc không có data
-        resp = get_with_proxy_popup(url_sg, timeout=10)
+    # Extended mode: Use multi-source fetching
+    if extended_days and extended_days > 0:
+        try:
+            from ohlcv_multi_source import fetch_ohlcv_multi_source
+            print(f"[OKX Extended] Fetching {extended_days} days for {symbol} via multi-source")
+            df = fetch_ohlcv_multi_source(symbol, interval=bar, days=extended_days, source='auto')
+            if not df.empty:
+                print(f"[OKX Extended] ✓ Got {len(df)} candles from multi-source")
+                return df
+            print(f"[OKX Extended] Multi-source failed, falling back to OKX")
+        except Exception as e:
+            print(f"[OKX Extended] Error: {e}, falling back to OKX")
+    
+    # Original OKX fetch (default or fallback)
+    # Increase limit to 300 (OKX supports up to 300)
+    okx_limit = min(limit, 300) if not extended_days else 300
+    
+    # Original OKX fetch (default or fallback)
+    # Increase limit to 300 (OKX supports up to 300)
+    okx_limit = min(limit, 300) if not extended_days else 300
+    
+    url_main = f"https://www.okx.com/api/v5/market/history-candles?instId={symbol}&bar={bar}&limit={okx_limit}"
+    url_sg = f"https://www.okx.com/en-sg/api/v5/market/history-candles?instId={symbol}&bar={bar}&limit={okx_limit}"
+    
+    try:
+        resp = get_with_proxy_popup(url_main, timeout=10)
         data = resp.json()
-        if data.get("code") != "0" or "data" not in data:
-            return pd.DataFrame()
+        if data.get("code") == "0" and "data" in data:
+            pass
+        else:
+            # Thử lại với endpoint Singapore nếu lỗi hoặc không có data
+            resp = get_with_proxy_popup(url_sg, timeout=10)
+            data = resp.json()
+            if data.get("code") != "0" or "data" not in data:
+                return pd.DataFrame()
+    except Exception as e:
+        #print(f"[OKX] Error fetching {symbol}: {e}")
+        return pd.DataFrame()
+    
     # OKX trả về: [[ts, o, h, l, c, vol, volCcy, volCcyQuote, confirm], ...] (9 trường)
     columns = [
         "timestamp", "open", "high", "low", "close", "volume", "volCcy", "volCcyQuote", "confirm"

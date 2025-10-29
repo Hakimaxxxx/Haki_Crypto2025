@@ -8490,5 +8490,27 @@
     "to_label": "0xdfd5293d...",
     "type": "BUY",
     "value": 1332420.3396013
+  },
+  {
+    "hash": "0xdea11b4908a3c2c70e3aaccb4148014698567b56fc1754c5db10d0f2347a2bc4",
+    "blockNumber": "23677530",
+    "from": "0xee7cf04da7b660d925ab0b998284756ea908a36e",
+    "from_label": "0xee7cf04d...",
+    "time": "2025-10-28 17:53:59+00:00",
+    "to": "0x0a4f6ecb214dc1d9acdd99743b4dcc58ccc088b9",
+    "to_label": "0x0a4f6ecb...",
+    "type": "N/A",
+    "value": 408262.9542
+  },
+  {
+    "hash": "0x8955b8beea826338e15650031617cfdb42ea1b367cb2337249379497dd731cfa",
+    "blockNumber": "23681382",
+    "from": "0x0a4f6ecb214dc1d9acdd99743b4dcc58ccc088b9",
+    "from_label": "0x0a4f6ecb...",
+    "time": "2025-10-29 06:51:35+00:00",
+    "to": "0xa29e963992597b21bcdcaa969d571984869c4ff5",
+    "to_label": "0xa29e9639...",
+    "type": "N/A",
+    "value": 345000.0
   }
 ]
