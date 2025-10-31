@@ -948,9 +948,43 @@ if "_metrics_crawlers" not in st.session_state:
 
 
 
-# Hàm lấy giá và % thay đổi từ CoinGecko, cache ngắn để cập nhật thường xuyên
-@st.cache_data(ttl=120, show_spinner=False)
+# Hàm lấy giá và % thay đổi - Multi-source với fallback
+@st.cache_data(ttl=300, show_spinner=False)  # Increased TTL to 5 minutes
 def get_prices_and_changes(coins):
+    """
+    Fetch prices từ nhiều nguồn với fallback tự động:
+    1. OKX API (nhanh nhất)
+    2. Binance API (backup)
+    3. CoinGecko API (fallback cuối)
+    
+    Returns dict: {coin_id: {'price': float, 'change_1d': float, ...}}
+    """
+    try:
+        # Try multi-source first (faster, more reliable)
+        from price_service_multi import get_multi_source_prices
+        
+        prices, changes, success, msg = get_multi_source_prices(coins, force=False)
+        
+        if success:
+            # Convert to expected format
+            result = {}
+            for coin_id in coins:
+                change_data = changes.get(coin_id, {})
+                result[coin_id] = {
+                    "price": prices.get(coin_id, 0),
+                    "change_1d": change_data.get('change_24h', 0),
+                    "change_7d": change_data.get('change_7d', 0),
+                    "change_30d": 0,  # Not available from OKX/Binance
+                    "image": change_data.get('image', ''),
+                    "source": change_data.get('source', 'multi')
+                }
+            
+            st.session_state["coingecko_429"] = False
+            return result
+    except Exception as e:
+        print(f"Multi-source price fetch error: {e}")
+    
+    # Fallback to CoinGecko only if multi-source fails
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
         "vs_currency": "usd",
@@ -978,7 +1012,8 @@ def get_prices_and_changes(coins):
             "change_1d": item.get("price_change_percentage_24h", 0),
             "change_7d": item.get("price_change_percentage_7d_in_currency", 0),
             "change_30d": item.get("price_change_percentage_30d_in_currency", 0),
-            "image": item.get("image", "")
+            "image": item.get("image", ""),
+            "source": "coingecko"
         }
     return result
 
@@ -1682,19 +1717,37 @@ if page == "Portfolio":
         st.session_state["coingecko_429"] = False
     if "coingecko_last_error_time" not in st.session_state:
         st.session_state["coingecko_last_error_time"] = 0
-    # Nút làm mới giá để bỏ qua cache ngay lập tức
-    col1, col2 = st.columns([1, 2])
+    # Nút làm mới giá - Multi-source
+    col1, col2, col3 = st.columns([1, 1, 2])
     with col1:
-        refresh_now = st.button("🔄 Làm mới giá (CoinGecko)", key="refresh_prices")
-    #with col2:
-        #st.caption("💡 Backend price integration disabled due to inflated prices (BTC $122K vs market $112K)")
+        refresh_now = st.button("🔄 Làm mới giá", key="refresh_prices")
+    with col2:
+        # Show current price source
+        price_data = get_prices_and_changes(coins[:1] if coins else [])  # Test with 1 coin
+        if price_data:
+            source = list(price_data.values())[0].get('source', 'unknown')
+            source_icons = {
+                'okx': '⚫',
+                'binance': '🟡',
+                'coingecko': '🦎',
+                'multi': '🌐'
+            }
+            icon = source_icons.get(source, '📊')
+            st.caption(f"{icon} Source: **{source.upper()}**")
+        else:
+            st.caption("📊 Source: Loading...")
     
     if refresh_now:
-        # Clear all cached data to force fresh fetch
+        # Clear both Streamlit cache and internal cache
+        st.cache_data.clear()
+        try:
+            from price_service_multi import _PRICE_CACHE
+            _PRICE_CACHE['timestamp'] = 0  # Force refresh
+        except:
+            pass
         st.session_state["_last_prices"] = {}
-        st.session_state["_price_source"] = "force_refresh_coingecko"
-        st.info("🔄 Đã xóa cache, đang tải dữ liệu mới từ CoinGecko...")
-        time.sleep(1)  # Give user feedback
+        st.info("🔄 Đã xóa cache, đang tải dữ liệu mới...")
+        time.sleep(0.5)
         st.rerun()
     
     # Debug Panel - Price Source Status  
@@ -2880,7 +2933,7 @@ if page == "Futures":
     
     futures_tab = st.selectbox(
         "Select Futures Metric",
-        ["Long/Short Ratio", "Funding Rate", "Open Interest", "Liquidations"],
+        ["Long/Short Ratio", "Funding Rate", "Open Interest", "Liquidations", "Liquidation Heatmap", "Liquidation Map"],
         key="futures_metric_select"
     )
     
@@ -2917,6 +2970,116 @@ if page == "Futures":
             show_futures_liquidations_metric()
         except Exception as e:
             st.error(f"❌ Error loading Liquidations: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Liquidation Heatmap":
+        st.markdown("### 🔥 Liquidation Heatmap")
+        st.caption("Phân tích chi tiết liquidation zones theo price và time - Style Coinglass")
+        
+        # Coin selection
+        from config import COIN_LIST
+        coin_names_futures = [symbol for _, symbol in COIN_LIST]
+        selected_coin = st.selectbox(
+            "Chọn coin để phân tích",
+            options=coin_names_futures,
+            index=0,
+            key="heatmap_coin_select"
+        )
+        
+        try:
+            import metrics_liquidation_coinglass_style as mlcg
+            
+            # Settings in columns
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                tframe = st.selectbox(
+                    "Khung thời gian",
+                    options=["30D", "14D", "7D", "3D"],
+                    index=0,
+                    key="heatmap_tf"
+                )
+            
+            with col2:
+                price_bins = st.slider(
+                    "Price Resolution",
+                    50, 150, 100,
+                    key="heatmap_price_bins",
+                    help="Higher = more detailed price levels"
+                )
+            
+            with col3:
+                time_bins = st.slider(
+                    "Time Resolution",
+                    24, 96, 72,
+                    key="heatmap_time_bins",
+                    help="Higher = more time slices"
+                )
+            
+            with col4:
+                threshold_pct = st.slider(
+                    "Threshold %",
+                    0, 90, 20, 10,
+                    key="heatmap_threshold",
+                    help="Lower = show more zones. 0 = show all"
+                )
+            
+            show_price_overlay = st.checkbox(
+                "Overlay Price Candles",
+                value=True,
+                key="heatmap_price_overlay",
+                help="Show candlestick chart on top of heatmap"
+            )
+            
+            # Map timeframe to days
+            tf_days_map = {"30D": 30, "14D": 14, "7D": 7, "3D": 3}
+            days = tf_days_map.get(tframe, 30)
+            
+            # Convert coin symbol to Binance format
+            binance_symbol = f"{selected_coin}USDT"
+            
+            with st.spinner(f"Generating heatmap for {selected_coin} ({days} days)..."):
+                fig_heatmap = mlcg.plot_coinglass_style_liquidation(
+                    symbol=binance_symbol,
+                    days=days,
+                    price_bins=price_bins,
+                    time_bins=time_bins,
+                    threshold_percentile=threshold_pct,
+                    show_price_overlay=show_price_overlay
+                )
+            
+            if fig_heatmap is not None:
+                st.plotly_chart(fig_heatmap, use_container_width=True)
+                
+                # Legend and explanation
+                st.markdown("""
+                **Hướng dẫn đọc biểu đồ:**
+                - 🟢 **Green zones**: Long liquidations (bulls killed) - Khu vực thanh lý lệnh Long
+                - 🔴 **Red zones**: Short liquidations (bears killed) - Khu vực thanh lý lệnh Short
+                - **Intensity**: Độ đậm màu = volume thanh lý lớn
+                - **Horizontal clusters**: Price levels với nhiều liquidations = Support/Resistance mạnh
+                
+                **Cách sử dụng:**
+                1. Tìm khu vực tập trung liquidations (màu đậm)
+                2. Khi giá tiến gần → Risk cascade liquidations cao
+                3. Green zone phía trên giá hiện tại = Bulls at risk nếu giá tăng
+                4. Red zone phía dưới giá hiện tại = Bears at risk nếu giá giảm
+                """)
+            else:
+                st.warning(f"Không có dữ liệu liquidation cho {selected_coin} trong {days} ngày qua.")
+        
+        except Exception as e:
+            st.error(f"❌ Error loading Liquidation Heatmap: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Liquidation Map":
+        try:
+            from metrics_liquidation_map import show_liquidation_map_ui
+            show_liquidation_map_ui()
+        except Exception as e:
+            st.error(f"❌ Error loading Liquidation Map: {e}")
             import traceback
             st.code(traceback.format_exc())
 
@@ -3002,223 +3165,6 @@ if page == "Coins":
                 df_ohlcv['datetime'] = pd.to_datetime(df_ohlcv['datetime'], errors='coerce').dt.tz_localize('UTC')
             except Exception:
                 pass
-
-    # === Liquidation Heatmap (if available) ===
-    with st.expander("🔥 Liquidation Heatmap", expanded=False):
-            enable_liq = st.checkbox(
-                f"Bật heatmap cho {coin_symbol}",
-                value=True,
-                key=f"liq_enable_{coin_symbol}"
-            )
-            if not enable_liq:
-                st.caption("Tắt theo mặc định để tăng tốc trang. Bật để tải dữ liệu (có thể mất vài giây).")
-            else:
-                # Style selection
-                st.markdown("**Chọn kiểu hiển thị:**")
-                col_style, col_tf = st.columns([1, 1])
-                
-                with col_style:
-                    heatmap_style = st.radio(
-                        "Liquidation Style",
-                        options=["Coinglass (Recommended)", "Classic"],
-                        index=0,
-                        key=f"liq_style_{coin_symbol}",
-                        help="Coinglass: Hiển thị rõ Long/Short liquidations. Classic: Traditional heatmap."
-                    )
-                
-                with col_tf:
-                    tframe = st.selectbox(
-                        f"Khung thời gian",
-                        options=["30D", "14D", "7D", "3D"],
-                        index=0,  # default to 30D for extended data
-                        key=f"liq_tf_{coin_symbol}"
-                    )
-                
-                # === COINGLASS STYLE ===
-                if heatmap_style == "Coinglass (Recommended)":
-                    try:
-                        import metrics_liquidation_coinglass_style as mlcg
-                        
-                        with st.expander("Advanced Settings", expanded=False):
-                            col_a, col_b, col_c = st.columns(3)
-                            with col_a:
-                                price_bins = st.slider("Price Resolution", 50, 150, 100, key=f"cg_pb_{coin_symbol}")
-                            with col_b:
-                                time_bins = st.slider("Time Resolution", 24, 96, 72, key=f"cg_tb_{coin_symbol}")
-                            with col_c:
-                                threshold_pct = st.slider("Threshold %", 0, 90, 20, 10, key=f"cg_thr_{coin_symbol}",
-                                    help="Lower = more zones visible. 0 = show all liquidations")
-                            
-                            show_price_overlay = st.checkbox("Overlay Price Candles", value=True, key=f"cg_price_{coin_symbol}")
-                        
-                        # Map timeframe to days
-                        tf_days_map = {"30D": 30, "14D": 14, "7D": 7, "3D": 3}
-                        days = tf_days_map.get(tframe, 30)
-                        
-                        # Convert coin symbol to Binance format
-                        binance_symbol = f"{coin_symbol}USDT"
-                        
-                        with st.spinner(f"Generating Coinglass-style heatmap ({days} days)..."):
-                            fig_cg = mlcg.plot_coinglass_style_liquidation(
-                                symbol=binance_symbol,
-                                days=days,
-                                price_bins=price_bins,
-                                time_bins=time_bins,
-                                threshold_percentile=threshold_pct,
-                                show_price_overlay=show_price_overlay
-                            )
-                        
-                        if fig_cg is not None:
-                            st.plotly_chart(fig_cg, use_container_width=True, key=f"liq_cg_{coin_symbol}")
-                            st.caption("🟢 Green zones: Long liquidations (bulls killed) | 🔴 Red zones: Short liquidations (bears killed)")
-                        else:
-                            st.warning("Could not generate Coinglass-style heatmap. No liquidation data available.")
-                    
-                    except Exception as cg_ex:
-                        st.error(f"Coinglass heatmap error: {cg_ex}")
-                        import traceback
-                        st.code(traceback.format_exc())
-                
-                # === CLASSIC STYLE ===
-                else:
-                    try:
-                        import metrics_liquidation_okx as _mlo
-                        # Controls
-                        srcs = st.multiselect(
-                            "Nguồn dữ liệu sàn",
-                            options=["OKX","BINANCE","BITMEX"],
-                            default=["OKX"],
-                            key=f"liq_src_{coin_symbol}"
-                        )
-                        
-                        # Use tframe from earlier selection
-                        # Map new tframe format to old format
-                        tf_map_classic = {"30D": "1M", "14D": "7D", "7D": "7D", "3D": "1D"}
-                        tframe_classic = tf_map_classic.get(tframe, "7D")
-                        
-                        thr = st.slider(
-                            "Ngưỡng lọc (tổng size mỗi ô)",
-                            min_value=1,
-                            max_value=100,
-                            value=8,
-                            step=1,
-                            key=f"liq_thr_{coin_symbol}"
-                        )
-                        # Optional advanced binning
-                        with st.expander("Tùy chọn nâng cao", expanded=False):
-                            time_bins = st.slider("Số ô thời gian", 12, 200, 50, key=f"liq_tb_{coin_symbol}")
-                            price_bins = st.slider("Số ô giá", 20, 300, 45, key=f"liq_pb_{coin_symbol}")
-                            colorscale = st.selectbox(
-                                "Màu Heatmap",
-                                options=["Reds","Viridis","Plasma","Cividis","Hot","Turbo"],
-                                index=2,  # Plasma
-                                key=f"liq_cs_{coin_symbol}"
-                            )
-                            reverse_y = st.checkbox(
-                                "Đảo trục giá (giá cao ở trên)",
-                                value=False,
-                                key=f"liq_rev_{coin_symbol}"
-                            )
-                            overlay_price = st.checkbox(
-                                "Overlay đường giá lịch sử",
-                                value=True,
-                                key=f"liq_ovp_{coin_symbol}"
-                            )
-                        # Determine timeframe
-                        from datetime import datetime, timedelta
-                        now_dt = datetime.utcnow()
-                        tf_map = {
-                            "3M": now_dt - timedelta(days=90),
-                            "1M": now_dt - timedelta(days=30),
-                            "7D": now_dt - timedelta(days=7),
-                            "1D": now_dt - timedelta(days=1),
-                        }
-                        start_dt = tf_map.get(tframe_classic, now_dt - timedelta(days=7))
-
-                        # Quick guidance for selected sources
-                        if "BITMEX" in srcs and coin_symbol not in ("BTC","XBT","ETH"):
-                            st.info("BitMEX chỉ hỗ trợ BTC/XBT/ETH trong phiên bản này — các coin khác sẽ không có dữ liệu.")
-                        if "BINANCE" in srcs and tframe_classic in ("3M","1M"):
-                            st.info("Binance allForceOrders có thể giới hạn cửa sổ thời gian. Nếu không thấy dữ liệu, thử 7D hoặc 1D.")
-                        symbol_okx = f"{coin_symbol}-USDT-SWAP"
-                        # Fetch data depending on selected sources (non-blocking inside provider functions)
-                        if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
-                            df_liq = fetch_okx_liq_range_cached(symbol_okx, int(start_dt.timestamp()), int(now_dt.timestamp()))
-                        else:
-                            df_liq = fetch_liq_multi_cached(coin_symbol, int(start_dt.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
-                        # Auto-fallback to shorter ranges if empty
-                        fallback_used = None
-                        if df_liq is None or (hasattr(df_liq, 'empty') and df_liq.empty):
-                            for alt in ("1M","7D","1D"):
-                                alt_start = tf_map[alt]
-                                if srcs and (len(srcs) == 1 and srcs[0] == "OKX"):
-                                    df_alt = fetch_okx_liq_range_cached(symbol_okx, int(alt_start.timestamp()), int(now_dt.timestamp()))
-                                else:
-                                    df_alt = fetch_liq_multi_cached(coin_symbol, int(alt_start.timestamp()), int(now_dt.timestamp()), tuple(srcs or ["OKX"]), symbol_okx)
-                                if df_alt is not None and not (hasattr(df_alt,'empty') and df_alt.empty):
-                                    df_liq = df_alt
-                                    fallback_used = alt
-                                    break
-                        if df_liq is not None and not (hasattr(df_liq,'empty') and df_liq.empty):
-                            # Per-source stats & hints
-                            try:
-                                if 'exchange' in df_liq.columns:
-                                    counts = df_liq['exchange'].value_counts().to_dict()
-                                    parts = [f"{k}: {v}" for k, v in sorted(counts.items())]
-                                    st.caption("Số event theo nguồn: " + ", ".join(parts))
-                                    missing = [s for s in (srcs or []) if s not in counts or counts.get(s,0)==0]
-                                    hints = []
-                                    if "BINANCE" in missing:
-                                        hints.append("Binance có thể bị rate-limit/geo-block hoặc giới hạn cửa sổ — thử 7D/1D hoặc proxy.")
-                                    if "BITMEX" in missing and coin_symbol not in ("BTC","XBT","ETH"):
-                                        hints.append("BitMEX chỉ hỗ trợ BTC/XBT/ETH ở phiên bản này.")
-                                    if hints:
-                                        st.caption(" · ".join(hints))
-                                else:
-                                    st.caption(f"Số event: {len(df_liq)}")
-                            except Exception:
-                                pass
-                            try:
-                                fig_liq = _mlo.build_liquidation_heatmap(
-                                    df_liq, symbol_okx,
-                                    time_bins=time_bins,
-                                    price_bins=price_bins,
-                                    threshold=thr,
-                                    timeframe_label=fallback_used or tframe_classic,
-                                    overlay_price=overlay_price,
-                                    colorscale=colorscale,
-                                    yaxis_reverse=reverse_y
-                                )
-                                if fig_liq is not None:
-                                    st.plotly_chart(
-                                        fig_liq,
-                                        use_container_width=True,
-                                        key=f"liq_classic_{coin_symbol}",
-                                        config={'displaylogo': False, 'responsive': True}
-                                    )
-                                    if fallback_used:
-                                        st.caption(f"Không đủ dữ liệu {tframe_classic}, đang hiển thị {fallback_used}.")
-                                else:
-                                    st.caption("Không thể tạo heatmap từ dữ liệu hiện có.")
-                            except Exception as _liq_ex:
-                                st.caption(f"Không vẽ được heatmap: {_liq_ex}")
-                        else:
-                            # Build source-aware empty message
-                            src_list = ", ".join(srcs) if srcs else "(none)"
-                            base_msg = f"Không có dữ liệu liquidation cho khung đã chọn từ nguồn: {src_list}."
-                            st.caption(base_msg)
-                            # Diagnostics from providers (if available)
-                            try:
-                                import metrics_liquidation_okx as _mlo_diag
-                                warn_map = _mlo_diag.get_source_warnings()
-                                for s in (srcs or []):
-                                    w = warn_map.get(s.upper())
-                                    if w:
-                                        st.caption(f"⚠ {s}: {w}")
-                            except Exception:
-                                pass
-                    except Exception as classic_ex:
-                        st.error(f"Classic heatmap error: {classic_ex}")
 
     # === Portfolio history for this coin ===
     with st.expander("Lịch sử Portfolio Coin", expanded=False):

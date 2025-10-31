@@ -162,3 +162,6 @@
 [2025-10-28 20:14:26.633044] Token: WLD | Whale txs found: 0 | Blocks scanned: 23678043 to 23678214
 [2025-10-29 07:59:26.880313] Token: WLD | Whale txs found: 10 | Blocks scanned: 23678215 to 23681709
 [2025-10-29 13:45:18.734692] Token: WLD | Whale txs found: 11 | Blocks scanned: 23681710 to 23683424
+[2025-10-30 15:58:44.053660] Token: WLD | Whale txs found: 85 | Blocks scanned: 23683425 to 23691239
+[2025-10-30 18:14:50.748974] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-30 18:14:50.797962] Bo qua WLD do latest_block=0

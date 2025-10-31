@@ -160,3 +160,6 @@
 [2025-10-28 20:15:17.789518] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23678051 to 23678223
 [2025-10-29 08:00:14.910421] Token: ONDO | Whale txs found: 1 | Blocks scanned: 23678224 to 23681718
 [2025-10-29 13:45:53.961404] Token: ONDO | Whale txs found: 0 | Blocks scanned: 23681719 to 23683431
+[2025-10-30 15:59:17.332615] Token: ONDO | Whale txs found: 21 | Blocks scanned: 23683432 to 23691244
+[2025-10-30 18:15:14.766327] Warn: khong the lay block moi nhat: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=10)
+[2025-10-30 18:15:14.815328] Bo qua ONDO do latest_block=0

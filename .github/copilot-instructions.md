@@ -2,7 +2,21 @@
 
 This is a Streamlit-based cryptocurrency portfolio tracker with real-time whale alert monitoring across multiple blockchains. It integrates MongoDB Atlas for cloud persistence, falls back to local JSON files, and features a robust initialization system with graceful degradation.
 
+## ⚠️ CRITICAL RULES FOR AI AGENTS
+
+### File Organization - DO NOT CREATE FILES IN ROOT!
+**All test/debug/utility scripts MUST go in organized directories:**
+- ✅ Test files: `tests/test_*.py`
+- ✅ Debug scripts: `scripts/debug_*.py`
+- ✅ Utility scripts: `scripts/<descriptive_name>.py`
+- ❌ NEVER: `test_*.py`, `debug_*.py`, `check_*.py` in root
+
+**See `.github/copilot-rules.md` for complete file organization rules.**
+
+If you accidentally create files in root, run: `python scripts/organize_files.py`
+
 Key docs for humans and agents
+- **File organization**: see `.github/copilot-rules.md` for where to create files
 - Development guide: see `docs/Development.md` for local setup, environment variables, and workflows.
 - Architecture overview: see `docs/Architecture.md` for the system architecture, data flow, and module map.
 - Issue resolution history: see `docs/ISSUE_RESOLUTION_2025-10-04.md` and other docs in `docs/` folder.

@@ -365,6 +365,23 @@ def initialize_app(refresh: bool = False) -> Tuple[bool, str]:
         Useful for new Streamlit sessions after browser hard refresh where session_state is empty.
     """
     with _init_lock:
+        # Cleanup orphaned temp files on startup (older than 1 hour)
+        try:
+            from pathlib import Path
+            import time as _time
+            temp_files = list(Path(".").glob(".tmp_*.json"))
+            now = _time.time()
+            for temp_file in temp_files:
+                try:
+                    age_hours = (now - temp_file.stat().st_mtime) / 3600
+                    if age_hours > 1:  # Only delete files older than 1 hour
+                        temp_file.unlink()
+                        print(f"[CLEANUP] Removed orphaned temp file: {temp_file.name} (age: {age_hours:.1f}h)")
+                except Exception:
+                    pass
+        except Exception as cleanup_err:
+            print(f"[CLEANUP] Temp file cleanup failed (non-critical): {cleanup_err}")
+        
         if _APP_STATE["init_complete"] and not refresh:
             # If caches somehow empty (edge case after code reload) attempt lightweight hydration
             if (not _DATA_CACHE["portfolio"]) and os.path.exists("data.json"):

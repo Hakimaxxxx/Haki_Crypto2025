@@ -1,3 +1,31 @@
 .venv/
 .frontend/
 node_modules/
+
+# Temporary test files (keep organized tests in tests/ folder)
+/test_*.py
+/debug_*.py
+/check_*.py
+
+# Temporary data files
+.tmp_*.json
+.tmp_*.csv
+*.tmp
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
