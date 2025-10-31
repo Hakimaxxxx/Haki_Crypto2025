@@ -1,0 +1,217 @@
+{
+  "futures_metrics": [
+    {
+      "name": "Footprint Chart",
+      "id": "footprint",
+      "module": "metrics_futures_footprint",
+      "function": "show_futures_footprint_metric",
+      "category": "Order Flow Analysis",
+      "description": "Advanced order flow visualization showing bid/ask volume at each price level. Helps identify buyer/seller pressure zones, absorption, and delta divergences.",
+      "features": [
+        "Footprint heatmap with color-coded delta",
+        "Cumulative delta line chart",
+        "Volume profile (horizontal bars)",
+        "Real-time buy/sell metrics",
+        "Multi-exchange support (Binance, OKX)",
+        "Multi-timeframe (1m, 5m, 15m, 30m, 1h)"
+      ],
+      "data_sources": [
+        "Binance Futures Trades API",
+        "OKX Futures Trades API"
+      ],
+      "use_cases": [
+        "Identify strong support/resistance zones",
+        "Detect absorption (reversal signals)",
+        "Find delta divergences (trend weakness)",
+        "Confirm breakouts with volume",
+        "Track institutional order flow"
+      ],
+      "best_for": [
+        "Day traders",
+        "Scalpers",
+        "Order flow traders"
+      ],
+      "timeframes": ["1min", "5min", "15min", "30min", "1h"],
+      "supported_coins": ["BTC", "ETH", "SOL", "BNB", "ARB", "OP", "AVAX"],
+      "documentation": "docs/FUTURES_FOOTPRINT.md",
+      "quick_start": "FOOTPRINT_QUICKSTART.md",
+      "status": "active",
+      "version": "1.0.0",
+      "added": "2025-10-31"
+    },
+    {
+      "name": "Long/Short Ratio",
+      "id": "long_short",
+      "module": "metrics_futures_long_short",
+      "function": "show_futures_long_short_metric",
+      "category": "Sentiment",
+      "description": "Global long/short account ratio showing trader sentiment and positioning.",
+      "features": [
+        "Long/short account ratio over time",
+        "Taker buy/sell volume ratio",
+        "Multi-timeframe analysis"
+      ],
+      "data_sources": ["Binance Futures API"],
+      "status": "active"
+    },
+    {
+      "name": "Funding Rate",
+      "id": "funding",
+      "module": "metrics_futures_funding_rate",
+      "function": "show_funding_rate_metric",
+      "category": "Market Mechanics",
+      "description": "Perpetual futures funding rates indicating market bias (long vs short).",
+      "features": [
+        "Real-time funding rates",
+        "Historical funding trends",
+        "Multi-exchange comparison"
+      ],
+      "data_sources": ["Binance Futures API", "OKX API"],
+      "status": "active"
+    },
+    {
+      "name": "Open Interest",
+      "id": "open_interest",
+      "module": "metrics_futures_open_interest",
+      "function": "show_open_interest_metric",
+      "category": "Volume Analysis",
+      "description": "Total outstanding futures contracts. Rising OI = New money entering.",
+      "features": [
+        "Real-time OI tracking",
+        "OI vs Price correlation",
+        "Multi-exchange aggregation"
+      ],
+      "data_sources": ["Binance Futures API", "OKX API"],
+      "status": "active"
+    },
+    {
+      "name": "Liquidations",
+      "id": "liquidations",
+      "module": "metrics_futures_liquidations",
+      "function": "show_futures_liquidations_metric",
+      "category": "Risk Analysis",
+      "description": "Real-time liquidation data showing forced position closures.",
+      "features": [
+        "Long/short liquidation tracking",
+        "Liquidation timeline",
+        "Cascade detection"
+      ],
+      "data_sources": ["Binance Futures API"],
+      "status": "active"
+    },
+    {
+      "name": "Liquidation Heatmap",
+      "id": "liq_heatmap",
+      "module": "metrics_liquidation_coinglass_style",
+      "function": "plot_coinglass_style_liquidation",
+      "category": "Risk Analysis",
+      "description": "2D heatmap showing liquidation zones by price and time (Coinglass style).",
+      "features": [
+        "Price vs time liquidation visualization",
+        "Long/short separation",
+        "Customizable resolution",
+        "Price overlay option"
+      ],
+      "data_sources": ["Binance Futures API"],
+      "status": "active"
+    },
+    {
+      "name": "Liquidation Map",
+      "id": "liq_map",
+      "module": "metrics_liquidation_map",
+      "function": "show_liquidation_map_ui",
+      "category": "Risk Analysis",
+      "description": "Estimated liquidation levels based on current open interest and leverage.",
+      "features": [
+        "Multi-leverage estimation (10x, 25x, 50x, 100x)",
+        "Gaussian distribution modeling",
+        "Multi-exchange aggregation",
+        "Price offset display"
+      ],
+      "data_sources": ["Binance API", "OKX API", "Bybit API"],
+      "documentation": "docs/LIQUIDATION_MAP.md",
+      "status": "active",
+      "version": "2.0.0"
+    }
+  ],
+  "on_chain_metrics": [
+    {
+      "name": "Whale Alert",
+      "id": "whale_alert",
+      "module": "overlay_whale_alert",
+      "category": "On-Chain",
+      "description": "Real-time whale transaction monitoring across multiple blockchains.",
+      "supported_chains": ["BTC", "ETH", "SOL", "SUI", "BNB", "AVAX"],
+      "status": "active"
+    }
+  ],
+  "market_metrics": [
+    {
+      "name": "Fear & Greed Index",
+      "id": "fear_greed",
+      "module": "metrics_fear_greed",
+      "category": "Sentiment",
+      "status": "active"
+    },
+    {
+      "name": "Altcoin Season Index",
+      "id": "altseason",
+      "module": "metrics_altcoin_season",
+      "category": "Market Phase",
+      "status": "active"
+    },
+    {
+      "name": "Market Dominance",
+      "id": "dominance",
+      "module": "metrics_dominance",
+      "category": "Market Structure",
+      "status": "active"
+    },
+    {
+      "name": "Market Cap & Volume",
+      "id": "marketcap",
+      "module": "metrics_marketcap_volume",
+      "category": "Market Overview",
+      "status": "active"
+    },
+    {
+      "name": "ETF Flows",
+      "id": "etf_flow",
+      "module": "metrics_etf_flow",
+      "category": "Institutional",
+      "description": "BTC & ETH spot ETF daily inflows/outflows and AUM tracking.",
+      "status": "active"
+    },
+    {
+      "name": "Stablecoin Market Cap",
+      "id": "stablecoin",
+      "module": "metrics_stablecoin_mcap",
+      "category": "Liquidity",
+      "status": "active"
+    }
+  ],
+  "technical_metrics": [
+    {
+      "name": "RSI",
+      "id": "rsi",
+      "module": "metrics_rsi",
+      "category": "Technical Indicators",
+      "status": "active"
+    },
+    {
+      "name": "RSI Timeline",
+      "id": "rsi_timeline",
+      "module": "metrics_rsi_timeline",
+      "category": "Technical Indicators",
+      "status": "active"
+    },
+    {
+      "name": "MVRV-Z Score",
+      "id": "mvrv_z",
+      "module": "metrics_mvrv_z",
+      "category": "Valuation",
+      "description": "BTC market value to realized value ratio (cycle indicator).",
+      "status": "active"
+    }
+  ]
+}

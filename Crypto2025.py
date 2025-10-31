@@ -2933,7 +2933,7 @@ if page == "Futures":
     
     futures_tab = st.selectbox(
         "Select Futures Metric",
-        ["Long/Short Ratio", "Funding Rate", "Open Interest", "Liquidations", "Liquidation Heatmap", "Liquidation Map"],
+        ["Long/Short Ratio", "Funding Rate", "Open Interest", "Liquidations", "Liquidation Heatmap", "Liquidation Map", "Footprint Chart"],
         key="futures_metric_select"
     )
     
@@ -3080,6 +3080,15 @@ if page == "Futures":
             show_liquidation_map_ui()
         except Exception as e:
             st.error(f"❌ Error loading Liquidation Map: {e}")
+            import traceback
+            st.code(traceback.format_exc())
+    
+    elif futures_tab == "Footprint Chart":
+        try:
+            from metrics_futures_footprint import show_futures_footprint_metric
+            show_futures_footprint_metric()
+        except Exception as e:
+            st.error(f"❌ Error loading Footprint Chart: {e}")
             import traceback
             st.code(traceback.format_exc())
 

@@ -59650,3 +59650,278 @@ tarted successfully
 [2025-10-31 14:17:09.752186] Scanning blocks from 71199257 to 71199158
 [2025-10-31 14:17:32.699810] Error processing block 71199255: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
 [2025-10-31 14:18:05.504842] Error processing block 71199254: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 14:29:24.811013] Starting AVAX whale alert scan loop.
+[2025-10-31 14:29:32.808693] Latest block number fetched: 71199756
+[2025-10-31 14:29:33.643391] Last scanned block: 71199257
+[2025-10-31 14:29:33.867379] Scanning blocks from 71199756 to 71199657
+[2025-10-31 14:39:55.037430] AVAX whale alert module imported
+[2025-10-31 14:39:55.171431] Starting AVAX whale background scanner thread...
+[2025-10-31 14:39:55.415431] Starting AVAX whale alert scan loop.
+[2025-10-31 14:39:55.415431] AVAX whale background scanner thread started successfully
+[2025-10-31 14:40:04.826729] Latest block number fetched: 71200156
+[2025-10-31 14:40:05.154760] Last scanned block: 71199756
+[2025-10-31 14:40:05.308922] Scanning blocks from 71200156 to 71200057
+[2025-10-31 14:42:03.294122] Starting AVAX whale alert scan loop.
+[2025-10-31 14:42:11.486658] Latest block number fetched: 71200249
+[2025-10-31 14:42:12.469797] Last scanned block: 71199756
+[2025-10-31 14:42:12.730232] Scanning blocks from 71200249 to 71200150
+[2025-10-31 14:42:54.845815] Error processing block 71200244: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 14:46:02.369551] AVAX whale alert module imported
+[2025-10-31 14:46:02.478554] Starting AVAX whale background scanner thread...
+[2025-10-31 14:46:02.583621] Starting AVAX whale alert scan loop.
+[2025-10-31 14:46:02.583621] AVAX whale background scanner thread started successfully
+[2025-10-31 14:46:06.628853] Latest block number fetched: 71200400
+[2025-10-31 14:46:07.025614] Last scanned block: 71199756
+[2025-10-31 14:46:07.163613] Scanning blocks from 71200400 to 71200301
+[2025-10-31 14:48:31.600096] Error processing block 71200059: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 14:52:17.512971] AVAX whale alert module imported
+[2025-10-31 14:52:17.642970] Starting AVAX whale background scanner thread...
+[2025-10-31 14:52:17.749970] Starting AVAX whale alert scan loop.
+[2025-10-31 14:52:17.749970] AVAX whale background scanner thread started successfully
+[2025-10-31 14:52:30.158497] Latest block number fetched: 71200648
+[2025-10-31 14:52:30.623519] Last scanned block: 71200249
+[2025-10-31 14:52:30.882843] Scanning blocks from 71200648 to 71200549
+[2025-10-31 15:02:56.583241] Starting AVAX whale alert scan loop.
+[2025-10-31 15:02:58.604273] Latest block number fetched: 71201091
+[2025-10-31 15:02:58.912273] Last scanned block: 71200648
+[2025-10-31 15:02:59.037272] Scanning blocks from 71201091 to 71200992
+[2025-10-31 15:13:06.302571] Starting AVAX whale alert scan loop.
+[2025-10-31 15:13:08.549470] Latest block number fetched: 71201482
+[2025-10-31 15:13:08.945455] Last scanned block: 71201091
+[2025-10-31 15:13:09.076455] Scanning blocks from 71201482 to 71201383
+[2025-10-31 15:23:03.313352] Starting AVAX whale alert scan loop.
+[2025-10-31 15:23:07.045879] Latest block number fetched: 71201903
+[2025-10-31 15:23:07.488881] Last scanned block: 71201482
+[2025-10-31 15:23:07.613878] Scanning blocks from 71201903 to 71201804
+[2025-10-31 15:30:07.545869] AVAX whale alert module imported
+[2025-10-31 15:30:07.632863] Starting AVAX whale background scanner thread...
+[2025-10-31 15:30:07.720863] AVAX whale background scanner thread started successfully
+[2025-10-31 15:30:07.720863] Starting AVAX whale alert scan loop.
+[2025-10-31 15:30:10.428639] Latest block number fetched: 71202170
+[2025-10-31 15:30:11.096639] Last scanned block: 71201903
+[2025-10-31 15:30:11.191642] Scanning blocks from 71202170 to 71202071
+[2025-10-31 15:33:32.883083] Starting AVAX whale alert scan loop.
+[2025-10-31 15:33:35.040249] Latest block number fetched: 71202306
+[2025-10-31 15:33:35.406251] Last scanned block: 71202170
+[2025-10-31 15:33:35.536256] Scanning blocks from 71202306 to 71202207
+[2025-10-31 15:37:17.152505] Error processing block 71202207: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 15:39:05.279171] Starting AVAX whale alert scan loop.
+[2025-10-31 15:39:07.096032] Latest block number fetched: 71202552
+[2025-10-31 15:39:07.542035] Last scanned block: 71202306
+[2025-10-31 15:39:07.705044] Scanning blocks from 71202552 to 71202453
+[2025-10-31 15:42:51.261027] Starting AVAX whale alert scan loop.
+[2025-10-31 15:42:53.454388] Latest block number fetched: 71202683
+[2025-10-31 15:42:53.724388] Last scanned block: 71202552
+[2025-10-31 15:42:53.820385] Scanning blocks from 71202683 to 71202584
+[2025-10-31 15:48:28.774950] Starting AVAX whale alert scan loop.
+[2025-10-31 15:48:43.133770] Latest block number fetched: 71202892
+[2025-10-31 15:48:43.782763] Last scanned block: 71202683
+[2025-10-31 15:48:43.945759] Scanning blocks from 71202892 to 71202793
+[2025-10-31 15:49:01.670270] AVAX whale alert module imported
+[2025-10-31 15:49:02.140268] Starting AVAX whale background scanner thread...
+[2025-10-31 15:49:02.316271] AVAX whale background scanner thread started successfully
+[2025-10-31 15:49:02.316271] Starting AVAX whale alert scan loop.
+[2025-10-31 15:49:09.943435] Error processing block 71202890: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 15:49:11.359022] Latest block number fetched: 71202920
+[2025-10-31 15:49:11.675018] Last scanned block: 71202683
+[2025-10-31 15:49:11.835014] Scanning blocks from 71202920 to 71202821
+[2025-10-31 15:51:34.846634] Starting AVAX whale alert scan loop.
+[2025-10-31 15:51:38.420109] Latest block number fetched: 71203012
+[2025-10-31 15:51:38.671010] Last scanned block: 71202683
+[2025-10-31 15:51:38.767013] Scanning blocks from 71203012 to 71202913
+[2025-10-31 15:53:19.852870] Error processing block 71202825: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 15:55:03.850000] AVAX whale alert module imported
+[2025-10-31 15:55:04.005999] Starting AVAX whale background scanner thread...
+[2025-10-31 15:55:04.198999] AVAX whale background scanner thread started successfully
+[2025-10-31 15:55:04.198999] Starting AVAX whale alert scan loop.
+[2025-10-31 15:55:07.243964] Latest block number fetched: 71203145
+[2025-10-31 15:55:07.539966] Last scanned block: 71202920
+[2025-10-31 15:55:07.645966] Scanning blocks from 71203145 to 71203046
+[2025-10-31 15:59:19.148215] Starting AVAX whale alert scan loop.
+[2025-10-31 15:59:21.625904] Latest block number fetched: 71203290
+[2025-10-31 15:59:22.547772] Last scanned block: 71203012
+[2025-10-31 15:59:22.776778] Scanning blocks from 71203290 to 71203191
+[2025-10-31 15:59:24.463563] Starting AVAX whale alert scan loop.
+[2025-10-31 15:59:26.299349] Latest block number fetched: 71203296
+[2025-10-31 15:59:26.734116] Last scanned block: 71203012
+[2025-10-31 15:59:26.917261] Scanning blocks from 71203296 to 71203197
+[2025-10-31 16:01:50.439688] Starting AVAX whale alert scan loop.
+[2025-10-31 16:01:54.159483] Latest block number fetched: 71203376
+[2025-10-31 16:01:54.423958] Last scanned block: 71203145
+[2025-10-31 16:01:54.520132] Scanning blocks from 71203376 to 71203277
+[2025-10-31 16:02:40.779233] Error processing block 71203368: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:06:04.439402] Starting AVAX whale alert scan loop.
+[2025-10-31 16:06:09.368101] Latest block number fetched: 71203533
+[2025-10-31 16:06:09.844072] Last scanned block: 71203296
+[2025-10-31 16:06:10.010332] Scanning blocks from 71203533 to 71203434
+[2025-10-31 16:06:41.649801] AVAX whale alert module imported
+[2025-10-31 16:06:41.813803] Starting AVAX whale background scanner thread...
+[2025-10-31 16:06:42.017813] Starting AVAX whale alert scan loop.
+tarted successfully
+[2025-10-31 16:06:46.118079] Latest block number fetched: 71203564
+[2025-10-31 16:06:46.553075] Last scanned block: 71203296
+[2025-10-31 16:06:46.718077] Scanning blocks from 71203564 to 71203465
+[2025-10-31 16:07:33.473081] Error processing block 71203557: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:07:35.516039] Error processing block 71203289: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:10:17.329025] Starting AVAX whale alert scan loop.
+[2025-10-31 16:10:20.702493] Latest block number fetched: 71203697
+[2025-10-31 16:10:21.068532] Last scanned block: 71203376
+[2025-10-31 16:10:21.200527] Scanning blocks from 71203697 to 71203598
+[2025-10-31 16:10:35.380850] Error processing block 71203504: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:10:47.485235] Starting AVAX whale alert scan loop.
+[2025-10-31 16:10:52.570169] Latest block number fetched: 71203718
+[2025-10-31 16:10:53.007168] Last scanned block: 71203376
+[2025-10-31 16:10:53.172167] Scanning blocks from 71203718 to 71203619
+[2025-10-31 16:13:03.522560] AVAX whale alert module imported
+[2025-10-31 16:13:03.619332] Starting AVAX whale background scanner thread...
+[2025-10-31 16:13:03.757331] Starting AVAX whale alert scan loop.
+[2025-10-31 16:13:03.757331] AVAX whale background scanner thread started successfully
+[2025-10-31 16:13:07.695836] Latest block number fetched: 71203803
+[2025-10-31 16:13:07.963845] Last scanned block: 71203564
+[2025-10-31 16:13:08.060455] Scanning blocks from 71203803 to 71203704
+[2025-10-31 16:14:11.782429] Starting AVAX whale alert scan loop.
+[2025-10-31 16:14:16.295216] Latest block number fetched: 71203845
+[2025-10-31 16:14:16.568791] Last scanned block: 71203564
+[2025-10-31 16:14:16.663789] Scanning blocks from 71203845 to 71203746
+[2025-10-31 16:15:56.368470] Error processing block 71203825: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:16:53.492168] Error processing block 71203812: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:17:56.153391] Error processing block 71203734: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:18:38.209467] Starting AVAX whale alert scan loop.
+[2025-10-31 16:18:41.242639] Starting AVAX whale alert scan loop.
+[2025-10-31 16:18:41.895113] Latest block number fetched: 71204030
+[2025-10-31 16:18:42.357044] Last scanned block: 71203718
+[2025-10-31 16:18:42.522042] Scanning blocks from 71204030 to 71203931
+[2025-10-31 16:18:44.170041] Latest block number fetched: 71204030
+[2025-10-31 16:18:44.584209] Last scanned block: 71203718
+[2025-10-31 16:18:44.742210] Scanning blocks from 71204030 to 71203931
+[2025-10-31 16:19:52.934263] AVAX whale alert module imported
+[2025-10-31 16:19:53.020262] Starting AVAX whale background scanner thread...
+[2025-10-31 16:19:53.174262] Starting AVAX whale alert scan loop.
+[2025-10-31 16:19:53.174262] AVAX whale background scanner thread started successfully
+[2025-10-31 16:19:57.583515] Latest block number fetched: 71204086
+[2025-10-31 16:19:57.943519] Last scanned block: 71203803
+[2025-10-31 16:19:58.154515] Scanning blocks from 71204086 to 71203987
+[2025-10-31 16:22:36.922365] Starting AVAX whale alert scan loop.
+[2025-10-31 16:22:40.877995] Latest block number fetched: 71204194
+[2025-10-31 16:22:41.272995] Last scanned block: 71203845
+[2025-10-31 16:22:41.403999] Scanning blocks from 71204194 to 71204095
+[2025-10-31 16:23:20.004799] Starting AVAX whale alert scan loop.
+[2025-10-31 16:23:24.413812] Latest block number fetched: 71204219
+[2025-10-31 16:23:24.842901] Last scanned block: 71203845
+[2025-10-31 16:23:25.006028] Scanning blocks from 71204219 to 71204120
+[2025-10-31 16:25:34.983338] Starting AVAX whale alert scan loop.
+[2025-10-31 16:25:39.503874] Latest block number fetched: 71204327
+[2025-10-31 16:25:39.769876] Last scanned block: 71204030
+[2025-10-31 16:25:39.862397] Scanning blocks from 71204327 to 71204228
+[2025-10-31 16:26:20.782201] Error processing block 71204323: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:26:43.628108] Starting AVAX whale alert scan loop.
+[2025-10-31 16:26:52.563327] Latest block number fetched: 71204374
+[2025-10-31 16:26:52.839328] Last scanned block: 71204030
+[2025-10-31 16:26:52.946330] Scanning blocks from 71204374 to 71204275
+[2025-10-31 16:27:16.159273] AVAX whale alert module imported
+[2025-10-31 16:27:16.325229] Starting AVAX whale background scanner thread...
+[2025-10-31 16:27:16.685843] Starting AVAX whale alert scan loop.
+[2025-10-31 16:27:16.685843] AVAX whale background scanner thread started successfully
+[2025-10-31 16:27:23.658151] Latest block number fetched: 71204391
+[2025-10-31 16:27:24.167980] Last scanned block: 71204086
+[2025-10-31 16:27:24.339974] Scanning blocks from 71204391 to 71204292
+[2025-10-31 16:31:37.933955] Starting AVAX whale alert scan loop.
+[2025-10-31 16:31:44.472590] Latest block number fetched: 71204553
+[2025-10-31 16:31:46.559592] Last scanned block: 71204194
+[2025-10-31 16:31:47.307104] Scanning blocks from 71204553 to 71204454
+[2025-10-31 16:32:19.428863] Starting AVAX whale alert scan loop.
+[2025-10-31 16:32:22.863587] Latest block number fetched: 71204578
+[2025-10-31 16:32:23.962170] Last scanned block: 71204219
+[2025-10-31 16:32:24.376167] Scanning blocks from 71204578 to 71204479
+[2025-10-31 16:33:33.557110] AVAX whale alert module imported
+[2025-10-31 16:33:33.981303] Starting AVAX whale background scanner thread...
+[2025-10-31 16:33:34.949588] Starting AVAX whale alert scan loop.
+[2025-10-31 16:33:34.954586] AVAX whale background scanner thread started successfully
+[2025-10-31 16:33:43.386456] Latest block number fetched: 71204624
+[2025-10-31 16:33:44.525976] Last scanned block: 71204219
+[2025-10-31 16:33:45.006978] Scanning blocks from 71204624 to 71204525
+[2025-10-31 16:34:05.201755] Starting AVAX whale alert scan loop.
+[2025-10-31 16:34:18.161198] Latest block number fetched: 71204652
+[2025-10-31 16:34:21.082450] Last scanned block: 71204219
+[2025-10-31 16:34:21.833450] Scanning blocks from 71204652 to 71204553
+[2025-10-31 16:37:13.298362] AVAX whale alert module imported
+[2025-10-31 16:37:13.567363] Starting AVAX whale background scanner thread...
+[2025-10-31 16:37:13.664784] AVAX whale background scanner thread started successfully
+[2025-10-31 16:37:13.664784] Starting AVAX whale alert scan loop.
+[2025-10-31 16:37:19.681475] Latest block number fetched: 71204765
+[2025-10-31 16:37:20.084316] Last scanned block: 71204391
+[2025-10-31 16:37:20.226316] Scanning blocks from 71204765 to 71204666
+[2025-10-31 16:39:18.249933] AVAX whale alert module imported
+[2025-10-31 16:39:18.404934] Starting AVAX whale background scanner thread...
+[2025-10-31 16:39:18.557932] AVAX whale background scanner thread started successfully
+[2025-10-31 16:39:18.557932] Starting AVAX whale alert scan loop.
+[2025-10-31 16:39:22.352097] Latest block number fetched: 71204828
+[2025-10-31 16:39:23.301316] Last scanned block: 71204391
+[2025-10-31 16:39:23.458314] Scanning blocks from 71204828 to 71204729
+[2025-10-31 16:47:40.806086] Starting AVAX whale alert scan loop.
+[2025-10-31 16:47:44.661205] Latest block number fetched: 71205161
+[2025-10-31 16:47:47.123587] Last scanned block: 71204828
+[2025-10-31 16:47:48.140584] Scanning blocks from 71205161 to 71205062
+[2025-10-31 16:49:26.262569] AVAX whale alert module imported
+[2025-10-31 16:49:26.726980] Starting AVAX whale background scanner thread...
+[2025-10-31 16:49:27.198157] AVAX whale background scanner thread started successfully
+[2025-10-31 16:49:27.198157] Starting AVAX whale alert scan loop.
+[2025-10-31 16:49:28.785622] Latest block number fetched: 71205230
+[2025-10-31 16:49:29.224621] Last scanned block: 71204828
+[2025-10-31 16:49:30.871442] Scanning blocks from 71205230 to 71205131
+[2025-10-31 16:49:48.842656] Error processing block 71205230: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 16:50:56.247582] Error processing block 71205205: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 17:01:24.578425] Starting AVAX whale alert scan loop.
+[2025-10-31 17:01:27.401734] Latest block number fetched: 71205732
+[2025-10-31 17:01:28.716012] Last scanned block: 71205230
+[2025-10-31 17:01:29.317010] Scanning blocks from 71205732 to 71205633
+[2025-10-31 17:12:58.321200] AVAX whale alert module imported
+[2025-10-31 17:12:58.458202] Starting AVAX whale background scanner thread...
+[2025-10-31 17:12:58.597201] AVAX whale background scanner thread started successfully
+[2025-10-31 17:12:58.597201] Starting AVAX whale alert scan loop.
+[2025-10-31 17:13:04.301743] Latest block number fetched: 71206181
+[2025-10-31 17:13:05.016740] Last scanned block: 71205230
+[2025-10-31 17:13:05.157737] Scanning blocks from 71206181 to 71206082
+[2025-10-31 17:22:56.953868] Starting AVAX whale alert scan loop.
+[2025-10-31 17:22:58.916337] Latest block number fetched: 71206550
+[2025-10-31 17:22:59.379673] Last scanned block: 71206181
+[2025-10-31 17:22:59.547083] Scanning blocks from 71206550 to 71206451
+[2025-10-31 17:31:58.993811] AVAX whale alert module imported
+[2025-10-31 17:31:59.121389] Starting AVAX whale background scanner thread...
+[2025-10-31 17:31:59.249408] Starting AVAX whale alert scan loop.
+[2025-10-31 17:31:59.249408] AVAX whale background scanner thread started successfully
+[2025-10-31 17:32:02.536976] Latest block number fetched: 71206939
+[2025-10-31 17:32:03.432977] Last scanned block: 71206550
+[2025-10-31 17:32:03.654971] Scanning blocks from 71206939 to 71206840
+[2025-10-31 17:32:29.537296] Starting AVAX whale alert scan loop.
+[2025-10-31 17:32:31.960937] Latest block number fetched: 71206964
+[2025-10-31 17:32:33.073936] Last scanned block: 71206550
+[2025-10-31 17:32:33.307944] Scanning blocks from 71206964 to 71206865
+[2025-10-31 17:34:44.796480] Error processing block 71206868: HTTPSConnectionPool(host='api.etherscan.io', port=443): Read timed out. (read timeout=12)
+[2025-10-31 17:41:32.764798] Starting AVAX whale alert scan loop.
+[2025-10-31 17:41:35.045253] Latest block number fetched: 71207310
+[2025-10-31 17:41:35.482255] Last scanned block: 71206964
+[2025-10-31 17:41:35.640135] Scanning blocks from 71207310 to 71207211
+[2025-10-31 17:42:01.704566] Starting AVAX whale alert scan loop.
+[2025-10-31 17:42:04.268654] Latest block number fetched: 71207329
+[2025-10-31 17:42:04.626656] Last scanned block: 71206964
+[2025-10-31 17:42:04.763659] Scanning blocks from 71207329 to 71207230
+[2025-10-31 17:42:34.765333] AVAX whale alert module imported
+[2025-10-31 17:42:34.891138] Starting AVAX whale background scanner thread...
+[2025-10-31 17:42:35.016136] AVAX whale background scanner thread started successfully
+[2025-10-31 17:42:35.016136] Starting AVAX whale alert scan loop.
+[2025-10-31 17:42:36.832158] Latest block number fetched: 71207349
+[2025-10-31 17:42:37.168159] Last scanned block: 71206964
+[2025-10-31 17:42:37.358160] Scanning blocks from 71207349 to 71207250
+[2025-10-31 17:51:00.356858] Starting AVAX whale alert scan loop.
+[2025-10-31 17:51:02.311540] Latest block number fetched: 71207689
+[2025-10-31 17:51:02.746548] Last scanned block: 71207349
+[2025-10-31 17:51:02.902536] Scanning blocks from 71207689 to 71207590
+[2025-10-31 17:51:17.919391] Starting AVAX whale alert scan loop.
+[2025-10-31 17:51:19.858663] Latest block number fetched: 71207700
+[2025-10-31 17:51:20.211669] Last scanned block: 71207349
+[2025-10-31 17:51:20.345672] Scanning blocks from 71207700 to 71207601
+[2025-10-31 17:51:41.495464] Starting AVAX whale alert scan loop.
+[2025-10-31 17:51:43.129495] Latest block number fetched: 71207716
+[2025-10-31 17:51:43.445727] Last scanned block: 71207349
+[2025-10-31 17:51:43.540723] Scanning blocks from 71207716 to 71207617
